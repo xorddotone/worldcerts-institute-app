@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { store, persistor } from '../src/Redux/Store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
+import history from './config/history'
 import routes from "./routes";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,7 +34,7 @@ class App extends Component {
               })}
             </div>
           </Router> */}
-          <Router>
+          <Router history={history}>
             <div>
               {routes.map((route, index) => {
                 return (
