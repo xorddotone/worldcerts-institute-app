@@ -16,7 +16,7 @@ class SidebarMainNavbar extends React.Component {
           type="light"
         >
           <NavbarBrand
-            className="w-100 mr-0"
+            className="w-100"
             href="#"
             style={{ lineHeight: "25px" }}
           >
@@ -29,13 +29,12 @@ class SidebarMainNavbar extends React.Component {
                 alt="Shards Dashboard"
               />
               {!hideLogoText && (
-                <span className="d-none d-md-inline ml-1">
-                  SAANSA TECHNOLOGY
+                <span className="d-none d-md-inline ml-100">
+                  WorldCerts
                 </span>
               )}
             </div>
           </NavbarBrand>
-          {/* eslint-disable-next-line */}
           <a
             className="toggle-sidebar d-sm-inline d-md-none d-lg-none"
             onClick={this.handleToggleSidebar}

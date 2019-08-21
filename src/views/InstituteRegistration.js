@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import UserAccountDetails from "../components/user-profile-lite/Freelancer-registration-form";
+import UserAccountDetails from "../components/Registration/InstituteRegister";
 import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 
-class Freelancers extends Component {
+class InstituteRegistration extends Component {
   componentDidMount() {
-    this.props.UpdateTitle("Freelancers Registration Field");
+    this.props.UpdateTitle("Institute Registration Field");
   }
   render() {
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Freelancers" subtitle="Registration" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Institute Registration Field" subtitle="Registration" md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
         <Row>
           <Col lg="11">
@@ -35,4 +35,4 @@ const mapDispatchToProps = (dispatch) => {
     UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Freelancers);
+export default connect(mapStateToProps, mapDispatchToProps)(InstituteRegistration);

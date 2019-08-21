@@ -9,25 +9,16 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pagetitle: "Profile Management System"
+      pagetitle: "Certification Management System"
     }
   }
   componentWillMount() {
     const { pagetitle } = this.state;
     this.props.UpdateTitle(pagetitle);
   }
-  // shouldComponentUpdate() {
-  //   const { pagetitle } = this.state;
-  //   if (this.props.Title == pagetitle) {
-  //     return (false);
-  //   }
-  //   else {
-  //     this.UpdateTitle.props("Profile Management System");
-  //     return (true);
-  //   }
-  // }
+ 
   onBtnClick(){
-    this.props.history.push("/freelancers-regsitration")
+    // this.props.history.push("/freelancers-regsitration")
     // this.props.history.push("/freelancers-regsitration")
   }
   render() {

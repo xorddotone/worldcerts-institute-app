@@ -6,23 +6,18 @@ import { DefaultLayout } from "./layouts";
 
 // Route Views
 import Home from "./views/Home";
-import Freelancers from "./views/Freelancers";
+import InstituteRegister from "./views/InstituteRegistration";
 
 export default [
   {
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/home-overview" />
+    component: () => <Redirect to="/institute_registration" />
   },
   {
-    path: "/home-overview",
+    path: "/institute_registration",
     layout: DefaultLayout,
-    component: Home
-  },
-  {
-    path: "/freelancers-regsitration",
-    layout: DefaultLayout,
-    component: Freelancers
+    component: InstituteRegister
   },
 ];
