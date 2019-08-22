@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReCaptcha from "react-google-recaptcha";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Card,
   CardHeader,
@@ -15,6 +15,7 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
+import logo from '../images/logo.png'
 
 import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
@@ -31,7 +32,7 @@ class Register extends Component {
       password: "",
       confirmPassword: "",
       captchaText: "",
-      passwordError : ""
+      passwordError: ""
     }
 
     // Binding Functions
@@ -51,7 +52,7 @@ class Register extends Component {
     if (this.captchaDemo) {
       console.log("started, just a second...")
       this.captchaDemo.reset();
-  }
+    }
   }
 
   onChangeUserName(event) {
@@ -80,11 +81,11 @@ class Register extends Component {
     this.setState({
       confirmPassword: event.target.value
     })
-    if(event.target.value !== this.state.password){
-      this.setState({passwordError: "password not matched"})
+    if (event.target.value !== this.state.password) {
+      this.setState({ passwordError: "password not matched" })
     }
-    else{
-      this.setState({passwordError: ""})
+    else {
+      this.setState({ passwordError: "" })
 
     }
   }
@@ -116,95 +117,102 @@ class Register extends Component {
 
   onLoadRecaptcha() {
     if (this.captchaDemo) {
-        this.captchaDemo.reset();
+      this.captchaDemo.reset();
     }
-}
-verifyCallback(recaptchaToken) {
-  // Here you will get the final recaptchaToken!!!  
-  console.log(recaptchaToken, "<= your recaptcha token")
-}
+  }
+  verifyCallback(recaptchaToken) {
+    // Here you will get the final recaptchaToken!!!  
+    console.log(recaptchaToken, "<= your recaptcha token")
+  }
   render() {
     return (
-      <Card >
-        <CardHeader className="border-bottom">
-          <h6 className="m-0">User Registration </h6>
-        </CardHeader>
-        <ListGroup flush>
-          <ListGroupItem >
-            <Row >
-              <Col className="form-group">
-                <label >Full Name</label>
-                <FormInput
-                  type="text"
-                  placeholder="Enter your Full Name"
-                  value={this.state.userName}
-                  onChange={this.onChangeUserName}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form>
-                  <Row form>
-                    <Col className="form-group">
-                      <label>Email</label>
-                      <FormInput
-                        type="email"
-                        placeholder="Enter your Email Address"
-                        value={this.state.email}
-                        onChange={this.onChangeEmail}
-                      />
-                    </Col>
-                  </Row>
+      <Card className="mb-4">
+        <Row>
+          <Col md="7">
+            <img src={logo} alt="" style={{ width: "100%" }} />
+          </Col>
+          <Col md="5">
+            <CardHeader className="border-bottom">
+              <h6 className="m-0">User Registration </h6>
+            </CardHeader>
+            <ListGroup flush>
+              <ListGroupItem >
+                <Row >
+                  <Col className="form-group">
+                    <label >Full Name</label>
+                    <FormInput
+                      type="text"
+                      placeholder="Enter your Full Name"
+                      value={this.state.userName}
+                      onChange={this.onChangeUserName}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Form>
+                      <Row form>
+                        <Col className="form-group">
+                          <label>Email</label>
+                          <FormInput
+                            type="email"
+                            placeholder="Enter your Email Address"
+                            value={this.state.email}
+                            onChange={this.onChangeEmail}
+                          />
+                        </Col>
+                      </Row>
 
-                  <Row >
-                    <Col className="form-group">
-                      <label>Password</label>
-                      <FormInput
-                        type="password"
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.onChangePassword}
-                      />
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col className="form-group">
-                      <label>Confirm Password</label>
-                      <FormInput
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={this.state.confirmPassword}
-                        onChange={this.onChangeConfirmPassword}
-                      />
-                      <label style = {{color: "red" , borderBottom: "1px"}}>{this.state.passwordError}</label>
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col className="form-group">
-                
-   <ReCaptcha
-            ref={(el) => {this.captchaDemo = el;}}
-            size="normal"
-            render="explicit"
-            sitekey="6Le-RrQUAAAAAOsjfBslPh4hr8JWT8WjX_96fPnP"
-            onloadCallback={this.onLoadRecaptcha}
-            verifyCallback={this.verifyCallback}
-        />
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col className="form-group" style = {{textAlign: "center" }}>
-                      <label style = {{fontWeight: "bold" }}>Already have an account? </label><Link to = "/signin" Component = {Signin}>Sign In</Link>
-                   
-                    </Col>
-                  </Row>
-                  <Button theme="accent" onClick = {this.onClickRegister}>Register</Button>
-                </Form>
-              </Col>
-            </Row>
-          </ListGroupItem>
-        </ListGroup>
+                      <Row >
+                        <Col className="form-group">
+                          <label>Password</label>
+                          <FormInput
+                            type="password"
+                            placeholder="Password"
+                            value={this.state.password}
+                            onChange={this.onChangePassword}
+                          />
+                        </Col>
+                      </Row>
+                      <Row >
+                        <Col className="form-group">
+                          <label>Confirm Password</label>
+                          <FormInput
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={this.state.confirmPassword}
+                            onChange={this.onChangeConfirmPassword}
+                          />
+                          <label style={{ color: "red", borderBottom: "1px" }}>{this.state.passwordError}</label>
+                        </Col>
+                      </Row>
+                      <Row style = {{width: "50%"}}>
+                        <Col className="form-group">
+
+                          <ReCaptcha
+                            ref={(el) => { this.captchaDemo = el; }}
+                            size="compact"
+                            render="explicit"
+                            sitekey="6Le-RrQUAAAAAOsjfBslPh4hr8JWT8WjX_96fPnP"
+                            onloadCallback={this.onLoadRecaptcha}
+                            verifyCallback={this.verifyCallback}
+                          />
+                        </Col>
+                      </Row>
+                      <Row >
+                        <Col className="form-group" style={{ textAlign: "center" }}>
+                          <label style={{ fontWeight: "bold" }}>Already have an account? </label><Link to="/signin" Component={Signin}>Sign In</Link>
+
+                        </Col>
+                      </Row>
+                      <Button theme="accent" onClick={this.onClickRegister}>Register</Button>
+                    </Form>
+                  </Col>
+                </Row>
+              </ListGroupItem>
+            </ListGroup>
+          </Col>
+        </Row>
       </Card>
     )
   }
