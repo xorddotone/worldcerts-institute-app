@@ -74,10 +74,15 @@ class UserAccountDetails extends Component {
     })
   }
   InstituteTelephoneChangeHandler(ev){
-    console.log(ev.target.value)
-    this.setState({
-      instituteTelephone:ev.target.value
-    })
+    var reg = new RegExp('^\\d+$');
+    console.log( ev.target.value)
+    if(reg.test(ev.target.value) || ev.target.value==""){
+
+      console.log(ev.target.value)
+      this.setState({
+        instituteTelephone:ev.target.value
+      })
+    }
   }
   countryChangeHandler(ev){
     console.log(ev.target.value)
