@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReCaptcha from "react-google-recaptcha";
 import {
   Card,
   CardHeader,
@@ -17,6 +18,7 @@ import {
 import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import axios from 'axios'
+import Signin from './Login'
 
 class Register extends Component {
   constructor(props) {
@@ -37,11 +39,17 @@ class Register extends Component {
     this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this)
     this.onChangeCaptcha = this.onChangeCaptcha.bind(this)
     this.onClickRegister = this.onClickRegister.bind(this)
+    this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
 
   }
 
   componentDidMount() {
     this.props.UpdateTitle("User Regsitration");
+    if (this.captchaDemo) {
+      console.log("started, just a second...")
+      this.captchaDemo.reset();
+  }
   }
 
   onChangeUserName(event) {
@@ -104,7 +112,15 @@ class Register extends Component {
     //   })
   }
 
-
+  onLoadRecaptcha() {
+    if (this.captchaDemo) {
+        this.captchaDemo.reset();
+    }
+}
+verifyCallback(recaptchaToken) {
+  // Here you will get the final recaptchaToken!!!  
+  console.log(recaptchaToken, "<= your recaptcha token")
+}
   render() {
     return (
       <Card >
@@ -160,6 +176,25 @@ class Register extends Component {
                         onChange={this.onChangeConfirmPassword}
                       />
                       <label style = {{color: "red" , borderBottom: "1px"}}>{this.state.passwordError}</label>
+                    </Col>
+                  </Row>
+                  <Row >
+                    <Col className="form-group">
+                
+   <ReCaptcha
+            ref={(el) => {this.captchaDemo = el;}}
+            size="normal"
+            render="explicit"
+            sitekey="6Le-RrQUAAAAAOsjfBslPh4hr8JWT8WjX_96fPnP"
+            onloadCallback={this.onLoadRecaptcha}
+            verifyCallback={this.verifyCallback}
+        />
+                    </Col>
+                  </Row>
+                  <Row >
+                    <Col className="form-group" style = {{textAlign: "center" }}>
+                      <label style = {{fontWeight: "bold" }}>Already have an account? </label><Link to = "/signin" Component = {Signin}>Sign In</Link>
+                   
                     </Col>
                   </Row>
                   <Button theme="accent" >Register</Button>
