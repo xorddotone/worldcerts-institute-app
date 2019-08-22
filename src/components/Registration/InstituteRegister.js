@@ -40,7 +40,7 @@ class UserAccountDetails extends Component {
   
   
   componentWillMount() {
-    this.props.UpdateTitle("Institue Registration Field");
+    this.props.UpdateTitle("Institue Registration");
   }
 
   InstituteNameChangeHandler(ev){
@@ -146,7 +146,7 @@ class UserAccountDetails extends Component {
                       <label>Company/Institute Name</label>
                       <FormInput
                         onChange={this.InstituteNameChangeHandler}
-                        placeholder="Name of Company / Institute"
+                        placeholder="Name of Company/Institute"
                         value={this.state.instituteName}
                       /> 
                     </Col>
@@ -155,7 +155,7 @@ class UserAccountDetails extends Component {
                       <FormInput
                                     
                       onChange={this.buisnessRegistrationNumChangeHandler}
-                        placeholder="UEN #"
+                        placeholder="UEN#"
                         value={this.state.buisnessRegistrationNum}
                       />
                     </Col>
@@ -165,14 +165,14 @@ class UserAccountDetails extends Component {
                       <label>Company/Institute Address</label>
                       <FormInput
                       onChange={this.InstituteAddressChangeHandler}
-                        placeholder="Address , street #......"
+                        placeholder="Address, street #......"
                         value={this.state.instituteAddress}
                       />
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="6">
-                      <label>Company/Institute Webiste</label>
+                      <label>Company/Institute Website</label>
                       <FormInput
                       onChange={this.InstituteWebsiteChangeHandler}
                         placeholder="Webiste"
@@ -183,7 +183,7 @@ class UserAccountDetails extends Component {
                       <label>Company/Institute Telephone #</label>
                       <FormInput
                       onChange={this.InstituteTelephoneChangeHandler}
-                        placeholder="Contact #"
+                        placeholder="Contact#"
                         value={this.state.instituteTelephone}
                       />
                     </Col>

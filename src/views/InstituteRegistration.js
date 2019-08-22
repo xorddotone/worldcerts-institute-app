@@ -13,7 +13,8 @@ class InstituteRegistration extends Component {
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Institute Registration Field" subtitle="Registration" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Institute Registration"  md="12" className="ml-sm-auto mr-sm-auto" />
+          {/* subtitle="Registration" */}
         </Row>
         <Row>
           <Col lg="11">
