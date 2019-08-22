@@ -36,3 +36,4 @@ export default [
     component: Login
   },
 ];
+
