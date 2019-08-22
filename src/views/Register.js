@@ -199,11 +199,11 @@ class Register extends Component {
                       </Row>
                       <Row >
                         <Col className="form-group" style={{ textAlign: "center" }}>
-                          <label style={{ fontWeight: "bold" }}>Already have an account? </label><Link to="/signin" Component={Signin}>Sign In</Link>
+                          <span style={{ fontWeight: "bold" }}>Already have an account? </span><Link to="/signin" Component={Signin}>Sign In</Link>
 
                         </Col>
                       </Row>
-                      <Button theme="accent" onClick={this.onClickRegister}>Register</Button>
+                     <div style = {{textAlign: 'center'}}> <Button theme="accent" onClick={this.onClickRegister}>Register</Button></div>
                     </Form>
                   </Col>
                 </Row>

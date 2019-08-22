@@ -80,13 +80,11 @@ console.log(constants.server_url)
             <img src = {logo} alt = "" style = {{width : "100%"}}/>
           </Col>
           <Col md = "5">
-        <CardHeader className="border-bottom">
-        </CardHeader>
-        <ListGroup >
-          <ListGroupItem className="">
-            <Row>
-              <Col>
-                <Form>
+        
+        <ListGroup style = {{margin: "5em 3em"}} >
+            <Row >
+              <Col >
+                <Form >
                   <Row >
                     <Col className="form-group">
                       <label>Email</label>
@@ -111,15 +109,14 @@ console.log(constants.server_url)
                   </Row>
                   <Row >
                     <Col className="form-group" style = {{textAlign: "center" }}>
-                      <label style = {{fontWeight: "bold" }}>Dont have an account? </label><Link to = "/register" Component = {Register}>Register</Link>
+                      <span style = {{fontWeight: "bold" }}>Dont have an account? </span><Link to = "/register" Component = {Register}> Register</Link>
                    
                     </Col>
                   </Row>
-                  <Button theme="accent" onClick = {this.onClickLogin}>Login</Button>
+                 <div style = {{textAlign: "center"}}> <Button theme="accent" onClick = {this.onClickLogin}>Login</Button></div>
                 </Form>
               </Col>
             </Row>
-          </ListGroupItem>
         </ListGroup>
         </Col>
         </Row>
