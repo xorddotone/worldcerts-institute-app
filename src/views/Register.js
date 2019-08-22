@@ -15,7 +15,7 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-import logo from '../images/logo.png'
+import logo from '../images/logo2.png'
 
 import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
@@ -127,11 +127,9 @@ class Register extends Component {
   render() {
     return (
       <Card className="mb-4">
-        <Row>
-          <Col md="7">
-            <img src={logo} alt="" style={{ width: "100%" }} />
-          </Col>
-          <Col md="5">
+        <div style = {{textAlign: "center"}}>
+            <img src={logo} alt="" style={{ width: "50%" , height: "50%" , marginTop: "2em" , marginBottom: "2em"  }} />
+            </div>
             <CardHeader className="border-bottom">
               <h6 className="m-0">User Registration </h6>
             </CardHeader>
@@ -191,7 +189,7 @@ class Register extends Component {
 
                           <ReCaptcha
                             ref={(el) => { this.captchaDemo = el; }}
-                            size="compact"
+                            size="normal"
                             render="explicit"
                             sitekey="6Le-RrQUAAAAAOsjfBslPh4hr8JWT8WjX_96fPnP"
                             onloadCallback={this.onLoadRecaptcha}
@@ -211,8 +209,7 @@ class Register extends Component {
                 </Row>
               </ListGroupItem>
             </ListGroup>
-          </Col>
-        </Row>
+          
       </Card>
     )
   }
