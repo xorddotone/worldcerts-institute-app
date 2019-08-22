@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 class InstituteRegistration extends Component {
   componentDidMount() {
-    this.props.UpdateTitle("Institute Registration Field");
+    this.props.UpdateTitle("");
   }
   render() {
     return (

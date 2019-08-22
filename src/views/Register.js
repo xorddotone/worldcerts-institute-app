@@ -104,14 +104,14 @@ class Register extends Component {
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     }
-    
-    axios.post(constants.server_url + 'signup' , user).then(response => {
-      this.props.history.push('/institute_registration')
-      console.log(response)
-    })
-      .catch(err => {
-        console.log(err)
-      })
+    this.props.history.push('/institute_registration')
+    // axios.post(constants.server_url + 'signup' , user).then(response => {
+    //   this.props.history.push('/institute_registration')
+    //   console.log(response)
+    // })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
   }
 
   onLoadRecaptcha() {

@@ -25,8 +25,8 @@ AuthLayout.propTypes = {
 };
 
 AuthLayout.defaultProps = {
-  noNavbar: false,
-  noFooter: false
+  noNavbar: true,
+  noFooter: true
 };
 
 export default AuthLayout;

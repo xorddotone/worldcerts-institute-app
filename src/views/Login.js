@@ -36,7 +36,7 @@ class Login extends Component {
 
   }
   componentDidMount() {
-    this.props.UpdateTitle("User Login");
+    this.props.UpdateTitle("");
   }
 
   onChangeEmail(event) {
@@ -63,7 +63,7 @@ class Login extends Component {
 console.log(constants.server_url)
       this.props.history.push('/institute_registration')
 
-    // axios.post('http://169.254.69.231:3000/login' , user).then(response => {
+    // axios.post('http://169.254.69.231:7000/login' , user).then(response => {
     //   console.log(response)
     //   this.props.history.push('/institute_registration')
     // })
@@ -81,7 +81,6 @@ console.log(constants.server_url)
           </Col>
           <Col md = "5">
         <CardHeader className="border-bottom">
-          <h6 className="">User Login </h6>
         </CardHeader>
         <ListGroup >
           <ListGroupItem className="">
