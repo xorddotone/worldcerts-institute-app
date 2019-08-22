@@ -20,6 +20,7 @@ import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
+import * as constants from '../utils/constants'
 
 class Register extends Component {
   constructor(props) {
@@ -103,14 +104,14 @@ class Register extends Component {
       password: this.state.password,
       confirmPassword: this.state.confirmPassword
     }
-    this.props.history.push('/institute_registration')
-
-    // axios.post(/signup , user).then(response => {
-    //   console.log(response)
-    // })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+    
+    axios.post(constants.server_url + 'signup' , user).then(response => {
+      this.props.history.push('/institute_registration')
+      console.log(response)
+    })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   onLoadRecaptcha() {
@@ -198,7 +199,7 @@ verifyCallback(recaptchaToken) {
                    
                     </Col>
                   </Row>
-                  <Button theme="accent" >Register</Button>
+                  <Button theme="accent" onClick = {this.onClickRegister}>Register</Button>
                 </Form>
               </Col>
             </Row>

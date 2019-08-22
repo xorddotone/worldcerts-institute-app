@@ -19,6 +19,7 @@ import {Link} from 'react-router-dom'
 import Register from './Register'
 import * as constants from '../utils/constants'
 import axios from 'axios'
+import logo from '../images/logo.png'
 
 class Login extends Component {
   constructor(props) {
@@ -54,24 +55,31 @@ class Login extends Component {
 
   onClickLogin() {
     let user = {
-      "email": this.state.email,
-      "password": this.state.password,
+      email: this.state.email,
+      password: this.state.password,
     }
     console.log("in on click")
     console.log(user)
 console.log(constants.server_url)
-    axios.post(constants.server_url + 'login' , user).then(response => {
-      console.log(response)
       this.props.history.push('/institute_registration')
-    })
-      .catch(err => {
-        console.log(err)
-      })
+
+    // axios.post('http://169.254.69.231:3000/login' , user).then(response => {
+    //   console.log(response)
+    //   this.props.history.push('/institute_registration')
+    // })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
   }
 
   render() {
     return (
-      <Card className="">
+      <Card className="mb-4">
+        <Row >
+          <Col md = "7">
+            <img src = {logo} alt = "" style = {{width : "100%"}}/>
+          </Col>
+          <Col md = "5">
         <CardHeader className="border-bottom">
           <h6 className="">User Login </h6>
         </CardHeader>
@@ -114,6 +122,8 @@ console.log(constants.server_url)
             </Row>
           </ListGroupItem>
         </ListGroup>
+        </Col>
+        </Row>
       </Card>
     )
   }
