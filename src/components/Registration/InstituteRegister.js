@@ -21,7 +21,7 @@ class UserAccountDetails extends Component {
     super(props);
     this.state={
       instituteName:'',
-      buisnessRegistrationNum:'',
+      buisnessRegistrationNum:"",
       instituteAddress:'',
       instituteWebsite:'',
       instituteTelephone:'',
@@ -51,10 +51,15 @@ class UserAccountDetails extends Component {
   }
 
   buisnessRegistrationNumChangeHandler(ev){
+    let lastInd=ev.target.value.length
+    let temp=ev.target.value[lastInd]
     console.log(ev.target.value)
-    this.setState({
-      buisnessRegistrationNum:ev.target.value
-    })
+    if(temp=="1" || temp=="2" || temp=="3" || temp=="4" || temp=="5" || temp=="6" || temp=="7" || temp=="8" || temp=="9" || temp=="0"){
+
+      this.setState({
+        buisnessRegistrationNum:ev.target.value
+      })
+    }
   }
   InstituteAddressChangeHandler(ev){
     console.log(ev.target.value)
@@ -139,6 +144,7 @@ class UserAccountDetails extends Component {
                     <Col md="6" className="form-group">
                       <label >Business Registration Number (UEN)</label>
                       <FormInput
+                      
                       onChange={this.buisnessRegistrationNumChangeHandler}
                         placeholder="UEN #"
                         value={this.state.buisnessRegistrationNum}
