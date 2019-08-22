@@ -135,7 +135,6 @@ class UserAccountDetails extends Component {
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
-          <h6 className="m-0">Form Details</h6>
         </CardHeader>
         <ListGroup flush>
           <ListGroupItem className="p-3">

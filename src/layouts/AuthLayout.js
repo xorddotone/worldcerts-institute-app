@@ -5,7 +5,7 @@ import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 
 const AuthLayout = ({ children, noNavbar, noFooter }) => (
-  <Container style = {{width: "40%" , marginTop: "5em"}}>
+  <Container style = {{width: "60%" , marginTop: "5em"}}>
       {/* <MainSidebar /> */}
       
         {!noNavbar && <MainNavbar />}
@@ -25,8 +25,8 @@ AuthLayout.propTypes = {
 };
 
 AuthLayout.defaultProps = {
-  noNavbar: false,
-  noFooter: false
+  noNavbar: true,
+  noFooter: true
 };
 
 export default AuthLayout;
