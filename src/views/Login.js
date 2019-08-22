@@ -17,6 +17,7 @@ import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import Register from './Register'
+import * as constants from '../utils/constants'
 import axios from 'axios'
 
 class Login extends Component {
@@ -53,17 +54,19 @@ class Login extends Component {
 
   onClickLogin() {
     let user = {
-      email: this.state.email,
-      password: this.state.password,
+      "email": this.state.email,
+      "password": this.state.password,
     }
     console.log("in on click")
-    // axios.post(/signin , user).then(response => {
-    //   console.log(response)
-    // })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
-    this.props.history.push('/institute_registration')
+    console.log(user)
+console.log(constants.server_url)
+    axios.post(constants.server_url + 'login' , user).then(response => {
+      console.log(response)
+      this.props.history.push('/institute_registration')
+    })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   render() {
