@@ -15,6 +15,9 @@ import {
 } from "shards-react";
 import { pageTitle } from '../../Redux/action';
 import { connect } from 'react-redux';
+import * as constants from '../../utils/constants'
+import axios from 'axios'
+
 
 class UserAccountDetails extends Component {
   constructor(props) {
@@ -103,15 +106,25 @@ class UserAccountDetails extends Component {
   }
   onRegisterClick(){
     let obj={
-      instituteName:this.state.instituteName,
-      buisnessRegistrationNum:this.state.buisnessRegistrationNum,
-      instituteAddress:this.state.instituteAddress,
-      instituteWebsite:this.state.instituteWebsite,
-      instituteTelephone:this.state.instituteTelephone,
+      companyName:this.state.instituteName,
+      businessRegistrationNumber:this.state.buisnessRegistrationNum,
+      companyAddress:this.state.instituteAddress,
+      companyWebsite:this.state.instituteWebsite,
+      companyContactNumber:this.state.instituteTelephone,
       country:this.state.country,
       postalCode:this.state.postalCode
     }
     console.log(obj)
+    axios.post(constants.server_url +'register/instituteRegister', {
+      firstName: 'Fred',
+      lastName: 'Flintstone'
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
     this.setState({
       instituteName:'',
       buisnessRegistrationNum:' ',
