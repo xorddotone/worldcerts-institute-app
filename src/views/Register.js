@@ -99,20 +99,26 @@ class Register extends Component {
   }
 
   onClickRegister() {
-    let user = {
-      user: this.state.userName,
-      email: this.state.email,
-      password: this.state.password,
-      confirmPassword: this.state.confirmPassword
+    if(this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
+      console.log("All Fields are required")
     }
-    this.props.history.push('/institute_registration')
-    // axios.post(constants.server_url + 'signup' , user).then(response => {
-    //   this.props.history.push('/institute_registration')
-    //   console.log(response)
-    // })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+    else{
+
+      let user = {
+        name: this.state.userName,
+        email: this.state.email,
+        password: this.state.password,
+        // confirmPassword: this.state.confirmPassword
+      }
+      // this.props.history.push('/institute_registration')
+      axios.post(constants.server_url + 'signup' , user).then(response => {
+        console.log(response)
+        this.props.history.push('/institute_registration')
+      })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
 
   onLoadRecaptcha() {

@@ -54,22 +54,36 @@ class Login extends Component {
   }
 
   onClickLogin() {
-    let user = {
-      email: this.state.email,
-      password: this.state.password,
+    if(this.state.email==" " || this.state.password==" " || this.state.email=="" || this.state.password==""){
+      console.log("All fields aur required")
     }
-    console.log("in on click")
-    console.log(user)
-console.log(constants.server_url)
-      this.props.history.push('/institute_registration')
+    else{
 
-    // axios.post('http://169.254.69.231:7000/login' , user).then(response => {
-    //   console.log(response)
-    //   this.props.history.push('/institute_registration')
-    // })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+      let user = {
+        email: this.state.email,
+        password: this.state.password,
+      }
+      console.log(user)
+      // console.log(constants.server_url)
+        // this.props.history.push('/institute_registration')
+  
+      axios.post(constants.server_url+'login' , user).then(response => {
+        console.log(response.data.data.result)
+        if(response.data.data.result=="Email or Password is wrong !"){
+          console.log("1st")
+        }
+        else if(response.data.data.result=="No User Exist"){
+          console.log("2nd")
+        }
+        else{
+          
+          this.props.history.push('/institute_registration')
+        }
+      })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
 
   render() {

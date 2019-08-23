@@ -105,35 +105,40 @@ class UserAccountDetails extends Component {
     }
   }
   onRegisterClick(){
-    let obj={
-      companyName:this.state.instituteName,
-      businessRegistrationNumber:this.state.buisnessRegistrationNum,
-      companyAddress:this.state.instituteAddress,
-      companyWebsite:this.state.instituteWebsite,
-      companyContactNumber:this.state.instituteTelephone,
-      country:this.state.country,
-      postalCode:this.state.postalCode
+
+    if(this.state.buisnessRegistrationNum==" " || this.state.country==" " || this.state.instituteAddress==" " || this.state.instituteName==" " || this.state.instituteTelephone==" " || this.state.instituteWebsite==" " || this.state.postalCode==" " || this.state.buisnessRegistrationNum=="" || this.state.country=="" || this.state.instituteAddress=="" || this.state.instituteName=="" || this.state.instituteTelephone=="" || this.state.instituteWebsite=="" || this.state.postalCode==""){
+      console.log("All fields Are Required")
     }
-    console.log(obj)
-    axios.post(constants.server_url +'register/instituteRegister', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    this.setState({
-      instituteName:'',
-      buisnessRegistrationNum:' ',
-      instituteAddress:'',
-      instituteWebsite:'',
-      instituteTelephone:'',
-      country:'',
-      postalCode:' '
-    })
+    else{
+
+      let obj={
+        companyName:this.state.instituteName,
+        businessRegistrationNumber:this.state.buisnessRegistrationNum,
+        companyAddress:this.state.instituteAddress,
+        companyWebsite:this.state.instituteWebsite,
+        companyContactNumber:this.state.instituteTelephone,
+        country:this.state.country,
+        postalCode:this.state.postalCode
+      }
+      console.log(obj)
+      axios.post(constants.server_url +'register/instituteRegister',obj)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      this.setState({
+        instituteName:'',
+        buisnessRegistrationNum:' ',
+        instituteAddress:'',
+        instituteWebsite:'',
+        instituteTelephone:'',
+        country:'',
+        postalCode:' '
+      })
+    }
+
   }
 
 
