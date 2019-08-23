@@ -27,6 +27,8 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      ErrorStatus:false,
+      error:''
     }
 
     // Binding Functions
@@ -71,9 +73,17 @@ class Login extends Component {
         console.log(response.data.data.result)
         if(response.data.data.result=="Email or Password is wrong !"){
           console.log("1st")
+          this.setState({
+            ErrorStatus:true,
+            error:response.data.data.result
+          })
         }
         else if(response.data.data.result=="No User Exist"){
           console.log("2nd")
+          this.setState({
+            ErrorStatus:true,
+            error:response.data.data.result
+          })
         }
         else{
           
@@ -119,6 +129,10 @@ class Login extends Component {
                         value={this.state.password}
                         onChange={this.onChangePassword}
                       />
+                      {(this.state.ErrorStatus)?(
+                        
+                        <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
+                      ):(null)}
                     </Col>
                   </Row>
                   <Row >
