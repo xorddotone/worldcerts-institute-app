@@ -57,7 +57,11 @@ class Login extends Component {
 
   onClickLogin() {
     if(this.state.email==" " || this.state.password==" " || this.state.email=="" || this.state.password==""){
-      console.log("All fields aur required")
+      // console.log("All fields aur required")
+      this.setState({
+        ErrorStatus:true,
+        error:"All fields are required"
+      })
     }
     else{
 
@@ -65,21 +69,21 @@ class Login extends Component {
         email: this.state.email,
         password: this.state.password,
       }
-      console.log(user)
+      // console.log(user)
       // console.log(constants.server_url)
         // this.props.history.push('/institute_registration')
   
       axios.post(constants.server_url+'login' , user).then(response => {
         console.log(response.data.data.result)
         if(response.data.data.result=="Email or Password is wrong !"){
-          console.log("1st")
+          // console.log("1st")
           this.setState({
             ErrorStatus:true,
             error:response.data.data.result
           })
         }
         else if(response.data.data.result=="No User Exist"){
-          console.log("2nd")
+          // console.log("2nd")
           this.setState({
             ErrorStatus:true,
             error:response.data.data.result

@@ -23,6 +23,7 @@ class App extends Component {
                     path={route.path}
                     exact={route.exact}
                     component={(props => {
+                      
                       return (
                         <route.layout {...props}>
                           <route.component {...props} />

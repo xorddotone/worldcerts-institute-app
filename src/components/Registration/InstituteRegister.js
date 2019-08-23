@@ -29,7 +29,9 @@ class UserAccountDetails extends Component {
       instituteWebsite:'',
       instituteTelephone:'',
       country:'',
-      postalCode:''
+      postalCode:'',
+      ErrorStatus:false,
+      error:""
   }  
     this.InstituteNameChangeHandler = this.InstituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -108,6 +110,10 @@ class UserAccountDetails extends Component {
 
     if(this.state.buisnessRegistrationNum==" " || this.state.country==" " || this.state.instituteAddress==" " || this.state.instituteName==" " || this.state.instituteTelephone==" " || this.state.instituteWebsite==" " || this.state.postalCode==" " || this.state.buisnessRegistrationNum=="" || this.state.country=="" || this.state.instituteAddress=="" || this.state.instituteName=="" || this.state.instituteTelephone=="" || this.state.instituteWebsite=="" || this.state.postalCode==""){
       console.log("All fields Are Required")
+      this.setState({
+        ErrorStatus:true,
+        error:"All Fields Are Required"
+      })
     }
     else{
 
@@ -223,6 +229,10 @@ class UserAccountDetails extends Component {
                         value={this.state.postalCode}
                       />
                     </Col>
+                    {(this.state.ErrorStatus)?(
+                        
+                        <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
+                      ):(null)}
                   </Row>
                   <hr />
                   <Button theme="accent"
