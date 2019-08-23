@@ -1,32 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Container, Navbar } from "shards-react";
-import { connect } from 'react-redux';
 
-class MainNavbar extends Component {
-  render() {
-    return (
-      <div className={classes}>
-        <Container className="p-0 m-0">
-          <Navbar type="light" className="align-items-stretch flex-md-nowrap p-0">
-            <h1 style={{
-              fontFamily: "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif",
-              marginLeft: "22px", paddingTop: "5px", fontSize: "34px", color: "#3D5170", textAlign: "center"
-            }}>{this.props.Title}</h1>
-            <div style={{ right: "0" }} >
-            </div>
-          </Navbar>
-        </Container>
-      </div>
-    );
-  }
-}
-const classes = classNames(
-  "main-navbar",
-  "bg-white",
-  "sticky-top"
-);
+import NavbarNav from "./NavbarNav/NavbarNav";
+import NavbarToggle from "./NavbarToggle";
+
+const MainNavbar = ({ layout, stickyTop }) => {
+  const classes = classNames(
+    "main-navbar",
+    "bg-white",
+    stickyTop && "sticky-top"
+  );
+
+  return (
+    <div className={classes}>
+      <Container className="p-0">
+        <Navbar type="light" className="d-flex justify-content-end p-0">
+          <NavbarNav style={{ float: "right" }} />
+          <NavbarToggle />
+        </Navbar>
+      </Container>
+    </div>
+  );
+};
+
 MainNavbar.propTypes = {
   /**
    * The layout type where the MainNavbar is used.
@@ -41,11 +39,5 @@ MainNavbar.propTypes = {
 MainNavbar.defaultProps = {
   stickyTop: true
 };
-const mapStateToProps = (state) => {
-  console.log("redux he bhai=>", state.pageTitle);
-  return {
-    Title: state.pageTitle,
-  }
-}
 
-export default connect(mapStateToProps)(MainNavbar);
+export default MainNavbar;

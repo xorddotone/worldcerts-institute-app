@@ -15,7 +15,7 @@ import {
 } from "shards-react";
 import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Register from './Register'
 import * as constants from '../utils/constants'
 import axios from 'axios'
@@ -60,65 +60,65 @@ class Login extends Component {
     }
     console.log("in on click")
     console.log(user)
-console.log(constants.server_url)
-      this.props.history.push('/institute_registration')
+    console.log(constants.server_url)
+    this.props.history.push('/institute_registration')
 
-    // axios.post('http://169.254.69.231:7000/login' , user).then(response => {
-    //   console.log(response)
-    //   this.props.history.push('/institute_registration')
-    // })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+    axios.post('http://localhost:3000/' + 'login', user).then(response => {
+      console.log(response)
+      this.props.history.push('/institute_registration')
+    })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   render() {
     return (
       <Card className="mb-4">
         <Row >
-          <Col md = "7">
-            <img src = {logo} alt = "" style = {{width : "100%"}}/>
+          <Col md="7">
+            <img src={logo} alt="" style={{ width: "100%" }} />
           </Col>
-          <Col md = "5">
-        
-        <ListGroup style = {{margin: "5em 3em"}} >
-            <Row >
-              <Col >
-                <Form >
-                  <Row >
-                    <Col className="form-group">
-                      <label>Email</label>
-                      <FormInput
-                        type="email"
-                        placeholder="Enter your Email Address"
-                        value={this.state.email}
-                        onChange={this.onChangeEmail}
-                      />
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col className="form-group">
-                      <label>Password</label>
-                      <FormInput
-                        type="password"
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.onChangePassword}
-                      />
-                    </Col>
-                  </Row>
-                  <Row >
-                    <Col className="form-group" style = {{textAlign: "center" }}>
-                      <span style = {{fontWeight: "bold" }}>Dont have an account? </span><Link to = "/register" Component = {Register}> Register</Link>
-                   
-                    </Col>
-                  </Row>
-                 <div style = {{textAlign: "center"}}> <Button theme="accent" onClick = {this.onClickLogin}>Login</Button></div>
-                </Form>
-              </Col>
-            </Row>
-        </ListGroup>
-        </Col>
+          <Col md="5">
+
+            <ListGroup style={{ margin: "5em 3em" }} >
+              <Row >
+                <Col >
+                  <Form >
+                    <Row >
+                      <Col className="form-group">
+                        <label>Email</label>
+                        <FormInput
+                          type="email"
+                          placeholder="Enter your Email Address"
+                          value={this.state.email}
+                          onChange={this.onChangeEmail}
+                        />
+                      </Col>
+                    </Row>
+                    <Row >
+                      <Col className="form-group">
+                        <label>Password</label>
+                        <FormInput
+                          type="password"
+                          placeholder="Password"
+                          value={this.state.password}
+                          onChange={this.onChangePassword}
+                        />
+                      </Col>
+                    </Row>
+                    <Row >
+                      <Col className="form-group" style={{ textAlign: "center" }}>
+                        <span style={{ fontWeight: "bold" }}>Dont have an account? </span><Link to="/register" Component={Register}> Register</Link>
+
+                      </Col>
+                    </Row>
+                    <div style={{ textAlign: "center" }}> <Button theme="accent" onClick={this.onClickLogin}>Login</Button></div>
+                  </Form>
+                </Col>
+              </Row>
+            </ListGroup>
+          </Col>
         </Row>
       </Card>
     )

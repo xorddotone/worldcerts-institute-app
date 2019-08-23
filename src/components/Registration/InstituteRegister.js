@@ -22,15 +22,15 @@ import axios from 'axios'
 class UserAccountDetails extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      instituteName:'',
-      buisnessRegistrationNum:"",
-      instituteAddress:'',
-      instituteWebsite:'',
-      instituteTelephone:'',
-      country:'',
-      postalCode:''
-  }  
+    this.state = {
+      instituteName: '',
+      buisnessRegistrationNum: "",
+      instituteAddress: '',
+      instituteWebsite: '',
+      instituteTelephone: '',
+      country: '',
+      postalCode: ''
+    }
     this.InstituteNameChangeHandler = this.InstituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
     this.InstituteAddressChangeHandler = this.InstituteAddressChangeHandler.bind(this)
@@ -38,109 +38,108 @@ class UserAccountDetails extends Component {
     this.InstituteTelephoneChangeHandler = this.InstituteTelephoneChangeHandler.bind(this)
     this.countryChangeHandler = this.countryChangeHandler.bind(this)
     this.postalcodeChangeHandler = this.postalcodeChangeHandler.bind(this)
-   
+
   }
-  
-  
+
+
   componentWillMount() {
     this.props.UpdateTitle("Institue Registration");
   }
 
-  InstituteNameChangeHandler(ev){
+  InstituteNameChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      instituteName:ev.target.value
+      instituteName: ev.target.value
     })
   }
 
-  buisnessRegistrationNumChangeHandler(ev){
+  buisnessRegistrationNumChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
-    console.log( ev.target.value)
-    if(reg.test(ev.target.value) || ev.target.value==""){
+    console.log(ev.target.value)
+    if (reg.test(ev.target.value) || ev.target.value == "") {
       this.setState({
-        buisnessRegistrationNum:ev.target.value
+        buisnessRegistrationNum: ev.target.value
       })
     }
-    
-        
-  }
-  InstituteAddressChangeHandler(ev){
-    console.log(ev.target.value)
-    this.setState({
-      instituteAddress:ev.target.value
-    })
-  }
-  InstituteWebsiteChangeHandler(ev){
-    console.log(ev.target.value)
-    this.setState({
-      instituteWebsite:ev.target.value
-    })
-  }
-  InstituteTelephoneChangeHandler(ev){
-    var reg = new RegExp('^\\d+$');
-    console.log( ev.target.value)
-    if(reg.test(ev.target.value) || ev.target.value==""){
 
-      console.log(ev.target.value)
-      this.setState({
-        instituteTelephone:ev.target.value
-      })
-    }
+
   }
-  countryChangeHandler(ev){
+  InstituteAddressChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      country:ev.target.value
+      instituteAddress: ev.target.value
     })
   }
-  postalcodeChangeHandler(ev){
+  InstituteWebsiteChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      instituteWebsite: ev.target.value
+    })
+  }
+  InstituteTelephoneChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
-    console.log( reg.test(ev.target.value) || ev.target.value=="")
-    if(reg.test(ev.target.value)){
+    console.log(ev.target.value)
+    if (reg.test(ev.target.value) || ev.target.value == "") {
 
       console.log(ev.target.value)
       this.setState({
-        postalCode:ev.target.value
+        instituteTelephone: ev.target.value
       })
     }
   }
-  onRegisterClick(){
-    let obj={
-      companyName:this.state.instituteName,
-      businessRegistrationNumber:this.state.buisnessRegistrationNum,
-      companyAddress:this.state.instituteAddress,
-      companyWebsite:this.state.instituteWebsite,
-      companyContactNumber:this.state.instituteTelephone,
-      country:this.state.country,
-      postalCode:this.state.postalCode
+  countryChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      country: ev.target.value
+    })
+  }
+  postalcodeChangeHandler(ev) {
+    var reg = new RegExp('^\\d+$');
+    console.log(reg.test(ev.target.value) || ev.target.value == "")
+    if (reg.test(ev.target.value)) {
+
+      console.log(ev.target.value)
+      this.setState({
+        postalCode: ev.target.value
+      })
+    }
+  }
+  onRegisterClick() {
+    let obj = {
+      companyName: this.state.instituteName,
+      businessRegistrationNumber: this.state.buisnessRegistrationNum,
+      companyAddress: this.state.instituteAddress,
+      companyWebsite: this.state.instituteWebsite,
+      companyContactNumber: this.state.instituteTelephone,
+      country: this.state.country,
+      postalCode: this.state.postalCode
     }
     console.log(obj)
-    axios.post(constants.server_url +'register/instituteRegister', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    axios.post(constants.server_url + 'register/instituteRegister',
+      obj
+    )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     this.setState({
-      instituteName:'',
-      buisnessRegistrationNum:' ',
-      instituteAddress:'',
-      instituteWebsite:'',
-      instituteTelephone:'',
-      country:'',
-      postalCode:' '
+      instituteName: '',
+      buisnessRegistrationNum: ' ',
+      instituteAddress: '',
+      instituteWebsite: '',
+      instituteTelephone: '',
+      country: '',
+      postalCode: ' '
     })
   }
 
 
 
 
-  
-  
+
+
 
 
 
@@ -161,13 +160,13 @@ class UserAccountDetails extends Component {
                         onChange={this.InstituteNameChangeHandler}
                         placeholder="Name of Company/Institute"
                         value={this.state.instituteName}
-                      /> 
+                      />
                     </Col>
                     <Col md="6" className="form-group">
                       <label >Business Registration Number (UEN)</label>
                       <FormInput
-                                    
-                      onChange={this.buisnessRegistrationNumChangeHandler}
+
+                        onChange={this.buisnessRegistrationNumChangeHandler}
                         placeholder="UEN#"
                         value={this.state.buisnessRegistrationNum}
                       />
@@ -177,7 +176,7 @@ class UserAccountDetails extends Component {
                     <Col md="12" className="form-group">
                       <label>Company/Institute Address</label>
                       <FormInput
-                      onChange={this.InstituteAddressChangeHandler}
+                        onChange={this.InstituteAddressChangeHandler}
                         placeholder="Address, street #......"
                         value={this.state.instituteAddress}
                       />
@@ -187,7 +186,7 @@ class UserAccountDetails extends Component {
                     <Col md="6">
                       <label>Company/Institute Website</label>
                       <FormInput
-                      onChange={this.InstituteWebsiteChangeHandler}
+                        onChange={this.InstituteWebsiteChangeHandler}
                         placeholder="Webiste"
                         value={this.state.instituteWebsite}
                       />
@@ -195,7 +194,7 @@ class UserAccountDetails extends Component {
                     <Col md="6">
                       <label>Company/Institute Telephone #</label>
                       <FormInput
-                      onChange={this.InstituteTelephoneChangeHandler}
+                        onChange={this.InstituteTelephoneChangeHandler}
                         placeholder="Contact#"
                         value={this.state.instituteTelephone}
                       />
@@ -205,7 +204,7 @@ class UserAccountDetails extends Component {
                     <Col md="6" className="form-group">
                       <label>Country</label>
                       <FormInput
-                      onChange={this.countryChangeHandler}
+                        onChange={this.countryChangeHandler}
                         placeholder="Country"
                         value={this.state.country}
                       />
@@ -213,7 +212,7 @@ class UserAccountDetails extends Component {
                     <Col md="6" className="form-group">
                       <label>Postal Code</label>
                       <FormInput
-                      onChange={this.postalcodeChangeHandler}
+                        onChange={this.postalcodeChangeHandler}
                         placeholder="Zip Code"
                         value={this.state.postalCode}
                       />
@@ -221,7 +220,7 @@ class UserAccountDetails extends Component {
                   </Row>
                   <hr />
                   <Button theme="accent"
-                  onClick={this.onRegisterClick.bind(this)}
+                    onClick={this.onRegisterClick.bind(this)}
                   >Register</Button>
                 </Form>
               </Col>
