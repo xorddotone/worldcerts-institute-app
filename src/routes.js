@@ -8,7 +8,7 @@ import  AuthLayout  from "./layouts/AuthLayout";
 // Route Views
 import Register from "./views/Register";
 import Login from "./views/Login";
-
+import UserProfile from './views/UserProfile'
 import InstituteRegister from "./views/InstituteRegistration";
 
 export default [
@@ -23,7 +23,11 @@ export default [
     layout: DefaultLayout,
     component: InstituteRegister
   },
-  
+  {
+    path: "/userProfile",
+    layout: DefaultLayout,
+    component: UserProfile
+  },
   {
     path: "/register",
     layout: AuthLayout,

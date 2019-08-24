@@ -13,6 +13,11 @@ class SidebarNavItems extends React.Component {
           to: "/institute_registration",
           htmlBefore: '<i class="material-icons">home</i>',
         },
+        {
+          title: "User Profile",
+          to: "/userProfile",
+          htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
+        },
       ]
     };
   }
