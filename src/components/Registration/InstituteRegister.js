@@ -127,7 +127,7 @@ class UserAccountDetails extends Component {
         postalCode:this.state.postalCode
       }
       console.log(obj)
-      axios.post(constants.server_url +'register/instituteRegister',obj)
+      axios.post(constants.server_url +'instituteRegister',obj)
       .then(function (response) {
         console.log(response);
       })
