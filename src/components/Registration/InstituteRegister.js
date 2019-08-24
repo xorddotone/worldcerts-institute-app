@@ -182,8 +182,8 @@ let that=this;
   render() {
     return (
       <Card small className="mb-4">
-        <CardHeader className="border-bottom">
-        </CardHeader>
+        {/* <CardHeader className="border-bottom">
+        </CardHeader> */}
         <ListGroup flush>
           <ListGroupItem className="p-3">
             <Row>
@@ -194,7 +194,7 @@ let that=this;
                       <label>Company/Institute Name</label>
                       <FormInput
                         onChange={this.InstituteNameChangeHandler}
-                        placeholder="Name of Company/Institute"
+                        placeholder="Worldcerts"
                         value={this.state.instituteName}
                       /> 
                     </Col>
@@ -203,7 +203,7 @@ let that=this;
                       <FormInput
                                     
                       onChange={this.buisnessRegistrationNumChangeHandler}
-                        placeholder="UEN#"
+                        placeholder="12445"
                         value={this.state.buisnessRegistrationNum}
                       />
                     </Col>
@@ -213,7 +213,7 @@ let that=this;
                       <label>Company/Institute Address</label>
                       <FormInput
                       onChange={this.InstituteAddressChangeHandler}
-                        placeholder="Address, street #......"
+                        placeholder="7th street Canberra Australia"
                         value={this.state.instituteAddress}
                       />
                     </Col>
@@ -223,7 +223,7 @@ let that=this;
                       <label>Company/Institute Website</label>
                       <FormInput
                       onChange={this.InstituteWebsiteChangeHandler}
-                        placeholder="Webiste"
+                        placeholder="www.worldcerts.com"
                         value={this.state.instituteWebsite}
                       />
                     </Col>
@@ -231,7 +231,7 @@ let that=this;
                       <label>Company/Institute Telephone #</label>
                       <FormInput
                       onChange={this.InstituteTelephoneChangeHandler}
-                        placeholder="Contact#"
+                        placeholder="03422200220"
                         value={this.state.instituteTelephone}
                       />
                     </Col>
@@ -241,7 +241,7 @@ let that=this;
                       <label>Country</label>
                       <FormInput
                       onChange={this.countryChangeHandler}
-                        placeholder="Country"
+                        placeholder="Pakistan"
                         value={this.state.country}
                       />
                     </Col>
@@ -249,7 +249,7 @@ let that=this;
                       <label>Postal Code</label>
                       <FormInput
                       onChange={this.postalcodeChangeHandler}
-                        placeholder="Zip Code"
+                        placeholder="12345"
                         value={this.state.postalCode}
                       />
                     </Col>

@@ -71,8 +71,8 @@ class Profile extends Component {
   render() {
     return (
         <Card small className="mb-6">
-    <CardHeader className="border-bottom">
-    </CardHeader>
+    {/* <CardHeader className="border-bottom">
+    </CardHeader> */}
     <ListGroup flush>
       <ListGroupItem className="p-3">
         <Row>
