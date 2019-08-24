@@ -63,6 +63,7 @@ class Login extends Component {
         error:"All fields are required"
       })
     }
+    
     else{
 
       let user = {
@@ -82,7 +83,7 @@ class Login extends Component {
             error:response.data.data.result
           })
         }
-        else if(response.data.data.result=="No User Exist"){
+        else if(response.data.data.result=="Email not found"){
           // console.log("2nd")
           this.setState({
             ErrorStatus:true,

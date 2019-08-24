@@ -32,7 +32,8 @@ class Register extends Component {
       password: "",
       confirmPassword: "",
       captchaText: "",
-      passwordError: ""
+      passwordError: "",
+      errorMsg:""
     }
 
     // Binding Functions
@@ -56,28 +57,28 @@ class Register extends Component {
   }
 
   onChangeUserName(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({
       userName: event.target.value
     })
   }
 
   onChangeEmail(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({
       email: event.target.value
     })
   }
 
   onChangePassword(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({
       password: event.target.value
     })
   }
 
   onChangeConfirmPassword(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     this.setState({
       confirmPassword: event.target.value
     })
@@ -91,16 +92,25 @@ class Register extends Component {
   }
 
   onChangeCaptcha(event) {
-    console.log(event.target.value)
+    console.log(event)
     this.setState({
-      captchaText: event.target.value
+      captchaText: event
     })
 
   }
 
   onClickRegister() {
-    if(this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
-      console.log("All Fields are required")
+    if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
+      this.setState({
+        errorMsg:"All Fields are required"
+      })
+      // console.log("All Fields are required")
+    }
+    else if(this.state.password!==this.state.confirmPassword){
+      this.setState({
+        errorMsg:"Password Does Not matched"
+      })
+      // console.log("Password Does Not matched")
     }
     else{
 
@@ -200,6 +210,7 @@ class Register extends Component {
                             sitekey="6Le-RrQUAAAAAOsjfBslPh4hr8JWT8WjX_96fPnP"
                             onloadCallback={this.onLoadRecaptcha}
                             verifyCallback={this.verifyCallback}
+                            onChange={this.onChangeCaptcha}
                           />
                         </Col>
                       </Row>
@@ -209,6 +220,8 @@ class Register extends Component {
 
                         </Col>
                       </Row>
+
+                    <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
                      <div style = {{textAlign: 'center'}}> <Button theme="accent" onClick={this.onClickRegister}>Register</Button></div>
                     </Form>
                   </Col>

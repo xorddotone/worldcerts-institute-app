@@ -130,19 +130,20 @@ class UserAccountDetails extends Component {
       axios.post(constants.server_url +'instituteRegister',obj)
       .then(function (response) {
         console.log(response);
+        this.setState({
+          instituteName:'',
+          buisnessRegistrationNum:' ',
+          instituteAddress:'',
+          instituteWebsite:'',
+          instituteTelephone:'',
+          country:'',
+          postalCode:' '
+        })
       })
       .catch(function (error) {
         console.log(error);
       });
-      this.setState({
-        instituteName:'',
-        buisnessRegistrationNum:' ',
-        instituteAddress:'',
-        instituteWebsite:'',
-        instituteTelephone:'',
-        country:'',
-        postalCode:' '
-      })
+      
     }
 
   }
