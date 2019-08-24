@@ -107,7 +107,7 @@ class UserAccountDetails extends Component {
     }
   }
   onRegisterClick(){
-
+let that=this;
     if(this.state.buisnessRegistrationNum==" " || this.state.country==" " || this.state.instituteAddress==" " || this.state.instituteName==" " || this.state.instituteTelephone==" " || this.state.instituteWebsite==" " || this.state.postalCode==" " || this.state.buisnessRegistrationNum=="" || this.state.country=="" || this.state.instituteAddress=="" || this.state.instituteName=="" || this.state.instituteTelephone=="" || this.state.instituteWebsite=="" || this.state.postalCode==""){
       console.log("All fields Are Required")
       this.setState({
@@ -129,16 +129,39 @@ class UserAccountDetails extends Component {
       console.log(obj)
       axios.post(constants.server_url +'instituteRegister',obj)
       .then(function (response) {
+        
         console.log(response);
-        this.setState({
-          instituteName:'',
-          buisnessRegistrationNum:' ',
-          instituteAddress:'',
-          instituteWebsite:'',
-          instituteTelephone:'',
-          country:'',
-          postalCode:' '
-        })
+        if(response.data.data.result=="Can't register - registration number already exist"){
+          console.log(response.data.data.result)
+          that.setState({
+            ErrorStatus:true,
+            error:"Can't register - Registration Number Already Exist"
+          })
+        }
+        else if(response.data.data.result=="registration number is too long"){
+          that.setState({
+            ErrorStatus:true,
+            error:"Registration Number is too long"
+          })
+          console.log(response.data.data.result)
+        }
+        else{
+          
+          
+          console.log(response.data.data.result)
+          
+          that.setState({
+            instituteName:'',
+            buisnessRegistrationNum:' ',
+            instituteAddress:'',
+            instituteWebsite:'',
+            instituteTelephone:'',
+            country:'',
+            postalCode:' ',
+            ErrorStatus:false
+          })
+          alert("Request Send")
+        }
       })
       .catch(function (error) {
         console.log(error);
