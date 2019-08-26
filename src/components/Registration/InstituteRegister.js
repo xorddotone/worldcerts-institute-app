@@ -13,7 +13,7 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-import { pageTitle } from '../../Redux/action';
+// import { pageTitle } from '../../Redux/action';
 import { connect } from 'react-redux';
 import * as constants from '../../utils/constants'
 import axios from 'axios'
@@ -45,7 +45,7 @@ class UserAccountDetails extends Component {
   
   
   componentWillMount() {
-    this.props.UpdateTitle("Institue Registration");
+    // this.props.UpdateTitle("Insttue Registration");
   }
 
   InstituteNameChangeHandler(ev){
@@ -273,7 +273,7 @@ let that=this;
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 

@@ -9,8 +9,9 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import { connect } from 'react-redux';
 
-export default class UserActions extends React.Component {
+class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +37,7 @@ export default class UserActions extends React.Component {
             src={require("../../../../images/logo1.png")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block">{this.props.userData.email}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem tag={Link} to="/userProfile">
@@ -60,3 +61,19 @@ export default class UserActions extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log("redux =>", state);
+  return {
+    userData:state.user_reducer.user
+    // Title: state.pageTitle,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // USER_DATA: (user) => {
+    //   dispatch(USER_DATA(user))
+    // },
+    
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserActions);

@@ -17,7 +17,7 @@ import {
 } from "shards-react";
 import logo from '../images/logo2.png'
 
-import { pageTitle } from '../Redux/action';
+// import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
@@ -241,7 +241,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

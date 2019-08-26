@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import UserAccountDetails from "../components/Registration/InstituteRegister";
-import { pageTitle } from '../Redux/action';
+// import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 
 class InstituteRegistration extends Component {
   componentDidMount() {
-    this.props.UpdateTitle("");
+    // this.props.UpdateTitle("");
   }
   render() {
     return (
@@ -26,14 +26,14 @@ class InstituteRegistration extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("redux =>", state.pageTitle);
+  console.log("redux =>", state);
   return {
     Title: state.pageTitle,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(InstituteRegistration);

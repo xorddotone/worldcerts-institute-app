@@ -13,13 +13,14 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-import { pageTitle } from '../Redux/action';
+// import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import Register from './Register'
 import * as constants from '../utils/constants'
 import axios from 'axios'
 import logo from '../images/logo.png'
+import {USER_DATA} from "../redux/actions/login-action"
 
 class Login extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Login extends Component {
 
   }
   componentDidMount() {
-    this.props.UpdateTitle("");
+    // this.props.UpdateTitle("");
   }
 
   onChangeEmail(event) {
@@ -91,7 +92,7 @@ class Login extends Component {
           })
         }
         else{
-          
+          this.props.USER_DATA(response.data.data.result)
           this.props.history.push('/institute_registration')
         }
       })
@@ -158,14 +159,18 @@ class Login extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("redux =>", state.pageTitle);
+  console.log("redux =>", state);
   return {
-    Title: state.pageTitle,
+    userData:state.user_reducer.user
+    // Title: state.pageTitle,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
+    },
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
