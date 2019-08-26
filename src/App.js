@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { store, persistor } from '../src/Redux/Store';
+import  store  from '../src/redux/store/index';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import history from './config/history'
@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
           <Router history={history}>
             <div>
               {routes.map((route, index) => {
@@ -35,7 +35,7 @@ class App extends Component {
               })}
             </div>
           </Router>
-        </PersistGate>
+        {/* </PersistGate> */}
       </Provider>
     )
   }

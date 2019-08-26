@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import Profile from "../components/UserProfile/Profile";
-import { pageTitle } from '../Redux/action';
+// import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 
 class UserProfile extends Component {
   componentDidMount() {
-    this.props.UpdateTitle("");
+    // this.props.UpdateTitle("");
   }
   render() {
     return (
@@ -33,7 +33,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

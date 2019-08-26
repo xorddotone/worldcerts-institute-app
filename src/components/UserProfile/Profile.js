@@ -13,7 +13,7 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-import { pageTitle } from '../../Redux/action';
+// import { pageTitle } from '../../Redux/action';
 import { connect } from 'react-redux';
 import * as constants from '../../utils/constants'
 import axios from 'axios'
@@ -36,7 +36,7 @@ class Profile extends Component {
   }
   
   componentWillMount() {
-    this.props.UpdateTitle("Institue Registration");
+    // this.props.UpdateTitle("Institue Registration");
   }
 
   onChangeEmail(event){
@@ -182,7 +182,7 @@ class Profile extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 
