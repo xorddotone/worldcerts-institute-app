@@ -22,6 +22,8 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
 import * as constants from '../utils/constants'
+import {USER_DATA} from "../redux/actions/login-action"
+
 
 class Register extends Component {
   constructor(props) {
@@ -49,7 +51,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    this.props.UpdateTitle("User Regsitration");
+    // this.props.UpdateTitle("User Regsitration");
     if (this.captchaDemo) {
       console.log("started, just a second...")
       this.captchaDemo.reset();
@@ -123,7 +125,12 @@ class Register extends Component {
       // this.props.history.push('/institute_registration')
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
-        this.props.history.push('/institute_registration')
+        console.log(response.data.responseCode)
+        if(response.data.responseCode=="200"){
+          console.log("inside");
+          this.props.USER_DATA(response.data.data.result)
+          this.props.history.push('/institute_registration')
+        }
       })
         .catch(err => {
           console.log(err)
@@ -241,6 +248,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
+    },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
