@@ -14,6 +14,8 @@ import {
   Button
 } from "shards-react";
 import { connect } from 'react-redux';
+import {USER_DATA} from "../../redux/actions/login-action"
+
 import * as constants from '../../utils/constants'
 import axios from 'axios'
 
@@ -223,10 +225,17 @@ class Profile extends Component {
     )
   }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
+  console.log("Redux=>", state);
   return {
-    userData:state.user_reducer.user
   }
 }
-
-export default connect(null, mapDispatchToProps)(Profile);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
+    },
+    // UpdateTitle: (title) => dispatch(pageTitle(title))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
