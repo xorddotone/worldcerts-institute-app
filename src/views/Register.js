@@ -113,14 +113,14 @@ class Register extends Component {
       // console.log("Password Does Not matched")
     }
     else{
-
+      
+      // this.props.history.push('/emailVerification')
       let user = {
         name: this.state.userName,
         email: this.state.email,
         password: this.state.password,
         // confirmPassword: this.state.confirmPassword
       }
-      // this.props.history.push('/institute_registration')
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
         this.props.history.push('/institute_registration')

@@ -75,7 +75,7 @@ class Login extends Component {
         // this.props.history.push('/institute_registration')
   
       axios.post(constants.server_url+'login' , user).then(response => {
-        console.log(response.data.data.result)
+        console.log(response.data.data.responseCode)
         if(response.data.data.result=="Email or Password is wrong !"){
           // console.log("1st")
           this.setState({

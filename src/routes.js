@@ -10,6 +10,7 @@ import Register from "./views/Register";
 import Login from "./views/Login";
 import UserProfile from './views/UserProfile'
 import InstituteRegister from "./views/InstituteRegistration";
+import EmailVerification from "./views/emailVerification";
 
 export default [
   {
@@ -38,6 +39,12 @@ export default [
     path: "/signin",
     layout: AuthLayout,
     component: Login
+  },
+
+  {
+    path: "/emailVerification",
+    layout: AuthLayout,
+    component: EmailVerification
   },
 ];
 

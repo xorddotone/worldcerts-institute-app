@@ -23,13 +23,16 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state={
-      userName : "",
-      email : "",
-      password : "",
+      userName: "",
+      email : "xyz@gmail.com",
+      oldPassword: "*********",
+      newPassword : "",
+      confirmPassword : "",
+      errorMsg : ""
   }  
   
-  this.onChangeEmail = this.onChangeEmail.bind(this)
-  this.onChangePassword = this.onChangePassword.bind(this)
+  this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
+  this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this)
   this.onChangeUserName = this.onChangeUserName.bind(this)
   this.onClickUpdate = this.onClickUpdate.bind(this)
 
@@ -39,34 +42,51 @@ class Profile extends Component {
     this.props.UpdateTitle("Institue Registration");
   }
 
-  onChangeEmail(event){
+  onChangeNewPassword(event){
         console.log(event.target.value)
-        this.setState({email : event.target.value})
+        this.setState({newPassword : event.target.value})
   }
 
-  onChangePassword(event){
+  onChangeConfirmPassword(event){
     console.log(event.target.value)
-    this.setState({password : event.target.value})
+    this.setState({confirmPassword : event.target.value})
+
+    if(event.target.value !== this.state.newPassword)
+    {
+      this.setState({errorMsg : "password not matched"})
+    }
+    else{
+     this.setState({errorMsg : ""})
   }
+}
 
   onChangeUserName(event){
     console.log(event.target.value)
-    this.setState({userName : event.target.value})
+    this.setState({userName : event.target.value })
   }
 
   onClickUpdate(){
       console.log(" In update ")
-      let obj = {
+   
+      if(this.state.newPassword !== this.state.confirmPassword){
+          this.setState({errorMsg : "Password match invalid"})
+      }
+      else {
+        let obj = {
           userName : this.state.userName,
           email : this.state.email,
-          password : this.state.password
+          newPassword : this.state.newPassword
+      }
+        alert("your data has been updated")
+        //   axios.post(constants.server_url +'/' , obj)
+        //   .then(response => {
+        //       console.log(response)
+        //      this.setState({newPassword : "" , confirmPassword: "" , errorMsg: ""})
+        //   })
+
       }
 
-    //   axios.post(constants.server_url +'/' , obj)
-    //   .then(response => {
-    //       console.log(response)
-    //   })
-  }
+    }
 
   render() {
     return (
@@ -109,21 +129,45 @@ class Profile extends Component {
                     id="feEmail"
                     placeholder="Email Address"
                     value={this.state.email}
-                    onChange={this.onChangeEmail}
                     autoComplete="email"
+                    disabled
                   />
                 </Col>
                 {/* Password */}
                 <Col md="6" className="form-group">
-                  <label htmlFor="fePassword">Password</label>
+                  <label htmlFor="fePassword">Old Password</label>
                   <FormInput
                     type="password"
                     id="fePassword"
                     placeholder="Password"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
+                    value={this.state.oldPassword}
                     autoComplete="current-password"
+                    disabled
                   />
+                </Col>
+                <Col md="6" className="form-group">
+                  <label htmlFor="fePassword">New Password</label>
+                  <FormInput
+                    type="password"
+                    id="fePassword"
+                    placeholder="Password"
+                    value={this.state.newPassword}
+                    onChange={this.onChangeNewPassword}
+                    autoComplete="new-password"
+                  />
+                </Col>
+                <Col md="6" className="form-group">
+                  <label htmlFor="fePassword">Confirm Password</label>
+                  <FormInput
+                    type="password"
+                    id="fePassword"
+                    placeholder="Password"
+                    value={this.state.confirmPassword}
+                    onChange={this.onChangeConfirmPassword}
+                    autoComplete="confirm-password"
+                  />
+                  <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
+
                 </Col>
               </Row>
               {/* <FormGroup>
