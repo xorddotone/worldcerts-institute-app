@@ -49,7 +49,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    this.props.UpdateTitle("User Regsitration");
+    // this.props.UpdateTitle("User Regsitration");
     if (this.captchaDemo) {
       console.log("started, just a second...")
       this.captchaDemo.reset();
@@ -114,7 +114,6 @@ class Register extends Component {
     }
     else{
       
-      // this.props.history.push('/emailVerification')
       let user = {
         name: this.state.userName,
         email: this.state.email,
@@ -123,7 +122,7 @@ class Register extends Component {
       }
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
-        this.props.history.push('/institute_registration')
+        this.props.history.push('/emailVerification')
       })
         .catch(err => {
           console.log(err)

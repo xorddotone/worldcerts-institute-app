@@ -13,7 +13,6 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-// import { pageTitle } from '../../Redux/action';
 import { connect } from 'react-redux';
 import * as constants from '../../utils/constants'
 import axios from 'axios'
@@ -23,8 +22,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state={
-      userName: "",
-      email : "xyz@gmail.com",
+      userName: this.props.userData.name,
+      email : this.props.userData.email,
       oldPassword: "*********",
       newPassword : "",
       confirmPassword : "",
@@ -226,7 +225,7 @@ class Profile extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    userData:state.user_reducer.user
   }
 }
 

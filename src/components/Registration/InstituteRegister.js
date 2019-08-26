@@ -13,7 +13,6 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-// import { pageTitle } from '../../Redux/action';
 import { connect } from 'react-redux';
 import * as constants from '../../utils/constants'
 import axios from 'axios'

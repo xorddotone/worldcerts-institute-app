@@ -13,7 +13,6 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
-import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import Register from './Register'
@@ -36,7 +35,6 @@ class emailVerification extends Component {
 
   }
   componentDidMount() {
-    this.props.UpdateTitle("");
   }
 
   onChangeCode(event) {
@@ -114,7 +112,7 @@ onClickVerify() {
                 <Form >
                      <Row >
                     <Col className="form-group">
-                      <label>We have sent you the Verification Code at the xyz@gmail.com. Kindly check it</label>
+                      <label>We have sent you the Verification Code at the {this.props.userData.email}. Kindly check it</label>
                     </Col>
                   </Row>
                   <Row >
@@ -143,14 +141,14 @@ onClickVerify() {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("redux =>", state.pageTitle);
+  console.log("redux =>", state);
   return {
-    Title: state.pageTitle,
+    userData:state.user_reducer.user
+    // Title: state.pageTitle,
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(emailVerification);
