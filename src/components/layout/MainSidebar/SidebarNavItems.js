@@ -13,11 +13,11 @@ class SidebarNavItems extends React.Component {
           to: "/manageInstitute",
           htmlBefore: '<i class="material-icons">home</i>',
         },
-        // {
-        //   title: "Create Classification",
-        //   to: "/createClassification",
-        //   htmlBefore: ' <i class="material-icons">ballot</i>',
-        // },
+        {
+          title: "Create Classification",
+          to: "/manageClassification",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
         {
           title: "User Profile",
           to: "/userProfile",

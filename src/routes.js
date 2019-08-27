@@ -12,6 +12,8 @@ import UserProfile from './views/UserProfile'
 import InstituteRegister from "./views/InstituteRegistration";
 import EmailVerification from "./views/emailVerification";
 import ManageInstitutes from "./views/ManageInstitutes";
+import ManageClassifications from "./views/ManageClassifications";
+import AddClassification from "./views/AddClassification";
 
 export default [
   {
@@ -29,6 +31,16 @@ export default [
     path: "/institute_registration",
     layout: DefaultLayout,
     component: InstituteRegister
+  },
+  {
+    path: "/manageClassification",
+    layout: DefaultLayout,
+    component: ManageClassifications
+  },
+  {
+    path: "/addClassification",
+    layout: DefaultLayout,
+    component: AddClassification
   },
   {
     path: "/userProfile",
