@@ -25,7 +25,7 @@ class ManageInstitutes extends Component {
           title:
             "Attention he extremity unwilling on otherwise cars backwards yet",
           body:
-            "Conviction up partiality as delightful is discovered. Yet jennings resolved disposed exertion you off. Left did fond drew fat head poor jet pan flying over...",
+            "Conviction up partiality as delightful is discovered. Yet jennings resolved disposed exertion you off.",
           date: "29 February 2019"
         },
         {
@@ -37,7 +37,7 @@ class ManageInstitutes extends Component {
           title:
             "Totally words widow one downs few age every seven if miss part by fact",
           body:
-            "Discovered had get considered projection who favourable. Necessary up knowledge it tolerably. Unwilling departure education to admitted speaking...",
+            "Discovered had get considered projection who favourable. Necessary up knowledge it tolerably. ",
           date: "29 February 2019"
         }
       ],

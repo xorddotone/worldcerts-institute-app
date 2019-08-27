@@ -114,7 +114,7 @@ class Register extends Component {
       })
       // console.log("Password Does Not matched")
     }
-    else{
+    else {
       
       let user = {
         name: this.state.userName,
@@ -125,10 +125,18 @@ class Register extends Component {
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.responseCode=="200"){
+        if(response.data.data.result == "Can't register - Email already exists"){
+          this.setState({errorMsg: "Can't register - Email already exists"})
+        }
+        else if(response.data.responseCode == 200){
+
           console.log("inside");
           this.props.USER_DATA(response.data.data.result)
-          this.props.history.push('/institute_registration')
+          this.props.history.push('/emailVerification')
+        }
+        else{
+          this.setState({errorMsg: "User Not Registered"})
+
         }
       })
         .catch(err => {
