@@ -228,6 +228,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
   console.log("Redux=>", state);
   return {
+    userData:state.user_reducer.user
   }
 }
 const mapDispatchToProps = (dispatch) => {
