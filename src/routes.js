@@ -11,6 +11,7 @@ import Login from "./views/Login";
 import UserProfile from './views/UserProfile'
 import InstituteRegister from "./views/InstituteRegistration";
 import EmailVerification from "./views/emailVerification";
+import ManageInstitutes from "./views/ManageInstitutes";
 
 export default [
   {
@@ -18,6 +19,11 @@ export default [
     exact: true,
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/manageInstitute",
+    layout: DefaultLayout,
+    component: ManageInstitutes
   },
   {
     path: "/institute_registration",
@@ -29,6 +35,7 @@ export default [
     layout: DefaultLayout,
     component: UserProfile
   },
+
   {
     path: "/register",
     layout: AuthLayout,

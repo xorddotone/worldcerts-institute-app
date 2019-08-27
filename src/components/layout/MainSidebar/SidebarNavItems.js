@@ -9,8 +9,8 @@ class SidebarNavItems extends React.Component {
     this.state = {
       Item: [
         {
-          title: "Register Institute",
-          to: "/institute_registration",
+          title: "Manage Institute",
+          to: "/manageInstitute",
           htmlBefore: '<i class="material-icons">home</i>',
         },
         {
