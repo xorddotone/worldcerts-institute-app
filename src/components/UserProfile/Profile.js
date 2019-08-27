@@ -29,13 +29,17 @@ class Profile extends Component {
       oldPassword: "*********",
       newPassword : "",
       confirmPassword : "",
-      errorMsg : ""
+      errorMsg : "",
+      oldPasswordError: "",
+      error: ""
   }  
   
   this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
   this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this)
   this.onChangeUserName = this.onChangeUserName.bind(this)
   this.onClickUpdate = this.onClickUpdate.bind(this)
+  this.onChangeOldPassword = this.onChangeOldPassword.bind(this)
+
 
   }
   
@@ -44,6 +48,7 @@ class Profile extends Component {
   }
 
   onChangeNewPassword(event){
+
         console.log(event.target.value)
         this.setState({newPassword : event.target.value})
   }
@@ -65,25 +70,44 @@ class Profile extends Component {
     console.log(event.target.value)
     this.setState({userName : event.target.value })
   }
+  onChangeOldPassword(event){
+    console.log(event.target.value)
+    this.setState({oldPassword: event.target.value})
+  }
 
   onClickUpdate(){
       console.log(" In update ")
-   
+      
       if(this.state.newPassword !== this.state.confirmPassword){
           this.setState({errorMsg : "Password match invalid"})
       }
       else {
         let obj = {
-          userName : this.state.userName,
+          name : this.state.userName,
           email : this.state.email,
-          newPassword : this.state.newPassword
+          password : this.state.newPassword,
+          oldPassword : this.state.oldPassword
       }
-        alert("your data has been updated")
-        //   axios.post(constants.server_url +'/' , obj)
-        //   .then(response => {
-        //       console.log(response)
-        //      this.setState({newPassword : "" , confirmPassword: "" , errorMsg: ""})
-        //   })
+        // alert("your data has been updated")
+        console.log(obj)
+          axios.put(constants.server_url + 'userUpdate/' + this.props.userData._id , obj)
+          .then(response => {
+              console.log(response)
+              if(response.data.data.result == "Email or Password is wrong !"){
+                this.setState({oldPasswordError : "Invalid Current Password"})
+      
+              } 
+              else if(response.data.data.result){
+                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.userName ,confirmPassword: "" , })
+                alert("Your Data has been updated")
+              }
+              else{
+                this.setState({error : "Your Data has not updated"})
+              }
+          })
+          .catch(err => {
+            console.log(err)
+          })
 
       }
 
@@ -142,9 +166,12 @@ class Profile extends Component {
                     id="fePassword"
                     placeholder="Password"
                     value={this.state.oldPassword}
+                    onChange = {this.onChangeOldPassword}
                     autoComplete="current-password"
-                    disabled
+                    
                   />
+                  <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.oldPasswordError}</div>
+
                 </Col>
                 <Col md="6" className="form-group">
                   <label htmlFor="fePassword">New Password</label>
@@ -216,6 +243,8 @@ class Profile extends Component {
                 </Col>
               </Row> */}
               <Button theme="accent" onClick = {this.onClickUpdate}>Update Account</Button>
+              <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.error}</div>
+
             </Form>
           </Col>
         </Row>

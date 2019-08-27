@@ -68,32 +68,22 @@ onClickVerify() {
       }
       // console.log(user)
       // console.log(constants.server_url)
-        this.props.history.push('/institute_registration')
-  
-      // axios.post(constants.server_url+'login' , user).then(response => {
-      //   console.log(response.data.data.result)
-      //   if(response.data.data.result=="Email or Password is wrong !"){
-      //     // console.log("1st")
-      //     this.setState({
-      //       ErrorStatus:true,
-      //       error:response.data.data.result
-      //     })
-      //   }
-      //   else if(response.data.data.result=="Email not found"){
-      //     // console.log("2nd")
-      //     this.setState({
-      //       ErrorStatus:true,
-      //       error:response.data.data.result
-      //     })
-      //   }
-      //   else{
-          
-      //     this.props.history.push('/institute_registration')
-      //   }
-      // })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
+        // this.props.history.push('/institute_registration')
+      console.log( this.props.userData._id )
+      axios.put(constants.server_url+'user/'+ this.props.userData._id , user).then(response => {
+        console.log(response)
+        console.log(response.data.data.result)
+        if(response.data.data.result){
+          console.log("here")
+          this.props.history.push('/institute_registration')
+        }
+        else{
+          this.setState({ errorMsg: "Invalid Code"})
+        }
+      })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 
