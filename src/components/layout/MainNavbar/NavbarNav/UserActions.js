@@ -10,6 +10,7 @@ import {
   NavLink
 } from "shards-react";
 import { connect } from 'react-redux';
+import * as Strings from '../../../../constants/strings'
 
 class UserActions extends React.Component {
   constructor(props) {
@@ -62,7 +63,7 @@ class UserActions extends React.Component {
   }
 }
 const mapStateToProps = (state) => {
-  console.log("redux =>", state);
+  console.log(Strings.REDUX, state);
   return {
     userData:state.user_reducer.user
     // Title: state.pageTitle,

@@ -1,0 +1,6 @@
+export const SERVER_URL = "http://192.168.0.107:3000/"
+export const LOGIN_USER = SERVER_URL + "login/"
+export const SIGN_UP_USER = SERVER_URL + "signup/"
+export const REGISTER_INSTITUTE = SERVER_URL + "instituteRegister/"
+export const USER = SERVER_URL + "user/"
+export const UPDATE_USER = SERVER_URL + "userUpdate/"

@@ -21,9 +21,9 @@ import logo from '../images/logo2.png'
 import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
-import * as constants from '../utils/constants'
+import * as Routes from '../constants/apiRoutes'
 import {USER_DATA} from "../redux/actions/login-action"
-
+import * as Strings from '../constants/strings'
 
 class Register extends Component {
   constructor(props) {
@@ -47,7 +47,6 @@ class Register extends Component {
     this.onClickRegister = this.onClickRegister.bind(this)
     this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
-
   }
 
   componentDidMount() {
@@ -85,7 +84,7 @@ class Register extends Component {
       confirmPassword: event.target.value
     })
     if (event.target.value !== this.state.password) {
-      this.setState({ passwordError: "password not matched" })
+      this.setState({ passwordError: Strings.PASSWORD_NOT_MATCHED })
     }
     else {
       this.setState({ passwordError: "" })
@@ -98,45 +97,41 @@ class Register extends Component {
     this.setState({
       captchaText: event
     })
-
   }
 
   onClickRegister() {
     if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
       this.setState({
-        errorMsg:"All Fields are required"
+        errorMsg: Strings.ALL_FIELDS_REQUIRED
       })
       // console.log("All Fields are required")
     }
     else if(this.state.password!==this.state.confirmPassword){
       this.setState({
-        errorMsg:"Password Does Not matched"
+        errorMsg: Strings.PASSWORD_NOT_MATCHED
       })
       // console.log("Password Does Not matched")
     }
     else {
-      
       let user = {
         name: this.state.userName,
         email: this.state.email,
         password: this.state.password,
         // confirmPassword: this.state.confirmPassword
       }
-      axios.post(constants.server_url + 'signup' , user).then(response => {
+      
+      axios.post(Routes.SIGN_UP_USER , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.data.result == "Email already exists"){
-          this.setState({errorMsg: "Can't register - Email already exists"})
+        if(response.data.data.result == Strings.EMAIL_ALREADY_EXISTS){
+          this.setState({errorMsg: Strings.EMAIL_ALREADY_EXISTS})
         }
         else if(response.data.responseCode == 200){
-
-          console.log("inside");
           this.props.USER_DATA(response.data.data.result)
           this.props.history.push('/emailVerification')
         }
         else{
-          this.setState({errorMsg: "User Not Registered"})
-
+          this.setState({errorMsg: Strings.USER_NOT_REGISTERED})
         }
       })
         .catch(err => {
@@ -150,10 +145,12 @@ class Register extends Component {
       this.captchaDemo.reset();
     }
   }
+
   verifyCallback(recaptchaToken) {
     // Here you will get the final recaptchaToken!!!  
     console.log(recaptchaToken, "<= your recaptcha token")
   }
+
   render() {
     return (
       <Card className="mb-4">
@@ -247,6 +244,7 @@ class Register extends Component {
     )
   }
 }
+
 const mapStateToProps = (state) => {
   console.log("Redux=>", state.pageTitle);
   return {
@@ -254,6 +252,7 @@ const mapStateToProps = (state) => {
 
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     USER_DATA: (user) => {
@@ -262,4 +261,5 @@ const mapDispatchToProps = (dispatch) => {
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

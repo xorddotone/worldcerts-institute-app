@@ -9,8 +9,8 @@ import  AuthLayout  from "./layouts/AuthLayout";
 import Register from "./views/Register";
 import Login from "./views/Login";
 import UserProfile from './views/UserProfile'
-import InstituteRegister from "./views/InstituteRegistration";
-import EmailVerification from "./views/emailVerification";
+import InstituteRegistration from "./views/InstituteRegistration";
+import EmailVerification from "./views/EmailVerification";
 import ManageInstitutes from "./views/ManageInstitutes";
 import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
@@ -30,7 +30,7 @@ export default [
   {
     path: "/institute_registration",
     layout: DefaultLayout,
-    component: InstituteRegister
+    component: InstituteRegistration
   },
   {
     path: "/manageClassification",
