@@ -32,38 +32,31 @@ const categoryOptions = [
   "Diploma", "Bachelors"
 ]
 const instituteOptions = [
-  "XYZ" , "ABC"
+  "XYZ", "ABC"
 ]
 const duration = [
-  "year" ,"month" , "day"
+  "year", "months", "days"
 ]
 class InstituteRegistration extends Component {
   constructor(props) {
     super(props);
     this.state = {
       instituteName: '',
-      buisnessRegistrationNum: "",
-      instituteAddress: '',
-      instituteWebsite: '',
-      instituteTelephone: '',
-      country: '',
-      postalCode: '',
+      category: '',
+      classification: '',
+      duration: null,
+      durationValidity: '',
       ErrorStatus: false,
       error: "",
       dropdown1: false,
-      dropdown2: false , 
-      categoryOptions : [
-        {label : "Diploma", value: "Diploma" },
-        {label : "Bachelors" , value: "Bachelors"}
-      ]
+      dropdown2: false,
+
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
-    this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
-    this.instituteAddressChangeHandler = this.instituteAddressChangeHandler.bind(this)
-    this.instituteWebsiteChangeHandler = this.instituteWebsiteChangeHandler.bind(this)
-    this.instituteTelephoneChangeHandler = this.instituteTelephoneChangeHandler.bind(this)
-    this.countryChangeHandler = this.countryChangeHandler.bind(this)
-    this.postalcodeChangeHandler = this.postalcodeChangeHandler.bind(this)
+    this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
+    this.classificationChangeHandler = this.classificationChangeHandler.bind(this)
+    this.durationChangeHandler = this.durationChangeHandler.bind(this)
+    this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
   }
 
   componentWillMount() {
@@ -77,126 +70,111 @@ class InstituteRegistration extends Component {
     })
   }
 
-  buisnessRegistrationNumChangeHandler(ev) {
+  durationChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
     console.log(ev.target.value)
     if (reg.test(ev.target.value) || ev.target.value == "") {
       this.setState({
-        buisnessRegistrationNum: ev.target.value
+        duration: ev.target.value
       })
     }
   }
 
-  instituteAddressChangeHandler(ev) {
+  categoryChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      instituteAddress: ev.target.value
+      category: ev.target.value
     })
   }
 
-  instituteWebsiteChangeHandler(ev) {
+  classificationChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      instituteWebsite: ev.target.value
+      classification: ev.target.value
     })
   }
-
-  instituteTelephoneChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
-    console.log(ev.target.value)
-    if (reg.test(ev.target.value) || ev.target.value == "") {
-
-      console.log(ev.target.value)
-      this.setState({
-        instituteTelephone: ev.target.value
-      })
-    }
-  }
-
-  countryChangeHandler(ev) {
+  
+  timedurationChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      country: ev.target.value
+      durationValidity: ev.target.value
     })
-  }
-
-  postalcodeChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
-    console.log(reg.test(ev.target.value) || ev.target.value == "")
-    if (reg.test(ev.target.value)) {
-
-      console.log(ev.target.value)
-      this.setState({
-        postalCode: ev.target.value
-      })
-    }
   }
 
   onRegisterClick() {
     let that = this;
-    if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
-      console.log(Strings.ALL_FIELDS_REQUIRED)
+    console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
+    if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
+     alert(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
         ErrorStatus: true,
         error: Strings.ALL_FIELDS_REQUIRED
       })
     }
     else {
+      let timeDuration = ""
+      if(this.state.durationValidity == "year"){
+        timeDuration = this.state.duration*31536000
+      }
+      else if(this.state.durationValidity == "months"){
+        timeDuration = this.state.duration* 2592000
+
+        
+      }
+      else if(this.state.durationValidity == "days"){
+        timeDuration = this.state.duration* 86400
+      }
+      
+      console.log(timeDuration)
       let obj = {
-        companyName: this.state.instituteName,
-        businessRegistrationNumber: this.state.buisnessRegistrationNum,
-        companyAddress: this.state.instituteAddress,
-        companyWebsite: this.state.instituteWebsite,
-        companyContactNumber: this.state.instituteTelephone,
-        country: this.state.country,
-        postalCode: this.state.postalCode
+        instituteName: this.state.instituteName,
+        category: this.state.category,
+        classification: this.state.classification,
+        durationValidity: timeDuration,
+        // country: this.state.country,
+        // postalCode: this.state.postalCode
       }
       console.log(obj)
-      axios.post(Routes.REGISTER_INSTITUTE + this.props.userData._id, obj)
+      axios.post(Routes.CLASSIFICATION + this.props.userData._id, obj)
         .then(function (response) {
 
           console.log(response);
-          if (response.data.data.result == Strings.REGISTRATION_NUMBER_EXISTS) {
-            console.log(response.data.data.result)
-            that.setState({
-              ErrorStatus: true,
-              error: Strings.REGISTRATION_NUMBER_EXISTS
-            })
-          }
-          else if (response.data.data.result == Strings.REGISTRATION_NUMBER_LONG) {
-            that.setState({
-              ErrorStatus: true,
-              error: Strings.REGISTRATION_NUMBER_LONG
-            })
-            console.log(response.data.data.result)
-          }
-          else {
-            console.log(response.data.data.result)
+          // if (response.data.data.result == Strings.REGISTRATION_NUMBER_EXISTS) {
+          //   console.log(response.data.data.result)
+          //   that.setState({
+          //     ErrorStatus: true,
+          //     error: Strings.REGISTRATION_NUMBER_EXISTS
+          //   })
+          // }
+          // else if (response.data.data.result == Strings.REGISTRATION_NUMBER_LONG) {
+          //   that.setState({
+          //     ErrorStatus: true,
+          //     error: Strings.REGISTRATION_NUMBER_LONG
+          //   })
+          //   console.log(response.data.data.result)
+          // }
+          // else {
+          //   console.log(response.data.data.result)
 
-            that.setState({
-              instituteName: '',
-              buisnessRegistrationNum: ' ',
-              instituteAddress: '',
-              instituteWebsite: '',
-              instituteTelephone: '',
-              country: '',
-              postalCode: ' ',
-              ErrorStatus: false
-            })
-            alert(Strings.REQUEST_SENT)
-          }
+          //   that.setState({
+          //     instituteName: '',
+          //     buisnessRegistrationNum: ' ',
+          //     instituteAddress: '',
+          //     instituteWebsite: '',
+          //     instituteTelephone: '',
+          //     country: '',
+          //     postalCode: ' ',
+          //     ErrorStatus: false
+          //   })
+          //   alert(Strings.REQUEST_SENT)
+          // }
         })
         .catch(function (error) {
           console.log(error);
         });
     }
   }
-onChangeInstitute(event){ 
-  console.log(event.target.value)
-  this.setState({
-    // changeIsntitute 
-  })
-}
+
   toggle(which) {
     const newState = { ...this.state };
     newState[which] = !this.state[which];
@@ -206,7 +184,7 @@ onChangeInstitute(event){
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Institute Registration" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}
         </Row>
         <Row>
@@ -223,76 +201,115 @@ onChangeInstitute(event){
                           <Col md="6" className="form-group">
                             <label>Insitute Name</label>
 
-                            <FormSelect onChange = {this.onChangeInstitute}>
+                            <FormSelect onChange={this.instituteNameChangeHandler}>
 
-                            {
-                                     instituteOptions.map((category) => {
-                                       return(
-                                         <option>{category}</option>
-                                         
-                                       )
-                                     })
-                                    }
+                              {
+                                instituteOptions.map((category) => {
+                                  return (
+                                    <option>{category}</option>
+
+                                  )
+                                })
+                              }
                             </FormSelect>
                           </Col>
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
 
-                            <FormSelect>
-                            {
-                                     categoryOptions.map((category) => {
-                                       return(
-                                         <option>{category}</option>
-                                         
-                                       )
-                                     })
-                                    }
+                            <FormSelect onChange={this.categoryChangeHandler}>
+                              {
+                                categoryOptions.map((category) => {
+                                  return (
+                                    <option>{category}</option>
+
+                                  )
+                                })
+                              }
                             </FormSelect>
                           </Col>
                         </Row>
                         <Row form>
 
-                         
-
                           <Col md="6" className="form-group">
                             <label >Classification</label>
                             <FormInput
 
-                              onChange={this.buisnessRegistrationNumChangeHandler}
-                              placeholder="12445"
-                              value={this.state.buisnessRegistrationNum}
+                              onChange={this.classificationChangeHandler}
+                              placeholder="Classification"
+                              value={this.state.classification}
                             />
                           </Col>
-                          <Col md="6" className="form-group">
+                              <Col md = "6"className="form-group">
+                            <label >Duration</label>
+
+                          <InputGroup className="mb-3">
+                            <FormInput value={this.state.duration} onChange={this.durationChangeHandler} />
+                            <FormSelect type = "append" onChange={this.timedurationChangeHandler}>
+                              {
+                                duration.map((duration) => {
+                                  return (
+                                    <option>{duration}</option>
+
+                                  )
+                                })
+                              }
+                            </FormSelect>
+                          </InputGroup>
+                          </Col>
+                          {/* <Col md="3" className="form-group">
+                            <label >Duration</label>
+                            <FormInput
+
+                              onChange={this.durationChangeHandler}
+                              placeholder="Duration"
+                              value={this.state.duration}
+                            />
+                            </Col>
+                            <Col md="3" className="form-group">
+                            <FormSelect onChange={this.timedurationChangeHandler}>
+                              {
+                                duration.map((duration) => {
+                                  return (
+                                    <option>{duration}</option>
+
+                                  )
+                                })
+                              }
+                            </FormSelect>
+                          </Col> */}
+
+
+                          {/* <Col md="6" className="form-group">
                             <label>Certificate Validity</label>
 
                             <InputGroup className="mb-3">
-                              <FormInput 
-                              onChange={this.buisnessRegistrationNumChangeHandler}
-                              placeholder="0"
-                              value={this.state.buisnessRegistrationNum}
+                              <FormInput
+                                placeholder="0"
+                                value={this.state.time}
+                                disabled
                               />
                               <Dropdown
                                 open={this.state.dropdown1}
                                 toggle={() => this.toggle("dropdown1")}
                                 addonType="append"
+                               
                               >
-                                <DropdownToggle caret>Dropdown</DropdownToggle>
+                                <DropdownToggle caret  >{this.state.duration}</DropdownToggle>
                                 <DropdownMenu small right
                                 >
-                                   {
-                                     duration.map((durationtime) => {
-                                       return(
-                                         <DropdownItem>{durationtime}</DropdownItem>
-                                         
-                                       )
-                                     })
-                                    }
+                                  {
+                                    duration.map((durationtime) => {
+                                      return (
+                                        <DropdownItem onClick = {()=>{this.setState({duration:durationtime})}} value = {durationtime}>{durationtime}</DropdownItem>
+
+                                      )
+                                    })
+                                  }
                                 </DropdownMenu>
                               </Dropdown>
                             </InputGroup>
-                          </Col>
+                          </Col> */}
                         </Row>
                         {/* <Row form>
                           <Col md="12" className="form-group">
@@ -304,7 +321,7 @@ onChangeInstitute(event){
                             />
                           </Col>
                         </Row> */}
-                     
+
                         {/* <Row form style={{ marginTop: "15px" }}>
                         <InputGroup className="mb-3">
           <FormInput />
