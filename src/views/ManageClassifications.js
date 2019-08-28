@@ -1,18 +1,21 @@
 import React, { Component } from "react";
-import { Container,
-   Row, 
-   Col ,
-    Card,
+import {
+  Container,
+  Row,
+  Col,
+  Card,
   CardBody,
   Button,
-Badge } from "shards-react";
+  Badge
+} from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import UserAccountDetails from "../components/Registration/InstituteRegister";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import * as Strings from '../constants/strings'
+
 class ManageClassifications extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       PostsListTwo: [
@@ -43,27 +46,29 @@ class ManageClassifications extends Component {
       ],
     }
   }
+
   componentDidMount() {
     // this.props.UpdateTitle("");
   }
+
   render() {
     const {
       PostsListTwo,
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         <Row noGutters className="page-header py-4">
-          <PageTitle title="Classifications"  md="11" className="ml-sm-auto mr-sm-auto" />
+        <Row noGutters className="page-header py-4">
+          <PageTitle title="Classifications" md="11" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}
-          <Link to = "/addClassification"><Button theme="accent">Add</Button></Link>
+          <Link to="/addClassification"><Button theme="accent">Add</Button></Link>
         </Row>
-           <Row>
+        <Row>
           {PostsListTwo.map((post, idx) => (
             <Col lg="6" sm="12" className="mb-4" key={idx}>
               <Card small className="card-post card-post--aside card-post--1">
                 <div
                   className="card-post__image"
-                  style={{ backgroundImage: `url('${post.backgroundImage}')` , textAlign: "center" }}
+                  style={{ backgroundImage: `url('${post.backgroundImage}')`, textAlign: "center" }}
                 >
                   <Badge
                     pill
@@ -98,15 +103,18 @@ class ManageClassifications extends Component {
     )
   }
 }
+
 const mapStateToProps = (state) => {
-  console.log("redux =>", state);
+  console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(ManageClassifications);

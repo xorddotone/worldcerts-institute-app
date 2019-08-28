@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, NavbarBrand } from "shards-react";
 
+import '../../../constants/strings'
 
 class SidebarMainNavbar extends React.Component {
   constructor(props) {
