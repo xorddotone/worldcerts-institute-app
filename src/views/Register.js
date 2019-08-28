@@ -125,7 +125,7 @@ class Register extends Component {
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.data.result == "Can't register - Email already exists"){
+        if(response.data.data.result == "Email already exists"){
           this.setState({errorMsg: "Can't register - Email already exists"})
         }
         else if(response.data.responseCode == 200){
@@ -251,6 +251,7 @@ const mapStateToProps = (state) => {
   console.log("Redux=>", state.pageTitle);
   return {
     Title: state.pageTitle,
+
   }
 }
 const mapDispatchToProps = (dispatch) => {

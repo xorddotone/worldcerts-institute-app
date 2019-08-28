@@ -77,7 +77,7 @@ class Login extends Component {
   
       axios.post(constants.server_url+'login' , user).then(response => {
         console.log(response.data.data.responseCode)
-        if(response.data.data.result=="Email or Password is wrong !"){
+        if(response.data.data.result=="Email or Password is incorrect"){
           // console.log("1st")
           this.setState({
             ErrorStatus:true,

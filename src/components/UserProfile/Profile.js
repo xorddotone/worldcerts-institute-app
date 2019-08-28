@@ -93,12 +93,14 @@ class Profile extends Component {
           axios.put(constants.server_url + 'userUpdate/' + this.props.userData._id , obj)
           .then(response => {
               console.log(response)
-              if(response.data.data.result == "Email or Password is wrong !"){
+              if(response.data.data.result == "Email or Password is incorrect"){
                 this.setState({oldPasswordError : "Invalid Current Password"})
       
               } 
               else if(response.data.data.result){
-                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.userName ,confirmPassword: "" , })
+                
+                
+                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.name ,confirmPassword: "" , })
                 alert("Your Data has been updated")
               }
               else{

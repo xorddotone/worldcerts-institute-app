@@ -126,18 +126,18 @@ let that=this;
         postalCode:this.state.postalCode
       }
       console.log(obj)
-      axios.post(constants.server_url +'instituteRegister',obj)
+      axios.post(constants.server_url +'instituteRegister/' + this.props.userData._id,obj)
       .then(function (response) {
         
         console.log(response);
-        if(response.data.data.result=="Can't register - registration number already exist"){
+        if(response.data.data.result=="Registration number already exists"){
           console.log(response.data.data.result)
           that.setState({
             ErrorStatus:true,
-            error:"Can't register - Registration Number Already Exist"
+            error:"Registration Number Already Exists"
           })
         }
-        else if(response.data.data.result=="registration number is too long"){
+        else if(response.data.data.result=="Registration number is too long"){
           that.setState({
             ErrorStatus:true,
             error:"Registration Number is too long"
@@ -270,10 +270,20 @@ let that=this;
     )
   }
 }
+const mapStateToProps = (state) => {
+  console.log("Redux=>", state.pageTitle);
+  return {
+    Title: state.pageTitle,
+    userData: state.user_reducer.user
+
+
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
+   
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 
-export default connect(null, mapDispatchToProps)(UserAccountDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(UserAccountDetails);

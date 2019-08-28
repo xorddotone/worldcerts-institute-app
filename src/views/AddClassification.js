@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Card,
   CardHeader,
+  Container,
   ListGroup,
   ListGroupItem,
   Row,
@@ -14,9 +15,10 @@ import {
   Button
 } from "shards-react";
 import { connect } from 'react-redux';
-// import * as constants from '../../utils/constants'
+import * as constants from '../utils/constants'
 import axios from 'axios'
 import PageTitle from "../components/common/PageTitle";
+
 
 class AddClassification extends Component {
   constructor(props) {
@@ -126,45 +128,45 @@ let that=this;
         postalCode:this.state.postalCode
       }
       console.log(obj)
-      // axios.post(constants.server_url +'instituteRegister',obj)
-      // .then(function (response) {
+      axios.post(constants.server_url +'instituteRegister',obj)
+      .then(function (response) {
         
-      //   console.log(response);
-      //   if(response.data.data.result=="Can't register - registration number already exist"){
-      //     console.log(response.data.data.result)
-      //     that.setState({
-      //       ErrorStatus:true,
-      //       error:"Can't register - Registration Number Already Exist"
-      //     })
-      //   }
-      //   else if(response.data.data.result=="registration number is too long"){
-      //     that.setState({
-      //       ErrorStatus:true,
-      //       error:"Registration Number is too long"
-      //     })
-      //     console.log(response.data.data.result)
-      //   }
-      //   else{
+        console.log(response);
+        if(response.data.data.result=="Can't register - registration number already exist"){
+          console.log(response.data.data.result)
+          that.setState({
+            ErrorStatus:true,
+            error:"Can't register - Registration Number Already Exist"
+          })
+        }
+        else if(response.data.data.result=="registration number is too long"){
+          that.setState({
+            ErrorStatus:true,
+            error:"Registration Number is too long"
+          })
+          console.log(response.data.data.result)
+        }
+        else{
           
           
-      //     console.log(response.data.data.result)
+          console.log(response.data.data.result)
           
-      //     that.setState({
-      //       instituteName:'',
-      //       buisnessRegistrationNum:' ',
-      //       instituteAddress:'',
-      //       instituteWebsite:'',
-      //       instituteTelephone:'',
-      //       country:'',
-      //       postalCode:' ',
-      //       ErrorStatus:false
-      //     })
-      //     alert("Request Send")
-      //   }
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+          that.setState({
+            instituteName:'',
+            buisnessRegistrationNum:' ',
+            instituteAddress:'',
+            instituteWebsite:'',
+            instituteTelephone:'',
+            country:'',
+            postalCode:' ',
+            ErrorStatus:false
+          })
+          alert("Request Send")
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       
     }
 
@@ -180,12 +182,14 @@ let that=this;
 
   render() {
     return (
-      <Card small className="mb-4">
+      <Container fluid className="main-content-container px-4">
       <Row noGutters className="page-header py-4">
-          <PageTitle title="Add Classification"  md="11" className="ml-sm-auto mr-sm-auto" />
-          
-          
-        </Row>
+        <PageTitle title="Add Classification"  md="12" className="ml-sm-auto mr-sm-auto" />
+        {/* subtitle="Registration" */}
+      </Row>
+      <Row>
+        <Col lg="11">
+        <Card small className="mb-4">
         {/* <CardHeader className="border-bottom">
         </CardHeader> */}
         <ListGroup flush>
@@ -272,6 +276,10 @@ let that=this;
           </ListGroupItem>
         </ListGroup>
       </Card>
+        </Col>
+      </Row>
+    </Container>
+   
     )
   }
 }
