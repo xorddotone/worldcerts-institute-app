@@ -13,6 +13,9 @@ import PageTitle from "../components/common/PageTitle";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
+import * as Routes from '../constants/apiRoutes'
+const axios = require('axios');
+
 
 class ManageInstitutes extends Component {
   constructor(props) {
@@ -44,11 +47,29 @@ class ManageInstitutes extends Component {
           date: "29 February 2019"
         }
       ],
+      registeredInstitute:[],
     }
   }
 
   componentDidMount() {
     console.log(this.props.userData)
+    let temp;
+    let that=this;
+    axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        temp=response.data.result
+        console.log(temp)
+        that.setState({
+          registeredInstitute:temp
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
   }
 
   render() {
@@ -62,43 +83,54 @@ class ManageInstitutes extends Component {
           {/* subtitle="Registration" */}
           <Link to="/institute_registration"><Button theme="accent">Add</Button></Link>
         </Row>
-        <Row>
-          {PostsListTwo.map((post, idx) => (
-            <Col lg="6" sm="12" className="mb-4" key={idx}>
-              <Card small className="card-post card-post--aside card-post--1">
-                <div
-                  className="card-post__image"
-                  style={{ backgroundImage: `url('${post.backgroundImage}')`, textAlign: "center" }}
-                >
-                  <Badge
-                    pill
-                    className={`card-post__category bg-${post.categoryTheme}`}
+        {(this.state.registeredInstitute)?(
+            <Row>
+            {this.state.registeredInstitute.map((institute, id) => (
+              <Col lg="6" sm="12" className="mb-4" key={id}>
+                <Card small className="card-post card-post--aside card-post--1">
+                  <div
+                    className="card-post__image"
+                    style={{ backgroundImage: `url('${require("../images/logo.png")}')`, textAlign: "center" }}
                   >
-                    {post.category}
-                  </Badge>
-                  <div className="card-post__author d-flex">
-                    <a
-                      href="#"
-                      className="card-post__author-avatar card-post__author-avatar--small"
-                      style={{ backgroundImage: `url('${post.authorAvatar}')` }}
+                    {/* <Badge
+                      pill
+                      className={`card-post__category bg-${require("../images/logo.png")}`}
                     >
-                      Written by Anna Ken
-                    </a>
+                      {post.category}
+                    </Badge> */}
+                    <div className="card-post__author d-flex">
+                      <a
+                        href="#"
+                        className="card-post__author-avatar card-post__author-avatar--small"
+                        style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
+                      >
+                        Written by Anna Ken
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <CardBody>
-                  <h5 className="card-title">
-                    <a className="text-fiord-blue" href="#">
-                      {post.title}
-                    </a>
-                  </h5>
-                  <p className="card-text d-inline-block mb-3">{post.body}</p>
-                  <span className="text-muted">{post.date}</span>
-                </CardBody>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+                  <CardBody>
+                    <h5 className="card-title">
+                      <a className="text-fiord-blue" href="#">
+                        {institute.companyName}
+                      </a>
+                    </h5>
+                    <div>{institute.country}</div>
+                    <div>{institute.buisnessRegistrationNumber} </div>
+                    
+                    {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
+                    {/* <span className="text-muted">{post.date}</span> */}
+                    <div className="text-muted">{institute.companyAddress}</div>
+                    <div className="text-muted">{institute.companyWebsite}</div>
+                    <div className="text-muted">{institute.companyContactNumber}</div>
+                    <div className="text-muted">{institute.postalCode}</div>
+                  </CardBody>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        ):(
+  <div><h3 style={{textAlign:"center",margin:"15% 30%"}}>Nothing added yet</h3></div>)}
+        
       </Container>
     )
   }
