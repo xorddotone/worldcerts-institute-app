@@ -165,6 +165,7 @@ class AddClassification extends Component {
             ErrorStatus:false
           })
           alert("Request Send")
+          that.props.history.push("/manageInstitute")
         }
       })
       .catch(function (error) {
