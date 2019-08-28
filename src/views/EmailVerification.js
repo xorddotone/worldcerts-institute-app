@@ -75,7 +75,7 @@ class EmailVerification extends Component {
         console.log(response)
         console.log(response.data.data.result)
         if (response.data.data.result) {
-          this.props.history.push(Strings.INSTITUTE_REGISTRATION)
+          this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
         else {
           this.setState({ errorMsg: Strings.CODE_NOT_EMPTY })
