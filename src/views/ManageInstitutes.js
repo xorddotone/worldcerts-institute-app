@@ -48,7 +48,7 @@ class ManageInstitutes extends Component {
   }
 
   componentDidMount() {
-    // this.props.UpdateTitle("");
+    console.log(this.props.userData)
   }
 
   render() {
@@ -108,6 +108,7 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
+    userData: state.user_reducer.user
   }
 }
 
