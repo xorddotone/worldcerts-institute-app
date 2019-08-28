@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {
-  Container, Card,
+  Card,
   CardHeader,
+  Container,
   ListGroup,
   ListGroupItem,
   Row,
@@ -9,25 +10,19 @@ import {
   Form,
   FormGroup,
   FormInput,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   FormSelect,
   FormTextarea,
-  Button,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "shards-react"; import PageTitle from "../components/common/PageTitle";
-// import { pageTitle } from '../Redux/action';
+  Button
+} from "shards-react";
 import { connect } from 'react-redux';
-import * as Strings from '../constants/strings'
+import * as constants from '../constants/apiRoutes'
 import axios from 'axios'
+import PageTitle from "../components/common/PageTitle";
+import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 
 
-class InstituteRegistration extends Component {
+class AddClassification extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,13 +34,7 @@ class InstituteRegistration extends Component {
       country: '',
       postalCode: '',
       ErrorStatus: false,
-      error: "",
-      dropdown1: false,
-      dropdown2: false , 
-      // categoryOptions : [
-      //   {label : "Diploma", value: "Diploma" },
-      //   {label : "Bachelors" , value: "Bachelors"}
-      // ]
+      error: ""
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -142,190 +131,157 @@ class InstituteRegistration extends Component {
         postalCode: this.state.postalCode
       }
       console.log(obj)
-      axios.post(Routes.REGISTER_INSTITUTE + this.props.userData._id, obj)
-        .then(function (response) {
-
-          console.log(response);
-          if (response.data.data.result == Strings.REGISTRATION_NUMBER_EXISTS) {
-            console.log(response.data.data.result)
-            that.setState({
-              ErrorStatus: true,
-              error: Strings.REGISTRATION_NUMBER_EXISTS
-            })
-          }
-          else if (response.data.data.result == Strings.REGISTRATION_NUMBER_LONG) {
-            that.setState({
-              ErrorStatus: true,
-              error: Strings.REGISTRATION_NUMBER_LONG
-            })
-            console.log(response.data.data.result)
-          }
-          else {
-            console.log(response.data.data.result)
-
-            that.setState({
-              instituteName: '',
-              buisnessRegistrationNum: ' ',
-              instituteAddress: '',
-              instituteWebsite: '',
-              instituteTelephone: '',
-              country: '',
-              postalCode: ' ',
-              ErrorStatus: false
-            })
-            alert(Strings.REQUEST_SENT)
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.post(Routes.REGISTER_INSTITUTE + this.props.userData._id,obj)
+      .then(function (response) {
+        
+        console.log(response);
+        if(response.data.data.result=="Can't register - registration number already exist"){
+          console.log(response.data.data.result)
+          that.setState({
+            ErrorStatus:true,
+            error:"Can't register - Registration Number Already Exist"
+          })
+        }
+        else if(response.data.data.result=="registration number is too long"){
+          that.setState({
+            ErrorStatus:true,
+            error:"Registration Number is too long"
+          })
+          console.log(response.data.data.result)
+        }
+        else{
+          
+          
+          console.log(response.data.data.result)
+          
+          that.setState({
+            instituteName:'',
+            buisnessRegistrationNum:' ',
+            instituteAddress:'',
+            instituteWebsite:'',
+            instituteTelephone:'',
+            country:'',
+            postalCode:' ',
+            ErrorStatus:false
+          })
+          alert("Request Send")
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      
     }
   }
 
-  toggle(which) {
-    const newState = { ...this.state };
-    newState[which] = !this.state[which];
-    this.setState(newState);
-  }
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-        <Row noGutters className="page-header py-4">
-          <PageTitle title="Institute Registration" md="12" className="ml-sm-auto mr-sm-auto" />
-          {/* subtitle="Registration" */}
-        </Row>
-        <Row>
-          <Col lg="11">
-            <Card small className="mb-4">
-              {/* <CardHeader className="border-bottom">
+      <Row noGutters className="page-header py-4">
+        <PageTitle title="Insititute Registration"  md="12" className="ml-sm-auto mr-sm-auto" />
+        {/* subtitle="Registration" */}
+      </Row>
+      <Row>
+        <Col lg="11">
+        <Card small className="mb-4">
+        {/* <CardHeader className="border-bottom">
         </CardHeader> */}
-              <ListGroup flush>
-                <ListGroupItem className="p-3">
-                  <Row>
-                    <Col>
-                      <Form>
-                        <Row>
-                          <Col md="6" className="form-group">
-                            <label>Insitute Name</label>
+        <ListGroup flush>
+          <ListGroupItem className="p-3">
+            <Row>
+              <Col>
+                <Form>
+                  <Row form>
+                    <Col md="6" className="form-group">
+                      <label>Company/Institute Name</label>
+                      <FormInput
+                        onChange={this.instituteNameChangeHandler}
+                        placeholder="Worldcerts"
+                        value={this.state.instituteName}
+                      />
+                    </Col>
+                    <Col md="6" className="form-group">
+                      <label >Business Registration Number (UEN)</label>
+                      <FormInput
 
-                            <FormSelect>
-
-                              <option>Choose</option>
-                              <option>...</option>
-                            </FormSelect>
-                          </Col>
-                          <Col md="6" className="form-group">
-                            <label>Category</label>
-
-
-                            <FormSelect>
-                              <option>Choose</option>
-                              <option>...</option>
-                            </FormSelect>
-                          </Col>
-                        </Row>
-                        <Row form>
-
-                         
-
-                          <Col md="6" className="form-group">
-                            <label >Classification</label>
-                            <FormInput
-
-                              onChange={this.buisnessRegistrationNumChangeHandler}
-                              placeholder="12445"
-                              value={this.state.buisnessRegistrationNum}
-                            />
-                          </Col>
-                          <Col md="6" className="form-group">
-                            <label>Certificate Validity</label>
-
-                            <InputGroup className="mb-3">
-                              <FormInput 
-                              onChange={this.buisnessRegistrationNumChangeHandler}
-                              placeholder="12445"
-                              value={this.state.buisnessRegistrationNum}
-                              />
-                              <Dropdown
-                                open={this.state.dropdown1}
-                                toggle={() => this.toggle("dropdown1")}
-                                addonType="append"
-                              >
-                                <DropdownToggle caret>Dropdown</DropdownToggle>
-                                <DropdownMenu small right>
-                                    {/* {
-                                      this.state.categoryOptions.map(category => {
-                                        return(
-                                        <DropdownItem>{category}</DropdownItem>
-                                        )
-                                      })
-                                    } */}
-                                </DropdownMenu>
-                              </Dropdown>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                        {/* <Row form>
-                          <Col md="12" className="form-group">
-                            <label>Company/Institute Address</label>
-                            <FormInput
-                              onChange={this.instituteAddressChangeHandler}
-                              placeholder="7th street Canberra Australia"
-                              value={this.state.instituteAddress}
-                            />
-                          </Col>
-                        </Row> */}
-                     
-                        {/* <Row form style={{ marginTop: "15px" }}>
-                        <InputGroup className="mb-3">
-          <FormInput />
-          <Dropdown
-            open={this.state.dropdown1}
-            toggle={() => this.toggle("dropdown1")}
-            addonType="append"
-          >
-            <DropdownToggle caret>Dropdown</DropdownToggle>
-            <DropdownMenu small right>
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another action</DropdownItem>
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </InputGroup>
-                          <Col md="6" className="form-group">
-                            <label>Postal Code</label>
-                            <FormInput
-                              onChange={this.postalcodeChangeHandler}
-                              placeholder="12345"
-                              value={this.state.postalCode}
-                            />
-                          </Col>
-                          {(this.state.ErrorStatus) ? (
-
-                            <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
-                          ) : (null)}
-                        </Row> */}
-                        <Button theme="accent"
-                          onClick={this.onRegisterClick.bind(this)}
-                        >Register</Button>
-                      </Form>
+                        onChange={this.buisnessRegistrationNumChangeHandler}
+                        placeholder="12445"
+                        value={this.state.buisnessRegistrationNum}
+                      />
                     </Col>
                   </Row>
-                </ListGroupItem>
-              </ListGroup>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+                  <Row form>
+                    <Col md="12" className="form-group">
+                      <label>Company/Institute Address</label>
+                      <FormInput
+                        onChange={this.instituteAddressChangeHandler}
+                        placeholder="7th street Canberra Australia"
+                        value={this.state.instituteAddress}
+                      />
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md="6">
+                      <label>Company/Institute Website</label>
+                      <FormInput
+                        onChange={this.instituteWebsiteChangeHandler}
+                        placeholder="www.worldcerts.com"
+                        value={this.state.instituteWebsite}
+                      />
+                    </Col>
+                    <Col md="6">
+                      <label>Company/Institute Telephone #</label>
+                      <FormInput
+                        onChange={this.instituteTelephoneChangeHandler}
+                        placeholder="03422200220"
+                        value={this.state.instituteTelephone}
+                      />
+                    </Col>
+                  </Row>
+                  <Row form style={{ marginTop: "15px" }}>
+                    <Col md="6" className="form-group">
+                      <label>Country</label>
+                      <FormInput
+                        onChange={this.countryChangeHandler}
+                        placeholder="Pakistan"
+                        value={this.state.country}
+                      />
+                    </Col>
+                    <Col md="6" className="form-group">
+                      <label>Postal Code</label>
+                      <FormInput
+                        onChange={this.postalcodeChangeHandler}
+                        placeholder="12345"
+                        value={this.state.postalCode}
+                      />
+                    </Col>
+                    {(this.state.ErrorStatus) ? (
+
+                      <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
+                    ) : (null)}
+                  </Row>
+                  <hr />
+                  <Button theme="accent"
+                    onClick={this.onRegisterClick.bind(this)}
+                  >Register</Button>
+                </Form>
+              </Col>
+            </Row>
+          </ListGroupItem>
+        </ListGroup>
+      </Card>
+        </Col>
+      </Row>
+    </Container>
+   
     )
   }
 }
-
 const mapStateToProps = (state) => {
-  console.log(Strings.REDUX, state);
+  console.log(Strings.REDUX, state.pageTitle);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
+    userData:state.user_reducer.user
 
   }
 }
@@ -335,5 +291,5 @@ const mapDispatchToProps = (dispatch) => {
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
+export default connect(mapStateToProps, mapDispatchToProps)(AddClassification);
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstituteRegistration);
