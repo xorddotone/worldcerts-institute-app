@@ -15,7 +15,7 @@ import ManageInstitutes from "./views/ManageInstitutes";
 import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
 
-export default [
+export const routes1= [
   {
     path: "/",
     exact: true,
@@ -46,6 +46,32 @@ export default [
     path: "/userProfile",
     layout: DefaultLayout,
     component: UserProfile
+  },
+
+  {
+    path: "/register",
+    layout: AuthLayout,
+    component: Register
+  },
+  
+  {
+    path: "/signin",
+    layout: AuthLayout,
+    component: Login
+  },
+
+  {
+    path: "/emailVerification",
+    layout: AuthLayout,
+    component: EmailVerification
+  },
+];
+export const routes2= [
+  {
+    path: "/",
+    exact: true,
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
   },
 
   {
