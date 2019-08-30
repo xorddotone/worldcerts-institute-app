@@ -1,1 +1,1 @@
-export const server_url = "https://worldcerts.herokuapp.com/"
+export const server_url = "https://worldcerts-server.herokuapp.com/"
