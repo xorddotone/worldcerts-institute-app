@@ -41,9 +41,9 @@ class UserActions extends React.Component {
           <span className="d-none d-md-inline-block">{this.props.userData.email}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          <DropdownItem tag={Link} to="/userProfile">
+          {/* <DropdownItem tag={Link} to="/userProfile">
             <i className="material-icons">&#xE7FD;</i> Profile
-          </DropdownItem>
+          </DropdownItem> */}
           {/* <DropdownItem tag={Link} to="edit-user-profile">
             <i className="material-icons">&#xE8B8;</i> Edit Profile
           </DropdownItem>

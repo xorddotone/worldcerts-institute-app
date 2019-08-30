@@ -1,4 +1,4 @@
-export const SERVER_URL = "https://worldcerts.herokuapp.com/"
+export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
 export const LOGIN_USER = SERVER_URL + "login/"
 export const SIGN_UP_USER = SERVER_URL + "signup/"
 export const REGISTER_INSTITUTE = SERVER_URL + "institute/"

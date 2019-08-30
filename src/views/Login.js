@@ -20,7 +20,7 @@ import Register from './Register'
 import * as Routes from '../constants/apiRoutes'
 import axios from 'axios'
 import logo from '../images/logo.png'
-import { USER_DATA } from "../redux/actions/login-action"
+import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
 
 class Login extends Component {
@@ -73,7 +73,7 @@ class Login extends Component {
       }
 
       axios.post(Routes.LOGIN_USER, user).then(response => {
-        console.log(response.data.data.result )
+        console.log(response)
         if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
           // console.log("1st")
           this.setState({
@@ -90,6 +90,7 @@ class Login extends Component {
         }
         else {
           this.props.USER_DATA(response.data.data.result)
+          this.props.LOGIN_STATUS(true)
           this.props.history.push('/manageInstitute')
         }
       })
@@ -168,6 +169,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     USER_DATA: (user) => {
       dispatch(USER_DATA(user))
+    },
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
     },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
