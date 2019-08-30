@@ -50,7 +50,8 @@ class InstituteRegistration extends Component {
       error: "",
       dropdown1: false,
       dropdown2: false,
-      registeredInstitute : []
+      registeredInstitute : [],
+      classificationCategory : []
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -66,6 +67,7 @@ class InstituteRegistration extends Component {
   componentDidMount() {
     console.log(this.props.userData)
     let temp;
+    let temp2;
     let that=this;
     axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
       .then(function (response) {
@@ -75,6 +77,22 @@ class InstituteRegistration extends Component {
         console.log(temp)
         that.setState({
           registeredInstitute:temp
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+
+      axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        temp2=response.data.result
+        console.log(temp2)
+        that.setState({
+          classificationCategory:temp2
         })
 
       })
@@ -158,36 +176,10 @@ class InstituteRegistration extends Component {
       axios.post(Routes.CLASSIFICATION + this.props.userData._id, obj)
         .then(function (response) {
 
-          console.log(response);
-          // if (response.data.data.result == Strings.REGISTRATION_NUMBER_EXISTS) {
-          //   console.log(response.data.data.result)
-          //   that.setState({
-          //     ErrorStatus: true,
-          //     error: Strings.REGISTRATION_NUMBER_EXISTS
-          //   })
-          // }
-          // else if (response.data.data.result == Strings.REGISTRATION_NUMBER_LONG) {
-          //   that.setState({
-          //     ErrorStatus: true,
-          //     error: Strings.REGISTRATION_NUMBER_LONG
-          //   })
-          //   console.log(response.data.data.result)
-          // }
-          // else {
-          //   console.log(response.data.data.result)
-
-          //   that.setState({
-          //     instituteName: '',
-          //     buisnessRegistrationNum: ' ',
-          //     instituteAddress: '',
-          //     instituteWebsite: '',
-          //     instituteTelephone: '',
-          //     country: '',
-          //     postalCode: ' ',
-          //     ErrorStatus: false
-          //   })
-          //   alert(Strings.REQUEST_SENT)
-          // }
+          // console.log(response.data.data.result);
+          alert("Classification has been added")
+          that.props.history.push('/manageClassification')
+         
         })
         .catch(function (error) {
           console.log(error);
@@ -241,13 +233,17 @@ class InstituteRegistration extends Component {
 
                             <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category">
                               {/* <option>category</option> */}
-                              {/* {
-                                this.state.registeredInstitute.map((category) => {
+                              {console.log(this.state.classificationCategory)}
+                             
+                              {
+                                this.state.classificationCategory.map((category) => {
                                   return (
-                                    console.log(category)
+                                    // console.log(category.categoryName)
+                                    <option>{category.categoryName}</option>
+
                                   )
                                 })
-                              } */}
+                              }
                             </FormSelect>
                           </Col>
                         </Row>
