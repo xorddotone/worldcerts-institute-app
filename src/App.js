@@ -4,7 +4,8 @@ import  store  from '../src/redux/store/index';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import history from './config/history'
-import routes from "./routes";
+// import routes from "./routes";
+import * as routes from "./routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import { connect } from 'react-redux';
@@ -24,7 +25,7 @@ class App extends Component {
           <Router history={history}>
             <div>
             {(this.props.isLogin)?(
-              routes.map((route, index) => {
+              routes.routes1.map((route, index) => {
                 console.log(route)
                 return (
 
@@ -44,14 +45,33 @@ class App extends Component {
                 );
               })
             ):(
-              <>
+              
                 
               
-               <Route exact path='/' component={Login} layout={AuthLayout} />
-              <Route  path="/register" component={Register} layout={AuthLayout} />
-              <Route path='/signin' component = {() => <Redirect to="/" layout={AuthLayout} />}/>
+               
+              routes.routes2.map((route, index) => {
+                console.log(route)
+                return (
+
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={(props => {
+                      console.log(props)
+                      return (
+                        <route.layout {...props}>
+                          <route.component {...props} />
+                        </route.layout>
+                      );
+                    })}
+                  />
+                );
+              }) 
+               
+               
               
-              </>
+              
             )}
               
             </div>
