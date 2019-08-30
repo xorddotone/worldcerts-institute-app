@@ -28,14 +28,8 @@ import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 
-const categoryOptions = [
-  "Diploma", "Bachelors"
-]
-const instituteOptions = [
-  "XYZ", "ABC"
-]
 const duration = [
-  "year", "months", "days"
+  "Choose" , "year", "months", "days"
 ]
 class InstituteRegistration extends Component {
   constructor(props) {
@@ -73,8 +67,12 @@ class InstituteRegistration extends Component {
       .then(function (response) {
         // handle success
         console.log(response);
+        let obj = {companyName : "Choose"}
+        // response.data.result.push(obj)
+
         temp=response.data.result
         console.log(temp)
+        temp.unshift(obj)
         that.setState({
           registeredInstitute:temp
         })
@@ -84,13 +82,15 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
-
+      
       axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
       .then(function (response) {
         // handle success
         console.log(response);
+        let obj = {categoryName : "Choose"}
         temp2=response.data.result
         console.log(temp2)
+        temp2.unshift(obj)
         that.setState({
           classificationCategory:temp2
         })
@@ -212,9 +212,7 @@ class InstituteRegistration extends Component {
                         <Row>
                           <Col md="6" className="form-group">
                             <label>Insitute Name</label>
-
                             <FormSelect onChange={this.instituteNameChangeHandler}>
-
                               {console.log(this.state.registeredInstitute)}
                               {
                                   this.state.registeredInstitute.map((category) => {
@@ -222,7 +220,6 @@ class InstituteRegistration extends Component {
                                     // console.log(category.companyName)
 
                                     <option>{category.companyName}</option>
-
                                   )
                                 })
                               }
