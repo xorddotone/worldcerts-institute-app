@@ -78,12 +78,15 @@ class ManageInstitutes extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
+      {(this.props.userData.isVerified)?(
+        <div>
+           
         <Row noGutters className="page-header py-4">
           <PageTitle title="Institute Registration" md="11" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}
           <Link to="/institute_registration"><Button theme="accent">Add</Button></Link>
         </Row>
-        {(this.state.registeredInstitute)?(
+      {  (this.state.registeredInstitute)?(
             <Row>
             {this.state.registeredInstitute.map((institute, id) => (
               <Col lg="6" sm="12" className="mb-4" key={id}>
@@ -116,7 +119,6 @@ class ManageInstitutes extends Component {
                     </h5>
                     <div>{institute.country}</div>
                     <div>{institute.buisnessRegistrationNumber} </div>
-                    
                     {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
                     {/* <span className="text-muted">{post.date}</span> */}
                     <div className="text-muted">{institute.companyAddress}</div>
@@ -126,10 +128,19 @@ class ManageInstitutes extends Component {
                   </CardBody>
                 </Card>
               </Col>
-            ))}
+            )
+            )}
           </Row>
         ):(
-  <div><h3 style={{textAlign:"center",margin:"15% 30%"}}>Nothing added yet</h3></div>)}
+      <div><h3 style={{textAlign:"center",margin:"15% 30%"}}>Nothing added yet</h3></div>
+      )}
+        </div>
+        ):(
+        <div style={{textAlign:"center",margin:"15% 30%"}}>
+          <h3 >Verify You account First</h3>
+          <Link to="/emailVerification"><Button theme="accent">Verify</Button></Link>
+        </div>
+      )}
         
       </Container>
     )

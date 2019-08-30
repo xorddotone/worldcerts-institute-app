@@ -1,4 +1,4 @@
-import { SINGLE_USER_DATA } from "../actions/login-action";
+import { SINGLE_USER_DATA,LOGGED_IN } from "../actions/login-action";
 
 const INITIAL_STATE = {
     email : '',
@@ -13,6 +13,11 @@ export default (state = INITIAL_STATE, action) => {
         return({ 
             ...state,
             user : action.payload
+        })
+        case LOGGED_IN:
+        return({ 
+            ...state,
+            is_login : action.payload
         })
         default: 
         return state
