@@ -26,7 +26,7 @@ class Profile extends Component {
     this.state={
       userName: this.props.userData.name,
       email : this.props.userData.email,
-      oldPassword: "*********",
+      oldPassword: "",
       newPassword : "",
       confirmPassword : "",
       errorMsg : "",
@@ -164,7 +164,7 @@ class Profile extends Component {
                   <FormInput
                     type="password"
                     id="fePassword"
-                    placeholder="Password"
+                    placeholder="*********"
                     value={this.state.oldPassword}
                     onChange = {this.onChangeOldPassword}
                     autoComplete="current-password"

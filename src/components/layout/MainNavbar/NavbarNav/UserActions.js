@@ -32,9 +32,10 @@ class UserActions extends React.Component {
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-          <img
+        <img
             className="user-avatar rounded-circle mr-2"
-            src={require("../../../../images/logo1.png")}
+            src={require("../../../../images/user")}
+            style = {{width: "9%"}}
             alt="User Avatar"
           />{" "}
           <span className="d-none d-md-inline-block">{this.props.userData.email}</span>

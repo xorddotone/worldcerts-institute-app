@@ -97,7 +97,7 @@ class emailVerification extends Component {
                   <Form >
                     <Row >
                       <Col className="form-group">
-                        <label>We have sent you the Verification Code at the {this.props.userData.email}. Kindly check it</label>
+                        <label>We have sent you the Verification Code at the {this.props.userData.email} Kindly check it</label>
                       </Col>
                     </Row>
                     <Row >
