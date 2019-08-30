@@ -21,112 +21,113 @@ import axios from 'axios'
 class UserAccountDetails extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      instituteName:'',
-      buisnessRegistrationNum:"",
-      instituteAddress:'',
-      instituteWebsite:'',
-      instituteTelephone:'',
-      country:'',
-      postalCode:'',
-      ErrorStatus:false,
-      error:""
-  }  
-    this.InstituteNameChangeHandler = this.InstituteNameChangeHandler.bind(this)
+    this.state = {
+      instituteName: '',
+      buisnessRegistrationNum: "",
+      instituteAddress: '',
+      instituteWebsite: '',
+      instituteTelephone: '',
+      country: '',
+      postalCode: '',
+      ErrorStatus: false,
+      error: ""
+    }
+    this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
-    this.InstituteAddressChangeHandler = this.InstituteAddressChangeHandler.bind(this)
-    this.InstituteWebsiteChangeHandler = this.InstituteWebsiteChangeHandler.bind(this)
-    this.InstituteTelephoneChangeHandler = this.InstituteTelephoneChangeHandler.bind(this)
+    this.instituteAddressChangeHandler = this.instituteAddressChangeHandler.bind(this)
+    this.instituteWebsiteChangeHandler = this.instituteWebsiteChangeHandler.bind(this)
+    this.instituteTelephoneChangeHandler = this.instituteTelephoneChangeHandler.bind(this)
     this.countryChangeHandler = this.countryChangeHandler.bind(this)
     this.postalcodeChangeHandler = this.postalcodeChangeHandler.bind(this)
-   
   }
-  
-  
+
   componentWillMount() {
     // this.props.UpdateTitle("Insttue Registration");
   }
 
-  InstituteNameChangeHandler(ev){
+  instituteNameChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      instituteName:ev.target.value
+      instituteName: ev.target.value
     })
   }
 
-  buisnessRegistrationNumChangeHandler(ev){
+  buisnessRegistrationNumChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
-    console.log( ev.target.value)
-    if(reg.test(ev.target.value) || ev.target.value==""){
+    console.log(ev.target.value)
+    if (reg.test(ev.target.value) || ev.target.value == "") {
       this.setState({
-        buisnessRegistrationNum:ev.target.value
+        buisnessRegistrationNum: ev.target.value
       })
     }
-    
-        
   }
-  InstituteAddressChangeHandler(ev){
-    console.log(ev.target.value)
-    this.setState({
-      instituteAddress:ev.target.value
-    })
-  }
-  InstituteWebsiteChangeHandler(ev){
-    console.log(ev.target.value)
-    this.setState({
-      instituteWebsite:ev.target.value
-    })
-  }
-  InstituteTelephoneChangeHandler(ev){
-    var reg = new RegExp('^\\d+$');
-    console.log( ev.target.value)
-    if(reg.test(ev.target.value) || ev.target.value==""){
 
-      console.log(ev.target.value)
-      this.setState({
-        instituteTelephone:ev.target.value
-      })
-    }
-  }
-  countryChangeHandler(ev){
+  instituteAddressChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
-      country:ev.target.value
+      instituteAddress: ev.target.value
     })
   }
-  postalcodeChangeHandler(ev){
+
+  instituteWebsiteChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      instituteWebsite: ev.target.value
+    })
+  }
+
+  instituteTelephoneChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
-    console.log( reg.test(ev.target.value) || ev.target.value=="")
-    if(reg.test(ev.target.value)){
+    console.log(ev.target.value)
+    if (reg.test(ev.target.value) || ev.target.value == "") {
 
       console.log(ev.target.value)
       this.setState({
-        postalCode:ev.target.value
+        instituteTelephone: ev.target.value
       })
     }
   }
-  onRegisterClick(){
-let that=this;
-    if(this.state.buisnessRegistrationNum==" " || this.state.country==" " || this.state.instituteAddress==" " || this.state.instituteName==" " || this.state.instituteTelephone==" " || this.state.instituteWebsite==" " || this.state.postalCode==" " || this.state.buisnessRegistrationNum=="" || this.state.country=="" || this.state.instituteAddress=="" || this.state.instituteName=="" || this.state.instituteTelephone=="" || this.state.instituteWebsite=="" || this.state.postalCode==""){
+
+  countryChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      country: ev.target.value
+    })
+  }
+
+  postalcodeChangeHandler(ev) {
+    var reg = new RegExp('^\\d+$');
+    console.log(reg.test(ev.target.value) || ev.target.value == "")
+    if (reg.test(ev.target.value)) {
+
+      console.log(ev.target.value)
+      this.setState({
+        postalCode: ev.target.value
+      })
+    }
+  }
+
+  onRegisterClick() {
+    let that = this;
+    if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
       console.log("All fields Are Required")
-      this.setState({
-        ErrorStatus:true,
+            this.setState({
+        ErrorStatus: true,
         error:"All Fields Are Required"
       })
     }
-    else{
-
-      let obj={
-        companyName:this.state.instituteName,
-        businessRegistrationNumber:this.state.buisnessRegistrationNum,
-        companyAddress:this.state.instituteAddress,
-        companyWebsite:this.state.instituteWebsite,
-        companyContactNumber:this.state.instituteTelephone,
-        country:this.state.country,
-        postalCode:this.state.postalCode
+    else {
+      let obj = {
+        companyName: this.state.instituteName,
+        businessRegistrationNumber: this.state.buisnessRegistrationNum,
+        companyAddress: this.state.instituteAddress,
+        companyWebsite: this.state.instituteWebsite,
+        companyContactNumber: this.state.instituteTelephone,
+        country: this.state.country,
+        postalCode: this.state.postalCode
       }
       console.log(obj)
-      axios.post(constants.server_url +'instituteRegister',obj)
+      axios.post(constants.server_url +'institute/' + this.props.userData._id,obj)
       .then(function (response) {
         
         console.log(response);
@@ -159,7 +160,8 @@ let that=this;
             postalCode:' ',
             ErrorStatus:false
           })
-          alert("Request Send")
+          alert("Request Sent")
+          // that.props.history.push("/manageInstitute")
         }
       })
       .catch(function (error) {
@@ -167,9 +169,7 @@ let that=this;
       });
       
     }
-
   }
-
 
 
 
@@ -181,99 +181,107 @@ let that=this;
   render() {
     return (
       <Card small className="mb-4">
-        {/* <CardHeader className="border-bottom">
-        </CardHeader> */}
-        <ListGroup flush>
-          <ListGroupItem className="p-3">
-            <Row>
-              <Col>
-                <Form>
-                  <Row form>
-                    <Col md="6" className="form-group">
-                      <label>Company/Institute Name</label>
-                      <FormInput
-                        onChange={this.InstituteNameChangeHandler}
-                        placeholder="Worldcerts"
-                        value={this.state.instituteName}
-                      /> 
-                    </Col>
-                    <Col md="6" className="form-group">
-                      <label >Business Registration Number (UEN)</label>
-                      <FormInput
-                                    
+      {/* <CardHeader className="border-bottom">
+      </CardHeader> */}
+      <ListGroup flush>
+        <ListGroupItem className="p-3">
+          <Row>
+            <Col>
+              <Form>
+                <Row form>
+                  <Col md="6" className="form-group">
+                    <label>Company/Institute Name</label>
+                    <FormInput
+                      onChange={this.instituteNameChangeHandler}
+                      placeholder="Worldcerts"
+                      value={this.state.instituteName}
+                    />
+                  </Col>
+                  <Col md="6" className="form-group">
+                    <label >Business Registration Number (UEN)</label>
+                    <FormInput
+
                       onChange={this.buisnessRegistrationNumChangeHandler}
-                        placeholder="12445"
-                        value={this.state.buisnessRegistrationNum}
-                      />
-                    </Col>
-                  </Row>
-                  <Row form>
-                    <Col md="12" className="form-group">
-                      <label>Company/Institute Address</label>
-                      <FormInput
-                      onChange={this.InstituteAddressChangeHandler}
-                        placeholder="7th street Canberra Australia"
-                        value={this.state.instituteAddress}
-                      />
-                    </Col>
-                  </Row>
-                  <Row form>
-                    <Col md="6">
-                      <label>Company/Institute Website</label>
-                      <FormInput
-                      onChange={this.InstituteWebsiteChangeHandler}
-                        placeholder="www.worldcerts.com"
-                        value={this.state.instituteWebsite}
-                      />
-                    </Col>
-                    <Col md="6">
-                      <label>Company/Institute Telephone #</label>
-                      <FormInput
-                      onChange={this.InstituteTelephoneChangeHandler}
-                        placeholder="03422200220"
-                        value={this.state.instituteTelephone}
-                      />
-                    </Col>
-                  </Row>
-                  <Row form style={{ marginTop: "15px" }}>
-                    <Col md="6" className="form-group">
-                      <label>Country</label>
-                      <FormInput
+                      placeholder="12445"
+                      value={this.state.buisnessRegistrationNum}
+                    />
+                  </Col>
+                </Row>
+                <Row form>
+                  <Col md="12" className="form-group">
+                    <label>Company/Institute Address</label>
+                    <FormInput
+                      onChange={this.instituteAddressChangeHandler}
+                      placeholder="7th street Canberra Australia"
+                      value={this.state.instituteAddress}
+                    />
+                  </Col>
+                </Row>
+                <Row form>
+                  <Col md="6">
+                    <label>Company/Institute Website</label>
+                    <FormInput
+                      onChange={this.instituteWebsiteChangeHandler}
+                      placeholder="www.worldcerts.com"
+                      value={this.state.instituteWebsite}
+                    />
+                  </Col>
+                  <Col md="6">
+                    <label>Company/Institute Telephone #</label>
+                    <FormInput
+                      onChange={this.instituteTelephoneChangeHandler}
+                      placeholder="03422200220"
+                      value={this.state.instituteTelephone}
+                    />
+                  </Col>
+                </Row>
+                <Row form style={{ marginTop: "15px" }}>
+                  <Col md="6" className="form-group">
+                    <label>Country</label>
+                    <FormInput
                       onChange={this.countryChangeHandler}
-                        placeholder="Pakistan"
-                        value={this.state.country}
-                      />
-                    </Col>
-                    <Col md="6" className="form-group">
-                      <label>Postal Code</label>
-                      <FormInput
+                      placeholder="Pakistan"
+                      value={this.state.country}
+                    />
+                  </Col>
+                  <Col md="6" className="form-group">
+                    <label>Postal Code</label>
+                    <FormInput
                       onChange={this.postalcodeChangeHandler}
-                        placeholder="12345"
-                        value={this.state.postalCode}
-                      />
-                    </Col>
-                    {(this.state.ErrorStatus)?(
-                        
-                        <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
-                      ):(null)}
-                  </Row>
-                  <hr />
-                  <Button theme="accent"
+                      placeholder="12345"
+                      value={this.state.postalCode}
+                    />
+                  </Col>
+                  {(this.state.ErrorStatus) ? (
+
+                    <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
+                  ) : (null)}
+                </Row>
+                <hr />
+                <Button theme="accent"
                   onClick={this.onRegisterClick.bind(this)}
-                  >Register</Button>
-                </Form>
-              </Col>
-            </Row>
-          </ListGroupItem>
-        </ListGroup>
-      </Card>
+                >Register</Button>
+              </Form>
+            </Col>
+          </Row>
+        </ListGroupItem>
+      </ListGroup>
+    </Card>
     )
   }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
+  console.log("redux =>" , state);
   return {
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    userData: state.user_reducer.user
+    // Title: state.pageTitle,
   }
 }
 
-export default connect(null, mapDispatchToProps)(UserAccountDetails);
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserAccountDetails);

@@ -125,12 +125,15 @@ class Register extends Component {
       axios.post(constants.server_url + 'signup' , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.data.result == "Can't register - Email already exists"){
-          this.setState({errorMsg: "Can't register - Email already exists"})
+        if(response.data.data.result == "Email already exists"){
+          this.setState({errorMsg: "Email already exists"})
         }
         else if(response.data.responseCode == 200){
 
-          console.log("inside");
+          console.log("inside")
+          console.log(response.data.data.result);
+          
+          
           this.props.USER_DATA(response.data.data.result)
           this.props.history.push('/emailVerification')
         }
