@@ -73,7 +73,7 @@ class Login extends Component {
       }
 
       axios.post(Routes.LOGIN_USER, user).then(response => {
-        console.log(response.data.data.responseCode)
+        console.log(response.data.data.result )
         if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
           // console.log("1st")
           this.setState({

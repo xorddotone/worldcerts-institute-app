@@ -50,7 +50,7 @@ class InstituteRegistration extends Component {
       error: "",
       dropdown1: false,
       dropdown2: false,
-
+      registeredInstitute : []
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -63,6 +63,26 @@ class InstituteRegistration extends Component {
     // this.props.UpdateTitle("Insttue Registration");
   }
 
+  componentDidMount() {
+    console.log(this.props.userData)
+    let temp;
+    let that=this;
+    axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        temp=response.data.result
+        console.log(temp)
+        that.setState({
+          registeredInstitute:temp
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
   instituteNameChangeHandler(ev) {
     console.log(ev.target.value)
     this.setState({
@@ -203,10 +223,13 @@ class InstituteRegistration extends Component {
 
                             <FormSelect onChange={this.instituteNameChangeHandler}>
 
+                              {console.log(this.state.registeredInstitute)}
                               {
-                                instituteOptions.map((category) => {
+                                  this.state.registeredInstitute.map((category) => {
                                   return (
-                                    <option>{category}</option>
+                                    // console.log(category.companyName)
+
+                                    <option>{category.companyName}</option>
 
                                   )
                                 })
@@ -216,16 +239,15 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-
-                            <FormSelect onChange={this.categoryChangeHandler}>
-                              {
-                                categoryOptions.map((category) => {
+                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category">
+                              {/* <option>category</option> */}
+                              {/* {
+                                this.state.registeredInstitute.map((category) => {
                                   return (
-                                    <option>{category}</option>
-
+                                    console.log(category)
                                   )
                                 })
-                              }
+                              } */}
                             </FormSelect>
                           </Col>
                         </Row>
