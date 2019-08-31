@@ -13,6 +13,7 @@ import PageTitle from "../components/common/PageTitle";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
+import cross from '../images/cross.svg'
 import * as Routes from '../constants/apiRoutes'
 const axios = require('axios');
 
@@ -49,6 +50,7 @@ class ManageInstitutes extends Component {
       ],
       registeredInstitute:[],
     }
+    this.onClickCloseButton = this.onClickCloseButton.bind(this)
   }
 
   componentDidMount() {
@@ -72,6 +74,13 @@ class ManageInstitutes extends Component {
       })
   }
 
+  onClickCloseButton(id){
+    console.log(id)
+    axios.post(Routes.Delete_INSTITUTE + id).then(response => {
+      console.log(response)
+    })
+  }
+
   render() {
     const {
       PostsListTwo,
@@ -86,6 +95,7 @@ class ManageInstitutes extends Component {
           {/* subtitle="Registration" */}
           <Link to="/institute_registration"><Button theme="accent">Add</Button></Link>
         </Row>
+        {console.log(this.state.registeredInstitute)}
       {  (this.state.registeredInstitute)?(
             <Row>
             {this.state.registeredInstitute.map((institute, id) => (
@@ -116,6 +126,8 @@ class ManageInstitutes extends Component {
                       <a className="text-fiord-blue" href="#">
                         {institute.companyName}
                       </a>
+                      <img style = {{float: "right" , width: "3.5%" }} src = {cross} onClick = {this.onClickCloseButton(institute._id)} alt = "cross"/>
+
                     </h5>
                     <div>{institute.country}</div>
                     <div>{institute.buisnessRegistrationNumber} </div>
