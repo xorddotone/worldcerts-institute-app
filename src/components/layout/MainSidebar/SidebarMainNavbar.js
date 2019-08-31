@@ -12,9 +12,10 @@ import {
 import { Link } from "react-router-dom";
 // import '../../../constants/strings'
 import * as Strings from '../../../constants/strings'
+import * as Routes from '../../../constants/apiRoutes'
 import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
 import { connect } from 'react-redux';
-
+const axios = require('axios');
 
 
 class SidebarMainNavbar extends React.Component {
@@ -22,27 +23,57 @@ class SidebarMainNavbar extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      name: "WorldCerts"
+      name: "WorldCerts",
+      Institutes:[]
     }
     this.onClickInstitute = this.onClickInstitute.bind(this)
   }
+
+  componentDidMount(){
+    let temp;
+    let that=this;
+    axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        temp=response.data.result
+        console.log(temp)
+        that.setState({
+          Institutes:temp
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
+
+
+
+
   toggleUserActions() {
     this.setState({
       visible: !this.state.visible
     });
   }
 
-  onClickInstitute(val) {
-    console.log(val, "vallllllllllllll")
+  onClickInstitute(val,nameIns) {
+    console.log(val,nameIns, "vallllllllllllll")
     this.setState({
-      name: val
+      name: nameIns
     })
     this.props.SELECTED_INSTITUTE(val)
+  }
+  onClickAdd(ev){
+    // ev.preventDefault()
+    this.props.history.push("/institute_registration")
   }
 
 
   render() {
     // const { hideLogoText } = this.props;
+    console.log(this.state)
     return (
       <div className="main-navbar">
         <Navbar
@@ -67,15 +98,31 @@ class SidebarMainNavbar extends React.Component {
                 <span className="d-none d-md-inline-block">{this.state.name}</span>
               </DropdownToggle>
               <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-                <DropdownItem to="#" >
-                  <div onClick={() => this.onClickInstitute("Profile")}><i className="material-icons">&#xE7FD;</i> Profile </div>
+                
+                {(this.state.Institutes)?(
+                    <div>
+                      {this.state.Institutes.map((names,id)=>(
+                        <DropdownItem to="#" key={id}>
+                        <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
+                      </DropdownItem>
+                      ))}
+                      
+                   </div>   
+                ):(
+                  null
+                )}
+                {/* onClick={this.onClickAdd.bind(this)} */}
+                <DropdownItem to="/institute_registration" tag={Link}>
+                        <i className="material-icons">&#xE7FD;</i> ADD INSTITUTE
                 </DropdownItem>
-                <DropdownItem to="#" >
+                
+                
+                {/* <DropdownItem to="#" >
                   <div onClick={() => this.onClickInstitute("Edit Profile")}> <i className="material-icons">&#xE8B8;</i> Edit Profile</div>
                 </DropdownItem>
                 <DropdownItem to="#" >
                   <div onClick={() => this.onClickInstitute("Files")}><i className="material-icons">&#xE2C7;</i> Files</div>
-                </DropdownItem>
+                </DropdownItem> */}
               </Collapse>
             </NavItem>
             {/* <img
@@ -106,7 +153,8 @@ class SidebarMainNavbar extends React.Component {
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
-    selectedInstituteName:state.user_reducer.selectedInstituteName
+    selectedInstituteName:state.user_reducer.selectedInstituteName,
+    userData:state.user_reducer.user
     // Title: state.pageTitle,
   }
 }

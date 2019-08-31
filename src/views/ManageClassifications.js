@@ -78,6 +78,23 @@ class ManageClassifications extends Component {
           // handle error
           console.log(error);
         })
+      // if(this.props.selectedInstituteName!="worldcerts"){
+      // axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName)
+      //   .then(function (response) {
+      //     // handle success
+      //     console.log(response);
+      //     temp=response.data.result
+      //     console.log(temp)
+      //     that.setState({
+      //       registeredClassifications:temp
+      //     })
+  
+      //   })
+      //   .catch(function (error) {
+      //     // handle error
+      //     console.log(error);
+      //   })
+      // }
     }
   
 
@@ -153,8 +170,8 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
-
+    userData: state.user_reducer.user,
+    selectedInstituteName:state.user_reducer.selectedInstituteName,
   }
 }
 
