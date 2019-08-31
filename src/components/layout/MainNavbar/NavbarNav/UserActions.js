@@ -11,6 +11,9 @@ import {
 } from "shards-react";
 import { connect } from 'react-redux';
 import * as Strings from '../../../../constants/strings'
+import {USER_DATA,LOGIN_STATUS} from "../../../../redux/actions/login-action"
+
+
 
 class UserActions extends React.Component {
   constructor(props) {
@@ -27,6 +30,12 @@ class UserActions extends React.Component {
     this.setState({
       visible: !this.state.visible
     });
+  }
+  onLogoutClick(ev){
+    let temp={}
+    this.props.USER_DATA(temp)
+    this.props.LOGIN_STATUS(false)
+    console.log("inside")
   }
 
   render() {
@@ -55,7 +64,7 @@ class UserActions extends React.Component {
             <i className="material-icons">&#xE896;</i> Transactions
           </DropdownItem> */}
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem tag={Link} to="/" className="text-danger" onClick={this.onLogoutClick.bind(this)}>
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>
@@ -72,9 +81,12 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    // USER_DATA: (user) => {
-    //   dispatch(USER_DATA(user))
-    // },
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
+    },
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
+    },
     
   }
 }
