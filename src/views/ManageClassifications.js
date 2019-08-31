@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
+import cross from '../images/cross.svg'
+
 const axios = require('axios');
 
 class ManageClassifications extends Component {
@@ -48,8 +50,14 @@ class ManageClassifications extends Component {
         }
       ],
     }
+    this.onClickClose = this.onClickClose.bind(this)
   }
 
+  onClickClose(id){
+    axios.post(Routes.Delete_CLASSIFICATION + id).then(response => {
+      console.log(response)
+    })
+  }
     // this.props.UpdateTitle("");
     componentDidMount() {
       console.log(this.props.userData)
@@ -84,9 +92,10 @@ class ManageClassifications extends Component {
           {/* subtitle="Registration" */}
           <Link to="/addClassification"><Button theme="accent">Add</Button></Link>
         </Row>
+        {console.log(this.state.registeredClassifications)}
         {  (this.state.registeredClassifications)?(
             <Row>
-            {this.state.registeredClassifications.map((institute, id) => (
+            {this.state.registeredClassifications.map((classification, id) => (
               <Col lg="6" sm="12" className="mb-4" key={id}>
                 <Card small className="card-post card-post--aside card-post--1">
                   <div
@@ -107,19 +116,22 @@ class ManageClassifications extends Component {
                       >
                         Written by Anna Ken
                       </a>
+                      
                     </div>
                   </div>
                   <CardBody>
                     <h5 className="card-title">
                       <a className="text-fiord-blue" href="#">
-                        {institute.instituteName}
+                        {classification.instituteName}
                       </a>
+                      <img style = {{float: "right" , width: "3.5%" }} src = {cross} onClick = {this.onClickClose(classification._id)} alt = "cross"/>
+
                     </h5>
-                    <div>{institute.category}</div>
-                    <div>{institute.classification} </div>
+                    <div>{classification.category}</div>
+                    <div>{classification.classification} </div>
                     {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
                     {/* <span className="text-muted">{post.date}</span> */}
-                    <div className="text-muted">{institute.durationValidity}</div>
+                    <div className="text-muted">{classification.durationValidity}</div>
                     {/* <div className="text-muted">{institute.companyWebsite}</div>
                     <div className="text-muted">{institute.companyContactNumber}</div>
                     <div className="text-muted">{institute.postalCode}</div> */}

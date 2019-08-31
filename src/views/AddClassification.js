@@ -27,7 +27,6 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
-
 const duration = [
   "Choose" , "year", "months", "days"
 ]
@@ -211,7 +210,7 @@ class InstituteRegistration extends Component {
                       <Form>
                         <Row>
                           <Col md="6" className="form-group">
-                            <label>Insitute Name</label>
+                            <label>Insitute Name </label>
                             <FormSelect onChange={this.instituteNameChangeHandler}>
                               {console.log(this.state.registeredInstitute)}
                               {

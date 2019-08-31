@@ -7,5 +7,8 @@ export const UPDATE_USER = SERVER_URL + "userUpdate/"
 export const CLASSIFICATION = SERVER_URL + "classification/"
 export const GET_REGISTERED_INSTITUTES = SERVER_URL + "getUserRegisteredInstitutes/"
 export const GET_CLASSIFICATION_CATEGORIES = SERVER_URL + "category"
-// export const GET_CLASSIFICATION = SERVER_URL + "classification/"
+export const Delete_INSTITUTE = SERVER_URL + "deleteInstitue/"
+export const Delete_CLASSIFICATION = SERVER_URL + "deleteClassification/"
+
+
 
