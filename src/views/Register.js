@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
 import * as Routes from '../constants/apiRoutes'
-import {USER_DATA} from "../redux/actions/login-action"
+import {USER_DATA,LOGIN_STATUS} from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
 
 class Register extends Component {
@@ -257,6 +257,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     USER_DATA: (user) => {
       dispatch(USER_DATA(user))
+    },
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
     },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }

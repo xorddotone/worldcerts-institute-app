@@ -93,3 +93,35 @@ export const routes2= [
   },
 ];
 
+export const routes3= [
+  {
+    path: "/",
+    exact: true,
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
+  },
+
+  {
+    path: "/register",
+    layout: AuthLayout,
+    component: Register
+  },
+  
+  {
+    path: "/signin",
+    layout: AuthLayout,
+    component: Login
+  },
+
+  {
+    path: "/emailVerification",
+    layout: AuthLayout,
+    component: EmailVerification
+  },
+  {
+    path: "/manageInstitute",
+    layout: DefaultLayout,
+    component: ManageInstitutes
+  },
+];
+

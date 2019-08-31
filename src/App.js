@@ -25,25 +25,48 @@ class App extends Component {
           <Router history={history}>
             <div>
             {(this.props.isLogin)?(
-              routes.routes1.map((route, index) => {
-                console.log(route)
-                return (
-
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    component={(props => {
-                      console.log(props)
-                      return (
-                        <route.layout {...props}>
-                          <route.component {...props} />
-                        </route.layout>
-                      );
-                    })}
-                  />
-                );
-              })
+              (this.props.userData.isVerified)?(
+                routes.routes1.map((route, index) => {
+                  console.log(route)
+                  return (
+  
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      component={(props => {
+                        console.log(props)
+                        return (
+                          <route.layout {...props}>
+                            <route.component {...props} />
+                          </route.layout>
+                        );
+                      })}
+                    />
+                  );
+                })
+              ):(
+                routes.routes3.map((route, index) => {
+                  console.log(route)
+                  return (
+  
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      component={(props => {
+                        console.log(props)
+                        return (
+                          <route.layout {...props}>
+                            <route.component {...props} />
+                          </route.layout>
+                        );
+                      })}
+                    />
+                  );
+                })
+              )
+              
             ):(
               
                 

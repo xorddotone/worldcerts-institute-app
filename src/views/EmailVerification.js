@@ -22,6 +22,8 @@ import * as Routes from '../constants/apiRoutes'
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import logo from '../images/logo.png'
+import {LOGIN_STATUS} from "../redux/actions/login-action"
+
 
 class EmailVerification extends Component {
 
@@ -67,7 +69,7 @@ class EmailVerification extends Component {
     else {
       let user = {
         code: this.state.code,
-      }
+      } 
 
       console.log(this.props.userData._id)
 
@@ -75,6 +77,7 @@ class EmailVerification extends Component {
         console.log(response)
         console.log(response.data.data.result)
         if (response.data.data.result) {
+          this.props.LOGIN_STATUS(true)       
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
         else {
@@ -137,7 +140,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
+    },
   }
 }
 
