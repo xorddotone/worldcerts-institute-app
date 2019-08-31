@@ -22,7 +22,7 @@ import * as Routes from '../constants/apiRoutes'
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import logo from '../images/logo.png'
-import {LOGIN_STATUS} from "../redux/actions/login-action"
+import {LOGIN_STATUS,USER_DATA} from "../redux/actions/login-action"
 
 
 class EmailVerification extends Component {
@@ -73,10 +73,27 @@ class EmailVerification extends Component {
 
       console.log(this.props.userData._id)
 
+      // let tempUser=this.props.userData;
+      console.log(this.props.userData,"========")
+      // tempUser.isVerified=true
+      // console.log(tempUser,"+++++++")
+      let tempUser={
+        _id:this.props.userData._id,
+        classification:this.props.userData.classification,
+        code:this.props.userData.code,
+        email:this.props.userData.email,
+        hash:this.props.userData.hash,
+        isVerified:true,
+        name:this.props.userData.name,
+        registerInstitute:this.props.userData.registerInstitute
+
+      }
+      console.log(tempUser)
       axios.put(Routes.USER + this.props.userData._id, user).then(response => {
         console.log(response)
         console.log(response.data.data.result)
         if (response.data.data.result) {
+          this.props.USER_DATA(tempUser)
           this.props.LOGIN_STATUS(true)       
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
@@ -142,6 +159,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     LOGIN_STATUS: (statusLogin) => {
       dispatch(LOGIN_STATUS(statusLogin))
+    },
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
     },
   }
 }
