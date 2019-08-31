@@ -10,6 +10,7 @@ import {
   NavLink
 } from "shards-react";
 import { connect } from 'react-redux';
+import "../../../../css/style.css"
 
 class UserActions extends React.Component {
   constructor(props) {
@@ -33,9 +34,8 @@ class UserActions extends React.Component {
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
         <img
-            className="user-avatar rounded-circle mr-2"
+            className="user-avatar rounded-circle mr-2 userImage"
             src={require("../../../../images/user")}
-            style = {{width: "9%"}}
             alt="User Avatar"
           />{" "}
           <span className="d-none d-md-inline-block">{this.props.userData.email}</span>

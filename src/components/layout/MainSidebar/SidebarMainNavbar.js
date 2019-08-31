@@ -1,10 +1,20 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Navbar, NavbarBrand } from "shards-react";
 
+import { Dispatcher, Constants } from "../../../flux";
 
 class SidebarMainNavbar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
+  }
+
+  handleToggleSidebar() {
+    Dispatcher.dispatch({
+      actionType: Constants.TOGGLE_SIDEBAR
+    });
   }
 
   render() {
@@ -16,7 +26,7 @@ class SidebarMainNavbar extends React.Component {
           type="light"
         >
           <NavbarBrand
-            className="w-100"
+            className="w-100 mr-0"
             href="/manageInstitute"
             style={{ lineHeight: "25px" }}
           >
@@ -26,7 +36,7 @@ class SidebarMainNavbar extends React.Component {
                 className="d-inline-block align-top mr-1"
                 style={{ maxWidth: "25px" }}
                 src={require("../../../images/logo1.png")}
-                alt="Shards Dashboard"
+                alt="world certs"
               />
               {!hideLogoText && (
                 <span className="d-none d-md-inline ml-100">
@@ -46,5 +56,16 @@ class SidebarMainNavbar extends React.Component {
     );
   }
 }
+
+SidebarMainNavbar.propTypes = {
+  /**
+   * Whether to hide the logo text, or not.
+   */
+  hideLogoText: PropTypes.bool
+};
+
+SidebarMainNavbar.defaultProps = {
+  hideLogoText: false
+};
 
 export default SidebarMainNavbar;

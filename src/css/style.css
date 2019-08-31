@@ -1,8 +1,42 @@
 
 /* Auth Styling */
 .authStyling{
-    margin-top: 10em ;
-    width: 50% !important;
-    background: w
+    width: 60% ;
+    margin: 5em 20em 5em 17em
+}
+.captcha{
+    width: 40%;
+}
+.userImage{
+    width: 9%;
+}
+
+@media (max-width:320px)  { 
+    .authStyling{
+        width: 100% !important;
+        margin: 0em !important
+    
+    }    
+    .captcha{
+        width: 20% !important;
+    }
+    .userImage{
+        width: 20% !important
+    }
+ }
+@media (max-width:480px)  { 
+    .authStyling{
+        width: 100% !important;
+        margin: 0em !important
+    } 
+    .captcha{
+        width: 30% !important;
+    }
+    .userImage{
+        width: 30% !important;
+    }
+}
+@media (max-width:600px)  { 
+ 
 
 }
