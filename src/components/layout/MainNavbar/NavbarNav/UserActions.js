@@ -12,6 +12,7 @@ import {
 import { connect } from 'react-redux';
 import * as Strings from '../../../../constants/strings'
 import {USER_DATA,LOGIN_STATUS} from "../../../../redux/actions/login-action"
+import "../../../../css/style.css"
 
 
 
@@ -42,10 +43,9 @@ class UserActions extends React.Component {
     return (
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-          <img
-            className="user-avatar rounded-circle mr-2"
+        <img
+            className="user-avatar rounded-circle mr-2 userImage"
             src={require("../../../../images/user")}
-            style = {{width: "9%"}}
             alt="User Avatar"
           />{" "}
           <span className="d-none d-md-inline-block">{this.props.userData.email}</span>
@@ -63,7 +63,7 @@ class UserActions extends React.Component {
           <DropdownItem tag={Link} to="transaction-history">
             <i className="material-icons">&#xE896;</i> Transactions
           </DropdownItem> */}
-          <DropdownItem divider />
+          {/* <DropdownItem divider /> */}
           <DropdownItem tag={Link} to="/" className="text-danger" onClick={this.onLogoutClick.bind(this)}>
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
