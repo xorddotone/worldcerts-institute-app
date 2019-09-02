@@ -156,6 +156,8 @@ class SidebarMainNavbar extends React.Component {
             onClick={this.handleToggleSidebar}
           >
             <i className="material-icons">&#xE5C4;</i>
+            <span className="d-none d-md-inline-block">{this.props.selectedInstituteName.name}</span>
+
           </a>
         </Navbar>
       </div>
