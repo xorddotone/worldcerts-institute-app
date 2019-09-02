@@ -5,7 +5,10 @@ const INITIAL_STATE = {
     is_login : false,
     token : '',
     user:{},
-    selectedInstituteName:'worldcerts'
+    selectedInstituteName:{
+        name:'worldcerts',
+        id:''
+    }
 } 
 
 export default (state = INITIAL_STATE, action) => {

@@ -44,13 +44,15 @@ class InstituteRegistration extends Component {
       dropdown1: false,
       dropdown2: false,
       registeredInstitute : [],
-      classificationCategory : []
+      classificationCategory : [],
+      selectedInstituteId:""
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
     this.classificationChangeHandler = this.classificationChangeHandler.bind(this)
     this.durationChangeHandler = this.durationChangeHandler.bind(this)
     this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
+    this.onClickOptions=this.onClickOptions.bind(this)
   }
 
   componentWillMount() {
@@ -137,6 +139,12 @@ class InstituteRegistration extends Component {
       durationValidity: ev.target.value
     })
   }
+  onClickOptions(ev){
+    console.log(ev)
+    this.setState({
+      selectedInstituteId:ev
+    })
+  }
 
   onRegisterClick() {
     let that = this;
@@ -172,7 +180,7 @@ class InstituteRegistration extends Component {
         // postalCode: this.state.postalCode
       }
       console.log(obj)
-      axios.post(Routes.CLASSIFICATION + this.props.userData._id, obj)
+      axios.post(Routes.CLASSIFICATION + this.state.selectedInstituteId, obj)
         .then(function (response) {
 
           // console.log(response.data.data.result);
@@ -218,7 +226,7 @@ class InstituteRegistration extends Component {
                                   return (
                                     // console.log(category.companyName)
 
-                                    <option>{category.companyName}</option>
+                                    <option onClick={()=>this.onClickOptions(category._id)}>{category.companyName}</option>
                                   )
                                 })
                               }

@@ -63,7 +63,12 @@ class SidebarMainNavbar extends React.Component {
     this.setState({
       name: nameIns
     })
-    this.props.SELECTED_INSTITUTE(val)
+    let obj={
+      name:nameIns,
+      id:val
+    }
+    this.props.SELECTED_INSTITUTE(obj)
+    // this.props.history.push("/manageInstitute")
   }
   onClickAdd(ev){
     // ev.preventDefault()
@@ -88,21 +93,28 @@ class SidebarMainNavbar extends React.Component {
           <div className="d-table m-auto">
             <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
               <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-                <img
+                {/* <img
                   className="user-avatar rounded-circle mr-2"
                   src={require("../../../images/user")}
                   style={{ width: "9%" }}
                   alt="User"
-                />
+                /> */}
+                 <img
+                id="main-logo"
+                className="d-inline-block align-top mr-1"
+                style={{ maxWidth: "25px" }}
+                src={require("../../../images/logo1.png")}
+                alt="Shards Dashboard"
+              />
 
-                <span className="d-none d-md-inline-block">{this.state.name}</span>
+                <span className="d-none d-md-inline-block">{this.props.selectedInstituteName.name}</span>
               </DropdownToggle>
               <Collapse tag={DropdownMenu} right small open={this.state.visible}>
                 
                 {(this.state.Institutes)?(
                     <div>
                       {this.state.Institutes.map((names,id)=>(
-                        <DropdownItem to="#" key={id}>
+                        <DropdownItem to="/manageInstitute" tag={Link} key={id}>
                         <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
                       </DropdownItem>
                       ))}

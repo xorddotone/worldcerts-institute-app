@@ -63,23 +63,7 @@ class ManageClassifications extends Component {
       console.log(this.props.userData)
       let temp;
       let that=this;
-      axios.get(Routes.CLASSIFICATION +this.props.userData._id)
-        .then(function (response) {
-          // handle success
-          console.log(response);
-          temp=response.data.result
-          console.log(temp)
-          that.setState({
-            registeredClassifications:temp
-          })
-  
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-      // if(this.props.selectedInstituteName!="worldcerts"){
-      // axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName)
+      // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
       //   .then(function (response) {
       //     // handle success
       //     console.log(response);
@@ -94,7 +78,30 @@ class ManageClassifications extends Component {
       //     // handle error
       //     console.log(error);
       //   })
-      // }
+      if(this.props.selectedInstituteName.name!="worldcerts"){
+        console.log("inside if")
+      axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
+        .then(function (response) {
+          // handle success
+          console.log(response);
+          temp=response.data.result
+          console.log(temp)
+          that.setState({
+            registeredClassifications:temp
+          })
+  
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+      }
+      else{
+        console.log("inside else")
+        this.setState({
+          registeredClassifications:false
+        })
+      }
     }
   
 
