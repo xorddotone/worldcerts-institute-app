@@ -15,6 +15,8 @@ import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
 import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
 import { connect } from 'react-redux';
+import { Dispatcher, Constants } from "../../../flux";
+
 const axios = require('axios');
 
 
@@ -76,6 +78,11 @@ class SidebarMainNavbar extends React.Component {
   }
 
 
+  handleToggleSidebar() {
+    Dispatcher.dispatch({
+      actionType: Constants.TOGGLE_SIDEBAR
+    });
+  }
   render() {
     // const { hideLogoText } = this.props;
     console.log(this.state)

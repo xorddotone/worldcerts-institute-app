@@ -123,20 +123,17 @@ class ManageInstitutes extends Component {
                   </div>
                   <CardBody>
                     <h5 className="card-title">
-                      <a className="text-fiord-blue" href="#">
-                        {institute.companyName}
-                      </a>
-                      <img style = {{float: "right" , width: "3.5%" }} src = {cross} onClick = {this.onClickCloseButton(institute._id)} alt = "cross"/>
+                       {institute.companyName}
 
                     </h5>
                     <div>{institute.country}</div>
                     <div>{institute.buisnessRegistrationNumber} </div>
                     {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
                     {/* <span className="text-muted">{post.date}</span> */}
-                    <div className="text-muted">{institute.companyAddress}</div>
-                    <div className="text-muted">{institute.companyWebsite}</div>
-                    <div className="text-muted">{institute.companyContactNumber}</div>
-                    <div className="text-muted">{institute.postalCode}</div>
+                    <div className="card-text text-muted">{institute.companyAddress}</div>
+                    <div className="card-text text-muted">{institute.companyWebsite}</div>
+                    <div className="card-text text-muted">{institute.companyContactNumber}</div>
+                    <div className="card-text text-muted">{institute.postalCode}</div>
                   </CardBody>
                 </Card>
               </Col>

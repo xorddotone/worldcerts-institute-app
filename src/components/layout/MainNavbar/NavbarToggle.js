@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Dispatcher, Constants } from "../../../flux";
+
 class NavbarToggle extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +10,9 @@ class NavbarToggle extends React.Component {
   }
 
   handleClick() {
-  
+    Dispatcher.dispatch({
+      actionType: Constants.TOGGLE_SIDEBAR
+    });
   }
 
   render() {

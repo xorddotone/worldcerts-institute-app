@@ -2,15 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "shards-react";
 import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
+import "../css/style.css"
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 
 const AuthLayout = ({ children, noNavbar, noFooter }) => (
-  <Container style = {{width: "60%" , marginTop: "5em"}}>
+  <div  className = "authStyling" >
+  <Container>
       {/* <MainSidebar /> */}
       
         {!noNavbar && <MainNavbar />}
         {children}
   </Container>
+  </div>
 );
 
 AuthLayout.propTypes = {
