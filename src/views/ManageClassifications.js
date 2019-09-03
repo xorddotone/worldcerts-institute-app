@@ -5,6 +5,8 @@ import {
   Col,
   Card,
   CardBody,
+  CardFooter,
+
   Button,
   Badge
 } from "shards-react";
@@ -120,46 +122,81 @@ class ManageClassifications extends Component {
         {  (this.state.registeredClassifications)?(
             <Row>
             {this.state.registeredClassifications.map((classification, id) => (
-              <Col lg="6" sm="12" className="mb-4" key={id}>
-                <Card small className="card-post card-post--aside card-post--1">
-                  <div
-                    className="card-post__image"
-                    style={{ backgroundImage: `url('${require("../images/logo.png")}')`, textAlign: "center" }}
-                  >
-                    {/* <Badge
-                      pill
-                      className={`card-post__category bg-${require("../images/logo.png")}`}
-                    >
-                      {post.category}
-                    </Badge> */}
+              // <Col lg="6" sm="12" className="mb-4" key={id}>
+              //   <Card small className="card-post card-post--aside card-post--1">
+              //     <div
+              //       className="card-post__image"
+              //       style={{ backgroundImage: `url('${require("../images/logo.png")}')`, textAlign: "center" }}
+              //     >
+              //       {/* <Badge
+              //         pill
+              //         className={`card-post__category bg-${require("../images/logo.png")}`}
+              //       >
+              //         {post.category}
+              //       </Badge> */}
+              //       <div className="card-post__author d-flex">
+              //         <a
+              //           href="#"
+              //           className="card-post__author-avatar card-post__author-avatar--small"
+              //           style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
+              //         >
+              //           Written by Anna Ken
+              //         </a>
+                      
+              //       </div>
+              //     </div>
+              //     <CardBody>
+              //       <h5 className="card-title">
+              //         <a className="text-fiord-blue" href="#">
+              //           {classification.instituteName}
+              //         </a>
+              //         <img style = {{float: "right" , width: "3.5%" }} src = {cross} onClick = {this.onClickClose(classification._id)} alt = "cross"/>
+
+              //       </h5>
+              //       <div>{classification.category}</div>
+              //       <div>{classification.classification} </div>
+              //       {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
+              //       {/* <span className="text-muted">{post.date}</span> */}
+              //       <div className="text-muted">{classification.durationValidity}</div>
+              //       {/* <div className="text-muted">{institute.companyWebsite}</div>
+              //       <div className="text-muted">{institute.companyContactNumber}</div>
+              //       <div className="text-muted">{institute.postalCode}</div> */}
+              //     </CardBody>
+              //   </Card>
+              // </Col>
+                <Col lg="4" key={id}>
+                <Card small className="card-post mb-4">
+                  <CardBody>
+                    <h5 className="card-title ">{classification.instituteName}</h5>
+                    <p className="card-text text-muted">{classification.category}</p>
+                    <p className="card-text text-muted">{classification.classification}  </p>
+                    {/* <p className="card-text text-muted">{institute.companyAddress}  </p>
+                    <p className="card-text text-muted">{institute.postalCode}  </p> */}
+
+
+                  </CardBody>
+                  <CardFooter className="border-top d-flex">
                     <div className="card-post__author d-flex">
                       <a
                         href="#"
                         className="card-post__author-avatar card-post__author-avatar--small"
                         style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
                       >
-                        Written by Anna Ken
+                       {classification.instituteName}
                       </a>
-                      
+                      <div className="d-flex flex-column justify-content-center ml-3">
+                        <span className="card-post__author-name">
+                        {classification.durationValidity}
+                         </span>
+                        {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
+                      </div>
                     </div>
-                  </div>
-                  <CardBody>
-                    <h5 className="card-title">
-                      <a className="text-fiord-blue" href="#">
-                        {classification.instituteName}
-                      </a>
-                      <img style = {{float: "right" , width: "3.5%" }} src = {cross} onClick = {this.onClickClose(classification._id)} alt = "cross"/>
-
-                    </h5>
-                    <div>{classification.category}</div>
-                    <div>{classification.classification} </div>
-                    {/* <p className="card-text d-inline-block mb-3">{post.body}</p> */}
-                    {/* <span className="text-muted">{post.date}</span> */}
-                    <div className="text-muted">{classification.durationValidity}</div>
-                    {/* <div className="text-muted">{institute.companyWebsite}</div>
-                    <div className="text-muted">{institute.companyContactNumber}</div>
-                    <div className="text-muted">{institute.postalCode}</div> */}
-                  </CardBody>
+                    {/* <div className="my-auto ml-auto">
+                      <Button size="sm" theme="white">
+                        <i className="far fa-bookmark mr-1" /> Bookmark
+                      </Button>
+                    </div> */}
+                  </CardFooter>
                 </Card>
               </Col>
             )
