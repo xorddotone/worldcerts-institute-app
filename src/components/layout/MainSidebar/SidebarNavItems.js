@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, NavItem, NavLink } from "shards-react";
+import { Nav, NavItem, NavLink, FormCheckbox } from "shards-react";
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -26,6 +26,11 @@ class SidebarNavItems extends React.Component {
           to: "/userProfile",
           htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
         },
+        {
+          title: "Issue Certificate",
+          to: "/issueCertificate",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
       ],
       ItemNotVerified: [
         {
@@ -45,10 +50,14 @@ class SidebarNavItems extends React.Component {
         },
       ]
     };
+    this.onCheckBoxChange=this.onCheckBoxChange.bind(this)
   }
   handleClick = (e) => {
     const { linkDisabled } = this.state
     if(linkDisabled) e.preventDefault()
+}
+onCheckBoxChange(ev){
+  console.log(ev)
 }
 
   render() {
@@ -91,8 +100,12 @@ class SidebarNavItems extends React.Component {
             )
           })
         )}
-          
+        
+        {/* <span>toggle</span> */}
         </Nav>
+        <FormCheckbox toggle small defaultChecked onChange={this.onCheckBoxChange} >
+       Checked
+     </FormCheckbox>
       </div>
     )
   }

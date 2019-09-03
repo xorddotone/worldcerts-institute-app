@@ -36,7 +36,7 @@ class UserActions extends React.Component {
     let temp={}
     this.props.USER_DATA(temp)
     this.props.LOGIN_STATUS(false)
-    console.log("inside")
+    // console.log("inside")
   }
 
   render() {

@@ -14,6 +14,7 @@ import EmailVerification from "./views/EmailVerification";
 import ManageInstitutes from "./views/ManageInstitutes";
 import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
+import IssueCertificate from "./views/IssueCertificate";
 
 export const routes1= [
   {
@@ -64,6 +65,11 @@ export const routes1= [
     path: "/emailVerification",
     layout: AuthLayout,
     component: EmailVerification
+  },
+  {
+    path: "/issueCertificate",
+    layout: DefaultLayout,
+    component: IssueCertificate
   },
 ];
 export const routes2= [
