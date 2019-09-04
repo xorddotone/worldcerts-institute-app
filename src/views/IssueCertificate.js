@@ -86,7 +86,7 @@ class IssueCertificate extends Component {
       <Container fluid className="main-content-container px-4">
         Issue Certificate
         <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
-    <button className='btn'>Upload</button>
+    <button className='btn' style={{border:'1px solid'}}>Upload File</button>
 </ReactFileReader>
         {/* <CSVReader
         cssClass="csv-reader-input"
