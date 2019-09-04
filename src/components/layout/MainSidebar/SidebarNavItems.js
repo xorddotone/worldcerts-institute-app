@@ -103,9 +103,9 @@ onCheckBoxChange(ev){
         
         {/* <span>toggle</span> */}
         </Nav>
-        <FormCheckbox toggle small defaultChecked onChange={this.onCheckBoxChange} >
+        {/* <FormCheckbox toggle small defaultChecked onChange={this.onCheckBoxChange} >
        Checked
-     </FormCheckbox>
+     </FormCheckbox> */}
       </div>
     )
   }
