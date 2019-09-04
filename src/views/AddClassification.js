@@ -70,20 +70,17 @@ class InstituteRegistration extends Component {
         console.log(response);
         let obj = {companyName : "Choose"}
         // response.data.result.push(obj)
-
         temp=response.data.result
         console.log(temp)
         temp.unshift(obj)
         that.setState({
           registeredInstitute:temp
         })
-
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-      })
-      
+      })   
       axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
       .then(function (response) {
         // handle success
@@ -127,7 +124,7 @@ class InstituteRegistration extends Component {
   }
 
   classificationChangeHandler(ev) {
-    console.log(ev.target.value)
+    console.log(ev.target.value)  
     this.setState({
       classification: ev.target.value
     })
@@ -147,6 +144,8 @@ class InstituteRegistration extends Component {
   }
 
   onRegisterClick() {
+    console.log(this.state.selectedInstituteId)
+
     let that = this;
     console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
     if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
@@ -180,6 +179,7 @@ class InstituteRegistration extends Component {
         // postalCode: this.state.postalCode
       }
       console.log(obj)
+      console.log(this.state.selectedInstituteId)
       axios.post(Routes.CLASSIFICATION + this.state.selectedInstituteId, obj)
         .then(function (response) {
 
@@ -224,7 +224,7 @@ class InstituteRegistration extends Component {
                               {
                                   this.state.registeredInstitute.map((category) => {
                                   return (
-                                    // console.log(category.companyName)
+                                    // console.log(category)
 
                                     <option onClick={()=>this.onClickOptions(category._id)}>{category.companyName}</option>
                                   )

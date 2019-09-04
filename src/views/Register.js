@@ -24,6 +24,7 @@ import Signin from './Login'
 import * as Routes from '../constants/apiRoutes'
 import {USER_DATA,LOGIN_STATUS} from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
 
 class Register extends Component {
   constructor(props) {
@@ -123,19 +124,19 @@ class Register extends Component {
       axios.post(Routes.SIGN_UP_USER , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.data.result == Strings.EMAIL_ALREADY_EXISTS){
-          this.setState({errorMsg: Strings.EMAIL_ALREADY_EXISTS})
-        }
-        else if(response.data.responseCode == 200){
-          this.props.USER_DATA(response.data.data.result)
+        if(response.data.responseCode == Response.SUCCESS){
+          this.props.USER_DATA(response.data.result)
           this.props.history.push('/emailVerification')
-        }
-        else{
-          this.setState({errorMsg: Strings.USER_NOT_REGISTERED})
         }
       })
         .catch(err => {
           console.log(err)
+          if(err.response.data.responseCode == Response.BAD_REQUEST){
+            this.setState({errorMsg: err.response.data.responseMessage})
+          }
+          else if(err.response.data.responseCode == Response.SERVER_ERROR){
+            this.setState({errorMsg: err.response.data.responseMessage})
+          }
         })
     }
   }

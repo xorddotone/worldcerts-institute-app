@@ -1,5 +1,5 @@
-export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
-// export const SERVER_URL = "http://192.168.0.107:3000/"
+// export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
+export const SERVER_URL = "http://192.168.0.108:3000/"
 export const LOGIN_USER = SERVER_URL + "login/"
 export const SIGN_UP_USER = SERVER_URL + "signup/"
 export const REGISTER_INSTITUTE = SERVER_URL + "institute/"
@@ -8,8 +8,8 @@ export const UPDATE_USER = SERVER_URL + "userUpdate/"
 export const CLASSIFICATION = SERVER_URL + "classification/"
 export const GET_REGISTERED_INSTITUTES = SERVER_URL + "getUserRegisteredInstitutes/"
 export const GET_CLASSIFICATION_CATEGORIES = SERVER_URL + "category"
-export const Delete_INSTITUTE = SERVER_URL + "deleteInstitue/"
-export const Delete_CLASSIFICATION = SERVER_URL + "deleteClassification/"
+export const Delete_INSTITUTE = SERVER_URL + "institute/"
+export const Delete_CLASSIFICATION = SERVER_URL + "classification/"
 
 
 

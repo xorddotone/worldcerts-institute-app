@@ -22,6 +22,8 @@ import axios from 'axios'
 import logo from '../images/logo.png'
 import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
+
 
 class Login extends Component {
   constructor(props) {
@@ -65,38 +67,38 @@ class Login extends Component {
         error: Strings.ALL_FIELDS_REQUIRED
       })
     }
-
     else {
       let user = {
         email: this.state.email,
         password: this.state.password,
       }
-
       axios.post(Routes.LOGIN_USER, user).then(response => {
         console.log(response)
-        if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-          // console.log("1st")
-          this.setState({
-            ErrorStatus: true,
-            error: response.data.data.result
-          })
-        }
-        else if (response.data.data.result == Strings.EMAIL_NOT_FOUND) {
-          // console.log("2nd")
-          this.setState({
-            ErrorStatus: true,
-            error: response.data.data.result
-          })
-        }
-        else {
-          this.props.USER_DATA(response.data.data.result)
+       if(response.data.responseCode == Response.SUCCESS) {
+          this.props.USER_DATA(response.data.result)
           this.props.LOGIN_STATUS(true)
           this.props.history.push('/manageInstitute')
         }
       })
         .catch(err => {
           console.log(err)
-        })
+        //   console.log(err.response)
+        //   if (err.response.data.responseCode == Response.BAD_REQUEST) {
+        //     // console.log("1st")
+        //     this.setState({
+        //       ErrorStatus: true,
+        //       error: err.response.data.responseMessage
+        //     })
+        //   }
+        //   else if (err.response.data.responseCode == Response.SERVER_ERROR) {
+        //     // console.log("2nd")
+        //     this.setState({
+        //       ErrorStatus: true,
+        //       error: err.response.data.responseMessage
+        //     })
+        //   }
+        // 
+      })
     }
   }
 

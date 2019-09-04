@@ -34,6 +34,7 @@ class SidebarMainNavbar extends React.Component {
   componentDidMount(){
     let temp;
     let that=this;
+    console.log(this.props.userData._id)
     axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
       .then(function (response) {
         // handle success

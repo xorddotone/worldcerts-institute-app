@@ -91,8 +91,8 @@ class EmailVerification extends Component {
       console.log(tempUser)
       axios.put(Routes.USER + this.props.userData._id, user).then(response => {
         console.log(response)
-        console.log(response.data.data.result)
-        if (response.data.data.result) {
+        console.log(response.data.result)
+        if (response.data.result) {
           this.props.USER_DATA(tempUser)
           this.props.LOGIN_STATUS(true)       
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)

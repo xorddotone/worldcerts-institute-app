@@ -135,24 +135,24 @@ class AddClassification extends Component {
       .then(function (response) {
         
         console.log(response);
-        if(response.data.data.result=="Can't register - registration number already exist"){
-          console.log(response.data.data.result)
+        if(response.data.result=="Can't register - registration number already exist"){
+          console.log(response.data.result)
           that.setState({
             ErrorStatus:true,
             error:"Can't register - Registration Number Already Exist"
           })
         }
-        else if(response.data.data.result=="registration number is too long"){
+        else if(response.data.result=="registration number is too long"){
           that.setState({
             ErrorStatus:true,
             error:"Registration Number is too long"
           })
-          console.log(response.data.data.result)
+          console.log(response.data.result)
         }
         else{
           
           
-          console.log(response.data.data.result)
+          console.log(response.data.result)
           
           that.setState({
             instituteName:'',

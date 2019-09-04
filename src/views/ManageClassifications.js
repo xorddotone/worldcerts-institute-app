@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import cross from '../images/cross.svg'
-
 const axios = require('axios');
 
 class ManageClassifications extends Component {
@@ -55,10 +54,23 @@ class ManageClassifications extends Component {
     this.onClickClose = this.onClickClose.bind(this)
   }
 
-  onClickClose(id){
-    axios.post(Routes.Delete_CLASSIFICATION + id).then(response => {
-      console.log(response)
-    })
+  async onClickClose(classificationId){
+    console.log(classificationId)
+    try{
+      console.log(this.props.userData._id)
+  
+      let obj = {
+        id :  this.props.selectedInstituteName.id,
+        
+      }
+      console.log(obj)
+
+     let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + classificationId ,{data:obj});
+    console.log(request.data)
+    }catch(e){
+      console.log(e)
+    }
+  
   }
     // this.props.UpdateTitle("");
     componentDidMount() {
@@ -122,6 +134,8 @@ class ManageClassifications extends Component {
         {  (this.state.registeredClassifications)?(
             <Row>
             {this.state.registeredClassifications.map((classification, id) => (
+            //  <div>{console.log(classification)}
+            //   {console.log(id)}</div> 
               // <Col lg="6" sm="12" className="mb-4" key={id}>
               //   <Card small className="card-post card-post--aside card-post--1">
               //     <div
@@ -167,7 +181,8 @@ class ManageClassifications extends Component {
                 <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{classification.instituteName}</h5>
+                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(classification._id)}/></h5>
+                    
                     <p className="card-text text-muted">{classification.category}</p>
                     <p className="card-text text-muted">{classification.classification}  </p>
                     {/* <p className="card-text text-muted">{institute.companyAddress}  </p>
