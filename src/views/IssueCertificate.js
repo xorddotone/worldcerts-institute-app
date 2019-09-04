@@ -39,7 +39,7 @@ class IssueCertificate extends Component {
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
- s }
+  }
 
   FileHandler(data){
     console.log(data)
