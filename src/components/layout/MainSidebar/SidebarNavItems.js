@@ -2,6 +2,7 @@ import React from "react";
 import { Nav, NavItem, NavLink, FormCheckbox } from "shards-react";
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
+import {TOGGLE} from "../../../redux/actions/dashboard-action"
 
 
 
@@ -48,16 +49,26 @@ class SidebarNavItems extends React.Component {
           to: "",
           htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
         },
-      ]
+      ],
+     
+        switched: false
+   
     };
     this.onCheckBoxChange=this.onCheckBoxChange.bind(this)
+
   }
   handleClick = (e) => {
     const { linkDisabled } = this.state
     if(linkDisabled) e.preventDefault()
 }
-onCheckBoxChange(ev){
-  console.log(ev)
+onCheckBoxChange(){
+  this.setState(prevState => {
+    console.log(!prevState.switched)
+    this.props.TOGGLE_SWITCH(!prevState.switched)
+    return {
+      switched: !prevState.switched
+    };
+  });
 }
 
   render() {
@@ -103,7 +114,7 @@ onCheckBoxChange(ev){
         
         {/* <span>toggle</span> */}
         </Nav>
-        <FormCheckbox toggle small defaultChecked onChange={this.onCheckBoxChange} >
+        <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.state.switched} >
        Checked
      </FormCheckbox>
       </div>
@@ -113,7 +124,6 @@ onCheckBoxChange(ev){
 
 
 const mapStateToProps = (state) => {
-  // console.log(Strings.REDUX, state);
   return {
     userData: state.user_reducer.user
     // Title: state.pageTitle,
@@ -122,7 +132,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    TOGGLE_SWITCH: (switch_state) => {
+      dispatch(TOGGLE(switch_state))
+    },
   }
 }
 
