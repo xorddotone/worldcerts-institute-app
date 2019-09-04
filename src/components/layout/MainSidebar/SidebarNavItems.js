@@ -116,7 +116,7 @@ onCheckBoxChange(){
         </Nav>
         <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.state.switched} >
        Checked
-     </FormCheckbox>
+     </FormCheckbox> */}
       </div>
     )
   }
