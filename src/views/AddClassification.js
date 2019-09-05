@@ -12,6 +12,7 @@ import {
   FormGroup,
   FormInput,
   InputGroup,
+  Alert,
   InputGroupAddon,
   InputGroupText,
   FormSelect,
@@ -45,7 +46,9 @@ class InstituteRegistration extends Component {
       dropdown2: false,
       registeredInstitute : [],
       classificationCategory : [],
-      selectedInstituteId:""
+      selectedInstituteId:"",
+      alertShow: false,
+      alertMessage: ""
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -149,10 +152,9 @@ class InstituteRegistration extends Component {
     let that = this;
     console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
     if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
-     alert(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
-        ErrorStatus: true,
-        error: Strings.ALL_FIELDS_REQUIRED
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
+        alertShow: true
       })
     }
     else {
@@ -202,6 +204,9 @@ class InstituteRegistration extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
+         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
+        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+      </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}

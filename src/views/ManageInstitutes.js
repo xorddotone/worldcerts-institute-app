@@ -6,7 +6,7 @@ import {
   Card,
   CardBody,
   CardFooter,
-
+Alert,
   Button,
   // CardFooter,
 
@@ -54,6 +54,8 @@ class ManageInstitutes extends Component {
         }
       ],
       registeredInstitute:[],
+      alertMessage: "",
+      alertShow: false
     }
     this.onClickClose = this.onClickClose.bind(this)
   }
@@ -80,7 +82,7 @@ class ManageInstitutes extends Component {
       })
   }
 
-  async onClickClose(id){
+  async onClickClose(name,id){
     try{
       console.log(id)
       console.log(this.props.userData._id)
@@ -92,7 +94,12 @@ class ManageInstitutes extends Component {
       console.log(obj)
 
      let request =  await axios.delete(Routes.REGISTER_INSTITUTE + id, {data : obj});
-    console.log(request.data)
+     console.log(request.data)
+     this.setState({
+       alertShow: true,
+     alertMessage: name + " institute has been deleted"
+     })
+     
     }catch(e){
       console.log(e)
     }
@@ -104,6 +111,9 @@ class ManageInstitutes extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
+         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
+        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+      </Alert>
       {(this.props.userData.isVerified)?(
         <div>
            
@@ -120,7 +130,7 @@ class ManageInstitutes extends Component {
                 <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{institute.companyName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(institute._id)}/></h5>
+                    <h5 className="card-title ">{institute.companyName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
                     <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
                     <p className="card-text text-muted">{institute.country}  </p>
                     <p className="card-text text-muted">{institute.companyAddress}  </p>

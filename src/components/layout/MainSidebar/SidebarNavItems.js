@@ -63,7 +63,7 @@ class SidebarNavItems extends React.Component {
         },
       ],
      
-        switched: false,
+        switched: this.props.toggleSwitchState,
         visible: false,
         name: "WorldCerts",
         Institutes:[],
@@ -205,14 +205,15 @@ onClickAdd(ev){
                 </NavLink>
               </NavItem>
             )
-          })}
-          <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.state.switched} >
+          })}<NavLink>
+          <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.props.toggleSwitchState} >
        {(this.props.toggleSwitchState)?(
          "Main Network"
        ):(
         "Test Network"
        )}
      </FormCheckbox>
+     </NavLink>
           </div>
 
 
@@ -236,9 +237,11 @@ onClickAdd(ev){
               </NavItem>
             )
           })}
+          <NavLink>
           <FormCheckbox toggle small disabled >
        Test Mode
      </FormCheckbox>
+     </NavLink>
 
            </div> 
         )
