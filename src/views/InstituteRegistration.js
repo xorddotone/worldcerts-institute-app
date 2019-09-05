@@ -170,7 +170,7 @@ class AddClassification extends Component {
             ErrorStatus:false
           })
          this.setState({ alertShow: true})
-          // that.props.history.push("/manageInstitute")
+          that.props.history.push("/manageInstitute")
         }
       })
       .catch(function (error) {
