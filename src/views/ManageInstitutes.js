@@ -85,6 +85,14 @@ class ManageInstitutes extends Component {
   }
 
   async onClickClose(name,id){
+    let tempArr=[]
+    for(let i=0;i<this.state.registeredInstitute.length;i++){
+      if(this.state.registeredInstitute[i]._id!=id){
+        // console.log(this.state.registeredInstitute[i]._id)
+        tempArr.push(this.state.registeredInstitute[i])
+      }
+    }
+    // console.log(tempArr)
     try{
       console.log(id)
       console.log(this.props.userData._id)
@@ -97,10 +105,13 @@ class ManageInstitutes extends Component {
 
      let request =  await axios.delete(Routes.REGISTER_INSTITUTE + id, {data : obj});
      console.log(request.data)
+     
      this.setState({
        alertShow: true,
-     alertMessage: name + " institute has been deleted"
+     alertMessage: name + " institute has been deleted",
+     registeredInstitute:tempArr
      })
+
      
     }catch(e){
       console.log(e)
