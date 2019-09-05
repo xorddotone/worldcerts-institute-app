@@ -6,7 +6,7 @@ import {
   Card,
   CardBody,
   CardFooter,
-
+Alert,
   Button,
   Badge
 } from "shards-react";
@@ -50,11 +50,14 @@ class ManageClassifications extends Component {
           date: "29 February 2019"
         }
       ],
+      alertMessage: "",
+      alertShow: false
     }
     this.onClickClose = this.onClickClose.bind(this)
+    this.dismiss = this.dismiss.bind(this)
   }
 
-  async onClickClose(classificationId){
+  async onClickClose(name,classificationId){
     console.log(classificationId)
     try{
       console.log(this.props.userData._id)
@@ -66,11 +69,18 @@ class ManageClassifications extends Component {
       console.log(obj)
 
      let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id ,{data:obj});
+     this.setState({
+      alertShow: true,
+    alertMessage: name + " classification has been deleted"
+    })
     console.log(request.data)
     }catch(e){
       console.log(e)
     }
   
+  }
+  dismiss() {
+    this.setState({ alertShow: false });
   }
     // this.props.UpdateTitle("");
     componentDidMount() {
@@ -125,6 +135,9 @@ class ManageClassifications extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
+          <Alert className="mb-0" open = {this.state.alertShow} theme = "danger" dismissible={this.dismiss}>
+        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+      </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}
@@ -183,7 +196,7 @@ class ManageClassifications extends Component {
                 <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(classification._id)}/></h5>
+                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(classification.classification,classification._id)}/></h5>
                     
                     <p className="card-text text-muted">{classification.category}</p>
                     <p className="card-text text-muted">{classification.classification}  </p>

@@ -58,6 +58,8 @@ class ManageInstitutes extends Component {
       alertShow: false
     }
     this.onClickClose = this.onClickClose.bind(this)
+    this.dismiss = this.dismiss.bind(this)
+
   }
 
   componentDidMount() {
@@ -105,13 +107,16 @@ class ManageInstitutes extends Component {
     }
   
   }
+  dismiss() {
+    this.setState({ alertShow: false });
+  }
   render() {
     const {
       PostsListTwo,
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
+         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger"  dismissible={this.dismiss}>
         <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
       </Alert>
       {(this.props.userData.isVerified)?(

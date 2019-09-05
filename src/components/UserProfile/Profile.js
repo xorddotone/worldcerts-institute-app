@@ -31,7 +31,10 @@ class Profile extends Component {
       confirmPassword : "",
       errorMsg : "",
       oldPasswordError: "",
-      error: ""
+      error: "",
+      alertMessage: "",
+      alertShow: false,
+      theme: ""
   }  
   
   this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
@@ -39,7 +42,7 @@ class Profile extends Component {
   this.onChangeUserName = this.onChangeUserName.bind(this)
   this.onClickUpdate = this.onClickUpdate.bind(this)
   this.onChangeOldPassword = this.onChangeOldPassword.bind(this)
-
+  this.dismiss = this.dismiss.bind(this)
 
   }
   
@@ -100,11 +103,12 @@ class Profile extends Component {
               else if(response.data.data.result){
                 
                 
-                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.name ,confirmPassword: "" , })
-                alert("Your Data has been updated")
+                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,
+                                userName: this.props.userData.name ,confirmPassword: "" ,
+                                alertShow: true, alertMessage: "Your data has been updated" , theme:"success" })
               }
               else{
-                this.setState({error : "Your Data has not updated"})
+                this.setState({alertShow: true, alertMessage: "Your data has not been updated" , theme: "danger" })
               }
           })
           .catch(err => {
@@ -112,11 +116,18 @@ class Profile extends Component {
           })
 
       }
+      dismiss() {
+        this.setState({ alertShow: false });
+      }
 
     }
 
   render() {
     return (
+      <div>
+      <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
+        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+      </Alert>
         <Card small className="mb-6">
     {/* <CardHeader className="border-bottom">
     </CardHeader> */}
@@ -253,6 +264,7 @@ class Profile extends Component {
       </ListGroupItem>
     </ListGroup>
   </Card>
+  </div>
     )
   }
 }
