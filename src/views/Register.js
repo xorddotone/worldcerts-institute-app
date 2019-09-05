@@ -212,7 +212,8 @@ class Register extends Component {
                           <label style={{ color: "red", borderBottom: "1px" }}>{this.state.passwordError}</label>
                         </Col>
                       </Row>
-                      <Row style = {{width: "50%"}}>
+                    <div style = {{width: "100%"}}>
+                      <Row >
                         <Col className="form-group">
 
                           <ReCaptcha
@@ -226,6 +227,7 @@ class Register extends Component {
                           />
                         </Col>
                       </Row>
+                      </div>
                       <Row >
                         <Col className="form-group" style={{ textAlign: "center" }}>
                           <span style={{ fontWeight: "bold" }}>Already have an account? </span><Link to="/signin" Component={Signin}>Sign In</Link>

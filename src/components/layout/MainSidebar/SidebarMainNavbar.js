@@ -19,6 +19,7 @@ import { Dispatcher, Constants } from "../../../flux";
 
 const axios = require('axios');
 
+// import { Dispatcher, Constants } from "../../../flux";
 
 class SidebarMainNavbar extends React.Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class SidebarMainNavbar extends React.Component {
                 className="d-inline-block align-top mr-1"
                 style={{ maxWidth: "25px" }}
                 src={require("../../../images/logo1.png")}
-                alt="Shards Dashboard"
+                alt="world certs"
               />
               {  (
                 <span className="d-md-inline ml-100">

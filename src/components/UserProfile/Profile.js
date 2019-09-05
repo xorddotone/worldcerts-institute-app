@@ -90,7 +90,7 @@ class Profile extends Component {
       }
         // alert("your data has been updated")
         console.log(obj)
-          axios.put(constants.server_url + 'userUpdate/' + this.props.userData._id , obj)
+          axios.put(constants.server_url + 'user/' + this.props.userData._id , obj)
           .then(response => {
               console.log(response)
               if(response.data.data.result == "Email or Password is incorrect"){

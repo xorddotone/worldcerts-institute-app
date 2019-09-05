@@ -177,7 +177,6 @@ onClickAdd(ev){
           (this.props.userData.isVerified)?(
 
             <div>
-      
 
             {this.state.ItemVerified.map((item, idx) => {
               return (

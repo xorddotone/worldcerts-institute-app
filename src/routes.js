@@ -15,6 +15,7 @@ import ManageInstitutes from "./views/ManageInstitutes";
 import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
 import IssueCertificate from "./views/IssueCertificate";
+import SingleCertificate from "./views/SingleCertificate";
 
 export const routes1= [
   {
@@ -70,6 +71,11 @@ export const routes1= [
     path: "/issueCertificate",
     layout: DefaultLayout,
     component: IssueCertificate
+  },
+  {
+    path: "/Certificate",
+    layout: DefaultLayout,
+    component: SingleCertificate
   },
 ];
 export const routes2= [

@@ -5,8 +5,10 @@ import {
   Col,
   Card,
   CardBody,
-  Button,
   CardFooter,
+
+  Button,
+  // CardFooter,
 
   Badge
 } from "shards-react";
@@ -26,27 +28,28 @@ class ManageInstitutes extends Component {
     this.state = {
       PostsListTwo: [
         {
-          backgroundImage: require("../images/logo.png"),
-          category: "Travel",
-          categoryTheme: "info",
-          author: "Anna Ken",
+          author: "John James",
           authorAvatar: require("../images/logo.png"),
-          title:
-            "Attention he extremity unwilling on otherwise cars backwards yet",
+          title: "Had denoting properly jointure which well books beyond",
           body:
-            "Conviction up partiality as delightful is discovered. Yet jennings resolved disposed exertion you off.",
+            "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
           date: "29 February 2019"
         },
         {
-          backgroundImage: require("../images/logo.png"),
-          category: "Business",
-          categoryTheme: "dark",
           author: "John James",
           authorAvatar: require("../images/logo.png"),
-          title:
-            "Totally words widow one downs few age every seven if miss part by fact",
+          title: "Had denoting properly jointure which well books beyond",
           body:
-            "Discovered had get considered projection who favourable. Necessary up knowledge it tolerably. ",
+          "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
+          date: "29 February 2019"
+        },
+        {
+          author: "John James",
+          authorAvatar: require("../images/logo.png"),
+          title: "Had denoting properly jointure which well books beyond",
+
+          body:
+          "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
           date: "29 February 2019"
         }
       ],
