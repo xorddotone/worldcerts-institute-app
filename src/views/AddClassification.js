@@ -373,7 +373,7 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-                        <Button theme="accent"
+                        <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"
                           onClick={this.onRegisterClick.bind(this)}
                         >Register</Button>
                       </Form>

@@ -230,13 +230,13 @@ class Register extends Component {
                       </div>
                       <Row >
                         <Col className="form-group" style={{ textAlign: "center" }}>
-                          <span style={{ fontWeight: "bold" }}>Already have an account? </span><Link to="/signin" Component={Signin}>Sign In</Link>
+                          <span style={{ fontWeight: "bold" }}>Already have an account? </span><Link to="/signin" style = {{  color: "#00D0A9" , fontWeight: "bold" }} Component={Signin}>Sign In</Link>
 
                         </Col>
                       </Row>
 
                     <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
-                     <div style = {{textAlign: 'center'}}> <Button theme="accent" onClick={this.onClickRegister}>Register</Button></div>
+                     <div style = {{textAlign: 'center'}}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickRegister}>Register</Button></div>
                     </Form>
                   </Col>
                 </Row>

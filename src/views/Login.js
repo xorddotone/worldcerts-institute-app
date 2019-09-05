@@ -144,11 +144,11 @@ class Login extends Component {
                     </Row>
                     <Row >
                       <Col className="form-group" style={{ textAlign: "center" }}>
-                        <span style={{ fontWeight: "bold" }}>Dont have an account? </span><Link to="/register" Component={Register}> Register</Link>
+                        <span style={{ fontWeight: "bold" }}>Dont have an account? </span><Link to="/register" style = {{  color: "#00D0A9"  , fontWeight: "bold" , fontSize:  "" }} Component={Register}> Register</Link>
 
                       </Col>
                     </Row>
-                    <div style={{ textAlign: "center" }}> <Button theme="accent" onClick={this.onClickLogin}>Login</Button></div>
+                    <div style={{ textAlign: "center" }}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" , color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickLogin}>Login</Button></div>
                   </Form>
                 </Col>
               </Row>

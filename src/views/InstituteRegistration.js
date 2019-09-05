@@ -12,7 +12,8 @@ import {
   FormInput,
   FormSelect,
   FormTextarea,
-  Button
+  Button,
+  Alert
 } from "shards-react";
 import { connect } from 'react-redux';
 import * as constants from '../constants/apiRoutes'
@@ -34,7 +35,9 @@ class AddClassification extends Component {
       country: '',
       postalCode: '',
       ErrorStatus: false,
-      error: ""
+      error: "",
+      alertShow: false,
+      alertMessage: ""
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -117,6 +120,8 @@ class AddClassification extends Component {
       console.log(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
         ErrorStatus: true,
+        alertShow: true,
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
         error: Strings.ALL_FIELDS_REQUIRED
       })
     }
@@ -164,8 +169,8 @@ class AddClassification extends Component {
             postalCode:' ',
             ErrorStatus:false
           })
-          alert("Request Send")
-          that.props.history.push("/manageInstitute")
+         this.setState({ alertShow: true})
+          // that.props.history.push("/manageInstitute")
         }
       })
       .catch(function (error) {
@@ -178,6 +183,9 @@ class AddClassification extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
+         <Alert className="mb-0" open = {this.state.alertShow}>
+        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+      </Alert>
       <Row noGutters className="page-header py-4">
         <PageTitle title="Insititute Registration"  md="12" className="ml-sm-auto mr-sm-auto" />
         {/* subtitle="Registration" */}
@@ -256,13 +264,10 @@ class AddClassification extends Component {
                         value={this.state.postalCode}
                       />
                     </Col>
-                    {(this.state.ErrorStatus) ? (
-
-                      <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
-                    ) : (null)}
+                   
                   </Row>
                   <hr />
-                  <Button theme="accent"
+                  <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"
                     onClick={this.onRegisterClick.bind(this)}
                   >Register</Button>
                 </Form>

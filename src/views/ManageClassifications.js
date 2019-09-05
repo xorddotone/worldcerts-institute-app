@@ -126,9 +126,11 @@ class ManageClassifications extends Component {
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Classifications" md="11" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}
-          <Link to="/addClassification"><Button theme="accent">Add</Button></Link>
+          <Link to="/addClassification">  <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end">
+        Add
+      </Button></Link>
         </Row>
         {console.log(this.state.registeredClassifications)}
         {  (this.state.registeredClassifications)?(
