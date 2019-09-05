@@ -9,7 +9,7 @@ import { Nav, NavItem, NavLink, FormCheckbox,
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
 import {TOGGLE} from "../../../redux/actions/dashboard-action"
-import Select from 'react-select';
+// import Select from 'react-select';
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
 import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
@@ -66,7 +66,8 @@ class SidebarNavItems extends React.Component {
         switched: false,
         visible: false,
         name: "WorldCerts",
-        Institutes:[]
+        Institutes:[],
+        chainName:'Test Net'
    
     };
     this.onCheckBoxChange=this.onCheckBoxChange.bind(this)
@@ -78,13 +79,25 @@ class SidebarNavItems extends React.Component {
     if(linkDisabled) e.preventDefault()
 }
 onCheckBoxChange(){
+  let temp;
   this.setState(prevState => {
     console.log(!prevState.switched)
+    temp=!prevState.switched
     this.props.TOGGLE_SWITCH(!prevState.switched)
     return {
       switched: !prevState.switched
     };
   });
+  if(temp){
+    this.setState({
+      chainName:'Main Net'
+    })
+  }
+  else{
+    this.setState({
+      chainName:'Test Net'
+    })
+  }
 }
 
 componentDidMount(){
@@ -194,7 +207,11 @@ onClickAdd(ev){
             )
           })}
           <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.state.switched} >
-       Checked
+       {(this.props.toggleSwitchState)?(
+         "Main Network"
+       ):(
+        "Test Network"
+       )}
      </FormCheckbox>
           </div>
 
@@ -241,7 +258,7 @@ const mapStateToProps = (state) => {
   return {
     userData: state.user_reducer.user,
     selectedInstituteName:state.user_reducer.selectedInstituteName,
-
+    toggleSwitchState:state.dashboard_reducer.toggle_switch_state,
     // Title: state.pageTitle,
   }
 }
