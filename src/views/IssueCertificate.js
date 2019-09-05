@@ -64,6 +64,7 @@ class IssueCertificate extends Component {
 
       temp1 = that.csvJSON(temp)
       console.log(temp1)
+      console.log(JSON.parse(temp1))
 
     }
     reader.readAsText(files[0]);

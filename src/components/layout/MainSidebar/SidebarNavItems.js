@@ -63,7 +63,7 @@ class SidebarNavItems extends React.Component {
         },
       ],
      
-        switched: false,
+        switched: this.props.toggleSwitchState,
         visible: false,
         name: "WorldCerts",
         Institutes:[],
@@ -82,22 +82,22 @@ onCheckBoxChange(){
   let temp;
   this.setState(prevState => {
     console.log(!prevState.switched)
-    temp=!prevState.switched
+    // temp=!prevState.switched
     this.props.TOGGLE_SWITCH(!prevState.switched)
     return {
       switched: !prevState.switched
     };
   });
-  if(temp){
-    this.setState({
-      chainName:'Main Net'
-    })
-  }
-  else{
-    this.setState({
-      chainName:'Test Net'
-    })
-  }
+  // if(temp){
+  //   this.setState({
+  //     chainName:'Main Net'
+  //   })
+  // }
+  // else{
+  //   this.setState({
+  //     chainName:'Test Net'
+  //   })
+  // }
 }
 
 componentDidMount(){
@@ -148,6 +148,8 @@ onClickAdd(ev){
 }
 
   render() {
+    console.log(this.state.switched)
+    console.log(this.props.toggleSwitchState)
     // const { Item } = this.state;
     return (
       <div className="nav-wrapper d-inline-block item-icon-wrapper">
@@ -206,7 +208,7 @@ onClickAdd(ev){
               </NavItem>
             )
           })}
-          <FormCheckbox toggle small onClick={this.onCheckBoxChange} on={this.state.switched} >
+          <FormCheckbox checked={this.state.switched} toggle small onClick={this.onCheckBoxChange} on={this.props.toggleSwitchState} >
        {(this.props.toggleSwitchState)?(
          "Main Network"
        ):(
