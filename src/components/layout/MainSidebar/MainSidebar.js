@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Col } from "shards-react";
 import { Store } from "../../../flux";
-
+import SidebarSearch from './SidebarSearch'
 import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarNavItems from "./SidebarNavItems";
+import SidebarInstitute from "./SidebarInstitute";
 
 
 class MainSidebar extends React.Component {
@@ -51,6 +52,7 @@ class MainSidebar extends React.Component {
         md={{ size: 3 }}
       >
         <SidebarMainNavbar hideLogoText={this.props.hideLogoText} />
+        {/* <SidebarInstitute/>  */}
         <SidebarNavItems />
       </Col>
     );

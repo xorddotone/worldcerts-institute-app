@@ -60,12 +60,12 @@ class ManageClassifications extends Component {
       console.log(this.props.userData._id)
   
       let obj = {
-        id :  this.props.selectedInstituteName.id,
+        id :  classificationId,
         
       }
       console.log(obj)
 
-     let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + classificationId ,{data:obj});
+     let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id ,{data:obj});
     console.log(request.data)
     }catch(e){
       console.log(e)
