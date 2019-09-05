@@ -16,8 +16,8 @@ import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-import * as Strings from '../constants/strings'
 import cross from '../images/cross.svg'
+import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 const axios = require('axios');
 
