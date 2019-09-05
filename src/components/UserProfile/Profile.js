@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import {
-  Card,
-  CardHeader,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  FormInput,
-  FormSelect,
-  FormTextarea,
-  Button
+    Card,
+    CardHeader,
+    ListGroup,
+    ListGroupItem,
+    Row,
+    Col,
+    Form,
+    FormGroup,
+    FormInput,
+    FormSelect,
+    FormTextarea,
+    Button
 } from "shards-react";
 import { connect } from 'react-redux';
 import {USER_DATA} from "../../redux/actions/login-action"
@@ -93,12 +93,14 @@ class Profile extends Component {
           axios.put(constants.server_url + 'user/' + this.props.userData._id , obj)
           .then(response => {
               console.log(response)
-              if(response.data.data.result == "Email or Password is wrong !"){
+              if(response.data.data.result == "Email or Password is incorrect"){
                 this.setState({oldPasswordError : "Invalid Current Password"})
       
               } 
               else if(response.data.data.result){
-                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.userName ,confirmPassword: "" , })
+                
+                
+                this.setState({errorMsg: "" , error: "" , oldPasswordError: "", newPassword : "" ,  userName: this.props.userData.name ,confirmPassword: "" , })
                 alert("Your Data has been updated")
               }
               else{
@@ -164,7 +166,7 @@ class Profile extends Component {
                   <FormInput
                     type="password"
                     id="fePassword"
-                    placeholder="*********"
+                    placeholder="********"
                     value={this.state.oldPassword}
                     onChange = {this.onChangeOldPassword}
                     autoComplete="current-password"

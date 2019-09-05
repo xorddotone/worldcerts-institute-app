@@ -21,9 +21,10 @@ import logo from '../images/logo2.png'
 import { connect } from 'react-redux';
 import axios from 'axios'
 import Signin from './Login'
-import * as constants from '../utils/constants'
-import {USER_DATA} from "../redux/actions/login-action"
-
+import * as Routes from '../constants/apiRoutes'
+import {USER_DATA,LOGIN_STATUS} from "../redux/actions/login-action"
+import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
 
 class Register extends Component {
   constructor(props) {
@@ -47,7 +48,6 @@ class Register extends Component {
     this.onClickRegister = this.onClickRegister.bind(this)
     this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
     this.verifyCallback = this.verifyCallback.bind(this);
-
   }
 
   componentDidMount() {
@@ -85,7 +85,7 @@ class Register extends Component {
       confirmPassword: event.target.value
     })
     if (event.target.value !== this.state.password) {
-      this.setState({ passwordError: "password not matched" })
+      this.setState({ passwordError: Strings.PASSWORD_NOT_MATCHED })
     }
     else {
       this.setState({ passwordError: "" })
@@ -98,52 +98,45 @@ class Register extends Component {
     this.setState({
       captchaText: event
     })
-
   }
 
   onClickRegister() {
     if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
       this.setState({
-        errorMsg:"All Fields are required"
+        errorMsg: Strings.ALL_FIELDS_REQUIRED
       })
       // console.log("All Fields are required")
     }
     else if(this.state.password!==this.state.confirmPassword){
       this.setState({
-        errorMsg:"Password Does Not matched"
+        errorMsg: Strings.PASSWORD_NOT_MATCHED
       })
       // console.log("Password Does Not matched")
     }
     else {
-      
       let user = {
         name: this.state.userName,
         email: this.state.email,
         password: this.state.password,
         // confirmPassword: this.state.confirmPassword
       }
-      axios.post(constants.server_url + 'signup' , user).then(response => {
+      
+      axios.post(Routes.SIGN_UP_USER , user).then(response => {
         console.log(response)
         console.log(response.data.responseCode)
-        if(response.data.data.result == "Email already exists"){
-          this.setState({errorMsg: "Email already exists"})
-        }
-        else if(response.data.responseCode == 200){
-
-          console.log("inside")
-          console.log(response.data.data.result);
-          
-          
-          this.props.USER_DATA(response.data.data.result)
+        if(response.data.responseCode == Response.SUCCESS){
+          this.props.USER_DATA(response.data.result)
           this.props.history.push('/emailVerification')
-        }
-        else{
-          this.setState({errorMsg: "User Not Registered"})
-
         }
       })
         .catch(err => {
           console.log(err)
+          if(err.response.data.responseCode == Response.BAD_REQUEST){
+            this.setState({errorMsg: err.response.data.responseMessage})
+          }
+          else if(err.response.data.responseCode == Response.SERVER_ERROR){
+            this.setState({errorMsg: err.response.data.responseMessage})
+          }
         })
     }
   }
@@ -153,10 +146,12 @@ class Register extends Component {
       this.captchaDemo.reset();
     }
   }
+
   verifyCallback(recaptchaToken) {
     // Here you will get the final recaptchaToken!!!  
     console.log(recaptchaToken, "<= your recaptcha token")
   }
+
   render() {
     return (
       <Card className="mb-4">
@@ -252,18 +247,25 @@ class Register extends Component {
     )
   }
 }
+
 const mapStateToProps = (state) => {
   console.log("Redux=>", state.pageTitle);
   return {
     Title: state.pageTitle,
+
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     USER_DATA: (user) => {
       dispatch(USER_DATA(user))
     },
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
+    },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

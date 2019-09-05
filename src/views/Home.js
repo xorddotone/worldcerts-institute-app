@@ -4,23 +4,26 @@ import PageTitle from "../components/common/PageTitle";
 import { connect } from 'react-redux';
 import { pageTitle } from '../Redux/action';
 import history from "../config/history"
+import * as Strings from '../constants/strings'
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pagetitle: "Certification Management System"
+      pagetitle: Strings.WORLDCERTS
     }
   }
+
   componentWillMount() {
     const { pagetitle } = this.state;
     this.props.UpdateTitle(pagetitle);
   }
- 
-  onBtnClick(){
+
+  onBtnClick() {
     // this.props.history.push("/freelancers-regsitration")
     // this.props.history.push("/freelancers-regsitration")
   }
+
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -32,16 +35,19 @@ class Home extends Component {
     );
   }
 }
+
 // onClick={()=>this.onBtnClick.bind(this)}
 const mapStateToProps = (state) => {
-  console.log("redux he bhai=>", state.pageTitle);
+  console.log(Strings.REDUX, state.pageTitle);
   return {
     Title: state.pageTitle,
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

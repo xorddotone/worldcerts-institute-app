@@ -9,11 +9,14 @@ import  AuthLayout  from "./layouts/AuthLayout";
 import Register from "./views/Register";
 import Login from "./views/Login";
 import UserProfile from './views/UserProfile'
-import InstituteRegister from "./views/InstituteRegistration";
-import EmailVerification from "./views/emailVerification";
+import InstituteRegistration from "./views/InstituteRegistration";
+import EmailVerification from "./views/EmailVerification";
 import ManageInstitutes from "./views/ManageInstitutes";
+import ManageClassifications from "./views/ManageClassifications";
+import AddClassification from "./views/AddClassification";
+import IssueCertificate from "./views/IssueCertificate";
 
-export default [
+export const routes1= [
   {
     path: "/",
     exact: true,
@@ -28,7 +31,17 @@ export default [
   {
     path: "/institute_registration",
     layout: DefaultLayout,
-    component: InstituteRegister
+    component: InstituteRegistration
+  },
+  {
+    path: "/manageClassification",
+    layout: DefaultLayout,
+    component: ManageClassifications
+  },
+  {
+    path: "/addClassification",
+    layout: DefaultLayout,
+    component: AddClassification
   },
   {
     path: "/userProfile",
@@ -52,6 +65,69 @@ export default [
     path: "/emailVerification",
     layout: AuthLayout,
     component: EmailVerification
+  },
+  {
+    path: "/issueCertificate",
+    layout: DefaultLayout,
+    component: IssueCertificate
+  },
+];
+export const routes2= [
+  {
+    path: "/",
+    exact: true,
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
+  },
+
+  {
+    path: "/register",
+    layout: AuthLayout,
+    component: Register
+  },
+  
+  {
+    path: "/signin",
+    layout: AuthLayout,
+    component: Login
+  },
+
+  {
+    path: "/emailVerification",
+    layout: AuthLayout,
+    component: EmailVerification
+  },
+];
+
+export const routes3= [
+  {
+    path: "/",
+    exact: true,
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
+  },
+
+  {
+    path: "/register",
+    layout: AuthLayout,
+    component: Register
+  },
+  
+  {
+    path: "/signin",
+    layout: AuthLayout,
+    component: Login
+  },
+
+  {
+    path: "/emailVerification",
+    layout: AuthLayout,
+    component: EmailVerification
+  },
+  {
+    path: "/manageInstitute",
+    layout: DefaultLayout,
+    component: ManageInstitutes
   },
 ];
 

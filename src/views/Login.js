@@ -15,12 +15,15 @@ import {
 } from "shards-react";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Register from './Register'
-import * as constants from '../utils/constants'
+import * as Routes from '../constants/apiRoutes'
 import axios from 'axios'
 import logo from '../images/logo.png'
-import {USER_DATA} from "../redux/actions/login-action"
+import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
+import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
+
 
 
 class Login extends Component {
@@ -62,41 +65,41 @@ class Login extends Component {
       // console.log("All fields aur required")
       this.setState({
         ErrorStatus: true,
-        error:"All fields are required"
-            })
+        error: Strings.ALL_FIELDS_REQUIRED
+      })
     }
-
     else {
       let user = {
         email: this.state.email,
         password: this.state.password,
       }
-
-      axios.post(constants.server_url+'login', user).then(response => {
-        console.log(response.data.data.result )
-        if (response.data.data.result == "Email or password is incorrect") {
-          // console.log("1st")
-          this.setState({
-            ErrorStatus: true,
-            error: response.data.data.result
-          })
-        }
-        else if (response.data.data.result ==  "Email not found") {
-          // console.log("2nd")
-          this.setState({
-            ErrorStatus: true,
-            error: response.data.data.result
-          })
-        }
-        else {
-          console.log(response.data.data.result)
-          this.props.USER_DATA(response.data.data.result)
+      axios.post(Routes.LOGIN_USER, user).then(response => {
+        console.log(response)
+       if(response.data.responseCode == Response.SUCCESS) {
+          this.props.USER_DATA(response.data.result)
+          this.props.LOGIN_STATUS(true)
           this.props.history.push('/manageInstitute')
         }
       })
         .catch(err => {
           console.log(err)
-        })
+        //   console.log(err.response)
+        //   if (err.response.data.responseCode == Response.BAD_REQUEST) {
+        //     // console.log("1st")
+        //     this.setState({
+        //       ErrorStatus: true,
+        //       error: err.response.data.responseMessage
+        //     })
+        //   }
+        //   else if (err.response.data.responseCode == Response.SERVER_ERROR) {
+        //     // console.log("2nd")
+        //     this.setState({
+        //       ErrorStatus: true,
+        //       error: err.response.data.responseMessage
+        //     })
+        //   }
+        // 
+      })
     }
   }
 
@@ -158,7 +161,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Redux=>", state);
+  console.log(Strings.REDUX, state);
   return {
     userData: state.user_reducer.user
     // Title: state.pageTitle,
@@ -169,6 +172,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     USER_DATA: (user) => {
       dispatch(USER_DATA(user))
+    },
+    LOGIN_STATUS: (statusLogin) => {
+      dispatch(LOGIN_STATUS(statusLogin))
     },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
