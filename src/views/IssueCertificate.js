@@ -30,7 +30,7 @@ class IssueCertificate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      fileName:''
     }
 
     this.FileHandler = this.FileHandler.bind(this)
@@ -49,6 +49,11 @@ class IssueCertificate extends Component {
     var reader = new FileReader();
     let temp;
     var temp1;
+    console.log(files[0])
+    let name=files[0].name
+    this.setState({
+      fileName:name
+    })
   let that=this  
   reader.onload = function(e) {
     
@@ -86,7 +91,9 @@ class IssueCertificate extends Component {
       <Container fluid className="main-content-container px-4">
         Issue Certificate
         <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
+        <div>Select a file to uplaod</div>
     <button className='btn' style={{border:'1px solid'}}>Upload File</button>
+    <span style={{color:'red'}}>{this.state.fileName}</span>
 </ReactFileReader>
         {/* <CSVReader
         cssClass="csv-reader-input"
