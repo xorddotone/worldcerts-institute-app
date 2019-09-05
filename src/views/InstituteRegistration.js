@@ -169,7 +169,8 @@ class AddClassification extends Component {
             postalCode:' ',
             ErrorStatus:false
           })
-         this.setState({ alertShow: true})
+         that.setState({ alertShow: true})
+         
           that.props.history.push("/manageInstitute")
         }
       })

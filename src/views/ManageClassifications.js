@@ -59,6 +59,14 @@ class ManageClassifications extends Component {
 
   async onClickClose(name,classificationId){
     console.log(classificationId)
+    let tempArr=[]
+    for(let i=0;i<this.state.registeredClassifications.length;i++){
+      if(this.state.registeredClassifications[i]._id!=classificationId){
+        // console.log(this.state.registeredInstitute[i]._id)
+        tempArr.push(this.state.registeredClassifications[i])
+      }
+    }
+    // console.log(tempArr)
     try{
       console.log(this.props.userData._id)
   
@@ -71,7 +79,8 @@ class ManageClassifications extends Component {
      let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id ,{data:obj});
      this.setState({
       alertShow: true,
-    alertMessage: name + " classification has been deleted"
+    alertMessage: name + " classification has been deleted",
+    registeredClassifications:tempArr
     })
     console.log(request.data)
     }catch(e){
