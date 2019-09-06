@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
+import loader from '../images/loader.gif'
 
 
 class UserProfile extends Component {
@@ -35,7 +36,8 @@ class UserProfile extends Component {
       error: "",
       alertShow: false,
       alertMessage: "",
-      theme: ""
+      theme: "",
+      loader: false
 
     }
 
@@ -80,9 +82,12 @@ class UserProfile extends Component {
 
   onClickUpdate() {
     console.log(" In update ")
+    this.setState({
+      loader:true
+    })
 
     if (this.state.newPassword !== this.state.confirmPassword) {
-      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED })
+      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED , loader: false })
     }
     else {
       let obj = {
@@ -103,15 +108,18 @@ class UserProfile extends Component {
           // else 
           if (response.data.result) {
             this.setState({ errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
-             alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success" })
+             alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success" , loader:false })
             // alert(Strings.DATA_UPDATED)
           }
           else {
-            this.setState({ error: Strings.DATA_NOT_UPDATED })
+            this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED , theme:"danger",loader:false })
           }
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
+          this.setState({
+            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger" , loader:false
+          })
         })
     }
   }
@@ -259,9 +267,8 @@ class UserProfile extends Component {
                   <FormTextarea id="feDescription" rows="5" />
                 </Col>
               </Row> */}
-                        <Button size="sm" theme = "success" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</Button>
-                        <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.error}</div>
-
+                       
+                        {(this.state.loader)?(<img src = {loader} style = {{height : "8%" }} />):( <Button size="sm" theme = "success" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</Button>)}
                       </Form>
                     </Col>
                   </Row>

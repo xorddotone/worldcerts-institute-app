@@ -54,7 +54,8 @@ class ManageClassifications extends Component {
         }
       ],
       alertMessage: "",
-      alertShow: false
+      alertShow: false,
+      theme: ""
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
@@ -85,6 +86,7 @@ class ManageClassifications extends Component {
      this.setState({
       alertShow: true,
     alertMessage: name + " classification has been deleted",
+    theme: "success",
     registeredClassifications:tempArr
     })
     console.log(request.data)
@@ -168,14 +170,18 @@ class ManageClassifications extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-          <Alert className="mb-0" open = {this.state.alertShow} theme = "danger" dismissible={this.dismiss}>
+          <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
+<<<<<<< HEAD
           {/* <Link to="/addClassification">   */}
           <Button onClick={this.onAddClick} size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end">
+=======
+          <Link to="/addClassification">  <Button size="sm"  md = "2" theme = "success" className="mb-2 mr-1 d-flex worldcerts-button">
+>>>>>>> dbdf5b9b5964bf819f8180be831df4811b1bd266
         Add
       </Button>
       {/* </Link> */}

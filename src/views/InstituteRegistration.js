@@ -22,6 +22,7 @@ import PageTitle from "../components/common/PageTitle";
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import * as Response from '../constants/responseCodes'
+import loader from '../images/loader.gif'
 
 
 class AddClassification extends Component {
@@ -39,7 +40,8 @@ class AddClassification extends Component {
       error: "",
       alertShow: false,
       alertMessage: "",
-      theme: ""
+      theme: "",
+      loader: false
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -119,6 +121,9 @@ class AddClassification extends Component {
 
   onRegisterClick() {
     let that = this;
+    this.setState({
+      loader: true
+    })
     // let obj = {
     //   instituteName: "UBIT",
     //   category: "Diploma",
@@ -168,7 +173,7 @@ class AddClassification extends Component {
        if(response.data.result=="registration number is too long"){
           that.setState({
             ErrorStatus:true,
-            error:"Registration Number is too long"
+            error:Strings.REGISTRATION_NUMBER_LONG
           })
           console.log(response.data.result)
         }
@@ -293,9 +298,10 @@ class AddClassification extends Component {
                    
                   </Row>
                   <hr />
-                  <Button size="sm" theme = "success" className="mb-2 mr-1 worldcerts-button"
+                  
+                  {(this.state.loader)? (<img src = {loader} style = {{height : "8%"}} />): (<Button size="sm" theme = "success" className="mb-2 mr-1 worldcerts-button"
                     onClick={this.onRegisterClick.bind(this)}
-                  >Register</Button>
+                  >Register</Button>)}
                 </Form>
               </Col>
             </Row>
