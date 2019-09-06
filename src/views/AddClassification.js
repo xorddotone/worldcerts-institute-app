@@ -28,6 +28,8 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
+import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
+
 const duration = [
   "Choose" , "year", "months", "days"
 ]
@@ -219,6 +221,19 @@ class InstituteRegistration extends Component {
   onClickOptionss(ev){
     console.log(ev)
   }
+  onCancelClick(){
+    let obj={
+      category:'',
+      classification:'',
+      durationValidity:null,
+      instituteName:'',
+      _id:''
+  }
+    this.props.EditClassification(obj)
+    this.props.EditClassificationState(false)
+    this.props.history.push("/manageClassification")
+  }
+  onSaveClick(){}
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -265,7 +280,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category">
+                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category" >
                               {/* <option>category</option> */}
                               {console.log(this.state.classificationCategory)}
                              
@@ -403,9 +418,21 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
+                        {(this.props.editClassificationState)?(
+                          <div>
+                            <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onSaveClick.bind(this)}
+                        >Save</Button>
                         <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onCancelClick.bind(this)}
+                        >Cancel</Button>
+                          </div>
+                        ):(
+                          <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
                         >Register</Button>
+                        )}
+                        
                       </Form>
                     </Col>
                   </Row>
@@ -425,13 +452,19 @@ const mapStateToProps = (state) => {
     Title: state.pageTitle,
     userData: state.user_reducer.user,
     selectedInstituteName:state.user_reducer.selectedInstituteName,
-
+    editClassificationState:state.dashboard_reducer.editClassificationState
 
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    EditClassification: (data) => {
+      dispatch(EditClassification(data))
+    },
+    EditClassificationState: (data) => {
+      dispatch(EditClassificationState(data))
+    },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }

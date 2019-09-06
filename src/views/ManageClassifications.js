@@ -19,6 +19,7 @@ import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import cross from '../images/cross.svg'
 import '../css/style.css'
+import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
 const axios = require('axios');
 
 class ManageClassifications extends Component {
@@ -57,6 +58,8 @@ class ManageClassifications extends Component {
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
+    this.onEditClick=this.onEditClick.bind(this)
+    this.onAddClick=this.onAddClick.bind(this)
   }
 
   async onClickClose(name,classificationId){
@@ -138,6 +141,25 @@ class ManageClassifications extends Component {
         })
       }
     }
+
+    onEditClick(data){
+      console.log(data)
+      this.props.EditClassification(data);
+      this.props.EditClassificationState(true);
+      this.props.history.push("/addClassification");
+    }
+    onAddClick(){
+      let obj={
+        category:'',
+        classification:'',
+        durationValidity:null,
+        instituteName:'',
+        _id:''
+    }
+      this.props.EditClassification(obj)
+      this.props.EditClassificationState(false)
+      this.props.history.push("/addClassification")
+    }
   
 
   render() {
@@ -152,9 +174,11 @@ class ManageClassifications extends Component {
         <Row noGutters className="page-header py-4">
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
-          <Link to="/addClassification">  <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end">
+          {/* <Link to="/addClassification">   */}
+          <Button onClick={this.onAddClick} size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end">
         Add
-      </Button></Link>
+      </Button>
+      {/* </Link> */}
         </Row>
         {console.log(this.state.registeredClassifications)}
         {  (this.state.registeredClassifications)?(
@@ -232,11 +256,12 @@ class ManageClassifications extends Component {
                         {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
                       </div>
                     </div>
-                    {/* <div className="my-auto ml-auto">
-                      <Button size="sm" theme="white">
-                        <i className="far fa-bookmark mr-1" /> Bookmark
+                    <div className="my-auto ml-auto">
+                      <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end" onClick={()=>this.onEditClick(classification)}>
+                        {/* <i className="far fa-bookmark mr-1" />  */}
+                        EDIT
                       </Button>
-                    </div> */}
+                    </div>
 
 
 
@@ -269,6 +294,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    EditClassification: (data) => {
+      dispatch(EditClassification(data))
+    },
+    EditClassificationState: (data) => {
+      dispatch(EditClassificationState(data))
+    },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }

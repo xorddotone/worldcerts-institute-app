@@ -1,8 +1,15 @@
-import { TOGGLE_SWITCH,EDIT_CLASSIFICATION_DATA } from "../actions/dashboard-action";
+import { TOGGLE_SWITCH,EDIT_CLASSIFICATION_DATA,EDIT_CLASSIFICATION_STATE } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
     toggle_switch_state : false,
-    editClassificationData:{}
+    editClassificationData:{
+        category:'',
+        classification:'',
+        durationValidity:null,
+        instituteName:'',
+        _id:''
+    },
+    editClassificationState:false
 } 
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,6 +23,11 @@ export default (state = INITIAL_STATE, action) => {
         return({ 
             ...state,
             editClassificationData : action.payload
+        })
+        case EDIT_CLASSIFICATION_STATE:
+        return({ 
+            ...state,
+            editClassificationState : action.payload
         })
         default: 
         return state
