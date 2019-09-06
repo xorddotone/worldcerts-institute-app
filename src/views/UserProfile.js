@@ -6,6 +6,7 @@ import { Container, Card,
   Row,
   Col,
   Form,
+  Alert,
   FormGroup,
   FormInput,
   FormSelect,
@@ -31,7 +32,11 @@ class UserProfile extends Component {
       confirmPassword: "",
       errorMsg: "",
       oldPasswordError: "",
-      error: ""
+      error: "",
+      alertShow: false,
+      alertMessage: "",
+      theme: ""
+
     }
 
     this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
@@ -39,6 +44,7 @@ class UserProfile extends Component {
     this.onChangeUserName = this.onChangeUserName.bind(this)
     this.onClickUpdate = this.onClickUpdate.bind(this)
     this.onChangeOldPassword = this.onChangeOldPassword.bind(this)
+    this.dismiss = this.dismiss.bind(this)
   }
 
   componentWillMount() {
@@ -87,15 +93,18 @@ class UserProfile extends Component {
       }
       // alert("your data has been updated")
       console.log(obj)
+      console.log(this.props.userData._id)
       axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
         .then(response => {
           console.log(response)
-          if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-            this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
-          }
-          else if (response.data.data.result) {
-            this.setState({ errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "", })
-            alert(Strings.DATA_UPDATED)
+          // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
+          //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
+          // }
+          // else 
+          if (response.data.result) {
+            this.setState({ errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
+             alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success" })
+            // alert(Strings.DATA_UPDATED)
           }
           else {
             this.setState({ error: Strings.DATA_NOT_UPDATED })
@@ -106,10 +115,17 @@ class UserProfile extends Component {
         })
     }
   }
+  dismiss() {
+    this.setState({ alertShow: false });
+  }
 
   render() {
     return (
+      
       <Container fluid className="main-content-container px-4">
+<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
+<i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+      </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="User Profile" md="12" className="ml-sm-auto mr-sm-auto" />
           {/* subtitle="Registration" */}

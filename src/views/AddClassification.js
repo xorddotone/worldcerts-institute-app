@@ -152,7 +152,7 @@ class InstituteRegistration extends Component {
 
     let that = this;
     console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
-    if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
+    if ( this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
       this.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true
@@ -174,7 +174,7 @@ class InstituteRegistration extends Component {
       
       console.log(timeDuration)
       let obj = {
-        instituteName: this.state.instituteName,
+        instituteName: this.props.selectedInstituteName.name,
         category: this.state.category,
         classification: this.state.classification,
         durationValidity: timeDuration,
@@ -183,7 +183,7 @@ class InstituteRegistration extends Component {
       }
       console.log(obj)
       console.log(that.state.selectedInstituteId)
-      axios.post(Routes.CLASSIFICATION + this.state.selectedInstituteId, obj)
+      axios.post(Routes.CLASSIFICATION + this.props.selectedInstituteName.id, obj)
         .then(function (response) {
 
           // console.log(response.data.data.result);
@@ -209,7 +209,7 @@ class InstituteRegistration extends Component {
     return (
       <Container fluid className="main-content-container px-4">
          <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
-        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+         <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto" />
@@ -228,7 +228,14 @@ class InstituteRegistration extends Component {
                         <Row>
                           <Col md="6" className="form-group">
                             <label>Insitute Name </label>
-                            <FormSelect onChange={this.instituteNameChangeHandler} >
+                            <FormInput
+
+                              // onChange={this.classificationChangeHandler}
+                              placeholder="InstituteName"
+                              disabled
+                              value={this.props.selectedInstituteName.name}
+                            />
+                            {/* <FormSelect onChange={this.instituteNameChangeHandler}>
                               {console.log(this.state.registeredInstitute)}
                               {
                                   this.state.registeredInstitute.map((category) => {
@@ -239,7 +246,7 @@ class InstituteRegistration extends Component {
                                   )
                                 })
                               }
-                            </FormSelect>
+                            </FormSelect> */}
                           </Col>
                           <Col md="6" className="form-group">
                             <label>Category</label>
@@ -402,7 +409,9 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
+    userData: state.user_reducer.user,
+    selectedInstituteName:state.user_reducer.selectedInstituteName,
+
 
   }
 }

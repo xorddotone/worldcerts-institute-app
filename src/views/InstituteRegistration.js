@@ -21,6 +21,7 @@ import axios from 'axios'
 import PageTitle from "../components/common/PageTitle";
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
+import * as Response from '../constants/responseCodes'
 
 
 class AddClassification extends Component {
@@ -37,7 +38,8 @@ class AddClassification extends Component {
       ErrorStatus: false,
       error: "",
       alertShow: false,
-      alertMessage: ""
+      alertMessage: "",
+      theme: ""
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -46,6 +48,7 @@ class AddClassification extends Component {
     this.instituteTelephoneChangeHandler = this.instituteTelephoneChangeHandler.bind(this)
     this.countryChangeHandler = this.countryChangeHandler.bind(this)
     this.postalcodeChangeHandler = this.postalcodeChangeHandler.bind(this)
+    this.dismiss = this.dismiss.bind(this)
   }
 
   componentWillMount() {
@@ -142,6 +145,7 @@ class AddClassification extends Component {
       this.setState({
         ErrorStatus: true,
         alertShow: true,
+        theme: "info",
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         error: Strings.ALL_FIELDS_REQUIRED
       })
@@ -161,14 +165,7 @@ class AddClassification extends Component {
       .then(function (response) {
         
         console.log(response);
-        if(response.data.result=="Can't register - registration number already exist"){
-          console.log(response.data.result)
-          that.setState({
-            ErrorStatus:true,
-            error:"Can't register - Registration Number Already Exist"
-          })
-        }
-        else if(response.data.result=="registration number is too long"){
+       if(response.data.result=="registration number is too long"){
           that.setState({
             ErrorStatus:true,
             error:"Registration Number is too long"
@@ -196,17 +193,24 @@ class AddClassification extends Component {
         }
       })
       .catch(function (error) {
-        console.log(error);
+      
+        console.log(error.response);
+        that.setState({
+          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger"
+        })
       });
       
     }
+  }
+  dismiss() {
+    this.setState({ alertShow: false });
   }
 
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
-        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
+         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
       </Alert>
       <Row noGutters className="page-header py-4">
         <PageTitle title="Insititute Registration"  md="12" className="ml-sm-auto mr-sm-auto" />
