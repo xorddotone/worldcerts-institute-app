@@ -151,7 +151,15 @@ class InstituteRegistration extends Component {
   onRegisterClick() {
     console.log(this.state.selectedInstituteId)
 
-    let that = this;
+    if(this.props.selectedInstituteName.name=="worldcerts"){
+      this.setState({
+        alertMessage: "Select Institute",
+        alertShow: true,
+        theme: "danger"
+      })
+    }
+    else{
+      let that = this;
     console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
     if ( this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
       this.setState({
@@ -196,6 +204,7 @@ class InstituteRegistration extends Component {
         .catch(function (error) {
           console.log(error);
         });
+    }
     }
   }
   dismiss() {
