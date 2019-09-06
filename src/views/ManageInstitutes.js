@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom'
 import cross from '../images/cross.svg'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
+import '../css/style.css'
 const axios = require('axios');
 
 
@@ -151,7 +152,7 @@ class ManageInstitutes extends Component {
                 <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{institute.companyName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
+                    <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
                     <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
                     <p className="card-text text-muted">{institute.country}  </p>
                     <p className="card-text text-muted">{institute.companyAddress}  </p>

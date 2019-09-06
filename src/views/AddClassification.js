@@ -56,6 +56,7 @@ class InstituteRegistration extends Component {
     this.durationChangeHandler = this.durationChangeHandler.bind(this)
     this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
     this.onClickOptions=this.onClickOptions.bind(this)
+    this.dismiss = this.dismiss.bind(this)
   }
 
   componentWillMount() {
@@ -154,7 +155,8 @@ class InstituteRegistration extends Component {
     if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
       this.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
-        alertShow: true
+        alertShow: true,
+        theme: "info"
       })
     }
     else {
@@ -195,6 +197,9 @@ class InstituteRegistration extends Component {
         });
     }
   }
+  dismiss() {
+    this.setState({ alertShow: false });
+  }
 
   toggle(which) {
     const newState = { ...this.state };
@@ -204,7 +209,7 @@ class InstituteRegistration extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger">
+         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">

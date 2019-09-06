@@ -21,6 +21,11 @@
     box-shadow: 2px 3px;
     cursor: default
 }
+.close-button{
+    float : right ;
+     width: 3% ;
+      cursor: pointer
+}
 
 @media (max-width:320px)  { 
     .authStyling{

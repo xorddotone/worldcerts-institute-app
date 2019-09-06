@@ -63,21 +63,24 @@ class Register extends Component {
   onChangeUserName(event) {
     // console.log(event.target.value)
     this.setState({
-      userName: event.target.value
+      userName: event.target.value,
+      errorMsg: ""
     })
   }
 
   onChangeEmail(event) {
     // console.log(event.target.value)
     this.setState({
-      email: event.target.value
+      email: event.target.value,
+      errorMsg: ""
     })
   }
 
   onChangePassword(event) {
     // console.log(event.target.value)
     this.setState({
-      password: event.target.value
+      password: event.target.value,
+      errorMsg: ""
     })
   }
 
@@ -245,8 +248,8 @@ class Register extends Component {
                       </Row>
 
                     <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
-                     <div style = {{textAlign: 'center'}}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickRegister}>Register</Button> 
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (null)} 
+                     <div style = {{textAlign: 'center'}}> 
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (<Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickRegister}>Register</Button> )} 
                      </div>
                     </Form>
                   </Col>

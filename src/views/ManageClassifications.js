@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import cross from '../images/cross.svg'
+import '../css/style.css'
 const axios = require('axios');
 
 class ManageClassifications extends Component {
@@ -206,7 +207,7 @@ class ManageClassifications extends Component {
                 <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} style = {{float : "right" , width: "3%"}} onClick = {() => this.onClickClose(classification.classification,classification._id)}/></h5>
+                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(classification.classification,classification._id)}/></h5>
                     
                     <p className="card-text text-muted">{classification.category}</p>
                     <p className="card-text text-muted">{classification.classification}  </p>

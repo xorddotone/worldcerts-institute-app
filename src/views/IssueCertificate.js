@@ -65,7 +65,13 @@ class IssueCertificate extends Component {
       temp1 = that.csvJSON(temp)
       console.log(temp1)
       console.log(JSON.parse(temp1))
-
+      let obj = JSON.parse(temp1)
+      axios.post(Routes.ISSUE_CERTIFICATE, obj  ).then(response=> {
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
     }
     reader.readAsText(files[0]);
   }
@@ -75,7 +81,7 @@ class IssueCertificate extends Component {
     let lines = cssv.split("\n");
     let result = [];
     let headers = lines[0].split(",");
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 1; i < lines.length-1; i++) {
       let obj = {};
       let currentline = lines[i].split(",");
       for (let j = 0; j < headers.length; j++) {
@@ -92,11 +98,17 @@ class IssueCertificate extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-        Issue Certificate
-        <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
-          <div>Select a file to uplaod</div>
-          <button className='btn' style={{ border: '1px solid' }}>Upload File</button>
-          <span style={{ color: 'red' }}>{this.state.fileName}</span>
+  <Row noGutters className="page-header py-4">
+        <PageTitle title="Issue Certificate"  md="12" className="ml-sm-auto mr-sm-auto" />
+        {/* subtitle="Registration" */}
+      </Row>       
+       <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
+          <h5>Select a file to uplaod</h5>
+          {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
+          <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"
+                          
+                        >Upload File</Button>
+          <span style={{ color: 'green' , paddingLeft: "1em" }}>{this.state.fileName}</span>
         </ReactFileReader>
         {/* <CSVReader
         cssClass="csv-reader-input"
