@@ -103,6 +103,7 @@ class InstituteRegistration extends Component {
       })
   }
   instituteNameChangeHandler(ev) {
+    // console.log(ev)
     console.log(ev.target.value)
     this.setState({
       instituteName: ev.target.value
@@ -168,8 +169,8 @@ class InstituteRegistration extends Component {
         
       }
       else if(this.state.durationValidity == "days"){
-        timeDuration = this.state.duration* 86400
       }
+      timeDuration = this.state.duration* 86400
       
       console.log(timeDuration)
       let obj = {
@@ -177,11 +178,11 @@ class InstituteRegistration extends Component {
         category: this.state.category,
         classification: this.state.classification,
         durationValidity: timeDuration,
-        // country: this.state.country,
+         // country: this.state.country,
         // postalCode: this.state.postalCode
       }
       console.log(obj)
-      console.log(this.state.selectedInstituteId)
+      console.log(that.state.selectedInstituteId)
       axios.post(Routes.CLASSIFICATION + this.state.selectedInstituteId, obj)
         .then(function (response) {
 
@@ -200,6 +201,9 @@ class InstituteRegistration extends Component {
     const newState = { ...this.state };
     newState[which] = !this.state[which];
     this.setState(newState);
+  }
+  onClickOptionss(ev){
+    console.log(ev)
   }
   render() {
     return (
@@ -224,14 +228,14 @@ class InstituteRegistration extends Component {
                         <Row>
                           <Col md="6" className="form-group">
                             <label>Insitute Name </label>
-                            <FormSelect onChange={this.instituteNameChangeHandler}>
+                            <FormSelect onChange={this.instituteNameChangeHandler} >
                               {console.log(this.state.registeredInstitute)}
                               {
                                   this.state.registeredInstitute.map((category) => {
                                   return (
                                     // console.log(category)
 
-                                    <option onClick={()=>this.onClickOptions(category._id)}>{category.companyName}</option>
+                                      <option  onClick={(category)=>this.onClickOptions(category._id)} >{category.companyName}</option>
                                   )
                                 })
                               }
