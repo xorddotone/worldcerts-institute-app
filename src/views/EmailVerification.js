@@ -20,8 +20,11 @@ import { Link } from 'react-router-dom'
 import Register from './Register'
 import * as Routes from '../constants/apiRoutes'
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import logo from '../images/logo.png'
+import loader from '../images/loader.gif'
+
 import {LOGIN_STATUS,USER_DATA} from "../redux/actions/login-action"
 
 
@@ -63,10 +66,13 @@ class EmailVerification extends Component {
     if (this.state.code == "") {
       // console.log("All fields aur required")
       this.setState({
-        errorMsg: ""
+        errorMsg: Strings.CODE_NOT_EMPTY
       })
     }
     else {
+      this.setState({
+        loader:true
+      })
       let user = {
         code: this.state.code,
       } 
@@ -94,14 +100,26 @@ class EmailVerification extends Component {
         console.log(response.data.result)
         if (response.data.result) {
           this.props.USER_DATA(tempUser)
-          this.props.LOGIN_STATUS(true)       
+          this.props.LOGIN_STATUS(true)  
+          this.setState({
+            loader:false
+          })     
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
         else {
+          this.setState({
+            loader:false
+          })
           this.setState({ errorMsg: Strings.CODE_NOT_EMPTY })
         }
       }).catch(err => {
-        console.log(err)
+        if(err.response.data.responseCode == Response.BAD_REQUEST){
+          this.setState({
+            errorMsg: err.response.data.responseMessage,
+            loader: false
+          })
+        }
+        console.log(err.response)
       })
     }
   }
@@ -133,9 +151,15 @@ class EmailVerification extends Component {
                           onChange={this.onChangeCode}
                         />
                       </Col>
-                      <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
                     </Row>
-                    <div style={{ textAlign: "center" }}> <Button theme="accent" onClick={this.onClickVerify}>Verify</Button></div>
+                    <Row>
+                      <Col>
+                    <div style={{ textAlign: "center" }}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} onClick={this.onClickVerify}>Verify</Button>
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%" , paddingLeft: "1em"}} />) : (null)} 
+                      <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
+                    </div>
+                    </Col>
+                    </Row>
                   </Form>
                 </Col>
               </Row>

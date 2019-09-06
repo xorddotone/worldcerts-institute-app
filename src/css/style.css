@@ -10,6 +10,17 @@
 .userImage{
     width: 9%;
 }
+.nothing-added-yet{
+    text-align: center;
+    margin: 15% 30%;
+    color: rgb(70, 66, 66) ;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    background: rgb(165, 243, 165);
+    border: 2px solid green;
+    box-shadow: 2px 3px;
+    cursor: default
+}
 
 @media (max-width:320px)  { 
     .authStyling{

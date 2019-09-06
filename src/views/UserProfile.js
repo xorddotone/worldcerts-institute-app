@@ -124,7 +124,7 @@ class UserProfile extends Component {
       
       <Container fluid className="main-content-container px-4">
 <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
-        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+<i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="User Profile" md="12" className="ml-sm-auto mr-sm-auto" />

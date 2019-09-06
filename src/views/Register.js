@@ -16,6 +16,8 @@ import {
   Button
 } from "shards-react";
 import logo from '../images/logo2.png'
+import loader from '../images/loader.gif'
+
 
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
@@ -101,6 +103,7 @@ class Register extends Component {
   }
 
   onClickRegister() {
+    
     if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
       this.setState({
         errorMsg: Strings.ALL_FIELDS_REQUIRED
@@ -114,6 +117,9 @@ class Register extends Component {
       // console.log("Password Does Not matched")
     }
     else {
+      this.setState({
+        loader:true
+      })
       let user = {
         name: this.state.userName,
         email: this.state.email,
@@ -126,6 +132,9 @@ class Register extends Component {
         console.log(response.data.responseCode)
         if(response.data.responseCode == Response.SUCCESS){
           this.props.USER_DATA(response.data.result)
+          this.setState({
+            loader:false
+          })
           this.props.history.push('/emailVerification')
         }
       })
@@ -236,7 +245,9 @@ class Register extends Component {
                       </Row>
 
                     <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
-                     <div style = {{textAlign: 'center'}}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickRegister}>Register</Button></div>
+                     <div style = {{textAlign: 'center'}}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickRegister}>Register</Button> 
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (null)} 
+                     </div>
                     </Form>
                   </Col>
                 </Row>

@@ -78,7 +78,7 @@ class emailVerification extends Component {
           this.setState({ errorMsg: "Invalid Code"})
         }
       }).catch(err => {
-        console.log(err)
+        console.log(err.response)
       })
     }
   }

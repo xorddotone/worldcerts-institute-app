@@ -23,7 +23,7 @@ import logo from '../images/logo.png'
 import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
 import * as Response from '../constants/responseCodes'
-
+import loader from '../images/loader.gif'
 
 
 class Login extends Component {
@@ -33,7 +33,8 @@ class Login extends Component {
       email: "",
       password: "",
       ErrorStatus: false,
-      error: ''
+      error: '',
+      loading:false
     }
 
     // Binding Functions
@@ -49,6 +50,8 @@ class Login extends Component {
   onChangeEmail(event) {
     console.log(event.target.value)
     this.setState({
+      ErrorStatus:false,
+      error: "",
       email: event.target.value
     })
   }
@@ -56,19 +59,26 @@ class Login extends Component {
   onChangePassword(event) {
     console.log(event.target.value)
     this.setState({
+      ErrorStatus:false,
+      error: "",
       password: event.target.value
     })
   }
 
   onClickLogin() {
+   
     if (this.state.email == " " || this.state.password == " " || this.state.email == "" || this.state.password == "") {
       // console.log("All fields aur required")
       this.setState({
         ErrorStatus: true,
-        error: Strings.ALL_FIELDS_REQUIRED
+        error: Strings.ALL_FIELDS_REQUIRED,
+        loader: false
       })
     }
     else {
+      this.setState({
+        loader:true
+      })
       let user = {
         email: this.state.email,
         password: this.state.password,
@@ -78,11 +88,22 @@ class Login extends Component {
        if(response.data.responseCode == Response.SUCCESS) {
           this.props.USER_DATA(response.data.result)
           this.props.LOGIN_STATUS(true)
+          this.setState({
+            loader:false
+          })
           this.props.history.push('/manageInstitute')
         }
       })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data.responseMessage)
+          if(err.response.data.responseCode == Response.BAD_REQUEST){
+          this.setState({
+            ErrorStatus: true,
+            error: err.response.data.responseMessage,
+            loader:false
+          })
+        }
+        
         //   console.log(err.response)
         //   if (err.response.data.responseCode == Response.BAD_REQUEST) {
         //     // console.log("1st")
@@ -148,7 +169,10 @@ class Login extends Component {
 
                       </Col>
                     </Row>
-                    <div style={{ textAlign: "center" }}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" , color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickLogin}>Login</Button></div>
+                    <div style={{ textAlign: "center" }}> 
+                    <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" , color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickLogin}>Login</Button>
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (null)} 
+                    </div>
                   </Form>
                 </Col>
               </Row>

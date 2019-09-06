@@ -11,6 +11,7 @@ Alert,
   Badge
 } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
+import '../css/style.css'
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
@@ -145,7 +146,7 @@ class ManageClassifications extends Component {
     return (
       <Container fluid className="main-content-container px-4">
           <Alert className="mb-0" open = {this.state.alertShow} theme = "danger" dismissible={this.dismiss}>
-        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto" />
@@ -242,7 +243,7 @@ class ManageClassifications extends Component {
             )}
           </Row>
         ):(
-      <div><h3 style={{textAlign:"center",margin:"15% 30%"}}>Nothing added yet</h3></div>
+      <div><h3 className = "nothing-added-yet">Nothing added yet</h3></div>
       )}
       </Container>
     )

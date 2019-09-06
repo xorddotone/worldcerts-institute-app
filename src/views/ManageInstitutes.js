@@ -13,6 +13,7 @@ Alert,
   Badge
 } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
+import "../css/style.css"
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
@@ -55,7 +56,8 @@ class ManageInstitutes extends Component {
       ],
       registeredInstitute:[],
       alertMessage: "",
-      alertShow: false
+      alertShow: false,
+      theme: ""
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
@@ -109,7 +111,8 @@ class ManageInstitutes extends Component {
      this.setState({
        alertShow: true,
      alertMessage: name + " institute has been deleted",
-     registeredInstitute:tempArr
+     registeredInstitute:tempArr,
+     theme: "success"
      })
 
      
@@ -127,8 +130,8 @@ class ManageInstitutes extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = "danger"  dismissible={this.dismiss}>
-        <i className="fa fa-info mx-2"></i> {this.state.alertMessage}
+         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
+         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
       </Alert>
       {(this.props.userData.isVerified)?(
         <div>
@@ -141,6 +144,8 @@ class ManageInstitutes extends Component {
         {console.log(this.state.registeredInstitute)}
       {  (this.state.registeredInstitute)?(
             <Row>
+        {console.log(this.state.registeredInstitute)}
+              
             {this.state.registeredInstitute.map((institute, id) => (
             
                 <Col lg="4" key={id}>
@@ -182,13 +187,13 @@ class ManageInstitutes extends Component {
             )}
           </Row>
         ):(
-      <div><h3 style={{textAlign:"center",margin:"15% 30%"}}>Nothing added yet</h3></div>
+      <div><h3 className = "nothing-added-yet">Nothing added yet</h3></div>
       )}
         </div>
         ):(
         <div style={{textAlign:"center",margin:"15% 30%"}}>
           <h3 >Verify You account First</h3>
-          <Link to="/emailVerification"><Button theme="accent">Verify</Button></Link>
+          <Link to="/emailVerification"><Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}}>Verify</Button></Link>
         </div>
       )}
         
