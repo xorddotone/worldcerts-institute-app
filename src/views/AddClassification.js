@@ -104,6 +104,7 @@ class InstituteRegistration extends Component {
       })
   }
   instituteNameChangeHandler(ev) {
+    // console.log(ev)
     console.log(ev.target.value)
     this.setState({
       instituteName: ev.target.value
@@ -152,7 +153,7 @@ class InstituteRegistration extends Component {
 
     let that = this;
     console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
-    if (this.state.instituteName == "" || this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
+    if ( this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
       this.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
@@ -170,21 +171,21 @@ class InstituteRegistration extends Component {
         
       }
       else if(this.state.durationValidity == "days"){
-        timeDuration = this.state.duration* 86400
       }
+      timeDuration = this.state.duration* 86400
       
       console.log(timeDuration)
       let obj = {
-        instituteName: this.state.instituteName,
+        instituteName: this.props.selectedInstituteName.name,
         category: this.state.category,
         classification: this.state.classification,
         durationValidity: timeDuration,
-        // country: this.state.country,
+         // country: this.state.country,
         // postalCode: this.state.postalCode
       }
       console.log(obj)
-      console.log(this.state.selectedInstituteId)
-      axios.post(Routes.CLASSIFICATION + this.state.selectedInstituteId, obj)
+      console.log(that.state.selectedInstituteId)
+      axios.post(Routes.CLASSIFICATION + this.props.selectedInstituteName.id, obj)
         .then(function (response) {
 
           // console.log(response.data.data.result);
@@ -205,6 +206,9 @@ class InstituteRegistration extends Component {
     const newState = { ...this.state };
     newState[which] = !this.state[which];
     this.setState(newState);
+  }
+  onClickOptionss(ev){
+    console.log(ev)
   }
   render() {
     return (
@@ -243,7 +247,7 @@ class InstituteRegistration extends Component {
                                   return (
                                     // console.log(category)
 
-                                    <option onClick={()=>this.onClickOptions(category._id)}>{category.companyName}</option>
+                                      <option  onClick={(category)=>this.onClickOptions(category._id)} >{category.companyName}</option>
                                   )
                                 })
                               }

@@ -119,6 +119,27 @@ class AddClassification extends Component {
 
   onRegisterClick() {
     let that = this;
+    // let obj = {
+    //   instituteName: "UBIT",
+    //   category: "Diploma",
+    //   classification: "BSCS",
+    //   durationValidity: 63072000,
+    //   // country: this.state.country,
+    //   // postalCode: this.state.postalCode
+    // }
+    // console.log(obj)
+    // console.log(this.state.selectedInstituteId)
+    // axios.post(Routes.CLASSIFICATION + "5d70a0815d68d6110febb4e2", obj)
+    //   .then(function (response) {
+
+    //     // console.log(response.data.data.result);
+    //     alert("Classification has been added")
+    //     that.props.history.push('/manageClassification')
+       
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
     if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
       console.log(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
