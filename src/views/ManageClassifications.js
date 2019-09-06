@@ -237,6 +237,13 @@ class ManageClassifications extends Component {
                         <i className="far fa-bookmark mr-1" /> Bookmark
                       </Button>
                     </div> */}
+
+
+
+                  
+                  
+                  
+                  
                   </CardFooter>
                 </Card>
               </Col>
