@@ -226,7 +226,7 @@ class InstituteRegistration extends Component {
          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
         <Row>
@@ -241,11 +241,11 @@ class InstituteRegistration extends Component {
                       <Form>
                         <Row>
                           <Col md="6" className="form-group">
-                            <label>Insitute Name </label>
+                            <label>Organization Name </label>
                             <FormInput
 
                               // onChange={this.classificationChangeHandler}
-                              placeholder="InstituteName"
+                              placeholder="Organization Name"
                               disabled
                               value={this.props.selectedInstituteName.name}
                             />
@@ -403,7 +403,7 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-                        <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"
+                        <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
                         >Register</Button>
                       </Form>

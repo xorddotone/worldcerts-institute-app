@@ -213,7 +213,7 @@ class AddClassification extends Component {
          <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
       </Alert>
       <Row noGutters className="page-header py-4">
-        <PageTitle title="Insititute Registration"  md="12" className="ml-sm-auto mr-sm-auto" />
+        <PageTitle title="Organization Registration"  md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
         {/* subtitle="Registration" */}
       </Row>
       <Row>
@@ -228,10 +228,10 @@ class AddClassification extends Component {
                 <Form>
                   <Row form>
                     <Col md="6" className="form-group">
-                      <label>Company/Institute Name</label>
+                      <label>Organization Name</label>
                       <FormInput
                         onChange={this.instituteNameChangeHandler}
-                        placeholder="Worldcerts"
+                        placeholder="Organization Name"
                         value={this.state.instituteName}
                       />
                     </Col>
@@ -240,35 +240,35 @@ class AddClassification extends Component {
                       <FormInput
 
                         onChange={this.buisnessRegistrationNumChangeHandler}
-                        placeholder="12445"
+                        placeholder="Business Registration Number"
                         value={this.state.buisnessRegistrationNum}
                       />
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="12" className="form-group">
-                      <label>Company/Institute Address</label>
+                      <label>Organization Address</label>
                       <FormInput
                         onChange={this.instituteAddressChangeHandler}
-                        placeholder="7th street Canberra Australia"
+                        placeholder="Organization Address"
                         value={this.state.instituteAddress}
                       />
                     </Col>
                   </Row>
                   <Row form>
                     <Col md="6">
-                      <label>Company/Institute Website</label>
+                      <label>Organization Website</label>
                       <FormInput
                         onChange={this.instituteWebsiteChangeHandler}
-                        placeholder="www.worldcerts.com"
+                        placeholder="www.organizationwebsite.com"
                         value={this.state.instituteWebsite}
                       />
                     </Col>
                     <Col md="6">
-                      <label>Company/Institute Telephone #</label>
+                      <label>Organization Telephone #</label>
                       <FormInput
                         onChange={this.instituteTelephoneChangeHandler}
-                        placeholder="03422200220"
+                        placeholder="+9x-xx-xxxxxxx"
                         value={this.state.instituteTelephone}
                       />
                     </Col>
@@ -278,7 +278,7 @@ class AddClassification extends Component {
                       <label>Country</label>
                       <FormInput
                         onChange={this.countryChangeHandler}
-                        placeholder="Pakistan"
+                        placeholder="Country"
                         value={this.state.country}
                       />
                     </Col>
@@ -286,14 +286,14 @@ class AddClassification extends Component {
                       <label>Postal Code</label>
                       <FormInput
                         onChange={this.postalcodeChangeHandler}
-                        placeholder="12345"
+                        placeholder="Postal Code"
                         value={this.state.postalCode}
                       />
                     </Col>
                    
                   </Row>
                   <hr />
-                  <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"
+                  <Button size="sm" theme = "success" className="mb-2 mr-1 worldcerts-button"
                     onClick={this.onRegisterClick.bind(this)}
                   >Register</Button>
                 </Form>

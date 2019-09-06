@@ -25,7 +25,7 @@ class SidebarNavItems extends React.Component {
     this.state = {
       ItemVerified: [
         {
-          title: "Manage Institute",
+          title: "Manage Organization",
           to: "/manageInstitute",
           htmlBefore: '<i class="material-icons">home</i>',
         },
@@ -47,7 +47,7 @@ class SidebarNavItems extends React.Component {
       ],
       ItemNotVerified: [
         {
-          title: "Manage Institute",
+          title: "Manage Organization",
           to: "",
           htmlBefore: '<i class="material-icons">home</i>',
         },
@@ -166,7 +166,7 @@ onClickAdd(ev){
         alt="Shards Dashboard"
       />
 
-        <span className=" d-md-inline-block">{this.props.selectedInstituteName.name}</span>
+        <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={this.state.visible}>
         
@@ -184,7 +184,7 @@ onClickAdd(ev){
         )}
         {/* onClick={this.onClickAdd.bind(this)} */}
         <DropdownItem to="/institute_registration" tag={Link}>
-                <i className="material-icons">&#xE7FD;</i> ADD INSTITUTE
+                <i className="material-icons">&#xE7FD;</i> ADD Organization
         </DropdownItem>
       </Collapse>
     </NavItem>

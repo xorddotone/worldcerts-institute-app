@@ -21,6 +21,19 @@
     box-shadow: 2px 3px;
     cursor: default
 }
+.worldcerts-button{
+    background-color: lightgreen !important ;
+    color: #0000008c !important ;
+    padding: 0.5em 3em !important;
+    font-size: 12px !important;
+    font-weight: bold !important
+}
+.cursor-pointer{
+    cursor: pointer !important;
+}
+.cursor-default{
+    cursor : default !important;
+}
 .close-button{
     float : right ;
      width: 3% ;

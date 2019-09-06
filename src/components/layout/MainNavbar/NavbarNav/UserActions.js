@@ -48,7 +48,7 @@ class UserActions extends React.Component {
             src={require("../../../../images/user")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">{this.props.userData.email}</span>
+          <span className="d-none d-md-inline-block cursor-pointer">{this.props.userData.email}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           {/* <DropdownItem tag={Link} to="/userProfile">
