@@ -127,7 +127,7 @@ class UserProfile extends Component {
 <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
         <Row noGutters className="page-header py-4">
-          <PageTitle title="User Profile" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="User Profile" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
         <Row>
@@ -259,7 +259,7 @@ class UserProfile extends Component {
                   <FormTextarea id="feDescription" rows="5" />
                 </Col>
               </Row> */}
-                        <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} onClick={this.onClickUpdate}>Update Account</Button>
+                        <Button size="sm" theme = "success" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</Button>
                         <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.error}</div>
 
                       </Form>

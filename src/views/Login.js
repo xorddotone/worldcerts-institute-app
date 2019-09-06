@@ -95,6 +95,7 @@ class Login extends Component {
         }
       })
         .catch(err => {
+          console.log(err)
           console.log(err.response.data.responseMessage)
           if(err.response.data.responseCode == Response.BAD_REQUEST){
           this.setState({

@@ -71,7 +71,7 @@ class SidebarMainNavbar extends React.Component {
                 alt="world certs"
               />
               {  (
-                <span className="d-md-inline ml-100">
+                <span className="d-md-inline ml-100 cursor-pointer">
                   {this.state.name}
                 </span>
               )}

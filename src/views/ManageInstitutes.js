@@ -138,7 +138,7 @@ class ManageInstitutes extends Component {
         <div>
            
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Institute Registration" md="11" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Organizations" md="11" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
           {/* <Link to="/institute_registration"><Button theme="accent">Add</Button></Link> */}
         </Row>
@@ -194,7 +194,7 @@ class ManageInstitutes extends Component {
         ):(
         <div style={{textAlign:"center",margin:"15% 30%"}}>
           <h3 >Verify You account First</h3>
-          <Link to="/emailVerification"><Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}}>Verify</Button></Link>
+          <Link to="/emailVerification"><Button size="sm" theme = "success" className = "worldcerts-button">Verify</Button></Link>
         </div>
       )}
         

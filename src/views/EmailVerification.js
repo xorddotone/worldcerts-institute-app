@@ -154,8 +154,8 @@ class EmailVerification extends Component {
                     </Row>
                     <Row>
                       <Col>
-                    <div style={{ textAlign: "center" }}> <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} onClick={this.onClickVerify}>Verify</Button>
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%" , paddingLeft: "1em"}} />) : (null)} 
+                    <div style={{ textAlign: "center" }}> 
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%" , paddingLeft: "1em"}} />) : (<Button size="sm" theme = "success" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</Button>)} 
                       <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
                     </div>
                     </Col>
