@@ -28,6 +28,7 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
+import loader from '../images/loader.gif'
 const duration = [
   "Choose" , "year", "months", "days"
 ]
@@ -48,7 +49,8 @@ class InstituteRegistration extends Component {
       classificationCategory : [],
       selectedInstituteId:"",
       alertShow: false,
-      alertMessage: ""
+      alertMessage: "",
+      loader: false
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -150,59 +152,70 @@ class InstituteRegistration extends Component {
 
   onRegisterClick() {
     console.log(this.state.selectedInstituteId)
-
+    this.setState({
+      loader:true
+    })
     if(this.props.selectedInstituteName.name=="worldcerts"){
       this.setState({
         alertMessage: "Select Institute",
         alertShow: true,
-        theme: "danger"
+        theme: "danger",
+        loader:false
+      
       })
     }
     else{
       let that = this;
-    console.log(this.state.instituteName + " " + this.state.category +  " " + this.state.classification + " " +this.state.duration  + " " +  this.state.durationValidity )
-    if ( this.state.category == "" || this.state.classification == "" || this.state.duration == "" || this.state.durationValidity == "") {
-      this.setState({
+    console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
+    if ( that.state.category == "" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "") {
+      that.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
-        theme: "info"
+        theme: "info",
+        loader:false
       })
     }
     else {
       let timeDuration = ""
-      if(this.state.durationValidity == "year"){
-        timeDuration = this.state.duration*31536000
+      if(that.state.durationValidity == "year"){
+        timeDuration = that.state.duration*31536000
       }
-      else if(this.state.durationValidity == "months"){
-        timeDuration = this.state.duration* 2592000
+      else if(that.state.durationValidity == "months"){
+        timeDuration = that.state.duration* 2592000
 
         
       }
-      else if(this.state.durationValidity == "days"){
+      else if(that.state.durationValidity == "days"){
       }
-      timeDuration = this.state.duration* 86400
+      timeDuration = that.state.duration* 86400
       
       console.log(timeDuration)
       let obj = {
-        instituteName: this.props.selectedInstituteName.name,
-        category: this.state.category,
-        classification: this.state.classification,
+        instituteName: that.props.selectedInstituteName.name,
+        category: that.state.category,
+        classification: that.state.classification,
         durationValidity: timeDuration,
          // country: this.state.country,
         // postalCode: this.state.postalCode
       }
       console.log(obj)
       console.log(that.state.selectedInstituteId)
-      axios.post(Routes.CLASSIFICATION + this.props.selectedInstituteName.id, obj)
+      axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
         .then(function (response) {
 
           // console.log(response.data.data.result);
+          that.setState({
+            loader:false
+          })
           alert("Classification has been added")
           that.props.history.push('/manageClassification')
          
         })
         .catch(function (error) {
           console.log(error);
+          that.setState({
+            loader:false
+          })
         });
     }
     }
@@ -403,9 +416,10 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-                        <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                        
+                       { (this.state.loader)? (<img src = {loader} style = {{height : "8%"}} />): (<Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Register</Button>
+                        >Register</Button>)}
                       </Form>
                     </Col>
                   </Row>
