@@ -178,7 +178,10 @@ class ManageClassifications extends Component {
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
           <Button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
-        Add
+          Add  
+          <i class="material-icons">
+          add
+</i>
       </Button>
       {/* </Link> */}
         </Row>
