@@ -25,12 +25,12 @@ export const routes1= [
     component: () => <Redirect to="/signin" />
   },
   {
-    path: "/manageInstitute",
+    path: "/manage_organization",
     layout: DefaultLayout,
     component: ManageInstitutes
   },
   {
-    path: "/institute_registration",
+    path: "/organization_registration",
     layout: DefaultLayout,
     component: InstituteRegistration
   },
@@ -131,7 +131,7 @@ export const routes3= [
     component: EmailVerification
   },
   {
-    path: "/manageInstitute",
+    path: "/manage_organization",
     layout: DefaultLayout,
     component: ManageInstitutes
   },

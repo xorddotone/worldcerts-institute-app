@@ -26,7 +26,7 @@ class SidebarNavItems extends React.Component {
       ItemVerified: [
         {
           title: "Manage Organization",
-          to: "/manageInstitute",
+          to: "/manage_organization",
           htmlBefore: '<i class="material-icons">home</i>',
         },
         {
@@ -140,11 +140,11 @@ onClickInstitute(val,nameIns) {
     id:val
   }
   this.props.SELECTED_INSTITUTE(obj)
-  // this.props.history.push("/manageInstitute")
+  // this.props.history.push("/manage_organization")
 }
 onClickAdd(ev){
   // ev.preventDefault()
-  this.props.history.push("/institute_registration")
+  this.props.history.push("/organization_registration")
 }
 
   render() {
@@ -173,7 +173,7 @@ onClickAdd(ev){
         {(this.state.Institutes)?(
             <div>
               {this.state.Institutes.map((names,id)=>(
-                <DropdownItem to="/manageInstitute" tag={Link} key={id}>
+                <DropdownItem to="/manage_organization" tag={Link} key={id}>
                 <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
               </DropdownItem>
               ))}
@@ -183,7 +183,7 @@ onClickAdd(ev){
           null
         )}
         {/* onClick={this.onClickAdd.bind(this)} */}
-        <DropdownItem to="/institute_registration" tag={Link}>
+        <DropdownItem to="/organization_registration" tag={Link}>
                 <i className="material-icons">&#xE7FD;</i> ADD Organization
         </DropdownItem>
       </Collapse>
@@ -227,7 +227,7 @@ onClickAdd(ev){
               <NavItem>
                 <NavLink 
                 // onClick={this.handleClick} 
-                tag={RouteNavLink} to="/manageInstitute">
+                tag={RouteNavLink} to="/manage_organization">
                   {item.htmlBefore && (
                     <div
                     className="d-inline-block item-icon-wrapper"

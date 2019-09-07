@@ -21,12 +21,13 @@
     box-shadow: 2px 3px;
     cursor: default
 }
+
+/* .btn-grad:hover { background-position: right center; } */
 .worldcerts-button{
-    background-color: lightgreen !important ;
-    color: #0000008c !important ;
     padding: 0.5em 3em !important;
     font-size: 12px !important;
-    font-weight: bold !important
+    font-weight: bold !important;
+    background-image: linear-gradient(to right, rgb(49, 158, 170) 0%, #3CD3AD 100%, rgb(63, 159, 170) 40%)
 }
 .cursor-pointer{
     cursor: pointer !important;

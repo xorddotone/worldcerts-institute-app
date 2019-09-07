@@ -28,12 +28,9 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
-<<<<<<< HEAD
+import loader from '../images/loader.gif'
 import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
 
-=======
-import loader from '../images/loader.gif'
->>>>>>> dbdf5b9b5964bf819f8180be831df4811b1bd266
 const duration = [
   "Choose" , "year", "months", "days"
 ]
@@ -434,7 +431,6 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-<<<<<<< HEAD
                         {(this.props.editClassificationState)?(
                           <div>
                             <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
@@ -450,12 +446,6 @@ class InstituteRegistration extends Component {
                         >Register</Button>
                         )}
                         
-=======
-                        
-                       { (this.state.loader)? (<img src = {loader} style = {{height : "8%"}} />): (<Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onRegisterClick.bind(this)}
-                        >Register</Button>)}
->>>>>>> dbdf5b9b5964bf819f8180be831df4811b1bd266
                       </Form>
                     </Col>
                   </Row>

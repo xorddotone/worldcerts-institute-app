@@ -34,7 +34,7 @@ class Login extends Component {
       password: "",
       ErrorStatus: false,
       error: '',
-      loading:false
+      loading:true
     }
 
     // Binding Functions
@@ -91,7 +91,7 @@ class Login extends Component {
           this.setState({
             loader:false
           })
-          this.props.history.push('/manageInstitute')
+          this.props.history.push('/manage_organization')
         }
       })
         .catch(err => {
@@ -172,7 +172,7 @@ class Login extends Component {
                     </Row>
                     <div style={{ textAlign: "center" }}> 
                     
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (<Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" , color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1" onClick={this.onClickLogin}>Login</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (<Button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</Button>)} 
                     </div>
                   </Form>
                 </Col>

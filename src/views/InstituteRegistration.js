@@ -194,7 +194,7 @@ class AddClassification extends Component {
           })
          that.setState({ alertShow: true})
          
-          that.props.history.push("/manageInstitute")
+          that.props.history.push("/manage_organization")
         }
       })
       .catch(function (error) {

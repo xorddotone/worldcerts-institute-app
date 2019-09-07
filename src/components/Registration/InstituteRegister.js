@@ -161,7 +161,7 @@ class UserAccountDetails extends Component {
             ErrorStatus:false
           })
           alert("Request Sent")
-          // that.props.history.push("/manageInstitute")
+          // that.props.history.push("/manage_organization")
         }
       })
       .catch(function (error) {

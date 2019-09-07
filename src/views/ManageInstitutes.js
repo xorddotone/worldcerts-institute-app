@@ -140,7 +140,7 @@ class ManageInstitutes extends Component {
         <Row noGutters className="page-header py-4">
           <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
-          {/* <Link to="/institute_registration"><Button theme="accent">Add</Button></Link> */}
+          {/* <Link to="/organization_registration"><Button theme="accent">Add</Button></Link> */}
         </Row>
         {console.log(this.state.registeredInstitute)}
       {  (this.state.registeredInstitute)?(

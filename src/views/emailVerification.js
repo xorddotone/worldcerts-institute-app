@@ -72,7 +72,7 @@ class emailVerification extends Component {
         console.log(response)
         console.log(response.data.data.result)
         if (response.data.data.result) {
-          this.props.history.push('/institute_registration')
+          this.props.history.push('/organization_registration')
         }
         else {
           this.setState({ errorMsg: "Invalid Code"})
