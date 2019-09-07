@@ -109,12 +109,14 @@ class Register extends Component {
     
     if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
       this.setState({
+        loader:false,
         errorMsg: Strings.ALL_FIELDS_REQUIRED
       })
       // console.log("All Fields are required")
     }
     else if(this.state.password!==this.state.confirmPassword){
       this.setState({
+        loader:false,
         errorMsg: Strings.PASSWORD_NOT_MATCHED
       })
       // console.log("Password Does Not matched")
@@ -144,10 +146,10 @@ class Register extends Component {
         .catch(err => {
           console.log(err)
           if(err.response.data.responseCode == Response.BAD_REQUEST){
-            this.setState({errorMsg: err.response.data.responseMessage})
+            this.setState({errorMsg: err.response.data.responseMessage , loader: false})
           }
           else if(err.response.data.responseCode == Response.SERVER_ERROR){
-            this.setState({errorMsg: err.response.data.responseMessage})
+            this.setState({errorMsg: err.response.data.responseMessage , loader:false})
           }
         })
     }
