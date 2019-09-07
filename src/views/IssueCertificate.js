@@ -71,6 +71,7 @@ class IssueCertificate extends Component {
       })
       .catch(err => {
         console.log(err.response)
+        
       })
     }
     reader.readAsText(files[0]);
@@ -105,7 +106,7 @@ class IssueCertificate extends Component {
        <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
           <h5 className = "cursor-default">Select a file to upload</h5>
           {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
-          <Button size="sm" theme = "success" className="mb-2 mr-1 worldcerts-button"
+          <Button size="sm" className="mb-2 mr-1 worldcerts-button"
                           
                         >Upload File</Button>
           <span style={{ color: 'green' , paddingLeft: "1em" }}>{this.state.fileName}</span>

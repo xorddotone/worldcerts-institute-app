@@ -268,7 +268,7 @@ class UserProfile extends Component {
                 </Col>
               </Row> */}
                        
-                        {(this.state.loader)?(<img src = {loader} style = {{height : "8%" }} />):( <Button size="sm" theme = "success" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</Button>)}
+                        {(this.state.loader)?(<img src = {loader} className = "loader" />):( <Button size="sm" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</Button>)}
                       </Form>
                     </Col>
                   </Row>

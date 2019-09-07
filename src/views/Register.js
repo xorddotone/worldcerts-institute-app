@@ -108,6 +108,7 @@ class Register extends Component {
   onClickRegister() {
     
     if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
+      console.log("hello")
       this.setState({
         loader:false,
         errorMsg: Strings.ALL_FIELDS_REQUIRED
@@ -145,12 +146,17 @@ class Register extends Component {
       })
         .catch(err => {
           console.log(err)
+          if(err.response !== undefined){
           if(err.response.data.responseCode == Response.BAD_REQUEST){
             this.setState({errorMsg: err.response.data.responseMessage , loader: false})
           }
           else if(err.response.data.responseCode == Response.SERVER_ERROR){
             this.setState({errorMsg: err.response.data.responseMessage , loader:false})
           }
+        }
+        else{
+          this.setState({errorMsg: "Network Error" , loader: false})
+        }
         })
     }
   }
@@ -251,7 +257,7 @@ class Register extends Component {
 
                     <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
                      <div style = {{textAlign: 'center'}}> 
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "1px"}} />) : (<Button size="sm" className="mb-2 mr-1 worldcerts-button" onClick={this.onClickRegister}>Register</Button> )} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<Button size="sm" className="mb-2 mr-1 worldcerts-button" onClick={this.onClickRegister}>Register</Button> )} 
                      </div>
                     </Form>
                   </Col>

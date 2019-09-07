@@ -34,7 +34,7 @@ class Login extends Component {
       password: "",
       ErrorStatus: false,
       error: '',
-      loading:true
+      loading:false
     }
 
     // Binding Functions
@@ -96,14 +96,24 @@ class Login extends Component {
       })
         .catch(err => {
           console.log(err)
-          console.log(err.response.data.responseMessage)
-          if(err.response.data.responseCode == Response.BAD_REQUEST){
-          this.setState({
-            ErrorStatus: true,
-            error: err.response.data.responseMessage,
+          console.log(err.response)
+          // console.log(err.response.data.responseMessage)
+          if(err.response !== undefined){
+            if(err.response.data.responseCode == Response.BAD_REQUEST){
+            this.setState({
+           ErrorStatus: true,
+             error: err.response.data.responseMessage,
             loader:false
           })
         }
+      }
+      else{
+        this.setState({
+          ErrorStatus: true,
+            error: "Network Error",
+           loader:false
+         })
+      }
         
         //   console.log(err.response)
         //   if (err.response.data.responseCode == Response.BAD_REQUEST) {
@@ -170,9 +180,10 @@ class Login extends Component {
 
                       </Col>
                     </Row>
+                    {/* <img src = {loader} style = {{height : "8%"}} /> */}
                     <div style={{ textAlign: "center" }}> 
                     
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%"}} />) : (<Button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<Button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</Button>)} 
                     </div>
                   </Form>
                 </Col>

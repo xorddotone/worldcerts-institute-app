@@ -259,7 +259,7 @@ class ManageClassifications extends Component {
                       </div>
                     </div>
                     <div className="my-auto ml-auto">
-                      <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1 d-flex justify-content-end" onClick={()=>this.onEditClick(classification)}>
+                      <Button size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
                         {/* <i className="far fa-bookmark mr-1" />  */}
                         EDIT
                       </Button>

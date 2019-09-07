@@ -34,7 +34,8 @@ class EmailVerification extends Component {
     super(props)
     this.state = {
       code: "",
-      errorMsg: ""
+      errorMsg: "",
+      loader:false
     }
 
     // Binding Functions
@@ -62,17 +63,19 @@ class EmailVerification extends Component {
   //   }
 
   onClickVerify() {
+    this.setState({
+      loader:true
+    })
     console.log(this.state.code)
     if (this.state.code == "") {
       // console.log("All fields aur required")
       this.setState({
-        errorMsg: Strings.CODE_NOT_EMPTY
+        errorMsg: Strings.CODE_NOT_EMPTY,
+        loader:false
       })
     }
     else {
-      this.setState({
-        loader:true
-      })
+      
       let user = {
         code: this.state.code,
       } 
@@ -107,10 +110,8 @@ class EmailVerification extends Component {
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
         else {
-          this.setState({
-            loader:false
-          })
-          this.setState({ errorMsg: Strings.CODE_NOT_EMPTY })
+         
+          this.setState({ errorMsg: Strings.CODE_NOT_EMPTY ,loader:false })
         }
       }).catch(err => {
         if(err.response.data.responseCode == Response.BAD_REQUEST){
@@ -155,7 +156,7 @@ class EmailVerification extends Component {
                     <Row>
                       <Col>
                     <div style={{ textAlign: "center" }}> 
-                    {( this.state.loader ) ? (<img src = {loader} style = {{height : "8%" , paddingLeft: "1em"}} />) : (<Button size="sm" theme = "success" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<Button size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</Button>)} 
                       <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
                     </div>
                     </Col>

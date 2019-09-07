@@ -150,9 +150,10 @@ class AddClassification extends Component {
       this.setState({
         ErrorStatus: true,
         alertShow: true,
-        theme: "info",
+        theme: "danger",
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
-        error: Strings.ALL_FIELDS_REQUIRED
+        error: Strings.ALL_FIELDS_REQUIRED,
+        loader:false
       })
     }
     else {
@@ -173,7 +174,8 @@ class AddClassification extends Component {
        if(response.data.result=="registration number is too long"){
           that.setState({
             ErrorStatus:true,
-            error:Strings.REGISTRATION_NUMBER_LONG
+            error:Strings.REGISTRATION_NUMBER_LONG,
+            loader:false
           })
           console.log(response.data.result)
         }
@@ -190,7 +192,8 @@ class AddClassification extends Component {
             instituteTelephone:'',
             country:'',
             postalCode:' ',
-            ErrorStatus:false
+            ErrorStatus:false,
+            loader:false
           })
          that.setState({ alertShow: true})
          
@@ -200,9 +203,17 @@ class AddClassification extends Component {
       .catch(function (error) {
       
         console.log(error.response);
+        if(error.response !== undefined){
         that.setState({
-          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger"
+          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger", loader:false
         })
+      }
+      else {
+        that.setState({
+          alertShow: true , alertMessage: "Network Error" , theme: "danger", loader:false
+
+        })
+      }
       });
       
     }
@@ -299,7 +310,7 @@ class AddClassification extends Component {
                   </Row>
                   <hr />
                   
-                  {(this.state.loader)? (<img src = {loader} style = {{height : "8%"}} />): (<Button size="sm" theme = "success" className="mb-2 mr-1 worldcerts-button"
+                  {(this.state.loader)? (<img src = {loader} className = "loader"/>): (<Button size="sm" className="mb-2 mr-1 worldcerts-button"
                     onClick={this.onRegisterClick.bind(this)}
                   >Register</Button>)}
                 </Form>

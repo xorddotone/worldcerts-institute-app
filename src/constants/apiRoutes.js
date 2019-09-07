@@ -11,6 +11,7 @@ export const GET_CLASSIFICATION_CATEGORIES = SERVER_URL + "category"
 export const Delete_INSTITUTE = SERVER_URL + "institute/"
 export const Delete_CLASSIFICATION = SERVER_URL + "classification/"
 export const ISSUE_CERTIFICATE = SERVER_URL + "participation/"
+export const EDIT_CLASSIFICATION = SERVER_URL + "classification/"
 
 
 

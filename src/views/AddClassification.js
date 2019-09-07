@@ -40,7 +40,7 @@ class InstituteRegistration extends Component {
     this.state = {
       instituteName: '',
       category: '',
-      classification: '',
+      classification: this.props.editClassificationData.classification,
       duration: null,
       durationValidity: '',
       ErrorStatus: false,
@@ -169,7 +169,7 @@ class InstituteRegistration extends Component {
     else{
       let that = this;
     console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
-    if ( that.state.category == "" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "") {
+    if ( that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
       that.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
@@ -215,6 +215,7 @@ class InstituteRegistration extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          console.log(error.response)
           that.setState({
             loader:false
           })
@@ -246,7 +247,77 @@ class InstituteRegistration extends Component {
     this.props.EditClassificationState(false)
     this.props.history.push("/manageClassification")
   }
-  onSaveClick(){}
+  onSaveClick(){
+    this.setState({
+      loader : true
+    })
+    let that = this;
+    console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
+    if ( that.state.category == "" || this.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || this.state.durationValidity == "Choose") {
+      that.setState({
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
+        alertShow: true,
+        theme: "danger",
+        loader:false
+      })
+    }
+    else {
+      let timeDuration = ""
+      if(that.state.durationValidity == "year"){
+        timeDuration = that.state.duration*31536000
+      }
+      else if(that.state.durationValidity == "months"){
+        timeDuration = that.state.duration* 2592000
+
+        
+      }
+      else if(that.state.durationValidity == "days"){
+      }
+      timeDuration = that.state.duration* 86400
+      
+      console.log(timeDuration)
+      let obj = {
+        instituteName: that.props.selectedInstituteName.name,
+        category: that.state.category,
+        classification: that.state.classification,
+        durationValidity: timeDuration,
+         // country: this.state.country,
+        // postalCode: this.state.postalCode
+      }
+      console.log(obj)
+      console.log(that.state.selectedInstituteId)
+      axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
+        .then(function (response) {
+
+          // console.log(response.data.data.result);
+          that.setState({
+            loader:false
+          })
+          alert("Classification has been Updated")
+          that.props.history.push('/manageClassification')
+         
+        })
+        .catch(function (error) {
+          console.log(error);
+          if(error.response == undefined){
+          that.setState({
+            alertMessage: "Network Error",
+            alertShow: true,
+            theme: "danger",
+            loader:false
+          })
+        }
+        else {
+          that.setState({
+            alertMessage: error.response.data.responseMessage,
+            alertShow: true,
+            theme: "danger",
+            loader:false
+          })
+        }
+        });
+    }
+  }
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -293,7 +364,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category" >
+                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
                               {/* <option>category</option> */}
                               {console.log(this.state.classificationCategory)}
                              
@@ -301,7 +372,7 @@ class InstituteRegistration extends Component {
                                 this.state.classificationCategory.map((category) => {
                                   return (
                                     // console.log(category.categoryName)
-                                    <option>{category.categoryName}</option>
+                                    <option >{category.categoryName}</option>
 
                                   )
                                 })
@@ -432,14 +503,16 @@ class InstituteRegistration extends Component {
                           ) : (null)}
                         </Row> */}
                         {(this.props.editClassificationState)?(
-                          <div>
+                          (this.state.loader)?(<img src = {loader} className = "loader"/>):( <div>
+
                             <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onSaveClick.bind(this)}
                         >Save</Button>
                         <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onCancelClick.bind(this)}
                         >Cancel</Button>
-                          </div>
+                          </div>)
+                         
                         ):(
                           <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
@@ -465,7 +538,8 @@ const mapStateToProps = (state) => {
     Title: state.pageTitle,
     userData: state.user_reducer.user,
     selectedInstituteName:state.user_reducer.selectedInstituteName,
-    editClassificationState:state.dashboard_reducer.editClassificationState
+    editClassificationState:state.dashboard_reducer.editClassificationState,
+    editClassificationData:state.dashboard_reducer.editClassificationData
 
   }
 }

@@ -118,7 +118,15 @@ class ManageInstitutes extends Component {
 
      
     }catch(e){
-      console.log(e)
+      
+      console.log(e.response)
+      if(e.response == undefined){
+        this.setState({
+          alertShow: true,
+        alertMessage: "Network Error",
+        theme: "danger"
+        })
+      }
     }
   
   }
@@ -188,13 +196,13 @@ class ManageInstitutes extends Component {
             )}
           </Row>
         ):(
-      <div><h3 className = "nothing-added-yet">Nothing added yet</h3></div>
+      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
       )}
         </div>
         ):(
         <div style={{textAlign:"center",margin:"15% 30%"}}>
-          <h3 >Verify You account First</h3>
-          <Link to="/emailVerification"><Button size="sm" theme = "success" className = "worldcerts-button">Verify</Button></Link>
+          <h3 >Verify your account first</h3>
+          <Link to="/emailVerification"><Button size="sm" className = "worldcerts-button">Verify</Button></Link>
         </div>
       )}
         

@@ -155,17 +155,17 @@ onClickAdd(ev){
       <div className="nav-wrapper d-inline-block item-icon-wrapper">
         <Nav className="nav--no-borders flex-column " >
 
+      {/* style={{marginLeft:'5%'}} */}
           <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
-
-<DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-         <img
+<DropdownToggle caret tag={NavLink} className="text-nowrap px-3 " >
+         {/* <img
         id="main-logo"
         className="d-inline-block align-top mr-1"
         style={{ maxWidth: "25px" }}
         src={require("../../../images/logo1.png")}
         alt="Shards Dashboard"
-      />
-
+      /> */}
+        <i style={{marginLeft:'5%'}}  className="material-icons">{"apartment"}</i>
         <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={this.state.visible}>
@@ -174,7 +174,7 @@ onClickAdd(ev){
             <div>
               {this.state.Institutes.map((names,id)=>(
                 <DropdownItem to="/manage_organization" tag={Link} key={id}>
-                <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
+                <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">{"apartment"}</i> {names.companyName} </div>
               </DropdownItem>
               ))}
               
@@ -184,7 +184,7 @@ onClickAdd(ev){
         )}
         {/* onClick={this.onClickAdd.bind(this)} */}
         <DropdownItem to="/organization_registration" tag={Link}>
-                <i className="material-icons">&#xE7FD;</i> ADD Organization
+                <i className="material-icons">{"apartment"}</i> ADD Organization
         </DropdownItem>
       </Collapse>
     </NavItem>
@@ -207,7 +207,7 @@ onClickAdd(ev){
                 </NavLink>
               </NavItem>
             )
-          })}<NavLink>
+          })}<NavLink >
           <FormCheckbox toggle small checked={this.state.switched} onClick={this.onCheckBoxChange} on={this.props.toggleSwitchState} >
        {(this.props.toggleSwitchState)?(
          "Main Network"
