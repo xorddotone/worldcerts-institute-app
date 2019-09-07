@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import cross from '../images/cross.svg'
+import add from '../images/add.png'
 import '../css/style.css'
 import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
 const axios = require('axios');
@@ -179,9 +180,10 @@ class ManageClassifications extends Component {
           {/* <Link to="/addClassification">   */}
           <Button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
           Add  
-          <i class="material-icons">
+          <img src = {add} alt = "" height= "17px"/>
+          {/* <i class="material-icons">
           add
-</i>
+</i> */}
       </Button>
       {/* </Link> */}
         </Row>
