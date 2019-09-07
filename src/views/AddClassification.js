@@ -157,7 +157,7 @@ class InstituteRegistration extends Component {
     this.setState({
       loader:true
     })
-    if(this.props.selectedInstituteName.name=="worldcerts"){
+    if(this.props.selectedInstituteName.name=="Select Organization"){
       this.setState({
         alertMessage: "Select Institute",
         alertShow: true,

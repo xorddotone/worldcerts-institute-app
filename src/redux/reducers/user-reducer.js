@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     token : '',
     user:{},
     selectedInstituteName:{
-        name:'worldcerts',
+        name:'Select Organization',
         id:''
     }
 } 

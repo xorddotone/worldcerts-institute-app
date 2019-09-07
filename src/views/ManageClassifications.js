@@ -118,7 +118,7 @@ class ManageClassifications extends Component {
       //     // handle error
       //     console.log(error);
       //   })
-      if(this.props.selectedInstituteName.name!="worldcerts"){
+      if(this.props.selectedInstituteName.name!="Select Organization"){
         console.log("inside if")
       axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
         .then(function (response) {
@@ -278,7 +278,7 @@ class ManageClassifications extends Component {
             )}
           </Row>
         ):(
-      <div><h3 className = "nothing-added-yet">Nothing added yet</h3></div>
+      <div><h3 >Nothing added yet</h3></div>
       )}
       </Container>
     )
