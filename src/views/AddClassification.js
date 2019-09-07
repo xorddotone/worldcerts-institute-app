@@ -28,12 +28,9 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
-<<<<<<< HEAD
 import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
 
-=======
 import loader from '../images/loader.gif'
->>>>>>> dbdf5b9b5964bf819f8180be831df4811b1bd266
 const duration = [
   "Choose" , "year", "months", "days"
 ]
@@ -43,7 +40,7 @@ class InstituteRegistration extends Component {
     this.state = {
       instituteName: '',
       category: '',
-      classification: '',
+      classification: this.props.editClassificationData.classification,
       duration: null,
       durationValidity: '',
       ErrorStatus: false,
@@ -249,7 +246,61 @@ class InstituteRegistration extends Component {
     this.props.EditClassificationState(false)
     this.props.history.push("/manageClassification")
   }
-  onSaveClick(){}
+  onSaveClick(){
+    let that = this;
+    console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
+    if ( that.state.category == "" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "") {
+      that.setState({
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
+        alertShow: true,
+        theme: "info",
+        loader:false
+      })
+    }
+    else {
+      let timeDuration = ""
+      if(that.state.durationValidity == "year"){
+        timeDuration = that.state.duration*31536000
+      }
+      else if(that.state.durationValidity == "months"){
+        timeDuration = that.state.duration* 2592000
+
+        
+      }
+      else if(that.state.durationValidity == "days"){
+      }
+      timeDuration = that.state.duration* 86400
+      
+      console.log(timeDuration)
+      let obj = {
+        instituteName: that.props.selectedInstituteName.name,
+        category: that.state.category,
+        classification: that.state.classification,
+        durationValidity: timeDuration,
+         // country: this.state.country,
+        // postalCode: this.state.postalCode
+      }
+      console.log(obj)
+      console.log(that.state.selectedInstituteId)
+      axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
+        .then(function (response) {
+
+          // console.log(response.data.data.result);
+          that.setState({
+            loader:false
+          })
+          alert("Classification has been Updated")
+          that.props.history.push('/manageClassification')
+         
+        })
+        .catch(function (error) {
+          console.log(error);
+          that.setState({
+            loader:false
+          })
+        });
+    }
+  }
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -296,7 +347,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category" >
+                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
                               {/* <option>category</option> */}
                               {console.log(this.state.classificationCategory)}
                              
@@ -304,7 +355,7 @@ class InstituteRegistration extends Component {
                                 this.state.classificationCategory.map((category) => {
                                   return (
                                     // console.log(category.categoryName)
-                                    <option>{category.categoryName}</option>
+                                    <option >{category.categoryName}</option>
 
                                   )
                                 })
@@ -434,7 +485,6 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-<<<<<<< HEAD
                         {(this.props.editClassificationState)?(
                           <div>
                             <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
@@ -450,12 +500,6 @@ class InstituteRegistration extends Component {
                         >Register</Button>
                         )}
                         
-=======
-                        
-                       { (this.state.loader)? (<img src = {loader} style = {{height : "8%"}} />): (<Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onRegisterClick.bind(this)}
-                        >Register</Button>)}
->>>>>>> dbdf5b9b5964bf819f8180be831df4811b1bd266
                       </Form>
                     </Col>
                   </Row>
@@ -475,7 +519,8 @@ const mapStateToProps = (state) => {
     Title: state.pageTitle,
     userData: state.user_reducer.user,
     selectedInstituteName:state.user_reducer.selectedInstituteName,
-    editClassificationState:state.dashboard_reducer.editClassificationState
+    editClassificationState:state.dashboard_reducer.editClassificationState,
+    editClassificationData:state.dashboard_reducer.editClassificationData
 
   }
 }

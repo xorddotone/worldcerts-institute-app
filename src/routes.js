@@ -135,5 +135,10 @@ export const routes3= [
     layout: DefaultLayout,
     component: ManageInstitutes
   },
+  {
+    path: "/institute_registration",
+    layout: DefaultLayout,
+    component: InstituteRegistration
+  },
 ];
 
