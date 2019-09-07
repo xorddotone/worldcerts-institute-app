@@ -155,17 +155,17 @@ onClickAdd(ev){
       <div className="nav-wrapper d-inline-block item-icon-wrapper">
         <Nav className="nav--no-borders flex-column " >
 
+      {/* style={{marginLeft:'5%'}} */}
           <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
-
-<DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-         <img
+<DropdownToggle caret tag={NavLink} className="text-nowrap px-3 " >
+         {/* <img
         id="main-logo"
         className="d-inline-block align-top mr-1"
         style={{ maxWidth: "25px" }}
         src={require("../../../images/logo1.png")}
         alt="Shards Dashboard"
-      />
-
+      /> */}
+        <i className="material-icons">{"apartment"}</i>
         <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={this.state.visible}>
