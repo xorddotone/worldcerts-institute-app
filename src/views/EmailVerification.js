@@ -156,7 +156,7 @@ class EmailVerification extends Component {
                     <Row>
                       <Col>
                     <div style={{ textAlign: "center" }}> 
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<Button size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<button size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</button>)} 
                       <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
                     </div>
                     </Col>

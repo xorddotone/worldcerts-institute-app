@@ -178,13 +178,13 @@ class ManageClassifications extends Component {
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
-          <Button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
+          <button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
           Add  
           <img src = {add} alt = "" height= "17px"/>
           {/* <i class="material-icons">
           add
 </i> */}
-      </Button>
+      </button>
       {/* </Link> */}
         </Row>
         {console.log(this.state.registeredClassifications)}

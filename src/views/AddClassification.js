@@ -505,18 +505,18 @@ class InstituteRegistration extends Component {
                         {(this.props.editClassificationState)?(
                           (this.state.loader)?(<img src = {loader} className = "loader"/>):( <div>
 
-                            <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                            <button size="sm"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onSaveClick.bind(this)}
-                        >Save</Button>
-                        <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                        >Save</button>
+                        <button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onCancelClick.bind(this)}
-                        >Cancel</Button>
+                        >Cancel</button>
                           </div>)
                          
                         ):(
-                          <Button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                          <button size="sm" className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Register</Button>
+                        >Register</button>
                         )}
                         
                       </Form>

@@ -29,10 +29,19 @@
 
 /* .btn-grad:hover { background-position: right center; } */
 .worldcerts-button{
+    line-height: 1.5;
+    border-radius: .25rem;
+    box-shadow: none;
+    color:#ffff;
+    border: 1px transparent;
+    transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
     padding: 0.5em 3em !important;
     font-size: 12px !important;
     font-weight: bold !important;
     background-image: linear-gradient(to right, rgb(49, 158, 170) 0%, #3CD3AD 100%, rgb(63, 159, 170) 40%)
+}
+.react-tel-input input[type=text], .react-tel-input input[type=tel]{
+    width: 100% !important
 }
 .cursor-pointer{
     cursor: pointer !important;

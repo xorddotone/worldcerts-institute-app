@@ -183,7 +183,7 @@ class Login extends Component {
                     {/* <img src = {loader} style = {{height : "8%"}} /> */}
                     <div style={{ textAlign: "center" }}> 
                     
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<Button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</button>)} 
                     </div>
                   </Form>
                 </Col>

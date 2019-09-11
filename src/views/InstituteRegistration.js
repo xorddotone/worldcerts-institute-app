@@ -23,6 +23,8 @@ import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import * as Response from '../constants/responseCodes'
 import loader from '../images/loader.gif'
+import ReactPhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 
 class AddClassification extends Component {
@@ -89,16 +91,11 @@ class AddClassification extends Component {
   }
 
   instituteTelephoneChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
-    console.log(ev.target.value)
-    if (reg.test(ev.target.value) || ev.target.value == "") {
-
-      console.log(ev.target.value)
+    console.log(ev)
       this.setState({
-        instituteTelephone: ev.target.value
+        instituteTelephone: ev
       })
     }
-  }
 
   countryChangeHandler(ev) {
     console.log(ev.target.value)
@@ -282,11 +279,10 @@ class AddClassification extends Component {
                     </Col>
                     <Col md="6">
                       <label>Organization Telephone #</label>
-                      <FormInput
-                        onChange={this.instituteTelephoneChangeHandler}
-                        placeholder="+9x-xx-xxxxxxx"
-                        value={this.state.instituteTelephone}
-                      />
+                      <ReactPhoneInput 
+                        defaultCountry={'us'} 
+                        value={this.state.instituteTelephone} 
+                        onChange={this.instituteTelephoneChangeHandler}/>
                     </Col>
                   </Row>
                   <Row form style={{ marginTop: "15px" }}>
@@ -310,9 +306,9 @@ class AddClassification extends Component {
                   </Row>
                   <hr />
                   
-                  {(this.state.loader)? (<img src = {loader} className = "loader"/>): (<Button size="sm" className="mb-2 mr-1 worldcerts-button"
+                  {(this.state.loader)? (<img src = {loader} className = "loader"/>): (<button size="sm" className="mb-2 mr-1 worldcerts-button"
                     onClick={this.onRegisterClick.bind(this)}
-                  >Register</Button>)}
+                  >Register</button>)}
                 </Form>
               </Col>
             </Row>
