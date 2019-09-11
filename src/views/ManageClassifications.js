@@ -24,7 +24,7 @@ import { EditClassification, EditClassificationState } from "../redux/actions/da
 const axios = require('axios');
 
 class ManageClassifications extends Component {
-  constructor(props) {
+  constructor(props) {  
     super(props);
     this.state = {
       registeredClassifications: [],

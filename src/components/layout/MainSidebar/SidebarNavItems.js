@@ -15,6 +15,7 @@ import * as Routes from '../../../constants/apiRoutes'
 import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
 import { Dispatcher, Constants } from "../../../flux";
 import { Link } from "react-router-dom";
+import add from '../../../images/addBlack.svg'
 const axios = require('axios');
 
 
@@ -34,11 +35,11 @@ class SidebarNavItems extends React.Component {
           to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
-        {
-          title: "User Profile",
-          to: "/userProfile",
-          htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
-        },
+        // {
+        //   title: "User Profile",
+        //   to: "/userProfile",
+        //   htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
+        // },
         {
           title: "Issue Certificate",
           to: "/issueCertificate",
@@ -56,11 +57,11 @@ class SidebarNavItems extends React.Component {
           to: "",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
-        {
-          title: "User Profile",
-          to: "",
-          htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
-        },
+        // {
+        //   title: "User Profile",
+        //   to: "",
+        //   htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
+        // },
       ],
      
       switched: this.props.toggleSwitchState,
@@ -165,7 +166,7 @@ onClickAdd(ev){
         src={require("../../../images/logo1.png")}
         alt="Shards Dashboard"
       /> */}
-        <i style={{marginLeft:'5%'}}  className="material-icons">{"apartment"}</i>
+        <i style={{marginLeft:'5%'}}  className="material-icons">{"storefront"}</i>
         <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
       </DropdownToggle>
       <Collapse tag={DropdownMenu} right small open={this.state.visible}>
@@ -174,7 +175,7 @@ onClickAdd(ev){
             <div>
               {this.state.Institutes.map((names,id)=>(
                 <DropdownItem to="/manage_organization" tag={Link} key={id}>
-                <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">{"apartment"}</i> {names.companyName} </div>
+                <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
               </DropdownItem>
               ))}
               
@@ -184,7 +185,9 @@ onClickAdd(ev){
         )}
         {/* onClick={this.onClickAdd.bind(this)} */}
         <DropdownItem to="/organization_registration" tag={Link}>
-                <i className="material-icons">{"apartment"}</i> ADD Organization
+        <img src = {add}  style ={{color:'black'}}  alt = "" height= "17px"/>
+                {/* <i className="material-icons">{"apartment"}</i>  */}
+                New Account
         </DropdownItem>
       </Collapse>
     </NavItem>

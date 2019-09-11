@@ -44,11 +44,13 @@ class UserActions extends React.Component {
       <NavItem tag={Dropdown} caret toggle={this.toggleUserActions}>
         <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
         <img
+            style={{width:'2em'}}
             className="user-avatar rounded-circle mr-2 userImage"
             src={require("../../../../images/user")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block cursor-pointer">{this.props.userData.email}</span>
+           
+          
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           {/* <DropdownItem tag={Link} to="/userProfile">
@@ -56,16 +58,22 @@ class UserActions extends React.Component {
           </DropdownItem> */}
           {/* <DropdownItem tag={Link} to="edit-user-profile">
             <i className="material-icons">&#xE8B8;</i> Edit Profile
-          </DropdownItem>
-          <DropdownItem tag={Link} to="file-manager-list">
-            <i className="material-icons">&#xE2C7;</i> Files
-          </DropdownItem>
-          <DropdownItem tag={Link} to="transaction-history">
-            <i className="material-icons">&#xE896;</i> Transactions
           </DropdownItem> */}
-          {/* <DropdownItem divider /> */}
+          <DropdownItem  to="">
+            <i className="material-icons"></i> {this.props.userData.name} <br/> 
+            <span style={{fontSize:'12px'}}><i className="material-icons"></i>  Administrator</span>
+          </DropdownItem>
+          {/* <DropdownItem  to="">
+            <i className="material-icons"></i>  Administrator
+              
+          </DropdownItem> */}
+          
+          <DropdownItem divider />
+          <DropdownItem tag={Link} to="/userProfile">
+            <i className="material-icons">&#xE896;</i> Profile
+          </DropdownItem>
           <DropdownItem tag={Link} to="/" className="text-danger" onClick={this.onLogoutClick.bind(this)}>
-            <i className="material-icons text-danger">&#xE879;</i> Logout
+            <i className="material-icons text-danger">&#xE879;</i> Sign out
           </DropdownItem>
         </Collapse>
       </NavItem>
