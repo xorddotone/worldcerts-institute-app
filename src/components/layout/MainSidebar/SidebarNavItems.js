@@ -137,14 +137,18 @@ class SidebarNavItems extends React.Component {
     });
   }
 
-  onClickInstitute(val, nameIns) {
-    console.log(val, nameIns, "vallllllllllllll")
+  onClickInstitute(names) {
+    console.log(names)
+    console.log(names._id, names.companyName, "vallllllllllllll")
     this.setState({
-      name: nameIns
+      name: names.companyName
     })
     let obj = {
-      name: nameIns,
-      id: val
+      name: names.companyName,
+      id: names._id,
+      url: names.companyWebsite,
+      email:"xyz@gmail.com",
+      certificateStore: 0x000000000000000      
     }
     this.props.SELECTED_INSTITUTE(obj)
     // this.props.history.push("/manage_organization")
@@ -181,7 +185,7 @@ class SidebarNavItems extends React.Component {
                 <div>
                   {this.state.Institutes.map((names, id) => (
                     <DropdownItem to="/manage_organization" tag={Link} key={id}>
-                      <div onClick={() => this.onClickInstitute(names._id, names.companyName)}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
+                      <div onClick={() => this.onClickInstitute(names )}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
                     </DropdownItem>
                   ))}
 

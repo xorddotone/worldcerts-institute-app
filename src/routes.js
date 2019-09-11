@@ -143,9 +143,14 @@ export const routes3= [
     component: ManageInstitutes
   },
   {
-    path: "/institute_registration",
+    path: "/organization_registration",
     layout: DefaultLayout,
     component: InstituteRegistration
+  },
+  {
+    path: "/userProfile",
+    layout: DefaultLayout,
+    component: UserProfile
   },
   {
     path: "/settings",
