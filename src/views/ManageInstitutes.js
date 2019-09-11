@@ -202,7 +202,7 @@ class ManageInstitutes extends Component {
         ):(
         <div style={{textAlign:"center",margin:"15% 30%"}}>
           <h3 >Verify your account first</h3>
-          <Link to="/emailVerification"><Button size="sm" className = "worldcerts-button">Verify</Button></Link>
+          <Link to="/emailVerification"><button size="sm" className = "worldcerts-button">Verify</button></Link>
         </div>
       )}
         
