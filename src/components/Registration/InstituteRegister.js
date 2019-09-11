@@ -259,9 +259,9 @@ class UserAccountDetails extends Component {
                 </Row>
                 <hr />
               
-                  <Button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"  onClick={this.onRegisterClick.bind(this)}>
+                  <button size="sm" theme = "success" style = {{backgroundColor: "lightgreen" ,  color: "#0000008c" , padding: "0.5em 3em", fontSize: "12px" , fontWeight: "bold"}} className="mb-2 mr-1"  onClick={this.onRegisterClick.bind(this)}>
         Register
-      </Button>
+      </button>
               </Form>
             </Col>
           </Row>

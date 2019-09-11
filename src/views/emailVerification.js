@@ -112,7 +112,7 @@ class emailVerification extends Component {
                       </Col>
                       <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
                     </Row>
-                    <div style={{ textAlign: "center" }}> <Button theme="accent" onClick={this.onClickVerify}>Verify</Button></div>
+                    <div style={{ textAlign: "center" }}> <button onClick={this.onClickVerify}>Verify</button></div>
                   </Form>
                 </Col>
               </Row>
