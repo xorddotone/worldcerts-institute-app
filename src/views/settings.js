@@ -45,7 +45,9 @@ class Settings extends Component {
     return (
       <Container fluid className="main-content-container px-4">
   <Row noGutters className="page-header py-4">
-        <PageTitle title="Settings" subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+        <PageTitle title="Settings"  md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+        <PageTitle  subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+        
         {/* subtitle="Registration" */}
       </Row>       
        
