@@ -16,6 +16,7 @@ import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
 import IssueCertificate from "./views/IssueCertificate";
 import SingleCertificate from "./views/SingleCertificate";
+import Settings from "./views/settings";
 
 export const routes1= [
   {
@@ -73,9 +74,15 @@ export const routes1= [
     component: IssueCertificate
   },
   {
+
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
+  },
+  {
+    path: "/settings",
+    layout: DefaultLayout,
+    component: Settings
   },
 ];
 export const routes2= [
@@ -139,6 +146,11 @@ export const routes3= [
     path: "/institute_registration",
     layout: DefaultLayout,
     component: InstituteRegistration
+  },
+  {
+    path: "/settings",
+    layout: DefaultLayout,
+    component: Settings
   },
 ];
 

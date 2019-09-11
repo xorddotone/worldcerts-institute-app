@@ -1,5 +1,6 @@
 import React from "react";
-import { Nav, NavItem, NavLink, FormCheckbox,
+import {
+  Nav, NavItem, NavLink, FormCheckbox,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -8,11 +9,11 @@ import { Nav, NavItem, NavLink, FormCheckbox,
 } from "shards-react";
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
-import {TOGGLE} from "../../../redux/actions/dashboard-action"
+import { TOGGLE } from "../../../redux/actions/dashboard-action"
 // import Select from 'react-select';
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
-import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
+import { SELECTED_INSTITUTE } from "../../../redux/actions/login-action"
 import { Dispatcher, Constants } from "../../../flux";
 import { Link } from "react-router-dom";
 import add from '../../../images/addBlack.svg'
@@ -35,15 +36,15 @@ class SidebarNavItems extends React.Component {
           to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
-        // {
-        //   title: "User Profile",
-        //   to: "/userProfile",
-        //   htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
-        // },
         {
           title: "Issue Certificate",
           to: "/issueCertificate",
           htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
+          title: "Settings",
+          to: "/settings",
+          htmlBefore: ' <i class="material-icons">brightness_5</i>',
         },
       ],
       ItemNotVerified: [
@@ -57,96 +58,101 @@ class SidebarNavItems extends React.Component {
           to: "",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
+        {
+          title: "Settings",
+          to: "/settings",
+          htmlBefore: ' <i class="material-icons">brightness_5</i>',
+        },
         // {
         //   title: "User Profile",
         //   to: "",
         //   htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
         // },
       ],
-     
+
       switched: this.props.toggleSwitchState,
-        visible: false,
-        name: "WorldCerts",
-        Institutes:[],
-        chainName:'Test Net'
-   
+      visible: false,
+      name: "WorldCerts",
+      Institutes: [],
+      chainName: 'Test Net'
+
     };
-    this.onCheckBoxChange=this.onCheckBoxChange.bind(this)
+    this.onCheckBoxChange = this.onCheckBoxChange.bind(this)
     this.onClickInstitute = this.onClickInstitute.bind(this)
 
   }
   handleClick = (e) => {
     const { linkDisabled } = this.state
-    if(linkDisabled) e.preventDefault()
-}
-onCheckBoxChange(){
-  let temp;
-  this.setState(prevState => {
-    console.log(!prevState.switched)
-    // temp=!prevState.switched
-    this.props.TOGGLE_SWITCH(!prevState.switched)
-    return {
-      switched: !prevState.switched
-    };
-  });
-  // if(temp){
-  //   this.setState({
-  //     chainName:'Main Net'
-  //   })
-  // }
-  // else{
-  //   this.setState({
-  //     chainName:'Test Net'
-  //   })
-  // }
-}
-
-componentDidMount(){
-  let temp;
-  let that=this;
-  console.log(this.props.userData._id)
-  axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
-    .then(function (response) {
-      // handle success
-      console.log(response);
-      temp=response.data.result
-      console.log(temp)
-      that.setState({
-        Institutes:temp
-      })
-
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-}
-
-
-
-
-toggleUserActions() {
-  this.setState({
-    visible: !this.state.visible
-  });
-}
-
-onClickInstitute(val,nameIns) {
-  console.log(val,nameIns, "vallllllllllllll")
-  this.setState({
-    name: nameIns
-  })
-  let obj={
-    name:nameIns,
-    id:val
+    if (linkDisabled) e.preventDefault()
   }
-  this.props.SELECTED_INSTITUTE(obj)
-  // this.props.history.push("/manage_organization")
-}
-onClickAdd(ev){
-  // ev.preventDefault()
-  this.props.history.push("/organization_registration")
-}
+  onCheckBoxChange() {
+    let temp;
+    this.setState(prevState => {
+      console.log(!prevState.switched)
+      // temp=!prevState.switched
+      this.props.TOGGLE_SWITCH(!prevState.switched)
+      return {
+        switched: !prevState.switched
+      };
+    });
+    // if(temp){
+    //   this.setState({
+    //     chainName:'Main Net'
+    //   })
+    // }
+    // else{
+    //   this.setState({
+    //     chainName:'Test Net'
+    //   })
+    // }
+  }
+
+  componentDidMount() {
+    let temp;
+    let that = this;
+    console.log(this.props.userData._id)
+    axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        temp = response.data.result
+        console.log(temp)
+        that.setState({
+          Institutes: temp
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+  }
+
+
+
+
+  toggleUserActions() {
+    this.setState({
+      visible: !this.state.visible
+    });
+  }
+
+  onClickInstitute(val, nameIns) {
+    console.log(val, nameIns, "vallllllllllllll")
+    this.setState({
+      name: nameIns
+    })
+    let obj = {
+      name: nameIns,
+      id: val
+    }
+    this.props.SELECTED_INSTITUTE(obj)
+    // this.props.history.push("/manage_organization")
+  }
+  onClickAdd(ev) {
+    // ev.preventDefault()
+    this.props.history.push("/organization_registration")
+  }
 
   render() {
     console.log(this.state.switched)
@@ -156,106 +162,106 @@ onClickAdd(ev){
       <div className="nav-wrapper d-inline-block item-icon-wrapper">
         <Nav className="nav--no-borders flex-column " >
 
-      {/* style={{marginLeft:'5%'}} */}
+          {/* style={{marginLeft:'5%'}} */}
           <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
-<DropdownToggle caret tag={NavLink} className="text-nowrap px-3 " >
-         {/* <img
+            <DropdownToggle caret tag={NavLink} className="text-nowrap px-3 " >
+              {/* <img
         id="main-logo"
         className="d-inline-block align-top mr-1"
         style={{ maxWidth: "25px" }}
         src={require("../../../images/logo1.png")}
         alt="Shards Dashboard"
       /> */}
-        <i style={{marginLeft:'5%'}}  className="material-icons">{"storefront"}</i>
-        <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
-      </DropdownToggle>
-      <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-        
-        {(this.state.Institutes)?(
-            <div>
-              {this.state.Institutes.map((names,id)=>(
-                <DropdownItem to="/manage_organization" tag={Link} key={id}>
-                <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
-              </DropdownItem>
-              ))}
-              
-           </div>   
-        ):(
-          null
-        )}
-        {/* onClick={this.onClickAdd.bind(this)} */}
-        <DropdownItem to="/organization_registration" tag={Link}>
-        <img src = {add}  style ={{color:'black'}}  alt = "" height= "17px"/>
+              <i style={{ marginLeft: '5%' }} className="material-icons">{"storefront"}</i>
+              <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
+            </DropdownToggle>
+            <Collapse tag={DropdownMenu} right small open={this.state.visible}>
+
+              {(this.state.Institutes) ? (
+                <div>
+                  {this.state.Institutes.map((names, id) => (
+                    <DropdownItem to="/manage_organization" tag={Link} key={id}>
+                      <div onClick={() => this.onClickInstitute(names._id, names.companyName)}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
+                    </DropdownItem>
+                  ))}
+
+                </div>
+              ) : (
+                  null
+                )}
+              {/* onClick={this.onClickAdd.bind(this)} */}
+              <DropdownItem to="/organization_registration" tag={Link}>
+                <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
                 New Account
         </DropdownItem>
-      </Collapse>
-    </NavItem>
-        {
-          (this.props.userData.isVerified)?(
+            </Collapse>
+          </NavItem>
+          {
+            (this.props.userData.isVerified) ? (
 
-            <div>
+              <div>
 
-            {this.state.ItemVerified.map((item, idx) => {
-              return (
-                <NavItem>
-                <NavLink tag={RouteNavLink} to={item.to}>
-                  {item.htmlBefore && (
-                    <div
-                    className="d-inline-block item-icon-wrapper"
-                    dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
-                    />
-                    )}
-                  {item.title && <span>{item.title}</span>}
+                {this.state.ItemVerified.map((item, idx) => {
+                  return (
+                    <NavItem>
+                      <NavLink tag={RouteNavLink} to={item.to}>
+                        {item.htmlBefore && (
+                          <div
+                            className="d-inline-block item-icon-wrapper"
+                            dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
+                          />
+                        )}
+                        {item.title && <span>{item.title}</span>}
+                      </NavLink>
+                    </NavItem>
+                  )
+                })}<NavLink >
+                  <FormCheckbox toggle small checked={this.state.switched} onClick={this.onCheckBoxChange} on={this.props.toggleSwitchState} >
+                    {(this.props.toggleSwitchState) ? (
+                      "Main Network"
+                    ) : (
+                        "Test Network"
+                      )}
+                  </FormCheckbox>
                 </NavLink>
-              </NavItem>
-            )
-          })}<NavLink >
-          <FormCheckbox toggle small checked={this.state.switched} onClick={this.onCheckBoxChange} on={this.props.toggleSwitchState} >
-       {(this.props.toggleSwitchState)?(
-         "Main Network"
-       ):(
-        "Test Network"
-       )}
+              </div>
+
+
+            ) : (
+                <div>
+
+                  {this.state.ItemNotVerified.map((item, idx) => {
+                    return (
+                      <NavItem>
+                        <NavLink
+                          // onClick={this.handleClick} 
+                          tag={RouteNavLink} to="/manage_organization">
+                          {item.htmlBefore && (
+                            <div
+                              className="d-inline-block item-icon-wrapper"
+                              dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
+                            />
+                          )}
+                          {item.title && <span>{item.title}</span>}
+                        </NavLink>
+                      </NavItem>
+                    )
+                  })}
+                  <NavLink>
+                    <FormCheckbox toggle small disabled >
+                      Test Mode
      </FormCheckbox>
-     </NavLink>
-          </div>
+                  </NavLink>
 
+                </div>
+              )
 
-        ):(
-          <div>
+          }
 
-          {this.state.ItemNotVerified.map((item, idx) => {
-            return (
-              <NavItem>
-                <NavLink 
-                // onClick={this.handleClick} 
-                tag={RouteNavLink} to="/manage_organization">
-                  {item.htmlBefore && (
-                    <div
-                    className="d-inline-block item-icon-wrapper"
-                    dangerouslySetInnerHTML={{ __html: item.htmlBefore }}
-                    />
-                    )}
-                  {item.title && <span>{item.title}</span>}
-                </NavLink>
-              </NavItem>
-            )
-          })}
-          <NavLink>
-          <FormCheckbox toggle small disabled >
-       Test Mode
-     </FormCheckbox>
-     </NavLink>
-
-           </div> 
-        )
-        
-        }
-        
-        {/* <span>toggle</span> */}
+          {/* <span>toggle</span> */}
         </Nav>
-         
+
       </div>
     )
   }
@@ -265,8 +271,8 @@ onClickAdd(ev){
 const mapStateToProps = (state) => {
   return {
     userData: state.user_reducer.user,
-    selectedInstituteName:state.user_reducer.selectedInstituteName,
-    toggleSwitchState:state.dashboard_reducer.toggle_switch_state,
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
+    toggleSwitchState: state.dashboard_reducer.toggle_switch_state,
     // Title: state.pageTitle,
   }
 }
