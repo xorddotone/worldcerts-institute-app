@@ -164,7 +164,7 @@ class EmailVerification extends Component {
                     <Row>
                       <Col>
                     <div style={{ textAlign: "center" , fontSize: "13px" , marginTop: "1em"}}> 
-                    <span>if you want to skip now </span><Link to = "/manage_organization">click here</Link>
+                    <span>if you want to skip now </span><Link to = "/home">click here</Link>
                     </div>
                     </Col>
                     </Row>

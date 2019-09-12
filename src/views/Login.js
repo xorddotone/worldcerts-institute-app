@@ -92,7 +92,7 @@ class Login extends Component {
             loader:false
           })
           if(response.data.result.isVerified){
-          this.props.history.push('/manage_organization')
+          this.props.history.push('/home')
           }
           else{
             this.props.history.push('/emailVerification')

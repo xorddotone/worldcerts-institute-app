@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 import PropTypes from "prop-types";
-import { Container, Row, Col } from "shards-react";
+import { Container, Row, Col , Alert } from "shards-react";
 import PageTitle from "./../components/common/PageTitle";
 import SmallStats from "./../components/common/SmallStats";
 import UsersOverview from "./UsersOverview";
@@ -13,6 +13,7 @@ import UsersByDevice from "./UsersByDevice";
 import { connect } from 'react-redux';
 import * as Routes from '../constants/apiRoutes'
 import * as Strings from '../constants/strings'
+import {Link} from 'react-router-dom'
 
 
 class Home extends Component {
@@ -113,12 +114,20 @@ class Home extends Component {
             }
           ]
         }
-      ]
+      ],
+      alertMessage: "",
+      alertShow: false,
+      theme: ""
       // pagetitle: Strings.WORLDCERTS
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    if(!this.props.userData.isVerified){
+      this.setState({
+        alertShow:true
+      })
+    }
     // const { pagetitle } = this.state;
     // this.props.UpdateTitle(pagetitle);
   }
@@ -130,87 +139,90 @@ class Home extends Component {
 
   render() {
     return (
-<Container fluid className="main-content-container px-4">
-    {/* Page Header */}
-    <Row noGutters className="page-header py-4">
-      <PageTitle title="Stats Overview" subtitle="Home" className="text-sm-left mb-3" />
-    </Row>
-    {/* Small Stats Blocks */}
-    <Row>
-      {this.state.smallStats.map((stats, idx) => (
-        <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
-          <SmallStats
-            id={`small-stats-${idx}`}
-            variation="1"
-            chartData={stats.datasets}
-            chartLabels={stats.chartLabels}
+      <Container fluid className="main-content-container px-4">
+        <Alert className="mb-0" open={this.state.alertShow} theme="success">
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        </Alert>
+        {/* Page Header */}
+        <Row noGutters className="page-header py-4">
+          <PageTitle title="Stats Overview" subtitle="Home" className="text-sm-left mb-3" />
+        </Row>
+        {/* Small Stats Blocks */}
+        <Row>
+          {this.state.smallStats.map((stats, idx) => (
+            <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
+              <SmallStats
+                id={`small-stats-${idx}`}
+                variation="1"
+                chartData={stats.datasets}
+                chartLabels={stats.chartLabels}
 
-            label={stats.label}
+                label={stats.label}
 
-            value={stats.value}
+                value={stats.value}
 
-            percentage={stats.percentage}
+                percentage={stats.percentage}
 
-            increase={stats.increase}
+                increase={stats.increase}
 
-            decrease={stats.decrease}
+                decrease={stats.decrease}
 
-          />
+              />
 
-        </Col>
+            </Col>
 
-      ))}
+          ))}
 
-    </Row>
+        </Row>
 
-    <Row>
+        <Row>
 
-      {/* Users Overview */}
+          {/* Users Overview */}
 
-      <Col lg="8" md="12" sm="12" className="mb-4">
+          <Col lg="8" md="12" sm="12" className="mb-4">
 
-        <UsersOverview />
+            <UsersOverview />
 
-      </Col>
+          </Col>
 
-      {/* Users by Device */}
+          {/* Users by Device */}
 
-      <Col lg="4" md="6" sm="12" className="mb-4">
+          <Col lg="4" md="6" sm="12" className="mb-4">
 
-        <UsersByDevice />
+            <UsersByDevice />
 
-      </Col>
+          </Col>
 
-      {/* New Draft */}
+          {/* New Draft */}
 
-      {/* <Col lg="4" md="6" sm="12" className="mb-4">
+          {/* <Col lg="4" md="6" sm="12" className="mb-4">
 
         <NewDraft />
 
       </Col> */}
 
-      {/* Discussions */}
+          {/* Discussions */}
 
-      {/* <Col lg="5" md="12" sm="12" className="mb-4">
+          {/* <Col lg="5" md="12" sm="12" className="mb-4">
 
         <Discussions />
 
       </Col> */}
 
-      {/* Top Referrals */}
+          {/* Top Referrals */}
 
-      {/* <Col lg="3" md="12" sm="12" className="mb-4">
+          {/* <Col lg="3" md="12" sm="12" className="mb-4">
 
         <TopReferrals />
 
       </Col> */}
 
-    </Row>
+        </Row>
 
-  </Container>
+      </Container>
     );
   }
-}  
+}
 
 
 
@@ -424,6 +436,8 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state.pageTitle);
   return {
     // Title: state.pageTitle,
+    userData: state.user_reducer.user,
+
   }
 }
 

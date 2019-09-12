@@ -205,7 +205,7 @@ class SidebarNavItems extends React.Component {
               {(this.state.Institutes) ? (
                 <div>
                   {this.state.Institutes.map((names, id) => (
-                    <DropdownItem to="/manage_organization" tag={Link} key={id}>
+                    <DropdownItem to="/home" tag={Link} key={id}>
                       <div onClick={() => this.onClickInstitute(names )}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
                     </DropdownItem>
                   ))}
