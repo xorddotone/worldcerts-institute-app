@@ -61,12 +61,12 @@ class SidebarNavItems extends React.Component {
         },
         {
           title: "Manage Organization",
-          to: "",
+          to: "/manage_organization",
           htmlBefore: '<i class="material-icons">home</i>',
         },
         {
           title: "Create Classification",
-          to: "",
+          to: "/manage_organization",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
@@ -251,7 +251,7 @@ class SidebarNavItems extends React.Component {
                       <NavItem>
                         <NavLink
                           // onClick={this.handleClick} 
-                          tag={RouteNavLink} to="/manage_organization">
+                          tag={RouteNavLink} to={item.to}>
                           {item.htmlBefore && (
                             <div
                               className="d-inline-block item-icon-wrapper"

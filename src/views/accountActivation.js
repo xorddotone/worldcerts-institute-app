@@ -7,6 +7,8 @@ import {
   ListGroupItem,
   Row,
   Col,
+  CardBody,
+  CardFooter,
   Form,
   FormGroup,
   FormInput,
@@ -18,6 +20,7 @@ import {
 import { connect } from 'react-redux';
 import * as constants from '../constants/apiRoutes'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 import PageTitle from "../components/common/PageTitle";
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
@@ -48,21 +51,32 @@ class AccountActivation extends Component {
         {/* subtitle="Registration" */}
       </Row>
       <Row>
-        <Col lg="11">
-        <Card small className="mb-4">
-        {/* <CardHeader className="border-bottom">
-        </CardHeader> */}
-       
-      </Card>
-        </Col>
-      </Row>
+      <Col lg="12">
+                <Card small className="card-post mb-12">
+                    {console.log(this.props.userData)}
+                    
+                    {(this.props.userData.isVerified)?( <CardBody>
+            
+            Activate Your Account <span className = "worldcerts-button" style = {{float:"right"}}>Verified</span>
+
+
+        </CardBody>):( <CardBody>
+            
+            Activate Your Account <Link to = "/emailVerification"><button className = "worldcerts-button" style = {{float:"right"}}>Activate</button></Link>
+
+
+        </CardBody>)}
+                 
+                </Card>
+              </Col>
+    </Row>
     </Container>
    
     )
   }
 }
 const mapStateToProps = (state) => {
-  console.log(Strings.REDUX, state.pageTitle);
+  console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
     userData:state.user_reducer.user
