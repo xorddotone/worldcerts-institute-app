@@ -140,7 +140,7 @@ class Home extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-        <Alert className="mb-0" open={this.state.alertShow} theme="success">
+        <Alert className="mb-0" open={this.state.alertShow} theme="danger">
           <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
         </Alert>
         {/* Page Header */}
