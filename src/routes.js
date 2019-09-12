@@ -18,6 +18,7 @@ import IssueCertificate from "./views/IssueCertificate";
 import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
 import Home from "./views/Home";
+import AccountActivation from './views/accountActivation'
 
 export const routes1= [
   {
@@ -79,6 +80,11 @@ export const routes1= [
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
+  },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: AccountActivation
   },
   {
     path: "/settings",
@@ -157,6 +163,11 @@ export const routes3= [
     path: "/userProfile",
     layout: DefaultLayout,
     component: UserProfile
+  },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: AccountActivation
   },
   {
     path: "/settings",

@@ -27,6 +27,16 @@ class SidebarNavItems extends React.Component {
     this.state = {
       ItemVerified: [
         {
+          title: "Home",
+          to: "/home",
+          htmlBefore: ' <i class="material-icons">home</i>',
+        },
+          {
+            title: "Activate Your Account",
+            to: "/account_activation",
+            htmlBefore: ' <i class="material-icons">brightness_5</i>',
+          },
+          {
           title: "Manage Organization",
           to: "/manage_organization",
           htmlBefore: '<i class="material-icons">home</i>',
@@ -46,8 +56,19 @@ class SidebarNavItems extends React.Component {
           to: "/settings",
           htmlBefore: ' <i class="material-icons">brightness_5</i>',
         },
+        
       ],
       ItemNotVerified: [
+        {
+          title: "Home",
+          to: "/home",
+          htmlBefore: ' <i class="material-icons">home</i>',
+        },
+        {
+          title: "Activate Your Account",
+          to: "/account_activation",
+          htmlBefore: ' <i class="material-icons">brightness_5</i>',
+        },
         {
           title: "Manage Organization",
           to: "",

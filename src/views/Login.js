@@ -91,7 +91,12 @@ class Login extends Component {
           this.setState({
             loader:false
           })
+          if(response.data.result.isVerified){
           this.props.history.push('/manage_organization')
+          }
+          else{
+            this.props.history.push('/emailVerification')
+          }
         }
       })
         .catch(err => {
