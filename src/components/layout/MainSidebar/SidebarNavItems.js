@@ -26,7 +26,13 @@ class SidebarNavItems extends React.Component {
 
     this.state = {
       ItemVerified: [
-        {
+        
+          {
+            title: "Activate Your Account",
+            to: "/account_activation",
+            htmlBefore: ' <i class="material-icons">brightness_5</i>',
+          },
+          {
           title: "Manage Organization",
           to: "/manage_organization",
           htmlBefore: '<i class="material-icons">home</i>',
@@ -48,6 +54,11 @@ class SidebarNavItems extends React.Component {
         },
       ],
       ItemNotVerified: [
+        {
+          title: "Activate Your Account",
+          to: "/account_activation",
+          htmlBefore: ' <i class="material-icons">brightness_5</i>',
+        },
         {
           title: "Manage Organization",
           to: "",
