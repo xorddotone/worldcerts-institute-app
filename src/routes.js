@@ -17,6 +17,7 @@ import AddClassification from "./views/AddClassification";
 import IssueCertificate from "./views/IssueCertificate";
 import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
+import Home from "./views/Home";
 
 export const routes1= [
   {
@@ -83,6 +84,11 @@ export const routes1= [
     path: "/settings",
     layout: DefaultLayout,
     component: Settings
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: Home
   },
 ];
 export const routes2= [
@@ -156,6 +162,11 @@ export const routes3= [
     path: "/settings",
     layout: DefaultLayout,
     component: Settings
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: Home
   },
 ];
 

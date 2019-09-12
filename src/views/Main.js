@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import { connect } from 'react-redux';
-// import { pageTitle } from '../Redux/action';
+import { pageTitle } from '../Redux/action';
 import history from "../config/history"
 import * as Strings from '../constants/strings'
 
-class Home extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ class Home extends Component {
 
   componentWillMount() {
     const { pagetitle } = this.state;
-    // this.props.UpdateTitle(pagetitle);
+    this.props.UpdateTitle(pagetitle);
   }
 
   onBtnClick() {
@@ -28,7 +28,7 @@ class Home extends Component {
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
-          <PageTitle title="Home" subtitle="HomeView" md="12" className="ml-sm-auto mr-sm-auto" />
+          <PageTitle title="Dashboard" subtitle="Overview" md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
         <button onClick={this.onBtnClick.bind(this)}>tests</button>
       </Container>
@@ -46,8 +46,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
