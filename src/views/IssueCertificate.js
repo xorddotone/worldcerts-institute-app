@@ -37,12 +37,23 @@ class IssueCertificate extends Component {
     this.state = {
       fileName: '',
       data: null,
+      columns:[]
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
       //   { title: 'Email', field: 'email' },
       //   { title: 'Phone' , field: 'phone'},
       //   { title: 'StudentId' , field: 'studentid'},
+      // ],
+      // columns: [
+      //   { title: 'Name', field: 'name' },
+      //   { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
+      //   { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+      //   {
+      //     title: 'Birth Place',
+      //     field: 'birthCity',
+      //     lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+      //   },
       // ],
       // data: [
       //   { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
@@ -54,8 +65,21 @@ class IssueCertificate extends Component {
     this.FileHandler = this.FileHandler.bind(this)
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
+    this.getColumns=this.getColumns.bind(this)
   }
   
+  // getColumns() {
+    
+  //   return Object.keys(this.state.data[0]).map(key => {
+  //     console.log(key)
+  //     return {
+  //       title: key,
+  //       field: key
+  //     };
+  //   });
+  // }
+  
+
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
@@ -82,7 +106,7 @@ class IssueCertificate extends Component {
       temp1 = that.csvJSON(temp)
       console.log(temp1)
       console.log(JSON.parse(temp1))
-
+      that.getColumns(JSON.parse(temp1))
       that.setState({
         data: JSON.parse(temp1)
       })
@@ -92,15 +116,7 @@ class IssueCertificate extends Component {
     reader.readAsText(files[0]);
   }
 
-  getColumns() {
-    return Object.keys(this.state.data[0]).map(key => {
-      console.log(key)
-      return {
-        title: key,
-        field: key
-      };
-    });
-  }
+  
 
   onIssueCertificate() {
     console.log(this.state.data)
@@ -122,12 +138,7 @@ class IssueCertificate extends Component {
       name: "Master of Blockchain",
     }
 
-    let obj = {
-      classification,
-      issuer,
-      recipient
-    }
-
+   
 
 
     // {
@@ -138,12 +149,23 @@ class IssueCertificate extends Component {
     //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
 
-    // console.log(this.state.data)
+    console.log(this.state.data)
     // let obj = [
 
     //   this.state.data
     // ]
+    let temp = this.state.data
+    for(let i = 0;i<temp.length;i++){
+      // console.log(this.state.data[i].tableData)
+      delete temp[i].tableData
+    }
+    console.log(temp)
 
+    let obj = {
+      classification,
+      issuer,
+      recipient : temp
+    }
 
 
     axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
@@ -172,8 +194,27 @@ class IssueCertificate extends Component {
     return JSON.stringify(result); //JSON
   }
 
+  getColumns(dt) {
+    let temp=[]
+    Object.keys(dt[0]).map(key => {
+      console.log(key)
+      let obj={
+        title:key,
+        field:key
+      }
+      temp.push(obj)
+    });
+    console.log(temp)
+    this.setState({columns:temp})
+  }
+
 
   render() {
+  //   if(this.state.data){
+  //   this.getColumns()
+  // }
+
+
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
@@ -206,44 +247,47 @@ class IssueCertificate extends Component {
           //     />
           <MaterialTable
           title="Editable Preview"
-          columns={this.getColumns()}
+          columns={this.state.columns}
           data={this.state.data}
           editable={{
             onRowAdd: newData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    const data = this.state.data;
-                    data.push(newData);
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    const data = this.state.data;
-                    const index = data.indexOf(oldData);
-                    data[index] = newData;
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
-            onRowDelete: oldData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    let data = this.state.data;
-                    const index = data.indexOf(oldData);
-                    data.splice(index, 1);
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  const data = this.state.data;
+                  data.push(newData);
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  const data = this.state.data;
+                  const index = data.indexOf(oldData);
+                  console.log(index)
+                  data[index] = newData;
+                  console.log(data)
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  let data = this.state.data;
+                  const index = data.indexOf(oldData);
+                  data.splice(index, 1);
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+ 
           }}
         />
         ) : (null)}
