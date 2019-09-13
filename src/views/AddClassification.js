@@ -61,11 +61,9 @@ class InstituteRegistration extends Component {
     this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
     this.onClickOptions=this.onClickOptions.bind(this)
     this.dismiss = this.dismiss.bind(this)
+    this.onRegisterClick = this.onRegisterClick.bind(this)
   }
 
-  componentWillMount() {
-    // this.props.UpdateTitle("Insttue Registration");
-  }
 
   componentDidMount() {
     console.log(this.props.userData)
@@ -515,7 +513,7 @@ class InstituteRegistration extends Component {
                          
                         ):(
                           <button size="sm" className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onRegisterClick.bind(this)}
+                          onClick={this.onRegisterClick}
                         >Register</button>
                         )}
                         

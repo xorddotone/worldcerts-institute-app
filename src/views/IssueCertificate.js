@@ -39,7 +39,7 @@ class IssueCertificate extends Component {
       fileName: '',
       data: null,
       columns:[],
-      classificationCategory : [],
+      registeredClassifications : [],
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
@@ -87,20 +87,35 @@ class IssueCertificate extends Component {
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
   }
-  componentDidMount(){
+  componentDidMount() {
+    // console.log(this.props.userData)
     let temp;
-    let temp2;
     let that=this;
-    axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+    // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log(response);
+    //     temp=response.data.result
+    //     console.log(temp)
+    //     that.setState({
+    //       registeredClassifications:temp
+    //     })
+
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+    if(this.props.selectedInstituteName.name!="Select Organization"){
+      console.log("inside if")
+    axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
       .then(function (response) {
         // handle success
         console.log(response);
-        let obj = {categoryName : "Choose"}
-        temp2=response.data.result
-        console.log(temp2)
-        temp2.unshift(obj)
+        temp=response.data.result
+        console.log(temp)
         that.setState({
-          classificationCategory:temp2
+          registeredClassifications:temp
         })
 
       })
@@ -108,8 +123,14 @@ class IssueCertificate extends Component {
         // handle error
         console.log(error);
       })
+    }
+    else{
+      console.log("inside else")
+      this.setState({
+        registeredClassifications:false
+      })
+    }
   }
-
   FileHandler(data) {
     console.log(data)
   }
@@ -232,11 +253,12 @@ class IssueCertificate extends Component {
     console.log(temp)
     this.setState({columns:temp})
   }
-  categoryChangeHandler(ev) {
-    console.log(ev.target.value)
-    this.setState({
-      category: ev.target.value
-    })
+  categoryChangeHandler(id) {
+    console.log(id)
+    // console.log(ev.target.value)
+    // this.setState({
+    //   category: ev.target.value
+    // })
   }
 
   render() {
@@ -254,24 +276,23 @@ class IssueCertificate extends Component {
         <Row>
         <Col lg="7" md="12">
         <label>Select Classification</label>
-        <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
+        <FormSelect placeholder = "Category"   >
                               {/* <option>category</option> */}
-                              {console.log(this.state.classificationCategory)}
+                              {console.log(this.state.registeredClassifications)}
                              
                               {
-                                this.state.classificationCategory.map((category) => {
+                                this.state.registeredClassifications.map((category) => {
                                   return (
                                     // console.log(category.categoryName)
-                                    <option >{category.categoryName}</option>
+                                    <option  onClick = {()=>this.categoryChangeHandler(category)}>{category.category}</option>
 
                                   )
                                 })
                               }
                             </FormSelect>
-          <label style = {{marginTop: "6em"}} className="cursor-default">Select a CSV file to upload</label>
+          <label style = {{marginTop: "3em"}} className="cursor-default">Select a CSV file to upload</label>
 
         <ReactFileReader 
-        style = {{widht:"50%"}}
         handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
           
           {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
@@ -291,7 +312,11 @@ class IssueCertificate extends Component {
     </Card>
     </Col>
     </Row>
-    <button style = {{marginBottom: "1em"}}size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue Certificate</button>
+    <Row noGutters className="page-header py-4">
+          <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+          {/* subtitle="Registration" */}
+        </Row>
+    <button style = {{marginBottom: "1em"}}size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue</button>
         {/* <CSVReader
         cssClass="csv-reader-input"
         label="Select CSV File"
