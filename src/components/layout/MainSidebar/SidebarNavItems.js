@@ -184,7 +184,9 @@ class SidebarNavItems extends React.Component {
     console.log(this.props.toggleSwitchState)
     // const { Item } = this.state;
     return (
-      <div className="nav-wrapper d-inline-block item-icon-wrapper">
+      // <div className="nav-wrapper d-inline-block item-icon-wrapper">
+      <div className="nav-wrapper">
+
         <Nav className="nav--no-borders flex-column " >
 
           {/* style={{marginLeft:'5%'}} */}
