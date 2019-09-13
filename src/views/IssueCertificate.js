@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Container, Card,
   CardHeader,
+  CardBody,
   ListGroup,
   ListGroupItem,
   Row,
@@ -24,7 +25,7 @@ import ReactFileReader from 'react-file-reader';
 // import ReactTable from "react-table";
 // import "react-table/react-table.css";
 import MaterialTable from 'material-table'
-
+import certificate from '../images/certificate.png'
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
@@ -37,7 +38,8 @@ class IssueCertificate extends Component {
     this.state = {
       fileName: '',
       data: null,
-      columns:[]
+      columns:[],
+      classificationCategory : [],
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
@@ -66,6 +68,7 @@ class IssueCertificate extends Component {
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
     this.getColumns=this.getColumns.bind(this)
+    this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
   }
   
   // getColumns() {
@@ -83,6 +86,28 @@ class IssueCertificate extends Component {
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
+  }
+  componentDidMount(){
+    let temp;
+    let temp2;
+    let that=this;
+    axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        let obj = {categoryName : "Choose"}
+        temp2=response.data.result
+        console.log(temp2)
+        temp2.unshift(obj)
+        that.setState({
+          classificationCategory:temp2
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
   }
 
   FileHandler(data) {
@@ -207,7 +232,12 @@ class IssueCertificate extends Component {
     console.log(temp)
     this.setState({columns:temp})
   }
-
+  categoryChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      category: ev.target.value
+    })
+  }
 
   render() {
   //   if(this.state.data){
@@ -221,15 +251,47 @@ class IssueCertificate extends Component {
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
-        <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
-          <h5 className="cursor-default">Select a file to upload</h5>
+        <Row>
+        <Col lg="7" md="12">
+        <label>Select Classification</label>
+        <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
+                              {/* <option>category</option> */}
+                              {console.log(this.state.classificationCategory)}
+                             
+                              {
+                                this.state.classificationCategory.map((category) => {
+                                  return (
+                                    // console.log(category.categoryName)
+                                    <option >{category.categoryName}</option>
+
+                                  )
+                                })
+                              }
+                            </FormSelect>
+          <label style = {{marginTop: "6em"}} className="cursor-default">Select a CSV file to upload</label>
+
+        <ReactFileReader 
+        style = {{widht:"50%"}}
+        handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
+          
           {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
           <button onClick={()=>{this.setState({data:null})}} size="sm" className="mb-2 mr-1 worldcerts-button"
 
           >Upload File</button>
           <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
         </ReactFileReader>
-        <button size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue Certificate</button>
+       
+        </Col>
+        <Col lg="5" md="12">
+        <Card small className="mb-3">
+    <CardBody className="p-0">
+      <img src={certificate} alt = "certificate" height= "100%" width = "100%"/>
+    </CardBody>
+    
+    </Card>
+    </Col>
+    </Row>
+    <button style = {{marginBottom: "1em"}}size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue Certificate</button>
         {/* <CSVReader
         cssClass="csv-reader-input"
         label="Select CSV File"
@@ -246,7 +308,7 @@ class IssueCertificate extends Component {
           //       className="-striped -highlight"
           //     />
           <MaterialTable
-          title="Editable Preview"
+          title="Recievers List"
           columns={this.state.columns}
           data={this.state.data}
           editable={{
