@@ -52,7 +52,7 @@ class InstituteRegistration extends Component {
       selectedInstituteId:"",
       alertShow: false,
       alertMessage: "",
-      loader: false
+      loading: false
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -154,29 +154,36 @@ class InstituteRegistration extends Component {
     console.log("#################################################3")
     console.log(this.state.selectedInstituteId)
     this.setState({
-      loader:true
+      loading:true
     })
     console.log(this.props.selectedInstituteName)
     if(this.props.selectedInstituteName.name=="Select Organization"){
       console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+      
       this.setState({
-        alertMessage: "Select Institute",
         alertShow: true,
+        alertMessage: "Select Institute",
         theme: "danger",
-        loader:false
+        loading:false
       
       })
+      // alert("up")
+      // this.setState({
+      //   loading:false
+      // })
     }
     else{
       let that = this;
     console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
     if ( that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
+      
       that.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
         theme: "info",
-        loader:false
+        loading:false
       })
+      alert("stop")
     }
     else {
       let timeDuration = ""
@@ -208,7 +215,7 @@ class InstituteRegistration extends Component {
 
           // console.log(response.data.data.result);
           that.setState({
-            loader:false
+            loading:false
           })
           alert("Classification has been added")
           that.props.history.push('/manageClassification')
@@ -218,11 +225,14 @@ class InstituteRegistration extends Component {
           console.log(error);
           console.log(error.response)
           that.setState({
-            loader:false
+            loading:false
           })
         });
     }
     }
+    // this.setState({
+    //   loading:false
+    // })
   }
   dismiss() {
     this.setState({ alertShow: false });
@@ -250,7 +260,7 @@ class InstituteRegistration extends Component {
   }
   onSaveClick(){
     this.setState({
-      loader : true
+      loading: true
     })
     let that = this;
     console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
@@ -259,7 +269,7 @@ class InstituteRegistration extends Component {
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
         theme: "danger",
-        loader:false
+        loading:false
       })
     }
     else {
@@ -292,7 +302,7 @@ class InstituteRegistration extends Component {
 
           // console.log(response.data.data.result);
           that.setState({
-            loader:false
+            loading:false
           })
           alert("Classification has been Updated")
           that.props.history.push('/manageClassification')
@@ -305,7 +315,7 @@ class InstituteRegistration extends Component {
             alertMessage: "Network Error",
             alertShow: true,
             theme: "danger",
-            loader:false
+            loading:false
           })
         }
         else {
@@ -313,7 +323,7 @@ class InstituteRegistration extends Component {
             alertMessage: error.response.data.responseMessage,
             alertShow: true,
             theme: "danger",
-            loader:false
+            loading:false
           })
         }
         });
@@ -504,7 +514,7 @@ class InstituteRegistration extends Component {
                           ) : (null)}
                         </Row> */}
                         {(this.props.editClassificationState)?(
-                          (this.state.loader)?(<img src = {loader} className = "loader"/>):(
+                          (this.state.loading)?(<img src = {loader} className = "loader"/>):(
                              <div>
                                 <button size="sm"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onSaveClick.bind(this)}
@@ -517,11 +527,11 @@ class InstituteRegistration extends Component {
                           </div>)
                          
                         ):(
-                          (this.state.loader)?(<img src = {loader} className = "loader"/>):(
+                          (this.state.loading)?(<img src = {loader} className = "loader"/>):(
                             <div>
-                            <button size="sm" className="mb-2 mr-1 worldcerts-button"
+                            <span size="sm" className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Register</button>
+                        >Register</span>
                          
                         </div>
                           )
