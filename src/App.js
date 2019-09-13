@@ -27,7 +27,7 @@ class App extends Component {
             {(this.props.isLogin)?(
               (this.props.userData.isVerified)?(
                 routes.routes1.map((route, index) => {
-                  console.log(route)
+                  // console.log(route)
                   return (
   
                     <Route
@@ -46,7 +46,7 @@ class App extends Component {
                   );
                 })
               ):(
-                routes.routes3.map((route, index) => {
+                routes.routes1.map((route, index) => {
                   console.log(route)
                   return (
   

@@ -139,72 +139,73 @@ class ManageInstitutes extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
-         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
-      </Alert>
+         
       {(this.props.userData.isVerified)?(
-        <div>
-           
-        <Row noGutters className="page-header py-4">
-          <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-          {/* subtitle="Registration" */}
-          {/* <Link to="/organization_registration"><Button theme="accent">Add</Button></Link> */}
-        </Row>
-        {console.log(this.state.registeredInstitute)}
-      {  (this.state.registeredInstitute)?(
-            <Row>
-        {console.log(this.state.registeredInstitute)}
-              
-            {this.state.registeredInstitute.map((institute, id) => (
-            
-                <Col lg="4" key={id}>
-                <Card small className="card-post mb-4">
-                  <CardBody>
-                    <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
-                    <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
-                    <p className="card-text text-muted">{institute.country}  </p>
-                    <p className="card-text text-muted">{institute.companyAddress}  </p>
-                    <p className="card-text text-muted">{institute.postalCode}  </p>
-
-
-                  </CardBody>
-                  <CardFooter className="border-top d-flex">
-                    <div className="card-post__author d-flex">
-                      <a
-                        href="#"
-                        className="card-post__author-avatar card-post__author-avatar--small"
-                        style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
-                      >
-                        {institute.companyWebsite}
-                      </a>
-                      <div className="d-flex flex-column justify-content-center ml-3">
-                        <span className="card-post__author-name">
-                        {institute.companyWebsite}
-                         </span>
-                        <small className="text-muted">{institute.companyContactNumber}</small>
-                      </div>
-                    </div>
-                    {/* <div className="my-auto ml-auto">
-                      <Button size="sm" theme="white">
-                        <i className="far fa-bookmark mr-1" /> Bookmark
-                      </Button>
-                    </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-            )
-            )}
-          </Row>
+        null
         ):(
-      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
+          <Alert className="mb-0" open={true} theme="danger">
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        </Alert>
       )}
-        </div>
-        ):(
-        <div style={{textAlign:"center",margin:"15% 30%"}}>
-          <h3 >Verify your account first</h3>
-          <Link to="/emailVerification"><button size="sm" className = "worldcerts-button">Verify</button></Link>
-        </div>
-      )}
+
+<div>
+<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
+         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
+      </Alert>  
+           <Row noGutters className="page-header py-4">
+             <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+             {/* subtitle="Registration" */}
+             {/* <Link to="/organization_registration"><Button theme="accent">Add</Button></Link> */}
+           </Row>
+           {console.log(this.state.registeredInstitute)}
+         {  (this.state.registeredInstitute)?(
+               <Row>
+           {console.log(this.state.registeredInstitute)}
+                 
+               {this.state.registeredInstitute.map((institute, id) => (
+               
+                   <Col lg="4" key={id}>
+                   <Card small className="card-post mb-4">
+                     <CardBody>
+                       <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
+                       <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
+                       <p className="card-text text-muted">{institute.country}  </p>
+                       <p className="card-text text-muted">{institute.companyAddress}  </p>
+                       <p className="card-text text-muted">{institute.postalCode}  </p>
+   
+   
+                     </CardBody>
+                     <CardFooter className="border-top d-flex">
+                       <div className="card-post__author d-flex">
+                         <a
+                           href="#"
+                           className="card-post__author-avatar card-post__author-avatar--small"
+                           style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
+                         >
+                           {institute.companyWebsite}
+                         </a>
+                         <div className="d-flex flex-column justify-content-center ml-3">
+                           <span className="card-post__author-name">
+                           {institute.companyWebsite}
+                            </span>
+                           <small className="text-muted">{institute.companyContactNumber}</small>
+                         </div>
+                       </div>
+                       {/* <div className="my-auto ml-auto">
+                         <Button size="sm" theme="white">
+                           <i className="far fa-bookmark mr-1" /> Bookmark
+                         </Button>
+                       </div> */}
+                     </CardFooter>
+                   </Card>
+                 </Col>
+               )
+               )}
+             </Row>
+           ):(
+         <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
+         )}
+           </div>
         
       </Container>
     )

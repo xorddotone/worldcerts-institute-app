@@ -76,7 +76,7 @@ class SidebarNavItems extends React.Component {
         },
         {
           title: "Certificate Classification",
-          to: "/manage_organization",
+          to: "/addClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
@@ -258,7 +258,7 @@ class SidebarNavItems extends React.Component {
             ) : (
                 <div>
 
-                  {this.state.ItemNotVerified.map((item, idx) => {
+                  {this.state.ItemVerified.map((item, idx) => {
                     return (
                       <NavItem>
                         <NavLink

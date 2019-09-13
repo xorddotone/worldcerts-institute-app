@@ -193,13 +193,13 @@ class IssueCertificate extends Component {
     }
 
 
-    // axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
-    //   console.log(response)
-    // })
-    //   .catch(err => {
-    //     console.log(err.response)
+    axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
+      console.log(response)
+    })
+      .catch(err => {
+        console.log(err.response)
 
-    //   })
+      })
   }
   csvJSON(cssv) {
 
