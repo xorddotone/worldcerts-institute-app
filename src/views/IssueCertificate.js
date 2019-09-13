@@ -69,6 +69,7 @@ class IssueCertificate extends Component {
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
     this.getColumns=this.getColumns.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
+    this.onClickOption =this.onClickOption.bind(this)
   }
   
   // getColumns() {
@@ -253,14 +254,17 @@ class IssueCertificate extends Component {
     console.log(temp)
     this.setState({columns:temp})
   }
-  categoryChangeHandler(id) {
-    console.log(id)
-    // console.log(ev.target.value)
+  categoryChangeHandler(ev) {
+    console.log(ev.target.value)
+    console.log(this.state.registeredClassifications[ev.target.value])
+    // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
     // this.setState({
     //   category: ev.target.value
     // })
   }
-
+  onClickOption(ev){
+    console.log(ev)
+  }
   render() {
   //   if(this.state.data){
   //   this.getColumns()
@@ -276,15 +280,15 @@ class IssueCertificate extends Component {
         <Row>
         <Col lg="7" md="12">
         <label>Select Classification</label>
-        <FormSelect placeholder = "Category"   >
+        <FormSelect placeholder = "Category"  onChange ={this.categoryChangeHandler} >
                               {/* <option>category</option> */}
                               {console.log(this.state.registeredClassifications)}
                              
                               {
-                                this.state.registeredClassifications.map((category) => {
+                                this.state.registeredClassifications.map((category,index) => {
                                   return (
                                     // console.log(category.categoryName)
-                                    <option  onClick = {()=>this.categoryChangeHandler(category)}>{category.category}</option>
+                                    <option key={index} value={index}>{category.category}</option>
 
                                   )
                                 })

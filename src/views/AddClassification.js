@@ -151,11 +151,14 @@ class InstituteRegistration extends Component {
   }
 
   onRegisterClick() {
+    console.log("#################################################3")
     console.log(this.state.selectedInstituteId)
     this.setState({
       loader:true
     })
+    console.log(this.props.selectedInstituteName)
     if(this.props.selectedInstituteName.name=="Select Organization"){
+      console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
       this.setState({
         alertMessage: "Select Institute",
         alertShow: true,
@@ -364,7 +367,7 @@ class InstituteRegistration extends Component {
 
                             <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
                               {/* <option>category</option> */}
-                              {console.log(this.state.classificationCategory)}
+                              {/* {console.log(this.state.classificationCategory)} */}
                              
                               {
                                 this.state.classificationCategory.map((category) => {
@@ -501,21 +504,44 @@ class InstituteRegistration extends Component {
                           ) : (null)}
                         </Row> */}
                         {(this.props.editClassificationState)?(
-                          (this.state.loader)?(<img src = {loader} className = "loader"/>):( <div>
-
-                            <button size="sm"  className="mb-2 mr-1 worldcerts-button"
+                          (this.state.loader)?(<img src = {loader} className = "loader"/>):(
+                             <div>
+                                <button size="sm"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onSaveClick.bind(this)}
                         >Save</button>
                         <button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onCancelClick.bind(this)}
                         >Cancel</button>
+                            
+                            
                           </div>)
                          
                         ):(
-                          <button size="sm" className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onRegisterClick}
+                          (this.state.loader)?(<img src = {loader} className = "loader"/>):(
+                            <div>
+                            <button size="sm" className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onRegisterClick.bind(this)}
                         >Register</button>
+                         
+                        </div>
+                          )
+                          
                         )}
+                        {/* {(this.props.editClassificationState)?(
+                           <>
+                           <button size="sm"  className="mb-2 mr-1 worldcerts-button"
+                            onClick={this.onSaveClick.bind(this)}
+                          >Save</button>
+                          <button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                            onClick={this.onCancelClick.bind(this)}
+                          >Cancel</button>
+                          </>
+                        ):(
+                          <button size="sm" className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onRegisterClick.bind(this)}
+                        >Register</button>
+                        )} */}
+                        
                         
                       </Form>
                     </Col>
