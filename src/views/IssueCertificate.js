@@ -11,7 +11,7 @@ import {
   FormInput,
   FormSelect,
   FormTextarea,
-  Button
+
 } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
@@ -21,6 +21,9 @@ import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import CSVReader from 'react-csv-reader'
 import ReactFileReader from 'react-file-reader';
+// import ReactTable from "react-table";
+// import "react-table/react-table.css";
+import MaterialTable from 'material-table'
 
 const csv = require('csv-parser')
 const fs = require('fs')
@@ -33,13 +36,26 @@ class IssueCertificate extends Component {
     super(props);
     this.state = {
       fileName: '',
-      csvFile: null
+      data: null,
+      // columns: [
+      //   { title: 'Name', field: 'name' },
+      //   { title: 'Did', field: 'did'},
+      //   { title: 'Email', field: 'email' },
+      //   { title: 'Phone' , field: 'phone'},
+      //   { title: 'StudentId' , field: 'studentid'},
+      // ],
+      // data: [
+      //   { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+      //   { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+      // ]
+
     }
 
     this.FileHandler = this.FileHandler.bind(this)
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
   }
+  
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
@@ -66,18 +82,31 @@ class IssueCertificate extends Component {
       temp1 = that.csvJSON(temp)
       console.log(temp1)
       console.log(JSON.parse(temp1))
+
       that.setState({
-        csvFile: JSON.parse(temp1)
+        data: JSON.parse(temp1)
       })
       // let obj = JSON.parse(temp1)
 
     }
     reader.readAsText(files[0]);
   }
+
+  getColumns() {
+    return Object.keys(this.state.data[0]).map(key => {
+      console.log(key)
+      return {
+        title: key,
+        field: key
+      };
+    });
+  }
+
   onIssueCertificate() {
+    console.log(this.state.data)
     console.log(this.props.selectedInstituteName)
     let issuer = this.props.selectedInstituteName
-    let recipient = this.state.csvFile
+    let recipient = this.state.data
     // let classificationObject = this.props.selectedClassification
     // let recipient = {name: "Mr Blockchain",
     // did: "DID:SG-NRIC:S99999999A",
@@ -98,6 +127,9 @@ class IssueCertificate extends Component {
       issuer,
       recipient
     }
+
+
+
     // {
     //   name:this.props.selectedInstituteName.name ,
     //   id: this.props.selectedInstituteName.id,
@@ -106,11 +138,14 @@ class IssueCertificate extends Component {
     //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
 
-    // console.log(this.state.csvFile)
+    // console.log(this.state.data)
     // let obj = [
 
-    //   this.state.csvFile
+    //   this.state.data
     // ]
+
+
+
     axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
       console.log(response)
     })
@@ -148,7 +183,7 @@ class IssueCertificate extends Component {
         <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
           <h5 className="cursor-default">Select a file to upload</h5>
           {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
-          <button size="sm" className="mb-2 mr-1 worldcerts-button"
+          <button onClick={()=>{this.setState({data:null})}} size="sm" className="mb-2 mr-1 worldcerts-button"
 
           >Upload File</button>
           <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
@@ -162,6 +197,57 @@ class IssueCertificate extends Component {
         inputId="ObiWan"
         inputStyle={{color: 'red'}}
       /> */}
+        {(this.state.data) ? (
+          // <ReactTable
+          //       data={this.state.data}
+          //       columns={this.getColumns()}
+          //       defaultPageSize={10}
+          //       className="-striped -highlight"
+          //     />
+          <MaterialTable
+          title="Editable Preview"
+          columns={this.getColumns()}
+          data={this.state.data}
+          editable={{
+            onRowAdd: newData =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  {
+                    const data = this.state.data;
+                    data.push(newData);
+                    this.setState({ data }, () => resolve());
+                  }
+                  resolve()
+                }, 1000)
+              }),
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  {
+                    const data = this.state.data;
+                    const index = data.indexOf(oldData);
+                    data[index] = newData;
+                    this.setState({ data }, () => resolve());
+                  }
+                  resolve()
+                }, 1000)
+              }),
+            onRowDelete: oldData =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  {
+                    let data = this.state.data;
+                    const index = data.indexOf(oldData);
+                    data.splice(index, 1);
+                    this.setState({ data }, () => resolve());
+                  }
+                  resolve()
+                }, 1000)
+              }),
+          }}
+        />
+        ) : (null)}
+
       </Container>
     )
   }

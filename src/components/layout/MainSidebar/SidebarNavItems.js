@@ -34,7 +34,7 @@ class SidebarNavItems extends React.Component {
           {
             title: "Activate Your Account",
             to: "/account_activation",
-            htmlBefore: ' <i class="material-icons">brightness_5</i>',
+            htmlBefore: ' <i class="material-icons">done</i>',
           },
           {
           title: "Manage Organization",
@@ -42,7 +42,7 @@ class SidebarNavItems extends React.Component {
           htmlBefore: '<i class="material-icons">home</i>',
         },
         {
-          title: "Create Classification",
+          title: "Certificate Classification",
           to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
@@ -67,7 +67,7 @@ class SidebarNavItems extends React.Component {
         {
           title: "Activate Your Account",
           to: "/account_activation",
-          htmlBefore: ' <i class="material-icons">brightness_5</i>',
+          htmlBefore: ' <i class="material-icons">done</i>',
         },
         {
           title: "Manage Organization",
@@ -75,7 +75,7 @@ class SidebarNavItems extends React.Component {
           htmlBefore: '<i class="material-icons">home</i>',
         },
         {
-          title: "Create Classification",
+          title: "Certificate Classification",
           to: "/manage_organization",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
@@ -218,7 +218,7 @@ class SidebarNavItems extends React.Component {
               <DropdownItem to="/organization_registration" tag={Link}>
                 <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
-                New Account
+                Add New Account
         </DropdownItem>
             </Collapse>
           </NavItem>
