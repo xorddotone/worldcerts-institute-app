@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Container, Card,
   CardHeader,
+  CardBody,
   ListGroup,
   ListGroupItem,
   Row,
@@ -24,7 +25,7 @@ import ReactFileReader from 'react-file-reader';
 // import ReactTable from "react-table";
 // import "react-table/react-table.css";
 import MaterialTable from 'material-table'
-
+import certificate from '../images/certificate.png'
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
@@ -37,12 +38,24 @@ class IssueCertificate extends Component {
     this.state = {
       fileName: '',
       data: null,
+      columns:[],
+      classificationCategory : [],
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
       //   { title: 'Email', field: 'email' },
       //   { title: 'Phone' , field: 'phone'},
       //   { title: 'StudentId' , field: 'studentid'},
+      // ],
+      // columns: [
+      //   { title: 'Name', field: 'name' },
+      //   { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
+      //   { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+      //   {
+      //     title: 'Birth Place',
+      //     field: 'birthCity',
+      //     lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+      //   },
       // ],
       // data: [
       //   { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
@@ -54,11 +67,47 @@ class IssueCertificate extends Component {
     this.FileHandler = this.FileHandler.bind(this)
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
+    this.getColumns=this.getColumns.bind(this)
+    this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
   }
   
+  // getColumns() {
+    
+  //   return Object.keys(this.state.data[0]).map(key => {
+  //     console.log(key)
+  //     return {
+  //       title: key,
+  //       field: key
+  //     };
+  //   });
+  // }
+  
+
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
+  }
+  componentDidMount(){
+    let temp;
+    let temp2;
+    let that=this;
+    axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        let obj = {categoryName : "Choose"}
+        temp2=response.data.result
+        console.log(temp2)
+        temp2.unshift(obj)
+        that.setState({
+          classificationCategory:temp2
+        })
+
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
   }
 
   FileHandler(data) {
@@ -82,7 +131,7 @@ class IssueCertificate extends Component {
       temp1 = that.csvJSON(temp)
       console.log(temp1)
       console.log(JSON.parse(temp1))
-
+      that.getColumns(JSON.parse(temp1))
       that.setState({
         data: JSON.parse(temp1)
       })
@@ -92,15 +141,7 @@ class IssueCertificate extends Component {
     reader.readAsText(files[0]);
   }
 
-  getColumns() {
-    return Object.keys(this.state.data[0]).map(key => {
-      console.log(key)
-      return {
-        title: key,
-        field: key
-      };
-    });
-  }
+  
 
   onIssueCertificate() {
     console.log(this.state.data)
@@ -122,12 +163,7 @@ class IssueCertificate extends Component {
       name: "Master of Blockchain",
     }
 
-    let obj = {
-      classification,
-      issuer,
-      recipient
-    }
-
+   
 
 
     // {
@@ -138,12 +174,23 @@ class IssueCertificate extends Component {
     //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
 
-    // console.log(this.state.data)
+    console.log(this.state.data)
     // let obj = [
 
     //   this.state.data
     // ]
+    let temp = this.state.data
+    for(let i = 0;i<temp.length;i++){
+      // console.log(this.state.data[i].tableData)
+      delete temp[i].tableData
+    }
+    console.log(temp)
 
+    let obj = {
+      classification,
+      issuer,
+      recipient : temp
+    }
 
 
     // axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
@@ -172,23 +219,79 @@ class IssueCertificate extends Component {
     return JSON.stringify(result); //JSON
   }
 
+  getColumns(dt) {
+    let temp=[]
+    Object.keys(dt[0]).map(key => {
+      console.log(key)
+      let obj={
+        title:key,
+        field:key
+      }
+      temp.push(obj)
+    });
+    console.log(temp)
+    this.setState({columns:temp})
+  }
+  categoryChangeHandler(ev) {
+    console.log(ev.target.value)
+    this.setState({
+      category: ev.target.value
+    })
+  }
 
   render() {
+  //   if(this.state.data){
+  //   this.getColumns()
+  // }
+
+
     return (
       <Container fluid className="main-content-container px-4">
         <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
-        <ReactFileReader handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
-          <h5 className="cursor-default">Select a file to upload</h5>
+        <Row>
+        <Col lg="7" md="12">
+        <label>Select Classification</label>
+        <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
+                              {/* <option>category</option> */}
+                              {console.log(this.state.classificationCategory)}
+                             
+                              {
+                                this.state.classificationCategory.map((category) => {
+                                  return (
+                                    // console.log(category.categoryName)
+                                    <option >{category.categoryName}</option>
+
+                                  )
+                                })
+                              }
+                            </FormSelect>
+          <label style = {{marginTop: "6em"}} className="cursor-default">Select a CSV file to upload</label>
+
+        <ReactFileReader 
+        style = {{widht:"50%"}}
+        handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
+          
           {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
           <button onClick={()=>{this.setState({data:null})}} size="sm" className="mb-2 mr-1 worldcerts-button"
 
           >Upload File</button>
           <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
         </ReactFileReader>
-        <button size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue Certificate</button>
+       
+        </Col>
+        <Col lg="5" md="12">
+        <Card small className="mb-3">
+    <CardBody className="p-0">
+      <img src={certificate} alt = "certificate" height= "100%" width = "100%"/>
+    </CardBody>
+    
+    </Card>
+    </Col>
+    </Row>
+    <button style = {{marginBottom: "1em"}}size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue Certificate</button>
         {/* <CSVReader
         cssClass="csv-reader-input"
         label="Select CSV File"
@@ -205,46 +308,48 @@ class IssueCertificate extends Component {
           //       className="-striped -highlight"
           //     />
           <MaterialTable
-          title="Editable Preview"
-          columns={this.getColumns()}
+          title="Recievers List"
+          columns={this.state.columns}
           data={this.state.data}
           editable={{
             onRowAdd: newData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    const data = this.state.data;
-                    data.push(newData);
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    const data = this.state.data;
-                    const index = data.indexOf(oldData);
-                    data[index] = newData;
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
-            onRowDelete: oldData =>
-              new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  {
-                    
-                    let data = this.state.data;
-                    const index = data.indexOf(oldData);
-                    data.splice(index, 1);
-                    this.setState({ data }, () => resolve());
-                  }
-                  resolve()
-                }, 1000)
-              }),
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  const data = this.state.data;
+                  data.push(newData);
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  const data = this.state.data;
+                  const index = data.indexOf(oldData);
+                  console.log(index)
+                  data[index] = newData;
+                  console.log(data)
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                {
+                  let data = this.state.data;
+                  const index = data.indexOf(oldData);
+                  data.splice(index, 1);
+                  this.setState({ data }, () => resolve());
+                }
+                resolve()
+              }, 1000)
+            }),
+ 
           }}
         />
         ) : (null)}
