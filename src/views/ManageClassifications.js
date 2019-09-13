@@ -153,11 +153,11 @@ class ManageClassifications extends Component {
     }
     onAddClick(){
       let obj={
-        category:'',
-        classification:'',
+        category:"",
+        classification:"",
         durationValidity:null,
-        instituteName:'',
-        _id:''
+        instituteName:"",
+        _id:""
     }
       this.props.EditClassification(obj)
       this.props.EditClassificationState(false)
