@@ -40,6 +40,7 @@ class IssueCertificate extends Component {
       data: null,
       columns:[],
       registeredClassifications : [],
+      selectedClassification: null
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
@@ -69,7 +70,6 @@ class IssueCertificate extends Component {
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
     this.getColumns=this.getColumns.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
-    this.onClickOption =this.onClickOption.bind(this)
   }
   
   // getColumns() {
@@ -166,8 +166,8 @@ class IssueCertificate extends Component {
   
 
   onIssueCertificate() {
-    console.log(this.state.data)
-    console.log(this.props.selectedInstituteName)
+    console.log("data => ",this.state.data)
+    console.log("institute => ",this.props.selectedInstituteName)
     let issuer = this.props.selectedInstituteName
     let recipient = this.state.data
     // let classificationObject = this.props.selectedClassification
@@ -178,12 +178,13 @@ class IssueCertificate extends Component {
     // studentId: "1232"}
 
     let classification = {
-      id: "123123123142324231",
-      description: "This masters is awarded to developers who can blockchain",
+      id: this.state.selectedClassification._id,
+      description: this.state.selectedClassification.category,
       issuedOn: "",
-      expiresOn: "",
-      name: "Master of Blockchain",
+      expiresOn: this.state.selectedClassification.durationValidity,
+      name: this.state.selectedClassification.classification,
     }
+    console.log("classification => ",classification)
 
    
 
@@ -196,7 +197,7 @@ class IssueCertificate extends Component {
     //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
 
-    console.log(this.state.data)
+    console.log("data => ",this.state.data)
     // let obj = [
 
     //   this.state.data
@@ -206,7 +207,7 @@ class IssueCertificate extends Component {
       // console.log(this.state.data[i].tableData)
       delete temp[i].tableData
     }
-    console.log(temp)
+    console.log("temp => ",temp)
 
     let obj = {
       classification,
@@ -257,14 +258,15 @@ class IssueCertificate extends Component {
   categoryChangeHandler(ev) {
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
+    this.setState({
+      selectedClassification: this.state.registeredClassifications[ev.target.value]
+    })
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
     // this.setState({
     //   category: ev.target.value
     // })
   }
-  onClickOption(ev){
-    console.log(ev)
-  }
+  
   render() {
   //   if(this.state.data){
   //   this.getColumns()
