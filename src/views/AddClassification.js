@@ -116,8 +116,10 @@ class InstituteRegistration extends Component {
 
   durationChangeHandler(ev) {
     var reg = new RegExp('^\\d+$');
-    console.log(ev.target.value)
-    if (reg.test(ev.target.value) || ev.target.value == "") {
+    console.log(reg.test(ev.target.value) || ev.target.value == "")
+    if (reg.test(ev.target.value)) {
+      console.log(ev.target.value)
+
       this.setState({
         duration: ev.target.value
       })
@@ -139,14 +141,11 @@ class InstituteRegistration extends Component {
   }
   
   timedurationChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
-    console.log(ev.target.value)
-    if (reg.test(ev.target.value)) {
-
+      console.log(ev.target.value)
     this.setState({
       durationValidity: ev.target.value
     })
-  }
+  
   }
   onClickOptions(ev){
     console.log(ev)
