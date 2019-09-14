@@ -172,6 +172,14 @@ class Register extends Component {
     console.log(recaptchaToken, "<= your recaptcha token")
   }
 
+  clickEnter(event){
+    console.log(event.key)
+  
+    if(event.key=="Enter"){
+      this.onClickRegister()
+    }
+  }
+
   render() {
     return (
       <Card className="mb-4">
@@ -187,6 +195,8 @@ class Register extends Component {
                   <Col className="form-group">
                     <label >Full Name</label>
                     <FormInput
+                        onKeyPress={this.clickEnter.bind(this)}
+                      
                       type="text"
                       placeholder="Enter your Full Name"
                       value={this.state.userName}
@@ -201,7 +211,8 @@ class Register extends Component {
                         <Col className="form-group">
                           <label>Email</label>
                           <FormInput
-                            type="email"
+                        onKeyPress={this.clickEnter.bind(this)}
+                        type="email"
                             placeholder="Enter your Email Address"
                             value={this.state.email}
                             onChange={this.onChangeEmail}
@@ -213,7 +224,8 @@ class Register extends Component {
                         <Col className="form-group">
                           <label>Password</label>
                           <FormInput
-                            type="password"
+                        onKeyPress={this.clickEnter.bind(this)}
+                        type="password"
                             placeholder="Password"
                             value={this.state.password}
                             onChange={this.onChangePassword}
@@ -224,7 +236,8 @@ class Register extends Component {
                         <Col className="form-group">
                           <label>Confirm Password</label>
                           <FormInput
-                            type="password"
+                        onKeyPress={this.clickEnter.bind(this)}
+                        type="password"
                             placeholder="Confirm Password"
                             value={this.state.confirmPassword}
                             onChange={this.onChangeConfirmPassword}
@@ -237,6 +250,8 @@ class Register extends Component {
                         <Col className="form-group">
 
                           <ReCaptcha
+                        onKeyPress={this.clickEnter.bind(this)}
+                            
                             ref={(el) => { this.captchaDemo = el; }}
                             size="normal"
                             render="explicit"

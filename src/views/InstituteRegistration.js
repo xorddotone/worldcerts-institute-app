@@ -220,6 +220,13 @@ class AddClassification extends Component {
   dismiss() {
     this.setState({ alertShow: false });
   }
+  clickEnter(event){
+    console.log(event.key)
+  
+    if(event.key=="Enter"){
+      this.onRegisterClick()
+    }
+  }
 
   render() {
     return (
@@ -245,6 +252,7 @@ class AddClassification extends Component {
                     <Col md="6" className="form-group">
                       <label>Organization Name</label>
                       <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.instituteNameChangeHandler}
                         placeholder="Organization Name"
                         value={this.state.instituteName}
@@ -253,7 +261,7 @@ class AddClassification extends Component {
                     <Col md="6" className="form-group">
                       <label >Business Registration Number (UEN)</label>
                       <FormInput
-
+                        onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.buisnessRegistrationNumChangeHandler}
                         placeholder="Business Registration Number"
                         value={this.state.buisnessRegistrationNum}
@@ -264,6 +272,7 @@ class AddClassification extends Component {
                     <Col md="12" className="form-group">
                       <label>Organization Address</label>
                       <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.instituteAddressChangeHandler}
                         placeholder="Organization Address"
                         value={this.state.instituteAddress}
@@ -274,6 +283,7 @@ class AddClassification extends Component {
                     <Col md="6">
                       <label>Organization Website</label>
                       <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.instituteWebsiteChangeHandler}
                         placeholder="www.organizationwebsite.com"
                         value={this.state.instituteWebsite}
@@ -282,6 +292,7 @@ class AddClassification extends Component {
                     <Col md="6">
                       <label>Organization Telephone #</label>
                       <ReactPhoneInput 
+                      onKeyPress={this.clickEnter.bind(this)}
                         defaultCountry={'us'} 
                         value={this.state.instituteTelephone} 
                         onChange={this.instituteTelephoneChangeHandler}/>
@@ -291,6 +302,7 @@ class AddClassification extends Component {
                     <Col md="6" className="form-group">
                       <label>Country</label>
                       <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.countryChangeHandler}
                         placeholder="Country"
                         value={this.state.country}
@@ -299,6 +311,7 @@ class AddClassification extends Component {
                     <Col md="6" className="form-group">
                       <label>Postal Code</label>
                       <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
                         onChange={this.postalcodeChangeHandler}
                         placeholder="Postal Code"
                         value={this.state.postalCode}

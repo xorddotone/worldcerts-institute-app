@@ -139,10 +139,16 @@ class Login extends Component {
       })
     }
   }
+clickEnter(event){
+  console.log(event.key)
 
+  if(event.key=="Enter"){
+    this.onClickLogin()
+  }
+}
   render() {
     return (
-      <Card className="mb-4">
+      <Card className="mb-4" >
         <Row >
           <Col md="7">
             <img src={logo} alt="" style={{ width: "100%" }} />
@@ -157,6 +163,7 @@ class Login extends Component {
                       <Col className="form-group">
                         <label>Email</label>
                         <FormInput
+                        onKeyPress={this.clickEnter.bind(this)}
                           type="email"
                           placeholder="Enter your Email Address"
                           value={this.state.email}
@@ -168,6 +175,7 @@ class Login extends Component {
                       <Col className="form-group">
                         <label>Password</label>
                         <FormInput
+                         onKeyPress={this.clickEnter.bind(this)}
                           type="password"
                           placeholder="Password"
                           value={this.state.password}

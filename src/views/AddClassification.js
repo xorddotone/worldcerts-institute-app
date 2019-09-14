@@ -334,6 +334,19 @@ class InstituteRegistration extends Component {
         });
     }
   }
+  clickEnter(event){
+    console.log(event.key)
+  
+    if(event.key=="Enter"){
+      if(this.props.editClassificationState){
+        this.onSaveClick()
+      }
+      else{
+
+        this.onRegisterClick()
+      }
+    }
+  }
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -365,7 +378,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Organization Name </label>
                             <FormInput
-
+                              onKeyPress={this.clickEnter.bind(this)}
                               // onChange={this.classificationChangeHandler}
                               placeholder="Organization Name"
                               disabled
@@ -387,7 +400,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} placeholder = "Category"   >
+                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder = "Category"   >
                               {/* <option>category</option> */}
                               {/* {console.log(this.state.classificationCategory)} */}
                              
@@ -408,7 +421,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label >Classification</label>
                             <FormInput
-
+                              onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.classificationChangeHandler}
                               placeholder="Classification"
                               value={this.state.classification}
@@ -418,8 +431,8 @@ class InstituteRegistration extends Component {
                             <label >Duration</label>
 
                           <InputGroup className="mb-3">
-                            <FormInput value={this.state.duration} onChange={this.durationChangeHandler} />
-                            <FormSelect type = "append" onChange={this.timedurationChangeHandler}>
+                            <FormInput value={this.state.duration} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
+                            <FormSelect type = "append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                               {
                                 duration.map((duration) => {
                                   return (
