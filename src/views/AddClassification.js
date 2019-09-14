@@ -524,12 +524,12 @@ class InstituteRegistration extends Component {
                         {(this.props.editClassificationState)?(
                           (this.state.loading)?(<img src = {loader} className = "loader"/>):(
                              <div>
-                                <button size="sm"  className="mb-2 mr-1 worldcerts-button"
+                                <span size="sm"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onSaveClick.bind(this)}
-                        >Save</button>
-                        <button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                        >Save</span>
+                        <span size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onCancelClick.bind(this)}
-                        >Cancel</button>
+                        >Cancel</span>
                             
                             
                           </div>)
@@ -547,17 +547,17 @@ class InstituteRegistration extends Component {
                         )}
                         {/* {(this.props.editClassificationState)?(
                            <>
-                           <button size="sm"  className="mb-2 mr-1 worldcerts-button"
+                           <span size="sm"  className="mb-2 mr-1 worldcerts-button"
                             onClick={this.onSaveClick.bind(this)}
-                          >Save</button>
-                          <button size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
+                          >Save</span>
+                          <span size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
                             onClick={this.onCancelClick.bind(this)}
-                          >Cancel</button>
+                          >Cancel</span>
                           </>
                         ):(
-                          <button size="sm" className="mb-2 mr-1 worldcerts-button"
+                          <span size="sm" className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Register</button>
+                        >Register</span>
                         )} */}
                         
                         

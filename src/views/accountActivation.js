@@ -62,7 +62,7 @@ class AccountActivation extends Component {
 
         </CardBody>):( <CardBody>
             
-            Activate Your Account <Link to = "/emailVerification"><button className = "worldcerts-button" style = {{float:"right"}}>Activate</button></Link>
+            Activate Your Account <Link to = "/emailVerification"><span className = "worldcerts-button" style = {{float:"right"}}>Activate</span></Link>
 
 
         </CardBody>)}

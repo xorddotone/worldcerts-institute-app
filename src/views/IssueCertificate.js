@@ -5,6 +5,7 @@ import {
   CardBody,
   ListGroup,
   ListGroupItem,
+  Alert,
   Row,
   Col,
   Form,
@@ -20,6 +21,7 @@ import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
+import loader from "../images/loader.gif"
 import CSVReader from 'react-csv-reader'
 import ReactFileReader from 'react-file-reader';
 // import ReactTable from "react-table";
@@ -38,9 +40,12 @@ class IssueCertificate extends Component {
     this.state = {
       fileName: '',
       data: null,
-      columns:[],
-      registeredClassifications : [],
-      selectedClassification: null
+      columns: [],
+      registeredClassifications: [],
+      selectedClassification: null,
+      alertMessage: "",
+      alertShow: false,
+      loading: false
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
@@ -68,12 +73,13 @@ class IssueCertificate extends Component {
     this.FileHandler = this.FileHandler.bind(this)
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
-    this.getColumns=this.getColumns.bind(this)
+    this.getColumns = this.getColumns.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
+    this.dismiss = this.dismiss.bind(this)
   }
-  
+
   // getColumns() {
-    
+
   //   return Object.keys(this.state.data[0]).map(key => {
   //     console.log(key)
   //     return {
@@ -82,7 +88,7 @@ class IssueCertificate extends Component {
   //     };
   //   });
   // }
-  
+
 
 
   componentWillMount() {
@@ -91,7 +97,7 @@ class IssueCertificate extends Component {
   componentDidMount() {
     // console.log(this.props.userData)
     let temp;
-    let that=this;
+    let that = this;
     // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
     //   .then(function (response) {
     //     // handle success
@@ -107,28 +113,30 @@ class IssueCertificate extends Component {
     //     // handle error
     //     console.log(error);
     //   })
-    if(this.props.selectedInstituteName.name!="Select Organization"){
+    if (this.props.selectedInstituteName.name != "Select Organization") {
       console.log("inside if")
-    axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
-      .then(function (response) {
-        // handle success
-        console.log(response);
-        temp=response.data.result
-        console.log(temp)
-        that.setState({
-          registeredClassifications:temp
-        })
+      axios.get(Routes.CLASSIFICATION + this.props.selectedInstituteName.id)
+        .then(function (response) {
+          // handle success
+          let obj = { classification: "Choose" }
+          console.log(response);
+          temp = response.data.result
+          console.log(temp)
+          temp.unshift(obj)
+          that.setState({
+            registeredClassifications: temp
+          })
 
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
     }
-    else{
+    else {
       console.log("inside else")
       this.setState({
-        registeredClassifications:false
+        registeredClassifications: false
       })
     }
   }
@@ -143,6 +151,7 @@ class IssueCertificate extends Component {
     console.log(files[0])
     let name = files[0].name
     this.setState({
+      alertShow:false,
       fileName: name
     })
     let that = this
@@ -163,11 +172,24 @@ class IssueCertificate extends Component {
     reader.readAsText(files[0]);
   }
 
-  
 
-  onIssueCertificate() {
-    console.log("data => ",this.state.data)
-    console.log("institute => ",this.props.selectedInstituteName)
+
+  async onIssueCertificate() {
+    this.setState({
+      loading: true
+    })
+
+    console.log("data => ", this.state.data)
+    console.log("institute => ", this.props.selectedInstituteName)
+    if (this.state.data == null || this.state.selectedClassification == "Choose") {
+      this.setState({
+        loading: false,
+        alertShow: true,
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
+        theme: "danger"
+      })
+      return
+    }
     let issuer = this.props.selectedInstituteName
     let recipient = this.state.data
     // let classificationObject = this.props.selectedClassification
@@ -184,9 +206,9 @@ class IssueCertificate extends Component {
       expiresOn: this.state.selectedClassification.durationValidity,
       name: this.state.selectedClassification.classification,
     }
-    console.log("classification => ",classification)
+    console.log("classification => ", classification)
 
-   
+
 
 
     // {
@@ -197,31 +219,59 @@ class IssueCertificate extends Component {
     //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
 
-    console.log("data => ",this.state.data)
+    console.log("data => ", this.state.data)
     // let obj = [
 
     //   this.state.data
     // ]
     let temp = this.state.data
-    for(let i = 0;i<temp.length;i++){
-      // console.log(this.state.data[i].tableData)
-      delete temp[i].tableData
-    }
-    console.log("temp => ",temp)
-
+    // for (let i = 0; i < temp.length; i++) {
+    //   // console.log(this.state.data[i].tableData)
+    //   await delete temp[i].tableData
+    // }
+    console.log("temp => ", temp)
     let obj = {
       classification,
       issuer,
-      recipient : temp
+      recipient: temp
     }
-
-
     axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
       console.log(response)
+      if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
+        this.setState({
+          loading: false,
+          alertShow: true,
+          alertMessage: response.data.result,
+          data: "",
+          fileName: ""
+        })
+      }
+      else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: response.data.responseMessage,
+          data: "",
+          fileName: ""
+
+        })
+      }
     })
       .catch(err => {
         console.log(err.response)
+        if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: err.response.data.responseMessage,
+            data: "",
+            fileName: ""
 
+
+          })
+        }
       })
   }
   csvJSON(cssv) {
@@ -243,22 +293,23 @@ class IssueCertificate extends Component {
   }
 
   getColumns(dt) {
-    let temp=[]
+    let temp = []
     Object.keys(dt[0]).map(key => {
       console.log(key)
-      let obj={
-        title:key,
-        field:key
+      let obj = {
+        title: key,
+        field: key
       }
       temp.push(obj)
     });
     console.log(temp)
-    this.setState({columns:temp})
+    this.setState({ columns: temp })
   }
   categoryChangeHandler(ev) {
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
     this.setState({
+      alertShow:false,
       selectedClassification: this.state.registeredClassifications[ev.target.value]
     })
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
@@ -266,63 +317,68 @@ class IssueCertificate extends Component {
     //   category: ev.target.value
     // })
   }
-  
+  dismiss() {
+    this.setState({ alertShow: false });
+  }
   render() {
-  //   if(this.state.data){
-  //   this.getColumns()
-  // }
+    //   if(this.state.data){
+    //   this.getColumns()
+    // }
 
 
     return (
       <Container fluid className="main-content-container px-4">
+        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+        </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
         <Row>
-        <Col lg="7" md="12">
-        <label>Select Classification</label>
-        <FormSelect placeholder = "Category"  onChange ={this.categoryChangeHandler} >
-                              {/* <option>category</option> */}
-                              {console.log(this.state.registeredClassifications)}
-                             
-                              {
-                                this.state.registeredClassifications.map((category,index) => {
-                                  return (
-                                    // console.log(category.categoryName)
-                                    <option key={index} value={index}>{category.category}</option>
+          <Col lg="7" md="12">
+            <label>Select Classification</label>
+            <FormSelect placeholder="Category" onChange={this.categoryChangeHandler} >
+              {/* <option>category</option> */}
+              {console.log(this.state.registeredClassifications)}
 
-                                  )
-                                })
-                              }
-                            </FormSelect>
-          <label style = {{marginTop: "3em"}} className="cursor-default">Select a CSV file to upload</label>
+              {
+                this.state.registeredClassifications.map((category, index) => {
+                  return (
+                    // console.log(category.categoryName)
+                    <option key={index} value={index}>{category.classification}</option>
 
-        <ReactFileReader 
-        handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
-          
-          {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
-          <button onClick={()=>{this.setState({data:null})}} size="sm" className="mb-2 mr-1 worldcerts-button"
+                  )
+                })
+              }
+            </FormSelect>
+            <label style={{ marginTop: "3em" }} className="cursor-default">Select a CSV file to upload</label>
 
-          >Upload File</button>
-          <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
-        </ReactFileReader>
-       
-        </Col>
-        <Col lg="5" md="12">
-        <Card small className="mb-3">
-    <CardBody className="p-0">
-      <img src={certificate} alt = "certificate" height= "100%" width = "100%"/>
-    </CardBody>
-    
-    </Card>
-    </Col>
-    </Row>
-    <Row noGutters className="page-header py-4">
+            <ReactFileReader
+              handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
+
+              {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
+              <button onClick={() => { this.setState({ data: null }) }} size="sm" className="mb-2 mr-1 worldcerts-button"
+
+              >Upload File</button>
+              <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
+            </ReactFileReader>
+
+          </Col>
+          <Col lg="5" md="12">
+            <Card small className="mb-3">
+              <CardBody className="p-0">
+                <img src={certificate} alt="certificate" height="100%" width="100%" />
+              </CardBody>
+
+            </Card>
+          </Col>
+        </Row>
+        <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
         </Row>
-    <button style = {{marginBottom: "1em"}}size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue</button>
+        {(this.state.loading == true) ? (<img src={loader} className="loader" style={{ marginBottom: "2em" }} />) : (<label style={{ marginBottom: "2em" }} size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue</label>)}
         {/* <CSVReader
         cssClass="csv-reader-input"
         label="Select CSV File"
@@ -338,51 +394,53 @@ class IssueCertificate extends Component {
           //       defaultPageSize={10}
           //       className="-striped -highlight"
           //     />
+          <div style = {{marginBottom: "2em"}}>
           <MaterialTable
-          title="Recievers List"
-          columns={this.state.columns}
-          data={this.state.data}
-          editable={{
-            onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  data.push(newData);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  const data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  console.log(index)
-                  data[index] = newData;
-                  console.log(data)
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
-          onRowDelete: oldData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                {
-                  let data = this.state.data;
-                  const index = data.indexOf(oldData);
-                  data.splice(index, 1);
-                  this.setState({ data }, () => resolve());
-                }
-                resolve()
-              }, 1000)
-            }),
- 
-          }}
-        />
+            title="Recievers List"
+            columns={this.state.columns}
+            data={this.state.data}
+            editable={{
+              onRowAdd: newData =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    {
+                      const data = this.state.data;
+                      data.push(newData);
+                      this.setState({ data }, () => resolve());
+                    }
+                    resolve()
+                  }, 1000)
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    {
+                      const data = this.state.data;
+                      const index = data.indexOf(oldData);
+                      console.log(index)
+                      data[index] = newData;
+                      console.log(data)
+                      this.setState({ data }, () => resolve());
+                    }
+                    resolve()
+                  }, 1000)
+                }),
+              onRowDelete: oldData =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    {
+                      let data = this.state.data;
+                      const index = data.indexOf(oldData);
+                      data.splice(index, 1);
+                      this.setState({ data }, () => resolve());
+                    }
+                    resolve()
+                  }, 1000)
+                }),
+
+            }}
+          />
+          </div>
         ) : (null)}
 
       </Container>

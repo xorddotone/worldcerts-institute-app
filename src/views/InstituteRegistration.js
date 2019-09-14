@@ -308,9 +308,9 @@ class AddClassification extends Component {
                   </Row>
                   <hr />
                   
-                  {(this.state.loader)? (<img src = {loader} className = "loader"/>): (<button size="sm" className="mb-2 mr-1 worldcerts-button"
+                  {(this.state.loader)? (<img src = {loader} className = "loader"/>): (<span size="sm" className="mb-2 mr-1 worldcerts-button"
                     onClick={this.onRegisterClick.bind(this)}
-                  >Register</button>)}
+                  >Register</span>)}
                 </Form>
               </Col>
             </Row>
