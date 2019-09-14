@@ -142,6 +142,7 @@ class AddClassification extends Component {
     //   .catch(function (error) {
     //     console.log(error);
     //   });
+    console.log(this.state)
     if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
       console.log(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
@@ -164,6 +165,7 @@ class AddClassification extends Component {
         postalCode: this.state.postalCode
       }
       console.log(obj)
+      console.log(this.props.userData._id)
       axios.post(Routes.REGISTER_INSTITUTE + this.props.userData._id,obj)
       .then(function (response) {
         
