@@ -155,7 +155,7 @@ class ManageInstitutes extends Component {
            <Row noGutters className="page-header py-4">
              <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
              {/* subtitle="Registration" */}
-             {/* <Link to="/organization_registration"><Button theme="accent">Add</Button></Link> */}
+             {/* <Link to="/organization_registration"><span theme="accent">Add</span></Link> */}
            </Row>
            {console.log(this.state.registeredInstitute)}
          {  (this.state.registeredInstitute)?(
@@ -192,9 +192,9 @@ class ManageInstitutes extends Component {
                          </div>
                        </div>
                        {/* <div className="my-auto ml-auto">
-                         <Button size="sm" theme="white">
+                         <span size="sm" theme="white">
                            <i className="far fa-bookmark mr-1" /> Bookmark
-                         </Button>
+                         </span>
                        </div> */}
                      </CardFooter>
                    </Card>

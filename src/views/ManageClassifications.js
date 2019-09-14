@@ -178,13 +178,13 @@ class ManageClassifications extends Component {
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
-          <button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
+          <span onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
           Create
           <img src = {add} alt = "" height= "17px"/>
           {/* <i class="material-icons">
           add
 </i> */}
-      </button>
+      </span>
       {/* </Link> */}
         </Row>
         {console.log(this.state.registeredClassifications)}
@@ -264,10 +264,10 @@ class ManageClassifications extends Component {
                       </div>
                     </div>
                     <div className="my-auto ml-auto">
-                      <button size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
+                      <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
                         {/* <i className="far fa-bookmark mr-1" />  */}
                         EDIT
-                      </button>
+                      </span>
                     </div>
 
 

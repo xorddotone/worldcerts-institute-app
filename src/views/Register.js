@@ -257,7 +257,7 @@ class Register extends Component {
 
                     <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.errorMsg}</div>
                      <div style = {{textAlign: 'center'}}> 
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<button size="sm" className="mb-2 mr-1 worldcerts-button" onClick={this.onClickRegister}>Register</button> )} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button" onClick={this.onClickRegister}>Register</span> )} 
                      </div>
                     </Form>
                   </Col>

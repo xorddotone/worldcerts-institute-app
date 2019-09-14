@@ -30,7 +30,7 @@ class Main extends Component {
         <Row noGutters className="page-header py-4">
           <PageTitle title="Dashboard" subtitle="Overview" md="12" className="ml-sm-auto mr-sm-auto" />
         </Row>
-        <button onClick={this.onBtnClick.bind(this)}>tests</button>
+        <span onClick={this.onBtnClick.bind(this)}>tests</span>
       </Container>
     );
   }

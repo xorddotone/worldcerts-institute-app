@@ -244,7 +244,7 @@ class Profile extends Component {
                   <FormTextarea id="feDescription" rows="5" />
                 </Col>
               </Row> */}
-              <button theme="accent" onClick = {this.onClickUpdate}>Update Account</button>
+              <span theme="accent" onClick = {this.onClickUpdate}>Update Account</span>
               <div style={{ color: "red", borderBottom: "1px",textAlign:'center' }}>{this.state.error}</div>
 
             </Form>
