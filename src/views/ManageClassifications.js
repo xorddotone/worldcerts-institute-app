@@ -73,7 +73,7 @@ class ManageClassifications extends Component {
         tempArr.push(this.state.registeredClassifications[i])
       }
     }
-    // console.log(tempArr)
+    console.log(tempArr)
     try{
       console.log(this.props.userData._id)
   

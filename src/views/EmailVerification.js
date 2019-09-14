@@ -136,10 +136,10 @@ class EmailVerification extends Component {
             <ListGroup style={{ margin: "5em 3em" }} >
               <Row >
                 <Col >
-                  <Form >
+                  <div >
                     <Row >
                       <Col className="form-group">
-                        <label>We have sent you the Verification Code at the {this.props.userData.email} Kindly check it</label>
+                        <label>We have sent you the Verification Code at the {this.props.userData.email}.</label>
                       </Col>
                     </Row>
                     <Row >
@@ -168,7 +168,7 @@ class EmailVerification extends Component {
                     </div>
                     </Col>
                     </Row>
-                  </Form>
+                  </div>
                 </Col>
               </Row>
             </ListGroup>
