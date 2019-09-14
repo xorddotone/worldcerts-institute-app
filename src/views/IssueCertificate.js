@@ -42,7 +42,7 @@ class IssueCertificate extends Component {
       data: null,
       columns: [],
       registeredClassifications: [],
-      selectedClassification: null,
+      selectedClassification: {classification: "Choose"},
       alertMessage: "",
       alertShow: false,
       loading: false
@@ -136,7 +136,9 @@ class IssueCertificate extends Component {
     else {
       console.log("inside else")
       this.setState({
-        registeredClassifications: false
+        alertShow:true,
+        alertMessage:Strings.SELECT_ORGANIZATION,
+        theme:"danger"
       })
     }
   }
@@ -181,7 +183,8 @@ class IssueCertificate extends Component {
 
     console.log("data => ", this.state.data)
     console.log("institute => ", this.props.selectedInstituteName)
-    if (this.state.data == null || this.state.selectedClassification == "Choose") {
+    console.log(this.state.selectedClassification)
+    if (this.state.data == null|| this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose" ) {
       this.setState({
         loading: false,
         alertShow: true,
@@ -235,6 +238,7 @@ class IssueCertificate extends Component {
       issuer,
       recipient: temp
     }
+    console.log(this.props.selectedInstituteName.id)
     axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
       console.log(response)
       if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
@@ -242,6 +246,7 @@ class IssueCertificate extends Component {
           loading: false,
           alertShow: true,
           alertMessage: response.data.result,
+          theme: "info",
           data: "",
           fileName: ""
         })
@@ -260,7 +265,17 @@ class IssueCertificate extends Component {
     })
       .catch(err => {
         console.log(err.response)
-        if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
+        if(err.response == undefined){
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: "Network Error",
+            data: "",
+            fileName: ""
+          })
+        }
+       else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
           this.setState({
             loading: false,
             theme: "danger",
@@ -268,9 +283,8 @@ class IssueCertificate extends Component {
             alertMessage: err.response.data.responseMessage,
             data: "",
             fileName: ""
-
-
           })
+          
         }
       })
   }
