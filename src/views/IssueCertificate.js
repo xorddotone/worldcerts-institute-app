@@ -19,6 +19,7 @@ import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from "../images/loader.gif"
@@ -271,6 +272,16 @@ class IssueCertificate extends Component {
             theme: "danger",
             alertShow: true,
             alertMessage: "Network Error",
+            data: "",
+            fileName: ""
+          })
+        }
+        else if(err.response.data.responseCode == Response.SERVER_ERROR){
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: "Internal Server Error! Please Try Again",
             data: "",
             fileName: ""
           })

@@ -21,6 +21,9 @@ import cross from '../images/cross.svg'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import '../css/style.css'
+import { InstituteList } from "../redux/actions/dashboard-action";
+import { SELECTED_INSTITUTE } from "../redux/actions/login-action"
+
 const axios = require('axios');
 
 
@@ -95,7 +98,25 @@ class ManageInstitutes extends Component {
         tempArr.push(this.state.registeredInstitute[i])
       }
     }
-    // console.log(tempArr)
+    console.log(tempArr)
+
+    if(this.props.selectedInstituteName.id==id){
+      let obj = {
+        name: "Select Organization",
+        id: '',
+        url: '',
+        email:"",
+        certificateStore: ''      
+      }
+      this.props.SELECTED_INSTITUTE(obj)
+
+    }
+    
+    this.props.institutesList(tempArr)
+    
+    
+    
+    
     try{
       console.log(id)
       console.log(this.props.userData._id)
@@ -216,13 +237,20 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
+    userData: state.user_reducer.user,
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // UpdateTitle: (title) => dispatch(pageTitle(title))
+    institutesList: (institutes) => {
+      dispatch(InstituteList(institutes))
+    },
+    SELECTED_INSTITUTE: (user) => {
+      dispatch(SELECTED_INSTITUTE(user))
+    },
   }
 }
 

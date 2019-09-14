@@ -9,7 +9,7 @@ import {
 } from "shards-react";
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
-import { TOGGLE } from "../../../redux/actions/dashboard-action"
+import { TOGGLE  , InstituteList} from "../../../redux/actions/dashboard-action"
 // import Select from 'react-select';
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
@@ -138,15 +138,19 @@ class SidebarNavItems extends React.Component {
         console.log(response);
         temp = response.data.result
         console.log(temp)
-        that.setState({
-          Institutes: temp
-        })
+        that.props.institutesList(response.data.result)
+        // that.setState({
+        //   Institutes: temp
+        // })
 
       })
       .catch(function (error) {
         // handle error
         console.log(error);
       })
+      // this.setState({
+      //   Institutes:this.props.institutesList
+      // })
   }
 
 
@@ -182,6 +186,7 @@ class SidebarNavItems extends React.Component {
   render() {
     console.log(this.state.switched)
     console.log(this.props.toggleSwitchState)
+    console.log(this.props.institutesLists)
     // const { Item } = this.state;
     return (
       // <div className="nav-wrapper d-inline-block item-icon-wrapper">
@@ -204,9 +209,9 @@ class SidebarNavItems extends React.Component {
             </DropdownToggle>
             <Collapse tag={DropdownMenu} right small open={this.state.visible}>
 
-              {(this.state.Institutes) ? (
+              {(this.props.institutesLists) ? (
                 <div>
-                  {this.state.Institutes.map((names, id) => (
+                  {this.props.institutesLists.map((names, id) => (
                     <DropdownItem to="/home" tag={Link} key={id}>
                       <div onClick={() => this.onClickInstitute(names )}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
                     </DropdownItem>
@@ -300,6 +305,7 @@ const mapStateToProps = (state) => {
     userData: state.user_reducer.user,
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     toggleSwitchState: state.dashboard_reducer.toggle_switch_state,
+    institutesLists: state.user_reducer.institutesList
     // Title: state.pageTitle,
   }
 }
@@ -311,6 +317,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     SELECTED_INSTITUTE: (user) => {
       dispatch(SELECTED_INSTITUTE(user))
+    },
+    institutesList: (institutes) => {
+      dispatch(InstituteList(institutes))
     },
   }
 }

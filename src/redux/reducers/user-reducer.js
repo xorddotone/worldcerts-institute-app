@@ -1,4 +1,5 @@
-import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME } from "../actions/login-action";
+import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME} from "../actions/login-action";
+import {INSTITUTES_LIST } from "../actions/dashboard-action"
 
 const INITIAL_STATE = {
     email: '',
@@ -11,7 +12,8 @@ const INITIAL_STATE = {
         url: '',
         email: '',
         certificateStore: ''
-    }
+    },
+    institutesList: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,6 +32,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 selectedInstituteName: action.payload
+            })
+        case INSTITUTES_LIST: 
+            return ({
+                ...state,
+                institutesList: action.payload
             })
         default:
             return state
