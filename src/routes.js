@@ -96,6 +96,11 @@ export const routes1= [
     layout: DefaultLayout,
     component: Home
   },
+  // {
+  //   // path: "/userProfile",
+  //   layout: DefaultLayout,
+  //   component: () => <Redirect to="/home" />
+  // },
 ];
 export const routes2= [
   {
@@ -121,6 +126,66 @@ export const routes2= [
     path: "/emailVerification",
     layout: AuthLayout,
     component: EmailVerification
+  },
+  {
+    path: "/issueCertificate",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+
+    path: "/Certificate",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/settings",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/manage_organization",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/organization_registration",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/manageClassification",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/addClassification",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/userProfile",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    // path: "/userProfile",
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
   },
 ];
 
