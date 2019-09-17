@@ -57,6 +57,7 @@ class UserProfile extends Component {
     this.toggle = this.toggle.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onClickCancel = this.onClickCancel.bind(this)
+    this.onClickSaveInModal = this.onClickSaveInModal.bind(this)
   }
 
   componentWillMount() {
