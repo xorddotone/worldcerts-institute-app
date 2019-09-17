@@ -37,7 +37,7 @@
     color:#ffff;
     border: 1px transparent;
     transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
-    padding: 8px 30px  !important;
+    padding: 8px 16px  !important;
     font-size: 12px !important;
     font-weight: bold !important;
     background-image: linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));

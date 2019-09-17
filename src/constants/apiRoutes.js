@@ -3,6 +3,8 @@ export const SERVER_URL = "https://worldcert-server.herokuapp.com/"
 
 
 // export const SERVER_URL = "http://localhost:4000/"
+// export const SERVER_URL = "http://192.168.43.3:4000/"
+
 // export const SERVER_URL = "http://192.168.0.111:4000/"
 export const LOGIN_USER = SERVER_URL + "login/"
 export const SIGN_UP_USER = SERVER_URL + "signup/"

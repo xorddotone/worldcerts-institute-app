@@ -353,9 +353,9 @@ class IssueCertificate extends Component {
 
     return (
       <Container fluid className="main-content-container px-4">
-        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+        {/* <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-        </Alert>
+        </Alert> */}
         <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
@@ -363,6 +363,7 @@ class IssueCertificate extends Component {
         <Row>
           <Col lg="7" md="12">
             <label>Select Classification</label>
+         { (this.state.alertShow)? ( <label style = {{float: "right" , fontSize: "12px"}}>{this.state.alertMessage}</label>) : (null)}
             <FormSelect placeholder="Category" onChange={this.categoryChangeHandler} >
               {/* <option>category</option> */}
               {console.log(this.state.registeredClassifications)}

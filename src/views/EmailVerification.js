@@ -129,10 +129,10 @@ class EmailVerification extends Component {
     return (
       <Card className="mb-4">
         <Row >
-          <Col md="7">
+          <Col md="6">
             <img src={logo} alt="" style={{ width: "100%" }} />
           </Col>
-          <Col md="5">
+          <Col md="6">
             <ListGroup style={{ margin: "5em 3em" }} >
               <Row >
                 <Col >
