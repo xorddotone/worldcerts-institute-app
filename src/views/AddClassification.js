@@ -43,6 +43,7 @@ class InstituteRegistration extends Component {
       category: '',
       classification: this.props.editClassificationData.classification,
       duration: null,
+      durationTemp: "",
       durationValidity: '',
       ErrorStatus: false,
       error: "",
@@ -115,14 +116,26 @@ class InstituteRegistration extends Component {
   }
 
   durationChangeHandler(ev) {
+    // console.log(ev.target.value)
+    // if(this.state.duration){
+
+    //   console.log(this.state.duration.toString())
+    // }
+    
     var reg = new RegExp('^\\d+$');
-    console.log(reg.test(ev.target.value) || ev.target.value == "")
-    if (reg.test(ev.target.value)) {
-      console.log(ev.target.value)
+    var reg1=new RegExp('[A-Za-z]+');
+    console.log(reg1.test(ev.target.value))
+    console.log(reg.test(ev.target.value))
+    if( (reg.test(ev.target.value) && reg1.test(ev.target.value)==false) || ev.target.value ==""){
+      console.log("inside")
 
       this.setState({
-        duration: ev.target.value
+        durationTemp: ev.target.value,
+        duration: parseInt(ev.target.value, 10)
       })
+    }
+    else{
+      console.log("else")
     }
   }
 
@@ -156,6 +169,7 @@ class InstituteRegistration extends Component {
 
   onRegisterClick() {
     console.log("#################################################3")
+    console.log(typeof(this.state.duration))
     console.log(this.state.selectedInstituteId)
     this.setState({
       loading:true
@@ -430,7 +444,7 @@ class InstituteRegistration extends Component {
                             <label >Duration</label>
 
                           <InputGroup className="mb-3">
-                            <FormInput value={this.state.duration} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
+                            <FormInput value={this.state.durationTemp} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
                             <FormSelect type = "append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                               {
                                 duration.map((duration) => {

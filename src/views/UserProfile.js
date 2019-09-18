@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Container, Card,
+import {
+  Container, Card,
   CardHeader,
   ListGroup,
   ListGroupItem,
@@ -9,9 +10,13 @@ import { Container, Card,
   Alert,
   FormGroup,
   FormInput,
+  Modal,
+  ModalBody,
+  ModalHeader,
   FormSelect,
   FormTextarea,
-  Button } from "shards-react";
+  Button
+} from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
@@ -37,7 +42,9 @@ class UserProfile extends Component {
       alertShow: false,
       alertMessage: "",
       theme: "",
-      loader: false
+      loader: false,
+      modalLoader:false,
+      open: false
 
     }
 
@@ -47,6 +54,10 @@ class UserProfile extends Component {
     this.onClickUpdate = this.onClickUpdate.bind(this)
     this.onChangeOldPassword = this.onChangeOldPassword.bind(this)
     this.dismiss = this.dismiss.bind(this)
+    this.toggle = this.toggle.bind(this)
+    this.onChangeEmail = this.onChangeEmail.bind(this)
+    this.onClickCancel = this.onClickCancel.bind(this)
+    this.onClickSaveInModal = this.onClickSaveInModal.bind(this)
   }
 
   componentWillMount() {
@@ -74,206 +85,263 @@ class UserProfile extends Component {
     console.log(event.target.value)
     this.setState({ userName: event.target.value })
   }
+  onChangeEmail(event){
+    console.log(event.target.value)
+    this.setState({ email: event.target.value })
+  }
 
   onChangeOldPassword(event) {
     console.log(event.target.value)
     this.setState({ oldPassword: event.target.value })
   }
-
+  
   onClickUpdate() {
     console.log(" In update ")
     this.setState({
-      loader:true
+      loader: true
     })
 
-    if (this.state.newPassword !== this.state.confirmPassword) {
-      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED , loader: false })
-    }
-    else {
+    // if (this.state.newPassword !== this.state.confirmPassword) {
+    //   this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, loader: false })
+    // }
+    // else {
       let obj = {
         name: this.state.userName,
         email: this.state.email,
+      }
+      // alert("your data has been updated")
+      console.log(obj)
+      console.log(this.props.userData._id)
+      // axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
+      //   .then(response => {
+      //     console.log(response)
+      //     // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
+      //     //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
+      //     // }
+      //     // else 
+      //     if (response.data.result) {
+      //       this.setState({
+      //         errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
+      //         alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
+      //       })
+      //       // alert(Strings.DATA_UPDATED)
+      //     }
+      //     else {
+      //       this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err.response)
+      //     this.setState({
+      //       alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
+      //     })
+      //   })
+    // }
+  }
+  onClickSaveInModal(){
+    console.log(" In update ")
+    this.setState({
+      modalLoader: true
+    })
+
+    if (this.state.newPassword !== this.state.confirmPassword) {
+      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, loader: false })
+    }
+    else {
+      let obj = {
         password: this.state.newPassword,
         oldPassword: this.state.oldPassword
       }
       // alert("your data has been updated")
       console.log(obj)
       console.log(this.props.userData._id)
-      axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
-        .then(response => {
-          console.log(response)
-          // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-          //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
-          // }
-          // else 
-          if (response.data.result) {
-            this.setState({ errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
-             alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success" , loader:false })
-            // alert(Strings.DATA_UPDATED)
-          }
-          else {
-            this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED , theme:"danger",loader:false })
-          }
-        })
-        .catch(err => {
-          console.log(err.response)
-          this.setState({
-            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger" , loader:false
-          })
-        })
+      // axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
+      //   .then(response => {
+      //     console.log(response)
+      //     // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
+      //     //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
+      //     // }
+      //     // else 
+      //     if (response.data.result) {
+      //       this.setState({
+      //         errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
+      //         alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
+      //       })
+      //       // alert(Strings.DATA_UPDATED)
+      //     }
+      //     else {
+      //       this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err.response)
+      //     this.setState({
+      //       alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
+      //     })
+      //   })
     }
   }
   dismiss() {
     this.setState({ alertShow: false });
   }
+  toggle() {
+    console.log("122")
+    this.setState({
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+      open: !this.state.open,
 
+    });
+  }
+  onClickCancel(){
+    this.setState({
+      userName: this.props.userData.name,
+      email: this.props.userData.email   
+    })
+   
+  }
   render() {
     return (
-      
+
       <Container fluid className="main-content-container px-4">
-<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
-<i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-      </Alert>
+        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+        </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="User Profile" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-          {/* subtitle="Registration" */}
         </Row>
         <Row>
-          <Col lg="11">
+          <Col lg="12">
             <Card small className="mb-6">
-              {/* <CardHeader className="border-bottom">
-    </CardHeader> */}
-              <ListGroup flush>
-                <ListGroupItem className="p-3">
-                  <Row>
-                    <Col>
-                      <Form>
-                        <Row form>
-                          {/* First Name */}
-                          <Col md="12" className="form-group">
-                            <label htmlFor="feFirstName">Full Name</label>
-                            <FormInput
-                              id="feFirstName"
-                              placeholder="Full Name"
-                              value={this.state.userName}
-                              onChange={this.onChangeUserName}
-                            />
-                          </Col>
-                          {/* Last Name */}
-                          {/* <Col md="6" className="form-group">
-                  <label htmlFor="feLastName">Last Name</label>
-                  <FormInput
-                    id="feLastName"
-                    placeholder="Last Name"
-                    value="Brooks"
-                    onChange={() => {}}
-                  />
-                </Col> */}
-                        </Row>
-                        <Row form>
-                          {/* Email */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="feEmail">Email</label>
-                            <FormInput
-                              type="email"
-                              id="feEmail"
-                              placeholder="Email Address"
-                              value={this.state.email}
-                              autoComplete="email"
-                              disabled
-                            />
-                          </Col>
-                          {/* Password */}
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">Old Password</label>
-                            <FormInput
-                              type="password"
-                              id="fePassword"
-                              placeholder="********"
-                              value={this.state.oldPassword}
-                              onChange={this.onChangeOldPassword}
-                              autoComplete="current-password"
+              <Col lg="8">
 
-                            />
-                            <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.oldPasswordError}</div>
+                <ListGroup flush>
+                  <ListGroupItem className="p-3">
 
-                          </Col>
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">New Password</label>
-                            <FormInput
-                              type="password"
-                              id="fePassword"
-                              placeholder="Password"
-                              value={this.state.newPassword}
-                              onChange={this.onChangeNewPassword}
-                              autoComplete="new-password"
-                            />
-                          </Col>
-                          <Col md="6" className="form-group">
-                            <label htmlFor="fePassword">Confirm Password</label>
-                            <FormInput
-                              type="password"
-                              id="fePassword"
-                              placeholder="Password"
-                              value={this.state.confirmPassword}
-                              onChange={this.onChangeConfirmPassword}
-                              autoComplete="confirm-password"
-                            />
-                            <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
+                    <Row form>
+                      {/* First Name */}
+                      <Col md="4" className="form-group">
+                        <label htmlFor="feFirstName">Full Name</label>
 
+                      </Col>
+                      <Col md="6" className="form-group">
+                        <FormInput
+                          id="feFirstName"
+                          placeholder="Full Name"
+                          value={this.state.userName}
+                          onChange={this.onChangeUserName}
+                        />
+                      </Col>
+
+                    </Row>
+                    <Row form>
+                      {/* Email */}
+                      <Col md="4" className="form-group">
+                        <label htmlFor="feEmail">Email</label>
+
+                      </Col>
+                      <Col md="6" className="form-group">
+                        <FormInput
+                          type="email"
+                          id="feEmail"
+                          placeholder="Email Address"
+                          value={this.state.email}
+                          autoComplete="email"
+                          onChange={this.onChangeEmail}
+                          
+                        />
+                      </Col>
+
+                    </Row>
+
+                    <Row form>
+                      <Col md="4"></Col>
+                      <Col md="8">
+                        <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick = {this.onClickCancel}>Cancel</span>
+                        {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickUpdate}>Save</span>)}
+                      </Col>
+                    </Row>
+                    <Row form style={{ marginTop: "20px" }}>
+                      {/* First Name */}
+                      <Col md="4" className="form-group">
+                        <label htmlFor="feFirstName">Change Password</label>
+
+                      </Col>
+                      <Col md="8">
+                        <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick={this.toggle}>Change Password</span>
+                      </Col>
+                      <Modal size="md" open={this.state.open} centered="Yes" toggle={this.toggle}>
+                        <ModalHeader>Change Password</ModalHeader>
+                        <ModalBody>
+                          <Col sm="12">
+                            <Row>
+                              <Col sm="5" className="form-group">
+                                <label htmlFor="fePassword">Old Password</label>
+                              </Col>
+                              <Col md="5">
+                                <FormInput
+                                  type="password"
+                                  id="fePassword"
+                                  placeholder="********"
+                                  value={this.state.oldPassword}
+                                  onChange={this.onChangeOldPassword}
+                                  autoComplete="current-password"
+
+                                />
+                                <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.oldPasswordError}</div>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col sm="5" className="form-group">
+                                <label htmlFor="fePassword">New Password</label>
+                              </Col>
+                              <Col sm="5">
+                                <FormInput
+                                  type="password"
+                                  id="fePassword"
+                                  placeholder="Password"
+                                  value={this.state.newPassword}
+                                  onChange={this.onChangeNewPassword}
+                                  autoComplete="new-password"
+                                />
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col sm="5" className="form-group">
+                                <label htmlFor="fePassword">Confirm Password</label>
+                              </Col>
+                              <Col md="5">
+                                <FormInput
+                                  type="password"
+                                  id="fePassword"
+                                  placeholder="Password"
+                                  value={this.state.confirmPassword}
+                                  onChange={this.onChangeConfirmPassword}
+                                  autoComplete="confirm-password"
+                                />
+                                <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
+
+                              </Col>
+                            </Row>
+                            <Row style={{ marginTop: "15px" }}>
+                              <Col md="5" className="form-group"></Col>
+                              <Col md="5">
+                                <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick = {this.toggle}>Cancel</span>
+                                {(this.state.modalLoader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickSaveInModal}>Save</span>)}
+                              </Col>
+                            </Row>
                           </Col>
-                        </Row>
-                        {/* <FormGroup>
-                <label htmlFor="feAddress">Address</label>
-                <FormInput
-                  id="feAddress"
-                  placeholder="Address"
-                  value="1234 Main St."
-                  onChange={() => {}}
-                />
-              </FormGroup>
-              <Row form>
-                {/* City 
-                <Col md="6" className="form-group">
-                  <label htmlFor="feCity">City</label>
-                  <FormInput
-                    id="feCity"
-                    placeholder="City"
-                    onChange={() => {}}
-                  />
-                </Col>
-                {/* State 
-                <Col md="4" className="form-group">
-                  <label htmlFor="feInputState">State</label>
-                  <FormSelect id="feInputState">
-                    <option>Choose...</option>
-                    <option>...</option>
-                  </FormSelect>
-                </Col>
-                {/* Zip Code 
-                <Col md="2" className="form-group">
-                  <label htmlFor="feZipCode">Zip</label>
-                  <FormInput
-                    id="feZipCode"
-                    placeholder="Zip"
-                    onChange={() => {}}
-                  />
-                </Col>
-              </Row>
-              <Row form>
-                {/* Description 
-                <Col md="12" className="form-group">
-                  <label htmlFor="feDescription">Description</label>
-                  <FormTextarea id="feDescription" rows="5" />
-                </Col>
-              </Row> */}
-                       
-                        {(this.state.loader)?(<img src = {loader} className = "loader" />):( <span size="sm" className = "worldcerts-button" onClick={this.onClickUpdate}>Update Account</span>)}
-                      </Form>
+                        </ModalBody>
+                      </Modal>
+
+                    </Row>
+                    {/* </Form>
                     </Col>
-                  </Row>
-                </ListGroupItem>
-              </ListGroup>
+                  </Row> */}
+                  </ListGroupItem>
+                </ListGroup>
+              </Col>
             </Card>
           </Col>
         </Row>
@@ -286,7 +354,7 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state.pageTitle);
   return {
     Title: state.pageTitle,
-    userData:state.user_reducer.user
+    userData: state.user_reducer.user
 
   }
 }
