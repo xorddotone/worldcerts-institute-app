@@ -48,7 +48,7 @@ export const routes1= [
     component: AddClassification
   },
   {
-    path: "/userProfile",
+    path: "/settings/userProfile",
     layout: DefaultLayout,
     component: UserProfile
   },
@@ -225,7 +225,7 @@ export const routes3= [
     component: InstituteRegistration
   },
   {
-    path: "/userProfile",
+    path: "/settings/userProfile",
     layout: DefaultLayout,
     component: UserProfile
   },

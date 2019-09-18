@@ -31,11 +31,11 @@ class SidebarNavItems extends React.Component {
           to: "/home",
           htmlBefore: ' <i class="material-icons">home</i>',
         },
-          {
-            title: "Activate Your Account",
-            to: "/account_activation",
-            htmlBefore: ' <i class="material-icons">done</i>',
-          },
+          // {
+          //   title: "Activate Your Account",
+          //   to: "/account_activation",
+          //   htmlBefore: ' <i class="material-icons">done</i>',
+          // },
           {
           title: "Manage Organization",
           to: "/manage_organization",
@@ -77,6 +77,11 @@ class SidebarNavItems extends React.Component {
         {
           title: "Certificate Classification",
           to: "/addClassification",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
+          title: "Issue Certificate",
+          to: "/issueCertificate",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
@@ -263,7 +268,7 @@ class SidebarNavItems extends React.Component {
             ) : (
                 <div>
 
-                  {this.state.ItemVerified.map((item, idx) => {
+                  {this.state.ItemNotVerified.map((item, idx) => {
                     return (
                       <NavItem>
                         <NavLink
