@@ -326,7 +326,7 @@ class UserProfile extends Component {
                             </Row>
                             <Row style={{ marginTop: "15px" }}>
                               <Col md="5" className="form-group"></Col>
-                              <Col md="5">
+                              <Col md="7">
                                 <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick = {this.toggle}>Cancel</span>
                                 {(this.state.modalLoader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickSaveInModal}>Save</span>)}
                               </Col>
