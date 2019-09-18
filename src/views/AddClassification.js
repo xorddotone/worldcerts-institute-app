@@ -26,6 +26,7 @@ import {
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
@@ -242,9 +243,18 @@ class InstituteRegistration extends Component {
         .catch(function (error) {
           console.log(error);
           console.log(error.response)
-          that.setState({
-            loading:false
-          })
+          console.log(error.response.data.responseMessage)
+          if(error.response.data.responseCode == Response.BAD_REQUEST) { 
+            that.setState({
+              alertShow :true,
+              alertMessage: error.response.data.responseMessage,
+              theme: "danger",
+              loading: false
+            })
+          }
+          // that.setState({
+          //   loading:false
+          // })
         });
     }
     }
@@ -303,10 +313,11 @@ class InstituteRegistration extends Component {
       else if(that.state.durationValidity == "days"){
       }
       timeDuration = that.state.duration* 86400
-      
+      console.log(that.props.selectedInstituteName.id)
       console.log(timeDuration)
       let obj = {
         instituteName: that.props.selectedInstituteName.name,
+        instituteId: that.props.selectedInstituteName.id,
         category: that.state.category,
         classification: that.state.classification,
         durationValidity: timeDuration,
@@ -328,6 +339,8 @@ class InstituteRegistration extends Component {
         })
         .catch(function (error) {
           console.log(error);
+          console.log(error.response);
+
           if(error.response == undefined){
           that.setState({
             alertMessage: "Network Error",
@@ -336,7 +349,15 @@ class InstituteRegistration extends Component {
             loading:false
           })
         }
-        else {
+        else if(error.response.data.responseCode == Response.BAD_REQUEST){
+          that.setState({
+            alertMessage: error.response.data.responseMessage,
+            alertShow: true,
+            theme: "danger",
+            loading:false
+          })
+        }
+        else{
           that.setState({
             alertMessage: error.response.data.responseMessage,
             alertShow: true,

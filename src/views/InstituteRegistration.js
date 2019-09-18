@@ -207,9 +207,15 @@ class AddClassification extends Component {
           alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger", loader:false
         })
       }
-      else {
+      else if(error.response.data.responseCode == Response.BAD_REQUEST){
         that.setState({
-          alertShow: true , alertMessage: "Network Error" , theme: "danger", loader:false
+          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger", loader:false
+
+        })
+      }
+      else { 
+        that.setState({
+          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger", loader:false
 
         })
       }
