@@ -23,7 +23,9 @@ const axios = require('axios');
 
 class SingleCertificate extends Component {
   state={
-    certData:{}
+    certData: {},
+    QRCode: ""
+  
   }
   componentDidMount(){
 //     let query= this.props.location.search.split('?');
@@ -38,6 +40,50 @@ class SingleCertificate extends Component {
 //       .catch(function(error){
 //         console.log(error)
 //       })
+
+
+
+
+// let query = this.props.location.search.split('?');
+//     let that = this;
+//     axios.get("https://encert-server.herokuapp.com/issuer/certificate/" + query[1])
+//       .then(function (response) {
+//         console.log("Certificate ", response.data.data.result)
+//         that.getQRCode(response.data.data.result);
+//         try {
+//           that.setState({
+//             certData: response.data.data.result,
+//           })
+//           // return qr;
+//           //            await download(qr, `${certificates[i].receiver_name} , team ${certificates[i].team_name}.png`);
+//           //          }
+//         } catch (e) {
+//           console.log(e);
+//           // return null;
+//         }
+//       })
+//       .catch(function (error) {
+//         console.log(error)
+//       })
+  }
+
+  async getQRCode(certificate) {
+    console.log("Getting QR for cert: ", certificate);
+    try {
+      //          for (let i = 0; i < certificates.length; i++) {
+      let qr = await QRCode.toDataURL('https://encert.app/certificate?' + certificate._id);
+
+      console.log("QR: ", qr);
+      this.setState({
+        QRCode: qr
+      })
+      return qr;
+      //            await download(qr, `${certificates[i].receiver_name} , team ${certificates[i].team_name}.png`);
+      //          }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   }
 
     // state = {

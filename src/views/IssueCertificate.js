@@ -29,6 +29,7 @@ import ReactFileReader from 'react-file-reader';
 // import "react-table/react-table.css";
 import MaterialTable from 'material-table'
 import certificate from '../images/certificate.png'
+import {generateQrCodes} from '../utils/functions'
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
@@ -46,7 +47,19 @@ class IssueCertificate extends Component {
       selectedClassification: {classification: "Choose"},
       alertMessage: "",
       alertShow: false,
-      loading: false
+      loading: false,
+      cert:[
+        {
+          _id:1222333,
+          receiver_name:'John',
+          team_name:'Xord'
+        },
+        {
+          _id:444443,
+          receiver_name:'Sami',
+          team_name:'Xord'
+        }
+      ]
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Did', field: 'did'},
@@ -178,6 +191,8 @@ class IssueCertificate extends Component {
 
 
   async onIssueCertificate() {
+
+    // await generateQrCodes(this.state.cert);
     this.setState({
       loading: true
     })
