@@ -18,6 +18,8 @@ import signature1 from '../images/signature1.png'
 import signature2 from '../images/signature2.png'
 import qrcode from '../images/qrcode.png'
 import background from '../images/Background.jpg';
+import QRCode from 'qrcode';
+
 const axios = require('axios');
 
 

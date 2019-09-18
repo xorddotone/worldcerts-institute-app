@@ -21,6 +21,8 @@ import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
+import * as Response from '../constants/responseCodes'
+
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
@@ -100,11 +102,13 @@ class UserProfile extends Component {
     this.setState({
       loader: true
     })
+    console.log(this.state.userName)
+    console.log(this.state.email)
 
-    // if (this.state.newPassword !== this.state.confirmPassword) {
-    //   this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, loader: false })
-    // }
-    // else {
+    if (this.state.userName== ""  && this.state.email == "") {
+      this.setState({ alertShow:true , alertMessage: Strings.ONE_FIELD_REQUIRED,theme:"danger", loader: false })
+    }
+    else {
       let obj = {
         name: this.state.userName,
         email: this.state.email,
@@ -112,32 +116,32 @@ class UserProfile extends Component {
       // alert("your data has been updated")
       console.log(obj)
       console.log(this.props.userData._id)
-      // axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
-      //   .then(response => {
-      //     console.log(response)
-      //     // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-      //     //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
-      //     // }
-      //     // else 
-      //     if (response.data.result) {
-      //       this.setState({
-      //         errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
-      //         alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
-      //       })
-      //       // alert(Strings.DATA_UPDATED)
-      //     }
-      //     else {
-      //       this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err.response)
-      //     this.setState({
-      //       alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
-      //     })
-      //   })
-    // }
-  }
+      axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
+        .then(response => {
+          console.log(response)
+          // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
+          //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
+          // }
+          // else 
+          if (response.data.result) {
+            this.setState({
+              errorMsg: "", error: "", userName: this.props.userData.userName,
+              alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
+            })
+            // alert(Strings.DATA_UPDATED)
+          }
+          else {
+            this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
+          }
+        })
+        .catch(err => {
+          console.log(err.response)
+          this.setState({
+            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
+          })
+        })
+      }
+    }
   onClickSaveInModal(){
     console.log(" In update ")
     this.setState({
@@ -155,32 +159,45 @@ class UserProfile extends Component {
       // alert("your data has been updated")
       console.log(obj)
       console.log(this.props.userData._id)
-      // axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
-      //   .then(response => {
-      //     console.log(response)
-      //     // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-      //     //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
-      //     // }
-      //     // else 
-      //     if (response.data.result) {
-      //       this.setState({
-      //         errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
-      //         alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
-      //       })
-      //       // alert(Strings.DATA_UPDATED)
-      //     }
-      //     else {
-      //       this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err.response)
-      //     this.setState({
-      //       alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
-      //     })
-      //   })
-    }
+      axios.put(Routes.UPDATE_USER_PASSWORD + this.props.userData._id, obj)
+        .then(response => {
+          console.log(response)
+          // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
+          //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
+          // }
+          // else 
+          if (response.data.responseCode == Response.SUCCESS) {
+            this.setState({
+              errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
+              alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", modalLoader: false
+            })
+          //   // alert(Strings.DATA_UPDATED)
+          }
+          else {
+            this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", modalLoader: false })
+          }
+        })
+        .catch(err => {
+          console.log(err.response)
+          if(err.response.data.responseCode == Response.BAD_REQUEST){
+          this.setState({
+            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", modalLoader: false
+          })
+        }
+        else if(err.response == undefined){
+          this.setState({
+            alertShow: true, alertMessage: "Network Error", theme: "danger", modalLoader: false
+          })
+        }
+        else {
+          this.setState({
+            alertShow: true, alertMessage: err.response.data.responseMessage, theme: "danger", modalLoader: false
+          })
+        }
+      })
+        
   }
+}
   dismiss() {
     this.setState({ alertShow: false });
   }
