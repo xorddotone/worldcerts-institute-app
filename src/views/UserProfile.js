@@ -174,7 +174,7 @@ class UserProfile extends Component {
       this.setState({ alertShow: true,alertMessage: Strings.ALL_FIELDS_REQUIRED,theme: "danger", modalLoader: false })
     }
     else if (this.state.newPassword !== this.state.confirmPassword) {
-      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, loader: false })
+      this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, modalLoader: false })
     }
     else {
       let obj = {
