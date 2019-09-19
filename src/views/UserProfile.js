@@ -18,7 +18,7 @@ import {
   Button
 } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
+import { USER_DATA, LOGIN_STATUS } from "../redux/actions/login-action"
 
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
@@ -47,7 +47,7 @@ class UserProfile extends Component {
       alertMessage: "",
       theme: "",
       loader: false,
-      modalLoader:false,
+      modalLoader: false,
       open: false
 
     }
@@ -89,7 +89,7 @@ class UserProfile extends Component {
     console.log(event.target.value)
     this.setState({ userName: event.target.value })
   }
-  onChangeEmail(event){
+  onChangeEmail(event) {
     console.log(event.target.value)
     this.setState({ email: event.target.value })
   }
@@ -98,7 +98,7 @@ class UserProfile extends Component {
     console.log(event.target.value)
     this.setState({ oldPassword: event.target.value })
   }
-  
+
   onClickUpdate() {
     console.log(" In update ")
     console.log(this.props.userData)
@@ -107,37 +107,39 @@ class UserProfile extends Component {
     })
     console.log(this.state.userName)
     console.log(this.state.email)
-
-    if (this.state.userName== ""  || this.state.email == "") {
-      this.setState({ alertShow:true , alertMessage: Strings.ALL_FIELDS_REQUIRED,theme:"danger", loader: false })
+    if (this.state.userName == "" || this.state.email == "") {
+      this.setState({ alertShow: true, alertMessage: Strings.ALL_FIELDS_REQUIRED, theme: "danger", loader: false })
     }
     else {
       let obj = {
         name: this.state.userName,
         email: this.state.email,
       }
-     
       console.log(obj)
       console.log(this.props.userData._id)
       axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
         .then(response => {
           console.log(response)
-          // if (response.data.data.result == Strings.EMAIL_PASSWORD_INCORRECT) {
-          //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
-          // }
-          // else 
+          
           if (response.data.responseCode == Response.SUCCESS) {
+            if(!response.data.result){
+              this.setState({
+                errorMsg: "", error: "",
+                alertShow: true, alertMessage: Strings.USER_DATA_SAME,theme: "success",
+                loader: false
+              })
+            }
+            else{
             this.setState({
-              errorMsg: "", error: "", userName: this.props.userData.userName,
-              alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
+              errorMsg: "", error: "",
+              alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success",
+              loader: false
             })
-            let temp=this.props.userData
-            temp.name=this.state.userName
-            temp.email=this.state.email
-            // alert("your data has been updated")
+            let temp = this.props.userData
+            temp.name = this.state.userName
+            temp.email = this.state.email
             this.props.USER_DATA(temp)
-            
-            // alert(Strings.DATA_UPDATED)
+          }
           }
           else {
             this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", loader: false })
@@ -145,19 +147,33 @@ class UserProfile extends Component {
         })
         .catch(err => {
           console.log(err.response)
-          this.setState({
-            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", loader: false
-          })
+          if (err.response == undefined) {
+            this.setState({
+              alertShow: true, alertMessage: "Network Error", theme: "danger", loader: false
+            })
+          }
+          else if (err.response.data.responseCode == Response.BAD_REQUEST) {
+            this.setState({
+              alertShow: true, alertMessage: err.response.data.responseMessage, theme: "danger", loader: false
+            })
+          }
+          else {
+            this.setState({
+              alertShow: true, alertMessage: err.response.data.responseMessage, theme: "danger", loader: false
+            })
+          }
         })
-      }
     }
-  onClickSaveInModal(){
+  }
+  onClickSaveInModal() {
     console.log(" In update ")
     this.setState({
       modalLoader: true
     })
-
-    if (this.state.newPassword !== this.state.confirmPassword) {
+    if(this.state.newPassword == "" || this.state.confirmPassword == ""|| this.state.oldPassword== ""){
+      this.setState({ alertShow: true,alertMessage: Strings.ALL_FIELDS_REQUIRED,theme: "danger", modalLoader: false })
+    }
+    else if (this.state.newPassword !== this.state.confirmPassword) {
       this.setState({ errorMsg: Strings.PASSWORD_NOT_MATCHED, loader: false })
     }
     else {
@@ -180,33 +196,34 @@ class UserProfile extends Component {
               errorMsg: "", error: "", oldPasswordError: "", newPassword: "", userName: this.props.userData.userName, confirmPassword: "",
               alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", modalLoader: false
             })
-          //   // alert(Strings.DATA_UPDATED)
+            //   // alert(Strings.DATA_UPDATED)
           }
           else {
             this.setState({ alertShow: true, alertMessage: Strings.DATA_NOT_UPDATED, theme: "danger", modalLoader: false })
           }
+          this.toggle()
         })
         .catch(err => {
           console.log(err.response)
-          if(err.response.data.responseCode == Response.BAD_REQUEST){
-          this.setState({
-            alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", modalLoader: false
-          })
-        }
-        else if(err.response == undefined){
-          this.setState({
-            alertShow: true, alertMessage: "Network Error", theme: "danger", modalLoader: false
-          })
-        }
-        else {
-          this.setState({
-            alertShow: true, alertMessage: err.response.data.responseMessage, theme: "danger", modalLoader: false
-          })
-        }
-      })
-        
+          if (err.response.data.responseCode == Response.BAD_REQUEST) {
+            this.setState({
+              alertShow: true, alertMessage: Strings.INVALID_PASSWORD, theme: "danger", modalLoader: false
+            })
+          }
+          else if (err.response == undefined) {
+            this.setState({
+              alertShow: true, alertMessage: "Network Error", theme: "danger", modalLoader: false
+            })
+          }
+          else {
+            this.setState({
+              alertShow: true, alertMessage: err.response.data.responseMessage, theme: "danger", modalLoader: false
+            })
+          }
+        })
+
+    }
   }
-}
   dismiss() {
     this.setState({ alertShow: false });
   }
@@ -220,12 +237,12 @@ class UserProfile extends Component {
 
     });
   }
-  onClickCancel(){
+  onClickCancel() {
     this.setState({
       userName: this.props.userData.name,
       email: this.props.userData.email,
     })
-   
+
   }
   render() {
     return (
@@ -275,7 +292,7 @@ class UserProfile extends Component {
                           value={this.state.email}
                           autoComplete="email"
                           onChange={this.onChangeEmail}
-                          
+
                         />
                       </Col>
 
@@ -284,7 +301,7 @@ class UserProfile extends Component {
                     <Row form>
                       <Col md="4"></Col>
                       <Col md="8">
-                        <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick = {this.onClickCancel}>Cancel</span>
+                        <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick={this.onClickCancel}>Cancel</span>
                         {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickUpdate}>Save</span>)}
                       </Col>
                     </Row>
@@ -346,14 +363,14 @@ class UserProfile extends Component {
                                   onChange={this.onChangeConfirmPassword}
                                   autoComplete="confirm-password"
                                 />
-                                <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
+                                <div style={{ color: "red", borderBottom: "1px", textAlign: 'center', fontSize: "12px" }}>{this.state.errorMsg}</div>
 
                               </Col>
                             </Row>
                             <Row style={{ marginTop: "15px" }}>
                               <Col md="5" className="form-group"></Col>
                               <Col md="7">
-                                <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick = {this.toggle}>Cancel</span>
+                                <span size="sm" className="worldcerts-button" style={{ marginRight: "1em" }} onClick={this.toggle}>Cancel</span>
                                 {(this.state.modalLoader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickSaveInModal}>Save</span>)}
                               </Col>
                             </Row>
