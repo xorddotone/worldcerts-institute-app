@@ -290,7 +290,7 @@ class ManageClassifications extends Component {
             )}
           </Row>
         ):(
-      <div><h3 >Nothing added yet</h3></div>
+      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
       )}
       </Container>
     )
