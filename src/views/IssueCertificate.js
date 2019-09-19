@@ -50,7 +50,7 @@ class IssueCertificate extends Component {
       //   studentid: "3224"
       // }
     ],
-      // columns: [],
+      columns: [],
       registeredClassifications: [],
       selectedClassification: { classification: "Choose" },
       alertMessage: "",
@@ -71,13 +71,15 @@ class IssueCertificate extends Component {
         }
       ],
       data2: null,
-      columns: [
-        { title: 'Name', field: 'name' },
-        { title: 'Did', field: 'did'},
-        { title: 'Email', field: 'email' },
-        { title: 'Phone' , field: 'phone'},
-        { title: 'StudentId' , field: 'studentid'},
-      ],
+      // columns: [
+      //   { title: 'Name', field: 'name' },
+      //   { title: 'Did', field: 'did'},
+      //   { title: 'Email', field: 'email' },
+      //   { title: 'Phone' , field: 'phone'},
+      //   { title: 'StudentId' , field: 'studentid'},
+      // ],
+
+
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
@@ -98,9 +100,10 @@ class IssueCertificate extends Component {
     this.FileHandler = this.FileHandler.bind(this)
     this.csvJSON = this.csvJSON.bind(this)
     this.onIssueCertificate = this.onIssueCertificate.bind(this)
-    this.getColumns = this.getColumns.bind(this)
+    this.getColumnsFromCSVFile = this.getColumnsFromCSVFile.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
     this.dismiss = this.dismiss.bind(this)
+    this.getColumnsFromClassification=this.getColumnsFromClassification.bind(this)
   }
 
   // getColumns() {
@@ -191,7 +194,7 @@ class IssueCertificate extends Component {
       temp1 = that.csvJSON(temp)
       console.log(temp1)
       console.log(JSON.parse(temp1))
-      that.getColumns(JSON.parse(temp1))
+      // that.getColumnsFromCSVFile(JSON.parse(temp1))
       that.setState({
         data: JSON.parse(temp1),
         // data:[]
@@ -206,127 +209,127 @@ class IssueCertificate extends Component {
 
   async onIssueCertificate() {
 
-    await generateQrCodes(this.state.cert);
-    // this.setState({
-    //   loading: true
-    // })
+    // await generateQrCodes(this.state.cert);
+    this.setState({
+      loading: true
+    })
 
-    // console.log("data => ", this.state.data)
-    // console.log("institute => ", this.props.selectedInstituteName)
-    // console.log(this.state.selectedClassification)
-    // if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
-    //   this.setState({
-    //     loading: false,
-    //     alertShow: true,
-    //     alertMessage: Strings.ALL_FIELDS_REQUIRED,
-    //     theme: "danger"
-    //   })
-    //   return
+    console.log("data => ", this.state.data)
+    console.log("institute => ", this.props.selectedInstituteName)
+    console.log(this.state.selectedClassification)
+    if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
+      this.setState({
+        loading: false,
+        alertShow: true,
+        alertMessage: Strings.ALL_FIELDS_REQUIRED,
+        theme: "danger"
+      })
+      return
+    }
+    let issuer = this.props.selectedInstituteName
+    let recipient = this.state.data
+    // let classificationObject = this.props.selectedClassification
+    // let recipient = {name: "Mr Blockchain",
+    // did: "DID:SG-NRIC:S99999999A",
+    // email: "mr-blockchain@gmail.com",
+    // phone: "+65 88888888",
+    // studentId: "1232"}
+
+    let classification = {
+      id: this.state.selectedClassification._id,
+      description: this.state.selectedClassification.category,
+      issuedOn: "",
+      expiresOn: this.state.selectedClassification.durationValidity,
+      name: this.state.selectedClassification.classification,
+    }
+    console.log("classification => ", classification)
+
+
+
+
+    // {
+    //   name:this.props.selectedInstituteName.name ,
+    //   id: this.props.selectedInstituteName.id,
+    //   url: this.props.selectedInstituteName.url,
+    //   email: this.props.selectedInstituteName.email,
+    //   certificateStore: this.props.selectedInstituteName.certificateStore
     // }
-    // let issuer = this.props.selectedInstituteName
-    // let recipient = this.state.data
-    // // let classificationObject = this.props.selectedClassification
-    // // let recipient = {name: "Mr Blockchain",
-    // // did: "DID:SG-NRIC:S99999999A",
-    // // email: "mr-blockchain@gmail.com",
-    // // phone: "+65 88888888",
-    // // studentId: "1232"}
 
-    // let classification = {
-    //   id: this.state.selectedClassification._id,
-    //   description: this.state.selectedClassification.category,
-    //   issuedOn: "",
-    //   expiresOn: this.state.selectedClassification.durationValidity,
-    //   name: this.state.selectedClassification.classification,
+    console.log("data => ", this.state.data)
+    // let obj = [
+
+    //   this.state.data
+    // ]
+    let temp = this.state.data
+    // for (let i = 0; i < temp.length; i++) {
+    //   // console.log(this.state.data[i].tableData)
+    //   await delete temp[i].tableData
     // }
-    // console.log("classification => ", classification)
+    console.log("temp => ", temp)
+    let obj = {
+      classification,
+      issuer,
+      recipient: temp
+    }
+    console.log(this.props.selectedInstituteName.id)
+    axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
+      console.log(response)
+      if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
+        this.setState({
+          loading: false,
+          alertShow: true,
+          alertMessage: response.data.result,
+          theme: "info",
+          data: [],
+          fileName: ""
+        })
+      }
+      else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: response.data.responseMessage,
+          data: [],
+          fileName: ""
 
+        })
+      }
+    })
+      .catch(err => {
+        console.log(err.response)
+        if (err.response == undefined) {
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: "Network Error",
+            data: [],
+            fileName: ""
+          })
+        }
+        else if (err.response.data.responseCode == Response.SERVER_ERROR) {
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: "Internal Server Error! Please Try Again",
+            data: [],
+            fileName: ""
+          })
+        }
+        else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: err.response.data.responseMessage,
+            data: "",
+            fileName: ""
+          })
 
-
-
-    // // {
-    // //   name:this.props.selectedInstituteName.name ,
-    // //   id: this.props.selectedInstituteName.id,
-    // //   url: this.props.selectedInstituteName.url,
-    // //   email: this.props.selectedInstituteName.email,
-    // //   certificateStore: this.props.selectedInstituteName.certificateStore
-    // // }
-
-    // console.log("data => ", this.state.data)
-    // // let obj = [
-
-    // //   this.state.data
-    // // ]
-    // let temp = this.state.data
-    // // for (let i = 0; i < temp.length; i++) {
-    // //   // console.log(this.state.data[i].tableData)
-    // //   await delete temp[i].tableData
-    // // }
-    // console.log("temp => ", temp)
-    // let obj = {
-    //   classification,
-    //   issuer,
-    //   recipient: temp
-    // }
-    // console.log(this.props.selectedInstituteName.id)
-    // axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
-    //   console.log(response)
-    //   if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
-    //     this.setState({
-    //       loading: false,
-    //       alertShow: true,
-    //       alertMessage: response.data.result,
-    //       theme: "info",
-    //       data: [],
-    //       fileName: ""
-    //     })
-    //   }
-    //   else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
-    //     this.setState({
-    //       loading: false,
-    //       theme: "danger",
-    //       alertShow: true,
-    //       alertMessage: response.data.responseMessage,
-    //       data: [],
-    //       fileName: ""
-
-    //     })
-    //   }
-    // })
-    //   .catch(err => {
-    //     console.log(err.response)
-    //     if (err.response == undefined) {
-    //       this.setState({
-    //         loading: false,
-    //         theme: "danger",
-    //         alertShow: true,
-    //         alertMessage: "Network Error",
-    //         data: [],
-    //         fileName: ""
-    //       })
-    //     }
-    //     else if (err.response.data.responseCode == Response.SERVER_ERROR) {
-    //       this.setState({
-    //         loading: false,
-    //         theme: "danger",
-    //         alertShow: true,
-    //         alertMessage: "Internal Server Error! Please Try Again",
-    //         data: [],
-    //         fileName: ""
-    //       })
-    //     }
-    //     else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
-    //       this.setState({
-    //         loading: false,
-    //         theme: "danger",
-    //         alertShow: true,
-    //         alertMessage: err.response.data.responseMessage,
-    //         data: "",
-    //         fileName: ""
-    //       })
-
-    //     }
-    //   })
+        }
+      })
   }
   csvJSON(cssv) {
 
@@ -346,7 +349,7 @@ class IssueCertificate extends Component {
     return JSON.stringify(result); //JSON
   }
 
-  getColumns(dt) {
+  getColumnsFromCSVFile(dt) {
     let temp = []
     Object.keys(dt[0]).map(key => {
       console.log(key)
@@ -359,6 +362,27 @@ class IssueCertificate extends Component {
     console.log(temp)
     this.setState({ columns: temp })
   }
+
+
+  getColumnsFromClassification(temp){
+    // let temp=["name","did","email","phone","studentid"]
+    let temp1=[]
+    for(let i=0;i<temp.length;i++){
+      let obj={
+        title:temp[i],
+        field:temp[i]
+      }
+      temp1.push(obj)
+    }
+    console.log(temp1)
+    this.setState({
+      columns:temp1
+    })
+
+
+  }
+
+
   categoryChangeHandler(ev) {
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
@@ -366,6 +390,8 @@ class IssueCertificate extends Component {
       alertShow: false,
       selectedClassification: this.state.registeredClassifications[ev.target.value]
     })
+    console.log(this.state.registeredClassifications[ev.target.value].list)
+    this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].list)
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
     // this.setState({
     //   category: ev.target.value
@@ -443,7 +469,7 @@ console.log(this.state)
         inputStyle={{color: 'red'}}
       /> */}
         {
-          // (this.state.data) ? (
+          (this.state.selectedClassification.classification!='Choose') ? (
           // <ReactTable
           //       data={this.state.data}
           //       columns={this.getColumns()}
@@ -501,7 +527,7 @@ console.log(this.state)
               }}
             />
           </div>
-          // ) : (null)
+          ) : (null)
         }
 
       </Container>
