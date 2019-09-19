@@ -86,6 +86,7 @@ class Login extends Component {
       axios.post(Routes.LOGIN_USER, user).then(response => {
         console.log(response)
        if(response.data.responseCode == Response.SUCCESS) {
+         console.log(response.data.result)
           this.props.USER_DATA(response.data.result)
           this.props.LOGIN_STATUS(true)
           this.setState({

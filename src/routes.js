@@ -48,6 +48,8 @@ export const routes1= [
     component: AddClassification
   },
   {
+    exact: true,
+
     path: "/settings/userProfile",
     layout: DefaultLayout,
     component: UserProfile
@@ -87,6 +89,8 @@ export const routes1= [
     component: AccountActivation
   },
   {
+    exact: true,
+
     path: "/settings",
     layout: DefaultLayout,
     component: Settings
@@ -136,8 +140,7 @@ export const routes2= [
 
     path: "/Certificate",
     layout: DefaultLayout,
-    component: () => <Redirect to="/signin" />
-    
+    component: SingleCertificate
   },
   {
     path: "/account_activation",
@@ -182,11 +185,11 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
-    // path: "/userProfile",
-    layout: AuthLayout,
-    component: () => <Redirect to="/signin" />
-  },
+  // {
+  //   // path: "/userProfile",
+  //   layout: AuthLayout,
+  //   component: () => <Redirect to="/signin" />
+  // },
 ];
 
 export const routes3= [
@@ -225,6 +228,7 @@ export const routes3= [
     component: InstituteRegistration
   },
   {
+    exact: true,
     path: "/settings/userProfile",
     layout: DefaultLayout,
     component: UserProfile
@@ -235,6 +239,7 @@ export const routes3= [
     component: AccountActivation
   },
   {
+    exact: true,
     path: "/settings",
     layout: DefaultLayout,
     component: Settings

@@ -18,6 +18,8 @@ import {
   Button
 } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
+import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
+
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
@@ -99,21 +101,22 @@ class UserProfile extends Component {
   
   onClickUpdate() {
     console.log(" In update ")
+    console.log(this.props.userData)
     this.setState({
       loader: true
     })
     console.log(this.state.userName)
     console.log(this.state.email)
 
-    if (this.state.userName== ""  && this.state.email == "") {
-      this.setState({ alertShow:true , alertMessage: Strings.ONE_FIELD_REQUIRED,theme:"danger", loader: false })
+    if (this.state.userName== ""  || this.state.email == "") {
+      this.setState({ alertShow:true , alertMessage: Strings.ALL_FIELDS_REQUIRED,theme:"danger", loader: false })
     }
     else {
       let obj = {
         name: this.state.userName,
         email: this.state.email,
       }
-      // alert("your data has been updated")
+     
       console.log(obj)
       console.log(this.props.userData._id)
       axios.put(Routes.UPDATE_USER + this.props.userData._id, obj)
@@ -123,11 +126,17 @@ class UserProfile extends Component {
           //   this.setState({ oldPasswordError: Strings.INVALID_PASSWORD })
           // }
           // else 
-          if (response.data.result) {
+          if (response.data.responseCode == Response.SUCCESS) {
             this.setState({
               errorMsg: "", error: "", userName: this.props.userData.userName,
               alertShow: true, alertMessage: Strings.DATA_UPDATED, theme: "success", loader: false
             })
+            let temp=this.props.userData
+            temp.name=this.state.userName
+            temp.email=this.state.email
+            // alert("your data has been updated")
+            this.props.USER_DATA(temp)
+            
             // alert(Strings.DATA_UPDATED)
           }
           else {
@@ -214,7 +223,7 @@ class UserProfile extends Component {
   onClickCancel(){
     this.setState({
       userName: this.props.userData.name,
-      email: this.props.userData.email   
+      email: this.props.userData.email,
     })
    
   }
@@ -368,7 +377,7 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(Strings.REDUX, state.pageTitle);
+  console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
     userData: state.user_reducer.user
@@ -378,6 +387,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    USER_DATA: (user) => {
+      dispatch(USER_DATA(user))
+    }
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }

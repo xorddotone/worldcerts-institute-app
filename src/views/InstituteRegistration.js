@@ -155,6 +155,8 @@ class AddClassification extends Component {
       })
     }
     else {
+      let organization = this.state.instituteName.toLowerCase()
+      console.log(organization)
       let obj = {
         companyName: this.state.instituteName,
         businessRegistrationNumber: this.state.buisnessRegistrationNum,

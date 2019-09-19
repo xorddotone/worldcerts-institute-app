@@ -114,12 +114,21 @@ class EmailVerification extends Component {
           this.setState({ errorMsg: Strings.CODE_NOT_EMPTY ,loader:false })
         }
       }).catch(err => {
-        if(err.response.data.responseCode == Response.BAD_REQUEST){
+        console.log(err)
+        console.log(err.response)
+        if(err.response == undefined){
+          this.setState({
+            errorMsg: "Network Error",
+            loader: false
+          })
+        }
+        else if(err.response.data.responseCode == Response.BAD_REQUEST){
           this.setState({
             errorMsg: err.response.data.responseMessage,
             loader: false
           })
         }
+         
         console.log(err.response)
       })
     }

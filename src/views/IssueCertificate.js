@@ -29,7 +29,7 @@ import ReactFileReader from 'react-file-reader';
 // import "react-table/react-table.css";
 import MaterialTable from 'material-table'
 import certificate from '../images/certificate.png'
-import {generateQrCodes} from '../utils/functions'
+import { generateQrCodes } from '../utils/functions'
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
@@ -41,32 +41,43 @@ class IssueCertificate extends Component {
     super(props);
     this.state = {
       fileName: '',
-      data: null,
-      columns: [],
+      data: [
+      //   {
+      //   did: "1398239",
+      //   email: "abc@gmail.com",
+      //   name: "carolina",
+      //   phone: "6588888888",
+      //   studentid: "3224"
+      // }
+    ],
+      // columns: [],
       registeredClassifications: [],
-      selectedClassification: {classification: "Choose"},
+      selectedClassification: { classification: "Choose" },
       alertMessage: "",
       alertShow: false,
+      classificationErrorShow:false,
+      classificationErrorMessage: "",
       loading: false,
-      cert:[
+      cert: [
         {
-          _id:1222333,
-          receiver_name:'John',
-          team_name:'Xord'
+          _id: 1222333,
+          receiver_name: 'John',
+          team_name: 'Xord'
         },
         {
-          _id:444443,
-          receiver_name:'Sami',
-          team_name:'Xord'
+          _id: 444443,
+          receiver_name: 'Sami',
+          team_name: 'Xord'
         }
-      ]
-      // columns: [
-      //   { title: 'Name', field: 'name' },
-      //   { title: 'Did', field: 'did'},
-      //   { title: 'Email', field: 'email' },
-      //   { title: 'Phone' , field: 'phone'},
-      //   { title: 'StudentId' , field: 'studentid'},
-      // ],
+      ],
+      data2: null,
+      columns: [
+        { title: 'Name', field: 'name' },
+        { title: 'Did', field: 'did'},
+        { title: 'Email', field: 'email' },
+        { title: 'Phone' , field: 'phone'},
+        { title: 'StudentId' , field: 'studentid'},
+      ],
       // columns: [
       //   { title: 'Name', field: 'name' },
       //   { title: 'Surname', field: 'surname', initialEditValue: 'initial edit value' },
@@ -150,9 +161,8 @@ class IssueCertificate extends Component {
     else {
       console.log("inside else")
       this.setState({
-        alertShow:true,
-        alertMessage:Strings.SELECT_ORGANIZATION,
-        theme:"danger"
+        classificationErrorShow: true,
+        classificationErrorMessage: Strings.SELECT_ORGANIZATION,
       })
     }
   }
@@ -161,17 +171,20 @@ class IssueCertificate extends Component {
   }
 
   handleFiles = files => {
+    
     var reader = new FileReader();
     let temp;
     var temp1;
     console.log(files[0])
     let name = files[0].name
     this.setState({
-      alertShow:false,
-      fileName: name
+      alertShow: false,
+      fileName: name,
+      data:null
     })
     let that = this
     reader.onload = function (e) {
+
       console.log(e)
       temp = reader.result
       console.log(temp)
@@ -180,7 +193,8 @@ class IssueCertificate extends Component {
       console.log(JSON.parse(temp1))
       that.getColumns(JSON.parse(temp1))
       that.setState({
-        data: JSON.parse(temp1)
+        data: JSON.parse(temp1),
+        // data:[]
       })
       // let obj = JSON.parse(temp1)
 
@@ -192,127 +206,127 @@ class IssueCertificate extends Component {
 
   async onIssueCertificate() {
 
-    // await generateQrCodes(this.state.cert);
-    this.setState({
-      loading: true
-    })
+    await generateQrCodes(this.state.cert);
+    // this.setState({
+    //   loading: true
+    // })
 
-    console.log("data => ", this.state.data)
-    console.log("institute => ", this.props.selectedInstituteName)
-    console.log(this.state.selectedClassification)
-    if (this.state.data == null|| this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose" ) {
-      this.setState({
-        loading: false,
-        alertShow: true,
-        alertMessage: Strings.ALL_FIELDS_REQUIRED,
-        theme: "danger"
-      })
-      return
-    }
-    let issuer = this.props.selectedInstituteName
-    let recipient = this.state.data
-    // let classificationObject = this.props.selectedClassification
-    // let recipient = {name: "Mr Blockchain",
-    // did: "DID:SG-NRIC:S99999999A",
-    // email: "mr-blockchain@gmail.com",
-    // phone: "+65 88888888",
-    // studentId: "1232"}
-
-    let classification = {
-      id: this.state.selectedClassification._id,
-      description: this.state.selectedClassification.category,
-      issuedOn: "",
-      expiresOn: this.state.selectedClassification.durationValidity,
-      name: this.state.selectedClassification.classification,
-    }
-    console.log("classification => ", classification)
-
-
-
-
-    // {
-    //   name:this.props.selectedInstituteName.name ,
-    //   id: this.props.selectedInstituteName.id,
-    //   url: this.props.selectedInstituteName.url,
-    //   email: this.props.selectedInstituteName.email,
-    //   certificateStore: this.props.selectedInstituteName.certificateStore
+    // console.log("data => ", this.state.data)
+    // console.log("institute => ", this.props.selectedInstituteName)
+    // console.log(this.state.selectedClassification)
+    // if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
+    //   this.setState({
+    //     loading: false,
+    //     alertShow: true,
+    //     alertMessage: Strings.ALL_FIELDS_REQUIRED,
+    //     theme: "danger"
+    //   })
+    //   return
     // }
+    // let issuer = this.props.selectedInstituteName
+    // let recipient = this.state.data
+    // // let classificationObject = this.props.selectedClassification
+    // // let recipient = {name: "Mr Blockchain",
+    // // did: "DID:SG-NRIC:S99999999A",
+    // // email: "mr-blockchain@gmail.com",
+    // // phone: "+65 88888888",
+    // // studentId: "1232"}
 
-    console.log("data => ", this.state.data)
-    // let obj = [
-
-    //   this.state.data
-    // ]
-    let temp = this.state.data
-    // for (let i = 0; i < temp.length; i++) {
-    //   // console.log(this.state.data[i].tableData)
-    //   await delete temp[i].tableData
+    // let classification = {
+    //   id: this.state.selectedClassification._id,
+    //   description: this.state.selectedClassification.category,
+    //   issuedOn: "",
+    //   expiresOn: this.state.selectedClassification.durationValidity,
+    //   name: this.state.selectedClassification.classification,
     // }
-    console.log("temp => ", temp)
-    let obj = {
-      classification,
-      issuer,
-      recipient: temp
-    }
-    console.log(this.props.selectedInstituteName.id)
-    axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
-      console.log(response)
-      if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
-        this.setState({
-          loading: false,
-          alertShow: true,
-          alertMessage: response.data.result,
-          theme: "info",
-          data: "",
-          fileName: ""
-        })
-      }
-      else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
-        this.setState({
-          loading: false,
-          theme: "danger",
-          alertShow: true,
-          alertMessage: response.data.responseMessage,
-          data: "",
-          fileName: ""
+    // console.log("classification => ", classification)
 
-        })
-      }
-    })
-      .catch(err => {
-        console.log(err.response)
-        if(err.response == undefined){
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: "Network Error",
-            data: "",
-            fileName: ""
-          })
-        }
-        else if(err.response.data.responseCode == Response.SERVER_ERROR){
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: "Internal Server Error! Please Try Again",
-            data: "",
-            fileName: ""
-          })
-        }
-       else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: err.response.data.responseMessage,
-            data: "",
-            fileName: ""
-          })
-          
-        }
-      })
+
+
+
+    // // {
+    // //   name:this.props.selectedInstituteName.name ,
+    // //   id: this.props.selectedInstituteName.id,
+    // //   url: this.props.selectedInstituteName.url,
+    // //   email: this.props.selectedInstituteName.email,
+    // //   certificateStore: this.props.selectedInstituteName.certificateStore
+    // // }
+
+    // console.log("data => ", this.state.data)
+    // // let obj = [
+
+    // //   this.state.data
+    // // ]
+    // let temp = this.state.data
+    // // for (let i = 0; i < temp.length; i++) {
+    // //   // console.log(this.state.data[i].tableData)
+    // //   await delete temp[i].tableData
+    // // }
+    // console.log("temp => ", temp)
+    // let obj = {
+    //   classification,
+    //   issuer,
+    //   recipient: temp
+    // }
+    // console.log(this.props.selectedInstituteName.id)
+    // axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
+    //   console.log(response)
+    //   if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
+    //     this.setState({
+    //       loading: false,
+    //       alertShow: true,
+    //       alertMessage: response.data.result,
+    //       theme: "info",
+    //       data: [],
+    //       fileName: ""
+    //     })
+    //   }
+    //   else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+    //     this.setState({
+    //       loading: false,
+    //       theme: "danger",
+    //       alertShow: true,
+    //       alertMessage: response.data.responseMessage,
+    //       data: [],
+    //       fileName: ""
+
+    //     })
+    //   }
+    // })
+    //   .catch(err => {
+    //     console.log(err.response)
+    //     if (err.response == undefined) {
+    //       this.setState({
+    //         loading: false,
+    //         theme: "danger",
+    //         alertShow: true,
+    //         alertMessage: "Network Error",
+    //         data: [],
+    //         fileName: ""
+    //       })
+    //     }
+    //     else if (err.response.data.responseCode == Response.SERVER_ERROR) {
+    //       this.setState({
+    //         loading: false,
+    //         theme: "danger",
+    //         alertShow: true,
+    //         alertMessage: "Internal Server Error! Please Try Again",
+    //         data: [],
+    //         fileName: ""
+    //       })
+    //     }
+    //     else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
+    //       this.setState({
+    //         loading: false,
+    //         theme: "danger",
+    //         alertShow: true,
+    //         alertMessage: err.response.data.responseMessage,
+    //         data: "",
+    //         fileName: ""
+    //       })
+
+    //     }
+    //   })
   }
   csvJSON(cssv) {
 
@@ -349,7 +363,7 @@ class IssueCertificate extends Component {
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
     this.setState({
-      alertShow:false,
+      alertShow: false,
       selectedClassification: this.state.registeredClassifications[ev.target.value]
     })
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
@@ -364,13 +378,13 @@ class IssueCertificate extends Component {
     //   if(this.state.data){
     //   this.getColumns()
     // }
-
+console.log(this.state)
 
     return (
       <Container fluid className="main-content-container px-4">
-        {/* <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-        </Alert> */}
+        </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
@@ -378,7 +392,7 @@ class IssueCertificate extends Component {
         <Row>
           <Col lg="7" md="12">
             <label>Select Classification</label>
-         { (this.state.alertShow)? ( <label style = {{float: "right" , fontSize: "12px"}}>{this.state.alertMessage}</label>) : (null)}
+            {(this.state.classificationErrorShow) ? (<label style={{ float: "right", fontSize: "12px" }}>{this.state.classificationErrorMessage}</label>) : (null)}
             <FormSelect placeholder="Category" onChange={this.categoryChangeHandler} >
               {/* <option>category</option> */}
               {console.log(this.state.registeredClassifications)}
@@ -399,7 +413,7 @@ class IssueCertificate extends Component {
               handleFiles={this.handleFiles.bind(this)} fileTypes={'.csv'} >
 
               {/* <button className='btn' style={{ border: '1px solid' }}>Upload File</button> */}
-              <button onClick={() => { this.setState({ data: null }) }} size="sm" className="mb-2 mr-1 worldcerts-button"
+              <button onClick={() => { this.setState({ data2: null }) }} size="sm" className="mb-2 mr-1 worldcerts-button"
 
               >Upload File</button>
               <span style={{ color: 'green', paddingLeft: "1em" }}>{this.state.fileName}</span>
@@ -428,61 +442,67 @@ class IssueCertificate extends Component {
         inputId="ObiWan"
         inputStyle={{color: 'red'}}
       /> */}
-        {(this.state.data) ? (
+        {
+          // (this.state.data) ? (
           // <ReactTable
           //       data={this.state.data}
           //       columns={this.getColumns()}
           //       defaultPageSize={10}
           //       className="-striped -highlight"
           //     />
-          <div style = {{marginBottom: "2em"}}>
-          <MaterialTable
-            title="Recievers List"
-            columns={this.state.columns}
-            data={this.state.data}
-            editable={{
-              onRowAdd: newData =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    {
-                      const data = this.state.data;
-                      data.push(newData);
-                      this.setState({ data }, () => resolve());
-                    }
-                    resolve()
-                  }, 1000)
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    {
-                      const data = this.state.data;
-                      const index = data.indexOf(oldData);
-                      console.log(index)
-                      data[index] = newData;
-                      console.log(data)
-                      this.setState({ data }, () => resolve());
-                    }
-                    resolve()
-                  }, 1000)
-                }),
-              onRowDelete: oldData =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    {
-                      let data = this.state.data;
-                      const index = data.indexOf(oldData);
-                      data.splice(index, 1);
-                      this.setState({ data }, () => resolve());
-                    }
-                    resolve()
-                  }, 1000)
-                }),
+          <div style={{ marginBottom: "2em" }}>
+            <MaterialTable
+              title="Recievers List"
+              columns={this.state.columns}
+              data={this.state.data}
+              editable={{
+                onRowAdd: newData =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      {
+                        console.log(this.state)
+                        console.log(this.state.data)
+                        const data = this.state.data;
+                        console.log(newData, "aaaa", this.state.data)
+                        data.push(newData);
+                        console.log(data)
+                        this.setState({ data }, () => resolve());
+                      }
+                      resolve()
+                    }, 1000)
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      {
+                        const data = this.state.data;
+                        const index = data.indexOf(oldData);
+                        console.log(index)
+                        data[index] = newData;
+                        console.log(data)
+                        this.setState({ data }, () => resolve());
+                      }
+                      resolve()
+                    }, 1000)
+                  }),
+                onRowDelete: oldData =>
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      {
+                        let data = this.state.data;
+                        const index = data.indexOf(oldData);
+                        data.splice(index, 1);
+                        this.setState({ data }, () => resolve());
+                      }
+                      resolve()
+                    }, 1000)
+                  }),
 
-            }}
-          />
+              }}
+            />
           </div>
-        ) : (null)}
+          // ) : (null)
+        }
 
       </Container>
     )
