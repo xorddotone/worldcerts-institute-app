@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 // import logo from './logo.svg';
 // import './App.css';
 import '../css/SingleCertificate.css';
+
+
+import * as Routes from '../constants/apiRoutes'
 import { Container, Row, Col, Visible, Hidden } from 'react-grid-system';
 import inventLogo from '../images/invent-logo.png'
 import IBALogo from '../images/IBA-logo.png'
@@ -26,22 +29,26 @@ const axios = require('axios');
 class SingleCertificate extends Component {
   state={
     certData: {},
-    QRCode: ""
+    qrCode: ""
   
   }
   componentDidMount(){
-//     let query= this.props.location.search.split('?');
-// let that=this;
-//       axios.get("https://encert-server.herokuapp.com/issuer/certificate/"+query[1])
-//       .then(function(response){
-//         console.log(response.data.data.result,"response data")
-//         that.setState({
-//           certData:response.data.data.result
-//         })
-//       })
-//       .catch(function(error){
-//         console.log(error)
-//       })
+    console.log(this.props.location.search)
+    let query= this.props.location.search.split('?');
+    console.log(query)
+let that=this;
+      axios.get(Routes.GET_PARTICIPANT_DATA+query[1])
+      .then(function(response){
+        console.log(response)
+        console.log(response.data.result,"response")
+        that.setState({
+          certData:response.data.result
+        })
+        that.getQRCode(response.data.result)
+      })
+      .catch(function(error){
+        console.log(error)
+      })
 
 
 
@@ -73,11 +80,11 @@ class SingleCertificate extends Component {
     console.log("Getting QR for cert: ", certificate);
     try {
       //          for (let i = 0; i < certificates.length; i++) {
-      let qr = await QRCode.toDataURL('https://encert.app/certificate?' + certificate._id);
+      let qr = await QRCode.toDataURL('http://192.168.0.119:3000/Certificate?' + certificate._id);
 
       console.log("QR: ", qr);
       this.setState({
-        QRCode: qr
+        qrCode: qr
       })
       return qr;
       //            await download(qr, `${certificates[i].receiver_name} , team ${certificates[i].team_name}.png`);
@@ -131,7 +138,7 @@ class SingleCertificate extends Component {
                       </Col>
                       <Col md={6} xs={10} sm={10}>
                         <div className="participant-placeholder text-center">
-                          <p>"WorldCerts"</p>
+                          <p>{this.state.certData.name}</p>
                         </div>
                       </Col>
                       <Col md={3} sm={1} xs={1}>
@@ -207,7 +214,7 @@ class SingleCertificate extends Component {
                       </Hidden>
       
                       <Hidden sm xs>
-                      <Col style={{backgroundImage: `url(${qrcode})`}} className="qr-container" md={2} xs={12} sm={12} >
+                      <Col style={{backgroundImage: `url(${this.state.qrCode})`}} className="qr-container" md={2} xs={12} sm={12} >
                         <div>
                           
                         </div>

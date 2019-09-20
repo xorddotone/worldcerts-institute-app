@@ -74,7 +74,7 @@ class VerifierApp extends Component {
          
         </Row>
       </Card>
-      <Link to = ""><Button>Verify</Button></Link>
+      <Link to={{ pathname: "/Certificate", search: "?"+"5d848944135bd436b312c79a" }}><Button>Verify</Button></Link>
     
 </div>
         
