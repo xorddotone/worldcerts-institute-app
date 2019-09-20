@@ -66,6 +66,19 @@
 .loader-paddingLeft{
     padding-left: 1em;
 }
+.verifierApp{
+    margin: 5em 20em 5em 17em;
+
+}
+.verifierStyling{
+    background: rgb(25,22,71);
+    background: linear-gradient(90deg, rgba(25,22,71,1) 0%, rgba(0,0,0,1) 100%, rgba(0,212,255,1) 100%);
+
+}
+.verifierContainer{
+    padding:10em 10em;
+    height: 100vh;
+}
 @media (max-width:320px)  { 
     .authStyling{
         width: 100% !important;
