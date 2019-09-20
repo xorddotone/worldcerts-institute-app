@@ -27,6 +27,8 @@ import * as Response from '../constants/responseCodes'
 import loader from '../images/loader.gif'
 import {useDropzone} from 'react-dropzone'
 import Dropzone from 'react-dropzone'
+import {DropzoneArea} from 'material-ui-dropzone'
+
 
 
 
@@ -34,13 +36,16 @@ class VerifierApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-     
-    }
-
+      files: []
+    };
     // Binding Functions
     
   }
-
+  handleChange(files){
+    this.setState({
+      files: files
+    });
+  }
   render() {
     return (
 <div className = "verifierContainer ">
@@ -50,7 +55,7 @@ class VerifierApp extends Component {
             <img src={logo} alt="" style={{ width: "100%" }} />
           </Col>
           <Col md = "9">
-          
+{/*           
 <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
   {({getRootProps, getInputProps}) => (
     <section>
@@ -60,7 +65,11 @@ class VerifierApp extends Component {
       </div>
     </section>
   )}
-</Dropzone>
+</Dropzone> */}
+ <DropzoneArea 
+        onChange={this.handleChange.bind(this)}
+
+        />
           </Col>
          
         </Row>

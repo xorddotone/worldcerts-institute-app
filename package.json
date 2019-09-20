@@ -19,6 +19,7 @@
     "lodash.find": "^4.6.0",
     "material-table": "^1.50.0",
     "material-ui": "^1.0.0-beta.47",
+    "material-ui-dropzone": "^2.4.1",
     "material-ui-table-edit": "^3.0.3",
     "namor": "^1.1.2",
     "qrcode": "^1.4.1",

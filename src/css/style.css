@@ -34,7 +34,7 @@
     line-height: 1.5;
     border-radius: .25rem;
     box-shadow: none;
-    color:#ffff;
+    color:white;
     border: 1px transparent;
     transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
     padding: 8px 16px  !important;
