@@ -106,8 +106,13 @@ class Register extends Component {
   }
 
   onClickRegister() {
+    console.log(this.state.password)
+    var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");  
+      console.log(reg.test(this.state.password))
     
-    if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
+    
+    
+      if( this.state.captchaText=="" || this.state.userName=="" || this.state.password=="" || this.state.email=="" || this.state.userName==" " || this.state.password==" " || this.state.email==" "){
       console.log("hello")
       this.setState({
         loader:false,
@@ -123,42 +128,48 @@ class Register extends Component {
       // console.log("Password Does Not matched")
     }
     else {
-      this.setState({
-        loader:true
-      })
-      let user = {
-        name: this.state.userName,
-        email: this.state.email,
-        password: this.state.password,
-        // confirmPassword: this.state.confirmPassword
+      if(reg.test(this.state.password)){
+        this.setState({
+          loader:true
+        })
+        let user = {
+          name: this.state.userName,
+          email: this.state.email,
+          password: this.state.password,
+          // confirmPassword: this.state.confirmPassword
+        }
+        
+        axios.post(Routes.SIGN_UP_USER , user).then(response => {
+          console.log(response)
+          console.log(response.data.responseCode)
+          if(response.data.responseCode == Response.SUCCESS){
+            this.props.USER_DATA(response.data.result)
+            this.props.LOGIN_STATUS(true)
+            this.setState({
+              loader:false
+            })
+            this.props.history.push('/emailVerification')
+          }
+        })
+          .catch(err => {
+            console.log(err)
+            if(err.response !== undefined){
+            if(err.response.data.responseCode == Response.BAD_REQUEST){
+              this.setState({errorMsg: err.response.data.responseMessage , loader: false})
+            }
+            else if(err.response.data.responseCode == Response.SERVER_ERROR){
+              this.setState({errorMsg: err.response.data.responseMessage , loader:false})
+            }
+          }
+          else{
+            this.setState({errorMsg: "Network Error" , loader: false})
+          }
+          })
+      }
+      else{
+        console.log("password is too weak")
       }
       
-      axios.post(Routes.SIGN_UP_USER , user).then(response => {
-        console.log(response)
-        console.log(response.data.responseCode)
-        if(response.data.responseCode == Response.SUCCESS){
-          this.props.USER_DATA(response.data.result)
-          this.props.LOGIN_STATUS(true)
-          this.setState({
-            loader:false
-          })
-          this.props.history.push('/emailVerification')
-        }
-      })
-        .catch(err => {
-          console.log(err)
-          if(err.response !== undefined){
-          if(err.response.data.responseCode == Response.BAD_REQUEST){
-            this.setState({errorMsg: err.response.data.responseMessage , loader: false})
-          }
-          else if(err.response.data.responseCode == Response.SERVER_ERROR){
-            this.setState({errorMsg: err.response.data.responseMessage , loader:false})
-          }
-        }
-        else{
-          this.setState({errorMsg: "Network Error" , loader: false})
-        }
-        })
     }
   }
 
