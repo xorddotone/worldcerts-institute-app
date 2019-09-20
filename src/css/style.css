@@ -34,7 +34,7 @@
     line-height: 1.5;
     border-radius: .25rem;
     box-shadow: none;
-    color:#ffff;
+    color:white;
     border: 1px transparent;
     transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
     padding: 8px 16px  !important;
@@ -65,6 +65,19 @@
 }
 .loader-paddingLeft{
     padding-left: 1em;
+}
+.verifierApp{
+    margin: 5em 20em 5em 17em;
+
+}
+.verifierStyling{
+    background: rgb(25,22,71);
+    background: linear-gradient(90deg, rgba(25,22,71,1) 0%, rgba(0,0,0,1) 100%, rgba(0,212,255,1) 100%);
+
+}
+.verifierContainer{
+    padding:10em 10em;
+    height: 100vh;
 }
 @media (max-width:320px)  { 
     .authStyling{

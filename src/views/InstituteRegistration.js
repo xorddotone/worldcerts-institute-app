@@ -67,13 +67,11 @@ class AddClassification extends Component {
   }
 
   buisnessRegistrationNumChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
     console.log(ev.target.value)
-    if (reg.test(ev.target.value) || ev.target.value == "") {
+    
       this.setState({
         buisnessRegistrationNum: ev.target.value
       })
-    }
   }
 
   instituteAddressChangeHandler(ev) {
@@ -204,9 +202,9 @@ class AddClassification extends Component {
       .catch(function (error) {
       
         console.log(error.response);
-        if(error.response !== undefined){
+        if(error.response == undefined){
         that.setState({
-          alertShow: true , alertMessage: error.response.data.responseMessage , theme: "danger", loader:false
+          alertShow: true , alertMessage: "Network Error" , theme: "danger", loader:false
         })
       }
       else if(error.response.data.responseCode == Response.BAD_REQUEST){

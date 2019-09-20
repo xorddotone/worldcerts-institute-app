@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 // Layout Types
 import { DefaultLayout } from "./layouts";
 import  AuthLayout  from "./layouts/AuthLayout";
+import VerifierLayout from "./layouts/VerifierLayout"
 
 // Route Views
 import Register from "./views/Register";
@@ -19,6 +20,7 @@ import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
 import Home from "./views/Home";
 import AccountActivation from './views/accountActivation'
+import VerifyApp from './views/verifierApp'
 
 export const routes1= [
   {
@@ -84,6 +86,12 @@ export const routes1= [
     component: SingleCertificate
   },
   {
+
+    path: "/verifierApp",
+    layout: VerifierLayout,
+    component: VerifyApp
+  },
+  {
     path: "/account_activation",
     layout: DefaultLayout,
     component: AccountActivation
@@ -136,12 +144,12 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
+  // {
 
-    path: "/Certificate",
-    layout: DefaultLayout,
-    component: SingleCertificate
-  },
+  //   path: "/Certificate",
+  //   layout: DefaultLayout,
+  //   component: SingleCertificate
+  // },
   {
     path: "/account_activation",
     layout: DefaultLayout,
@@ -185,11 +193,23 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  // {
-  //   // path: "/userProfile",
-  //   layout: AuthLayout,
-  //   component: () => <Redirect to="/signin" />
-  // },
+  {
+
+    path: "/Certificate",
+    layout: DefaultLayout,
+    component: SingleCertificate
+  },
+  {
+
+    path: "/verifierApp",
+    layout: VerifierLayout,
+    component: VerifyApp
+  },
+  {
+    // path: "/userProfile",
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
+  },
 ];
 
 export const routes3= [
@@ -198,7 +218,7 @@ export const routes3= [
     exact: true,
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
-  },
+  },  
 
   {
     path: "/register",
@@ -249,5 +269,6 @@ export const routes3= [
     layout: DefaultLayout,
     component: Home
   },
+  
 ];
 

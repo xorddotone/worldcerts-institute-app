@@ -138,6 +138,7 @@ class Register extends Component {
         console.log(response.data.responseCode)
         if(response.data.responseCode == Response.SUCCESS){
           this.props.USER_DATA(response.data.result)
+          this.props.LOGIN_STATUS(true)
           this.setState({
             loader:false
           })

@@ -76,7 +76,7 @@ class SidebarNavItems extends React.Component {
         },
         {
           title: "Certificate Classification",
-          to: "/addClassification",
+          to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
