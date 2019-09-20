@@ -80,7 +80,7 @@ export const routes1= [
     component: IssueCertificate
   },
   {
-
+    exact:true,
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
@@ -144,12 +144,12 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  // {
-
-  //   path: "/Certificate",
-  //   layout: DefaultLayout,
-  //   component: SingleCertificate
-  // },
+  {
+    exact:true,
+    path: "/Certificate",
+    layout: DefaultLayout,
+    component: SingleCertificate
+  },
   {
     path: "/account_activation",
     layout: DefaultLayout,
@@ -193,23 +193,23 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
-
-    path: "/Certificate",
-    layout: DefaultLayout,
-    component: SingleCertificate
-  },
+  // {
+  //   exact:true,
+  //   path: "/Certificate",
+  //   layout: DefaultLayout,
+  //   component: SingleCertificate
+  // },
   {
 
     path: "/verifierApp",
     layout: VerifierLayout,
     component: VerifyApp
   },
-  {
-    // path: "/userProfile",
-    layout: AuthLayout,
-    component: () => <Redirect to="/signin" />
-  },
+  // {
+  //   // path: "/userProfile",
+  //   layout: AuthLayout,
+  //   component: () => <Redirect to="/signin" />
+  // },
 ];
 
 export const routes3= [

@@ -39,6 +39,7 @@ class SingleCertificate extends Component {
 let that=this;
       axios.get(Routes.GET_PARTICIPANT_DATA+query[1])
       .then(function(response){
+        console.log(response)
         console.log(response.data.result,"response")
         that.setState({
           certData:response.data.result
