@@ -7,6 +7,7 @@ import {
   CardHeader,
   ListGroup,
   ListGroupItem,
+  InputGroup,
   Row,
   Col,
   Form,
@@ -16,12 +17,14 @@ import {
   FormTextarea,
   Button
 } from "shards-react";
+import { Link } from 'react-router-dom'
+
 // import "./Dropzone.css";
 
 class Dropzone extends Component {
   constructor(props) {
     super(props);
-    this.state = { hightlight: false };
+    this.state = { hightlight: true };
     this.fileInputRef = React.createRef();
 
     this.openFileDialog = this.openFileDialog.bind(this);
@@ -86,9 +89,24 @@ class Dropzone extends Component {
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
-        onClick={this.openFileDialog}
+        
         style={{ cursor: this.props.disabled ? "default" : "pointer" }}
       >
+         <Row>
+              
+              <Col md="12" className="form-group">
+
+                <InputGroup className="mb-10">
+                  <FormInput
+                    type="text"
+                    placeholder="Certificate Url"
+
+                  />
+                  <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
+
+                </InputGroup>
+              </Col>
+            </Row>
         <Row style = {{padding: "0 4px"}}>
           <Col md="9">
             <div style = {{float: "left"}}>
@@ -107,7 +125,7 @@ class Dropzone extends Component {
               src={upload}
             />
 
-            <span style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
+            <span  onClick={this.openFileDialog} style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
             </div>
           </Col>
           <Col md="3">

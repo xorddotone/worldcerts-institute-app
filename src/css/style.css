@@ -73,6 +73,8 @@
   }
   .verifierAppButton{
       display: flex;
+      border-top-right-radius: 0.25rem !important;
+      border-bottom-right-radius: 0.25rem !important;
   }
  
 /* .btn-grad:hover { background-position: right center; } */

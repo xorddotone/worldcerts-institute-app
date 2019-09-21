@@ -60,21 +60,7 @@ class VerifierApp extends Component {
               <h4 style={{ fontSize: "20px" }}>Certificate Verifier</h4>
             </div>
             <div style={{ marginBottom: "1em", textAlign: "center" }}>
-              <Row>
-              
-                <Col md="12" className="form-group">
-
-                  <InputGroup className="mb-10">
-                    <FormInput
-                      type="text"
-                      placeholder="Certificate Url"
-
-                    />
-                    <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
-
-                  </InputGroup>
-                </Col>
-              </Row>
+             
 
               <div className="">
                 <div className="">
