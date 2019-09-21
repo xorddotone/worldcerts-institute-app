@@ -29,21 +29,19 @@
 /* Dropzone styling */
 .Dropzone {
     
-    background-color: #fff;
-    border: 2px dashed rgb(187, 186, 186);
+    background-color: white;
+    /* border: 1px dashed rgb(187, 186, 186); */
     /* border-radius: 0%; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    /* text-align: center; */
+    /* justify-content: center; */
+    /* flex-direction: column; */
     font-size: 16px;
   }
   
   .Icon {
     opacity: 0.3;
-    height: 50px;
-    width: 50px;
-    margin-top: 1em !important;
+    height: 30px;
+    width: 30px;
 
   }
   
@@ -73,7 +71,9 @@
       0 5px 15px 0 rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
   }
-  
+  .verifierAppButton{
+      display: flex;
+  }
  
 /* .btn-grad:hover { background-position: right center; } */
 .worldcerts-button{

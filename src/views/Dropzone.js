@@ -1,5 +1,24 @@
 import React, { Component } from "react";
 import upload from '../images/upload.svg'
+import logo from '../images/logo2.png'
+import {
+  Container,
+  Card,
+  CardHeader,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  FormInput,
+  FormSelect,
+  FormTextarea,
+  Button
+} from "shards-react";
+import { connect } from 'react-redux';
+import * as Strings from '../constants/strings'
+import {FileFormatCheck} from '../redux/actions/dashboard-action'
 // import "./Dropzone.css";
 var reader;
 
@@ -25,6 +44,7 @@ class Dropzone extends Component {
 
   onFilesAdded(evt) {
     if (this.props.disabled) return;
+    
     const files = evt.target.files;
     if (this.props.onFilesAdded) {
       const array = this.fileListToArray(files);
@@ -41,6 +61,7 @@ class Dropzone extends Component {
   }
 
   onDragLeave() {
+    
     this.setState({ hightlight: false });
   }
 
@@ -66,13 +87,32 @@ class Dropzone extends Component {
   }
 
   handleFileChoosen(files){
+    let that=this
     console.log(files)
    reader= new FileReader();
     reader.onloadend= function (e){
         let content=reader.result
         console.log(content)
+       console.log(JSON.parse(content))
+       let temp= JSON.parse(content)
+       console.log(temp.classification.id)
+       console.log(temp.issuer.id)
+       console.log(temp.participant.did)
+
+       if(temp.classification.id!=' '   && temp.issuer.id!=' ' && temp.participant.did!=' ' && temp.classification.id!=''   && temp.issuer.id!='' && temp.participant.did!=''  && temp.classification.id!=undefined   && temp.issuer.id!=undefined && temp.participant.did!=undefined ){
+         console.log("inside if condition")
+         that.props.CHECK_FORMAT_FLAG(true)
+         
+       }
+       else{
+         
+         that.props.CHECK_FORMAT_FLAG(false)
+         console.log("else condition")
+       }
     }
     reader.readAsText(files)
+
+
     // onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
   }
 
@@ -105,4 +145,21 @@ class Dropzone extends Component {
   }
 }
 
-export default Dropzone;
+const mapStateToProps = (state) => {
+  console.log(Strings.REDUX, state);
+  return {
+    // userData: state.user_reducer.user
+    // Title: state.pageTitle,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    CHECK_FORMAT_FLAG: (dt) => {
+      dispatch(FileFormatCheck(dt))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dropzone);
+// export default Dropzone;

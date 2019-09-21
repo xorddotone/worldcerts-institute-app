@@ -9,6 +9,8 @@ import {
   Col,
   Form,
   FormGroup,
+  InputGroup,
+
   FormInput,
   FormSelect,
   FormTextarea,
@@ -52,50 +54,56 @@ class VerifierApp extends Component {
   render() {
     return (
       <div>
-      <Card className="mb-3" style = {{marginBottom: "2em"}} >
-        <div style={{ margin: "2em 4em 2em 4em" }}>
-          <div style={{ textAlign: "center" }}>
-            <img src={logo} alt="" style={{ width: "40%" }} />
-          </div>
+        <Card className="mb-4" style={{ marginBottom: "2em" }} >
+          <div style={{ margin: "0em 4em 01em 4em" }}>
+            <div style={{ margin: "0em 0em", textAlign: "center" }}>
+              <h4 style={{ fontSize: "20px" }}>Certificate Verifier</h4>
+            </div>
+            <div style={{ marginBottom: "1em", textAlign: "center" }}>
+              <Row>
+              
+                <Col md="12" className="form-group">
 
-          <div style={{ margin: "2em 0em" ,textAlign: "center" }}>
-            <h4 style = {{fontSize:"20px"}}>Certificate Verifier</h4>
-          </div>
-          <div style = {{marginBottom: "1em", textAlign: "center"}}>
-            <Row>
-                    <Col md = "10">    
+                  <InputGroup className="mb-10">
                     <FormInput
-                          type="text"
-                          placeholder="Certificate Url"
-                          
-                        />
-                        </Col>
-            <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }}><Button className = "worldcerts-button" style = {{border: "none"}} >Verify</Button></Link>
-            </Row>
-          </div>
-          
-          <div className="">
-            <div className="">
-              <Dropzone  />
+                      type="text"
+                      placeholder="Certificate Url"
+
+                    />
+                    <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
+                    
+                  </InputGroup>
+                </Col>
+              </Row>
+
+              <div className="">
+                <div className="">
+
+                  <Dropzone  />
+
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+              </div>
+
             </div>
           </div>
+        </Card>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={arrow}
+            width="2%"
+          />
         </div>
-      </Card>
-      <div style = {{textAlign: "center"}}>
-      <img
-      src = {arrow}
-      width = "2%"
-      />
-      </div>
-      <div style = {{textAlign: "center"}}>
-      <img
-      src = {fileUpload}
-      width = "8%"
-      />
-      </div>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={fileUpload}
+            width="8%"
+          />
+        </div>
 
-      <div style = {{textAlign: "center"}}>
-        Drag the above demo certificate into the upload area
+        <div style={{ textAlign: "center" }}>
+          Drag the above demo certificate into the upload area
       </div>
       </div>
 
