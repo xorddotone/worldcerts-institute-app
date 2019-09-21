@@ -46,7 +46,7 @@ class App extends Component {
                   );
                 })
               ):(
-                routes.routes1.map((route, index) => {
+                routes.routes3.map((route, index) => {
                   console.log(route)
                   return (
   

@@ -11,7 +11,8 @@ import {
 } from "shards-react";
 import { connect } from 'react-redux';
 import * as Strings from '../../../../constants/strings'
-import {USER_DATA,LOGIN_STATUS} from "../../../../redux/actions/login-action"
+import {USER_DATA,LOGIN_STATUS,SELECTED_INSTITUTE} from "../../../../redux/actions/login-action"
+import {TOGGLE} from "../../../../redux/actions/dashboard-action"
 import "../../../../css/style.css"
 
 
@@ -34,8 +35,18 @@ class UserActions extends React.Component {
   }
   onLogoutClick(ev){
     let temp={}
+    let selectedInstituteName= {
+      name: 'Select Organization',
+      id: '',
+      url: '',
+      email: '',
+      certificateStore: ''
+  }
+
+    this.props.SELECTED_INSTITUTE(selectedInstituteName)
     this.props.USER_DATA(temp)
     this.props.LOGIN_STATUS(false)
+    this.props.TOGGLE_SWITCH(false)
     // console.log("inside")
   }
 
@@ -94,6 +105,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     LOGIN_STATUS: (statusLogin) => {
       dispatch(LOGIN_STATUS(statusLogin))
+    },
+    SELECTED_INSTITUTE: (data) => {
+      dispatch(SELECTED_INSTITUTE(data))
+    },
+    TOGGLE_SWITCH: (data) => {
+      dispatch(TOGGLE(data))
     },
     
   }
