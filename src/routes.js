@@ -72,7 +72,7 @@ export const routes1= [
   {
     path: "/emailVerification",
     layout: AuthLayout,
-    component: EmailVerification
+    component: () => <Redirect to="/home"/>
   },
   {
     path: "/issueCertificate",
@@ -94,7 +94,7 @@ export const routes1= [
   {
     path: "/account_activation",
     layout: DefaultLayout,
-    component: AccountActivation
+    component: () => <Redirect to="/home"/>
   },
   {
     exact: true,
@@ -114,6 +114,16 @@ export const routes1= [
   //   component: () => <Redirect to="/home" />
   // },
 ];
+
+
+
+
+
+
+
+
+
+
 export const routes2= [
   {
     path: "/",
@@ -212,13 +222,52 @@ export const routes2= [
   // },
 ];
 
+
+
+
+
+
+
+
+
+
+
+
+
 export const routes3= [
   {
     path: "/",
     exact: true,
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
-  },  
+  },
+  {
+    path: "/manage_organization",
+    layout: DefaultLayout,
+    component: ManageInstitutes
+  },
+  {
+    path: "/organization_registration",
+    layout: DefaultLayout,
+    component: InstituteRegistration
+  },
+  {
+    path: "/manageClassification",
+    layout: DefaultLayout,
+    component: ManageClassifications
+  },
+  {
+    path: "/addClassification",
+    layout: DefaultLayout,
+    component: AddClassification
+  },
+  {
+    exact: true,
+
+    path: "/settings/userProfile",
+    layout: DefaultLayout,
+    component: UserProfile
+  },
 
   {
     path: "/register",
@@ -238,20 +287,21 @@ export const routes3= [
     component: EmailVerification
   },
   {
-    path: "/manage_organization",
+    path: "/issueCertificate",
     layout: DefaultLayout,
-    component: ManageInstitutes
+    component: IssueCertificate
   },
   {
-    path: "/organization_registration",
+    exact:true,
+    path: "/Certificate",
     layout: DefaultLayout,
-    component: InstituteRegistration
+    component: SingleCertificate
   },
   {
-    exact: true,
-    path: "/settings/userProfile",
-    layout: DefaultLayout,
-    component: UserProfile
+
+    path: "/verifierApp",
+    layout: VerifierLayout,
+    component: VerifyApp
   },
   {
     path: "/account_activation",
@@ -260,6 +310,7 @@ export const routes3= [
   },
   {
     exact: true,
+
     path: "/settings",
     layout: DefaultLayout,
     component: Settings
@@ -269,6 +320,11 @@ export const routes3= [
     layout: DefaultLayout,
     component: Home
   },
+  // {
+  //   // path: "/userProfile",
+  //   layout: DefaultLayout,
+  //   component: () => <Redirect to="/home" />
+  // },
   
 ];
 
