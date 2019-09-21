@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import upload from '../images/upload.svg'
 // import "./Dropzone.css";
+var reader;
+
 
 class Dropzone extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class Dropzone extends Component {
     this.onDragOver = this.onDragOver.bind(this);
     this.onDragLeave = this.onDragLeave.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.handleFileChoosen=this.handleFileChoosen.bind(this)
   }
 
   openFileDialog() {
@@ -62,6 +65,17 @@ class Dropzone extends Component {
     return array;
   }
 
+  handleFileChoosen(files){
+    console.log(files)
+   reader= new FileReader();
+    reader.onloadend= function (e){
+        let content=reader.result
+        console.log(content)
+    }
+    reader.readAsText(files)
+    // onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
+  }
+
   render() {
     return (
       <div
@@ -78,7 +92,7 @@ class Dropzone extends Component {
           type="file"
           accept="application/pdf,application/json"
           multiple
-          onChange={this.onFilesAdded}
+          onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
         />
         <img
           alt="upload"

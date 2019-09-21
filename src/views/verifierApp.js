@@ -76,7 +76,7 @@ class VerifierApp extends Component {
           
           <div className="">
             <div className="">
-              <Dropzone onFilesAdded={console.log} />
+              <Dropzone  />
             </div>
           </div>
         </div>
