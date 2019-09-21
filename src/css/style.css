@@ -26,8 +26,55 @@
     box-shadow: 2px 2px rgb(146, 69, 219);
     cursor: default
 }
+/* Dropzone styling */
+.Dropzone {
+    
+    background-color: #fff;
+    border: 2px dashed rgb(187, 186, 186);
+    /* border-radius: 0%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 16px;
+  }
+  
+  .Icon {
+    opacity: 0.3;
+    height: 50px;
+    width: 50px;
+    margin-top: 1em !important;
 
+  }
+  
+  .FileInput {
+    display: none;
+  }
 
+  .DropzoneApp {
+    text-align: center;
+    background-color: rgb(206, 213, 223);
+    display: flex;
+    /* vertical-align: middle; */
+    margin: 5em 3em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+  }
+  
+  .DropzoneCard {
+    background-color: white;
+    padding: 64px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11),
+      0 5px 15px 0 rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+  }
+  
+ 
 /* .btn-grad:hover { background-position: right center; } */
 .worldcerts-button{
     cursor: pointer;

@@ -82,13 +82,13 @@ export const routes1= [
   {
     exact:true,
     path: "/Certificate",
-    layout: DefaultLayout,
+    layout: VerifierLayout,
     component: SingleCertificate
   },
   {
 
     path: "/verifierApp",
-    layout: VerifierLayout,
+    layout: AuthLayout,
     component: VerifyApp
   },
   {
@@ -202,7 +202,7 @@ export const routes2= [
   {
 
     path: "/verifierApp",
-    layout: VerifierLayout,
+    layout: AuthLayout,
     component: VerifyApp
   },
   // {

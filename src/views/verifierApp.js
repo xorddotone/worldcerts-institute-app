@@ -20,14 +20,17 @@ import { Link } from 'react-router-dom'
 import Register from './Register'
 import * as Routes from '../constants/apiRoutes'
 import axios from 'axios'
-import logo from '../images/logo.png'
-import { USER_DATA,LOGIN_STATUS } from "../redux/actions/login-action"
+import logo from '../images/logo2.png'
+import fileUpload from '../images/file.png'
+import arrow from "../images/arrow.png"
+import { USER_DATA, LOGIN_STATUS } from "../redux/actions/login-action"
 import * as Strings from '../constants/strings'
 import * as Response from '../constants/responseCodes'
 import loader from '../images/loader.gif'
-import {useDropzone} from 'react-dropzone'
-import Dropzone from 'react-dropzone'
-import {DropzoneArea} from 'material-ui-dropzone'
+import { useDropzone } from 'react-dropzone'
+// import Dropzone from 'react-dropzone'
+import Dropzone from "./Dropzone";
+import { DropzoneArea } from 'material-ui-dropzone'
 
 
 
@@ -39,46 +42,63 @@ class VerifierApp extends Component {
       files: []
     };
     // Binding Functions
-    
+
   }
-  handleChange(files){
+  handleChange(files) {
     this.setState({
       files: files
     });
   }
   render() {
     return (
-<div className = "verifierContainer ">
-<Card className=" " >
-        <Row >
-          <Col md="3">
-            <img src={logo} alt="" style={{ width: "100%" }} />
-          </Col>
-          <Col md = "9">
-{/*           
-<Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-  {({getRootProps, getInputProps}) => (
-    <section>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      </div>
-    </section>
-  )}
-</Dropzone> */}
- <DropzoneArea 
-        onChange={this.handleChange.bind(this)}
+      <div>
+      <Card className="mb-3" style = {{marginBottom: "2em"}} >
+        <div style={{ margin: "2em 4em 2em 4em" }}>
+          <div style={{ textAlign: "center" }}>
+            <img src={logo} alt="" style={{ width: "40%" }} />
+          </div>
 
-        />
-          </Col>
-         
-        </Row>
+          <div style={{ margin: "2em 0em" ,textAlign: "center" }}>
+            <h4 style = {{fontSize:"20px"}}>Certificate Verifier</h4>
+          </div>
+          <div style = {{marginBottom: "1em", textAlign: "center"}}>
+            <Row>
+                    <Col md = "10">    
+                    <FormInput
+                          type="text"
+                          placeholder="Certificate Url"
+                          
+                        />
+                        </Col>
+            <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }}><Button className = "worldcerts-button" style = {{border: "none"}} >Verify</Button></Link>
+            </Row>
+          </div>
+          
+          <div className="">
+            <div className="">
+              <Dropzone onFilesAdded={console.log} />
+            </div>
+          </div>
+        </div>
       </Card>
-      <Link to={{ pathname: "/Certificate", search: "?"+"5d848944135bd436b312c79a" }}><Button>Verify</Button></Link>
-    
-</div>
-        
-      
+      <div style = {{textAlign: "center"}}>
+      <img
+      src = {arrow}
+      width = "2%"
+      />
+      </div>
+      <div style = {{textAlign: "center"}}>
+      <img
+      src = {fileUpload}
+      width = "8%"
+      />
+      </div>
+
+      <div style = {{textAlign: "center"}}>
+        Drag the above demo certificate into the upload area
+      </div>
+      </div>
+
     )
   }
 }
