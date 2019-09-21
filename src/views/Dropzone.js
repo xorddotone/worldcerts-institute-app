@@ -1,5 +1,21 @@
 import React, { Component } from "react";
 import upload from '../images/upload.svg'
+import logo from '../images/logo2.png'
+import {
+  Container,
+  Card,
+  CardHeader,
+  ListGroup,
+  ListGroupItem,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  FormInput,
+  FormSelect,
+  FormTextarea,
+  Button
+} from "shards-react";
 // import "./Dropzone.css";
 
 class Dropzone extends Component {
@@ -22,6 +38,7 @@ class Dropzone extends Component {
 
   onFilesAdded(evt) {
     if (this.props.disabled) return;
+    
     const files = evt.target.files;
     if (this.props.onFilesAdded) {
       const array = this.fileListToArray(files);
@@ -72,20 +89,31 @@ class Dropzone extends Component {
         onClick={this.openFileDialog}
         style={{ cursor: this.props.disabled ? "default" : "pointer" }}
       >
-        <input
-          ref={this.fileInputRef}
-          className="FileInput"
-          type="file"
-          accept="application/pdf,application/json"
-          multiple
-          onChange={this.onFilesAdded}
-        />
-        <img
-          alt="upload"
-          className="Icon"
-          src={upload}
-        />
-        <span style = {{fontSize: "15px" , color: "grey" , marginBottom: "1em"}}>Drag n drop your JSON file, or click to select file</span>
+        <Row style = {{padding: "0 4px"}}>
+          <Col md="9">
+            <div style = {{float: "left"}}>
+            <input
+              ref={this.fileInputRef}
+              className="FileInput"
+              type="file"
+              accept="application/pdf,application/json"
+              multiple
+              onChange={this.onFilesAdded}
+            />
+
+            <img
+              alt="upload"
+              className="Icon"
+              src={upload}
+            />
+
+            <span style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
+            </div>
+          </Col>
+          <Col md="3">
+            <img src={logo} alt="" style={{ width: "100%" }} />
+          </Col>
+        </Row>
       </div>
     );
   }
