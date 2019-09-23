@@ -33,7 +33,7 @@ import { useDropzone } from 'react-dropzone'
 // import Dropzone from 'react-dropzone'
 import Dropzone from "./Dropzone";
 import { DropzoneArea } from 'material-ui-dropzone'
-
+var reader;
 
 
 
@@ -41,16 +41,15 @@ class VerifierApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      files: []
+      files: [],
+      uploadedData:{}
+
     };
     // Binding Functions
 
   }
-  handleChange(files) {
-    this.setState({
-      files: files
-    });
-  }
+  
+
   render() {
     return (
       <div>
@@ -60,26 +59,12 @@ class VerifierApp extends Component {
               <h4 style={{ fontSize: "20px" }}>Certificate Verifier</h4>
             </div>
             <div style={{ marginBottom: "1em", textAlign: "center" }}>
-              <Row>
-              
-                <Col md="12" className="form-group">
-
-                  <InputGroup className="mb-10">
-                    <FormInput
-                      type="text"
-                      placeholder="Certificate Url"
-
-                    />
-                    <Link to={{ pathname: "/Certificate", search: "?" + "5d848944135bd436b312c79a" }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
-                    
-                  </InputGroup>
-                </Col>
-              </Row>
+             
 
               <div className="">
-                <div className="">
+                <div onChange = {console.log("hello")}>
 
-                  <Dropzone  />
+                  <Dropzone onFilesAdded ={console.log} />
 
                 </div>
               </div>
@@ -96,10 +81,13 @@ class VerifierApp extends Component {
           />
         </div>
         <div style={{ textAlign: "center" }}>
-          <img
+        <Link to="/Certificate.json" target="_blank" download>
+         <img
             src={fileUpload}
             width="8%"
+            
           />
+          </Link>
         </div>
 
         <div style={{ textAlign: "center" }}>
@@ -114,8 +102,12 @@ class VerifierApp extends Component {
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
-    userData: state.user_reducer.user
+    // userData: state.user_reducer.user
     // Title: state.pageTitle,
+    uploadedFileData:state.dashboard_reducer.uploadedFileData,
+    // FileFormatFlag:state.dashboard_reducer.FileFormatFlag
+    
+    
   }
 }
 

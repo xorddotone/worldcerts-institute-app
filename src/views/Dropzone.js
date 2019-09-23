@@ -7,6 +7,7 @@ import {
   CardHeader,
   ListGroup,
   ListGroupItem,
+  InputGroup,
   Row,
   Col,
   Form,
@@ -19,14 +20,15 @@ import {
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
 import {FileFormatCheck, VerifyFileData} from '../redux/actions/dashboard-action'
+import {Link} from 'react-router-dom'
+// import {FileFormatCheck} from '../redux/actions/dashboard-action'
 // import "./Dropzone.css";
 var reader;
-
 
 class Dropzone extends Component {
   constructor(props) {
     super(props);
-    this.state = { hightlight: false };
+    this.state = { hightlight: true };
     this.fileInputRef = React.createRef();
 
     this.openFileDialog = this.openFileDialog.bind(this);
@@ -43,6 +45,8 @@ class Dropzone extends Component {
   }
 
   onFilesAdded(evt) {
+    console.log(evt)
+    // this.handleFileChoosen(evt.target.files)
     if (this.props.disabled) return;
     
     const files = evt.target.files;
@@ -50,6 +54,7 @@ class Dropzone extends Component {
       const array = this.fileListToArray(files);
       this.props.onFilesAdded(array);
     }
+    console.log(files)
   }
 
   onDragOver(evt) {
@@ -67,12 +72,13 @@ class Dropzone extends Component {
 
   onDrop(event) {
     event.preventDefault();
-
+console.log(event.target)
     if (this.props.disabled) return;
 
     const files = event.dataTransfer.files;
     if (this.props.onFilesAdded) {
-      const array = this.fileListToArray(files);
+      const array = this.handleFileChoosen(files[0]);
+      console.log(array)
       this.props.onFilesAdded(array);
     }
     this.setState({ hightlight: false });
@@ -98,17 +104,23 @@ class Dropzone extends Component {
       //  console.log(temp.classification.id)
       //  console.log(temp.issuer.id)
       //  console.log(temp.participant.did)
-
-       if(temp.classification.id!=' '   || temp.issuer.id!=' ' || temp.participant.did!=' ' || temp.classification.id!=''   || temp.issuer.id!='' || temp.participant.did!=''  || temp.classification.id!=undefined   || temp.issuer.id!=undefined || temp.participant.did!=undefined ||  temp.classification!=undefined || temp.issuer!=undefined || temp.participant!=undefined ){
-         console.log("inside if condition")
-         that.props.CHECK_FORMAT_FLAG(true)
-
-       }
-       else{
-         that.props.VERIFY_FILE_DATA(temp)
-         that.props.CHECK_FORMAT_FLAG(false)
-         console.log("else condition")
-       }
+      if(temp.classification!=undefined && temp.classification!="" && temp.classification!=' ' && temp.issuer!=undefined && temp.issuer!="" && temp.issuer!=' ' && temp.participant!=undefined && temp.participant!="" && temp.participant!=' ' ){
+        if(temp.classification.id!=' '   && temp.issuer.id!=' ' && temp.participant.did!=' ' && temp.classification.id!=''   && temp.issuer.id!='' && temp.participant.did!=''  && temp.classification.id!=undefined   && temp.issuer.id!=undefined && temp.participant.did!=undefined &&  temp.classification!=undefined && temp.issuer!=undefined && temp.participant!=undefined ){
+          console.log("inside if condition")
+          that.props.CHECK_FORMAT_FLAG(true)
+          that.props.VERIFY_FILE_DATA(temp)
+ 
+        }
+        else{
+          that.props.CHECK_FORMAT_FLAG(false)
+          console.log("wrong file uploaded")
+        }
+      }
+      else{
+        that.props.CHECK_FORMAT_FLAG(false)
+        console.log("wrong File uploaded")
+      }
+       
     }
     reader.readAsText(files)
 
@@ -123,31 +135,67 @@ class Dropzone extends Component {
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
-        onClick={this.openFileDialog}
+        
         style={{ cursor: this.props.disabled ? "default" : "pointer" }}
       >
-        <input
-          ref={this.fileInputRef}
-          className="FileInput"
-          type="file"
-          accept="application/pdf,application/json"
-          multiple
-          onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
-        />
-        <img
-          alt="upload"
-          className="Icon"
-          src={upload}
-        />
-        <span style = {{fontSize: "15px" , color: "grey" , marginBottom: "1em"}}>Drag n drop your JSON file, or click to select file</span>
+         <Row>
+              
+              <Col md="12" className="form-group">
+
+                <InputGroup className="mb-10">
+                  <FormInput
+                    type="text"
+                    placeholder="Certificate Url"
+
+                  />
+                  {(this.props.FileFormatFlag && this.props.uploadedFileData.classification!=undefined && this.props.uploadedFileData.participant!=undefined)?(
+
+                                    <Link to={{ pathname: "/Certificate", search: "?" + this.props.uploadedFileData.participant.did }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
+                  ):(
+                     <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> 
+
+                  )}
+
+                </InputGroup>
+              </Col>
+            </Row>
+        <Row style = {{padding: "0 4px"}}>
+          <Col md="9">
+            <div style = {{float: "left"}}>
+            <input
+              ref={this.fileInputRef}
+              className="FileInput"
+              type="file"
+              accept="application/json"
+              multiple
+              onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
+            />
+
+            <img
+              alt="upload"
+              className="Icon"
+              src={upload}
+            />
+
+            <span  onClick={this.openFileDialog} style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
+            </div>
+          </Col>
+          <Col md="3">
+            <img src={logo} alt="" style={{ width: "100%" }} />
+          </Col>
+        </Row>
+        
       </div>
     );
   }
 }
+// pathname: "/Certificate"+ this.props.uploadedFileData.classification.id, search: "?" + this.props.uploadedFileData.participant.id
 
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
+    FileFormatFlag:state.dashboard_reducer.FileFormatFlag,
+    uploadedFileData:state.dashboard_reducer.uploadedFileData,
     // userData: state.user_reducer.user
     // Title: state.pageTitle,
   }
