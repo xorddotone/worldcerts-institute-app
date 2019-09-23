@@ -393,7 +393,7 @@ class UserProfile extends Component {
                                 target="#popover-2"
                               >
                                 <PopoverBody>
-                                  A Password must be more than 8 character long contains atleast one numeric value (0-9), one uppercase alphabet ( A-Z), one lowercase alphabet (a-z) and one special character.
+                                  A Password must be more than 8 character long contains atleast one numeric value (0-9), one uppercase alphabet (A-Z), one lowercase alphabet (a-z) and one special character (!,$,#,%).
                                 </PopoverBody>
                               </Popover>
                             </Row>

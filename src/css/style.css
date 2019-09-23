@@ -10,7 +10,9 @@
 .userImage{
     width: 9%;
 }
-
+.MuiTableCell-paddingCheckbox {
+    width : 0px !important;
+}
 .nothing-added-yet{
     text-align: center;
     margin: 15% 30%;
