@@ -391,7 +391,10 @@ class IssueCertificate extends Component {
       selectedClassification: this.state.registeredClassifications[ev.target.value]
     })
     console.log(this.state.registeredClassifications[ev.target.value].list)
-    this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].list)
+    if(ev.target.value!=0){
+
+      this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].list)
+    }
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
     // this.setState({
     //   category: ev.target.value
