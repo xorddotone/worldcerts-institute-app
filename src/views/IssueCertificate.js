@@ -357,6 +357,16 @@ class IssueCertificate extends Component {
             fileName: ""
           })
         }
+        else if( err.response.data.responseCode ==  Response.BAD_REQUEST && err.response.data.responseMessage == "Mail not send"){
+          this.setState({
+            loading: false,
+            theme: "danger",
+            alertShow: true,
+            alertMessage: err.response.data.responseMessage,
+            data: "",
+            fileName: ""
+          })
+        }
         else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
           this.setState({
             loading: false,
