@@ -18,7 +18,7 @@ import {
 } from "shards-react";
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
-import {FileFormatCheck} from '../redux/actions/dashboard-action'
+import {FileFormatCheck, VerifyFileData} from '../redux/actions/dashboard-action'
 // import "./Dropzone.css";
 var reader;
 
@@ -95,17 +95,17 @@ class Dropzone extends Component {
         console.log(content)
        console.log(JSON.parse(content))
        let temp= JSON.parse(content)
-       console.log(temp.classification.id)
-       console.log(temp.issuer.id)
-       console.log(temp.participant.did)
+      //  console.log(temp.classification.id)
+      //  console.log(temp.issuer.id)
+      //  console.log(temp.participant.did)
 
-       if(temp.classification.id!=' '   && temp.issuer.id!=' ' && temp.participant.did!=' ' && temp.classification.id!=''   && temp.issuer.id!='' && temp.participant.did!=''  && temp.classification.id!=undefined   && temp.issuer.id!=undefined && temp.participant.did!=undefined ){
+       if(temp.classification.id!=' '   || temp.issuer.id!=' ' || temp.participant.did!=' ' || temp.classification.id!=''   || temp.issuer.id!='' || temp.participant.did!=''  || temp.classification.id!=undefined   || temp.issuer.id!=undefined || temp.participant.did!=undefined ||  temp.classification!=undefined || temp.issuer!=undefined || temp.participant!=undefined ){
          console.log("inside if condition")
          that.props.CHECK_FORMAT_FLAG(true)
-         
+
        }
        else{
-         
+         that.props.VERIFY_FILE_DATA(temp)
          that.props.CHECK_FORMAT_FLAG(false)
          console.log("else condition")
        }
@@ -157,6 +157,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     CHECK_FORMAT_FLAG: (dt) => {
       dispatch(FileFormatCheck(dt))
+    },
+    VERIFY_FILE_DATA: (dt) => {
+      dispatch(VerifyFileData(dt))
     },
   }
 }
