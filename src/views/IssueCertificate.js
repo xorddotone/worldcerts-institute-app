@@ -256,7 +256,7 @@ class IssueCertificate extends Component {
     console.log("data => ", this.state.data)
     console.log("institute => ", this.props.selectedInstituteName)
     console.log(this.state.selectedClassification)
-    if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
+    if (this.state.data == null || this.state.fileName == ""||this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
       this.setState({
         loading: false,
         alertShow: true,
