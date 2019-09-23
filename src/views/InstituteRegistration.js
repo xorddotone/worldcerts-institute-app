@@ -143,7 +143,7 @@ class AddClassification extends Component {
     //     console.log(error);
     //   });
     console.log(this.state)
-    if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
+    if ( this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " ||this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
       console.log(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
         ErrorStatus: true,
@@ -159,7 +159,6 @@ class AddClassification extends Component {
       console.log(organization)
       let obj = {
         companyName: this.state.instituteName,
-        businessRegistrationNumber: this.state.buisnessRegistrationNum,
         companyAddress: this.state.instituteAddress,
         companyWebsite: this.state.instituteWebsite,
         companyContactNumber: this.state.instituteTelephone,
