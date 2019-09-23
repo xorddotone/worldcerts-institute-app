@@ -1,6 +1,8 @@
-import { TOGGLE_SWITCH,EDIT_CLASSIFICATION_DATA,EDIT_CLASSIFICATION_STATE } from "../actions/dashboard-action";
+import { TOGGLE_SWITCH,EDIT_CLASSIFICATION_DATA,EDIT_CLASSIFICATION_STATE,UPLOADED_FILE_DATA,UPLOADED_FILE_FORMAT } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
+    uploadedFileData:{},
+    FileFormatFlag:false,
     toggle_switch_state : false,
     editClassificationData:{
         category:'',
@@ -28,6 +30,16 @@ export default (state = INITIAL_STATE, action) => {
         return({ 
             ...state,
             editClassificationState : action.payload
+        })
+        case UPLOADED_FILE_DATA:
+        return({ 
+            ...state,
+            uploadedFileData : action.payload
+        })
+        case UPLOADED_FILE_FORMAT:
+        return({ 
+            ...state,
+            FileFormatFlag : action.payload
         })
         default: 
         return state

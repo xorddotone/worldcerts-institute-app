@@ -33,7 +33,7 @@ import { useDropzone } from 'react-dropzone'
 // import Dropzone from 'react-dropzone'
 import Dropzone from "./Dropzone";
 import { DropzoneArea } from 'material-ui-dropzone'
-
+var reader;
 
 
 
@@ -46,11 +46,8 @@ class VerifierApp extends Component {
     // Binding Functions
 
   }
-  handleChange(files) {
-    this.setState({
-      files: files
-    });
-  }
+  
+
   render() {
     return (
       <div>
@@ -63,9 +60,9 @@ class VerifierApp extends Component {
              
 
               <div className="">
-                <div className="">
+                <div onChange = {console.log("hello")}>
 
-                  <Dropzone onFilesAdded={console.log} />
+                  <Dropzone onFilesAdded ={console.log} />
 
                 </div>
               </div>
@@ -82,10 +79,12 @@ class VerifierApp extends Component {
           />
         </div>
         <div style={{ textAlign: "center" }}>
-          <img
+        <Link to="/Certificate.json" target="_blank" download>
+         <img
             src={fileUpload}
             width="8%"
           />
+          </Link>
         </div>
 
         <div style={{ textAlign: "center" }}>
