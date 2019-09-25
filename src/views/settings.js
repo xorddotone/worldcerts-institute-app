@@ -26,31 +26,28 @@ const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
 
-
 class Settings extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-          }
-
+    }
   }
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
   }
 
-  
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-  <Row noGutters className="page-header py-4">
-        <PageTitle title="Settings"  md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-        <PageTitle  subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-        
-        {/* subtitle="Registration" */}
-      </Row>       
-       
+        <Row noGutters className="page-header py-4">
+          <PageTitle title="Settings" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+          <PageTitle subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+
+          {/* subtitle="Registration" */}
+        </Row>
+
       </Container>
     )
   }

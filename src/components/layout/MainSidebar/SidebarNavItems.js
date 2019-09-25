@@ -9,7 +9,7 @@ import {
 } from "shards-react";
 import { NavLink as RouteNavLink } from "react-router-dom";
 import { connect } from 'react-redux';
-import { TOGGLE  , InstituteList} from "../../../redux/actions/dashboard-action"
+import { TOGGLE, InstituteList } from "../../../redux/actions/dashboard-action"
 // import Select from 'react-select';
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
@@ -18,7 +18,6 @@ import { Dispatcher, Constants } from "../../../flux";
 import { Link } from "react-router-dom";
 import add from '../../../images/addBlack.svg'
 const axios = require('axios');
-
 
 class SidebarNavItems extends React.Component {
   constructor(props) {
@@ -31,12 +30,12 @@ class SidebarNavItems extends React.Component {
           to: "/home",
           htmlBefore: ' <i class="material-icons">home</i>',
         },
-          // {
-          //   title: "Activate Your Account",
-          //   to: "/account_activation",
-          //   htmlBefore: ' <i class="material-icons">done</i>',
-          // },
-          {
+        // {
+        //   title: "Activate Your Account",
+        //   to: "/account_activation",
+        //   htmlBefore: ' <i class="material-icons">done</i>',
+        // },
+        {
           title: "Manage Organization",
           to: "/manage_organization",
           htmlBefore: '<i class="material-icons">home</i>',
@@ -56,7 +55,7 @@ class SidebarNavItems extends React.Component {
           to: "/settings",
           htmlBefore: ' <i class="material-icons">brightness_5</i>',
         },
-        
+
       ],
       ItemNotVerified: [
         {
@@ -107,10 +106,12 @@ class SidebarNavItems extends React.Component {
     this.onClickInstitute = this.onClickInstitute.bind(this)
 
   }
+
   handleClick = (e) => {
     const { linkDisabled } = this.state
     if (linkDisabled) e.preventDefault()
   }
+
   onCheckBoxChange() {
     let temp;
     this.setState(prevState => {
@@ -153,13 +154,10 @@ class SidebarNavItems extends React.Component {
         // handle error
         console.log(error);
       })
-      // this.setState({
-      //   Institutes:this.props.institutesList
-      // })
+    // this.setState({
+    //   Institutes:this.props.institutesList
+    // })
   }
-
-
-
 
   toggleUserActions() {
     this.setState({
@@ -177,12 +175,13 @@ class SidebarNavItems extends React.Component {
       name: names.companyName,
       id: names._id,
       url: names.companyWebsite,
-      email:"xyz@gmail.com",
-      certificateStore: 0x000000000000000      
+      email: "xyz@gmail.com",
+      certificateStore: 0x000000000000000
     }
     this.props.SELECTED_INSTITUTE(obj)
     // this.props.history.push("/manage_organization")
   }
+
   onClickAdd(ev) {
     // ev.preventDefault()
     this.props.history.push("/organization_registration")
@@ -218,7 +217,7 @@ class SidebarNavItems extends React.Component {
                 <div>
                   {this.props.institutesLists.map((names, id) => (
                     <DropdownItem to="/home" tag={Link} key={id}>
-                      <div onClick={() => this.onClickInstitute(names )}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
+                      <div onClick={() => this.onClickInstitute(names)}><i className="material-icons">{"storefront"}</i> {names.companyName} </div>
                     </DropdownItem>
                   ))}
 
@@ -303,7 +302,6 @@ class SidebarNavItems extends React.Component {
     )
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {

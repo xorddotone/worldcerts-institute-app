@@ -19,8 +19,8 @@ import {
 } from "shards-react";
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
-import {FileFormatCheck, VerifyFileData} from '../redux/actions/dashboard-action'
-import {Link} from 'react-router-dom'
+import { FileFormatCheck, VerifyFileData } from '../redux/actions/dashboard-action'
+import { Link } from 'react-router-dom'
 // import {FileFormatCheck} from '../redux/actions/dashboard-action'
 // import "./Dropzone.css";
 var reader;
@@ -36,7 +36,7 @@ class Dropzone extends Component {
     this.onDragOver = this.onDragOver.bind(this);
     this.onDragLeave = this.onDragLeave.bind(this);
     this.onDrop = this.onDrop.bind(this);
-    this.handleFileChoosen=this.handleFileChoosen.bind(this)
+    this.handleFileChoosen = this.handleFileChoosen.bind(this)
   }
 
   openFileDialog() {
@@ -48,7 +48,7 @@ class Dropzone extends Component {
     console.log(evt)
     // this.handleFileChoosen(evt.target.files)
     if (this.props.disabled) return;
-    
+
     const files = evt.target.files;
     if (this.props.onFilesAdded) {
       const array = this.fileListToArray(files);
@@ -66,13 +66,13 @@ class Dropzone extends Component {
   }
 
   onDragLeave() {
-    
+
     this.setState({ hightlight: false });
   }
 
   onDrop(event) {
     event.preventDefault();
-console.log(event.target)
+    console.log(event.target)
     if (this.props.disabled) return;
 
     const files = event.dataTransfer.files;
@@ -92,35 +92,35 @@ console.log(event.target)
     return array;
   }
 
-  handleFileChoosen(files){
-    let that=this
+  handleFileChoosen(files) {
+    let that = this
     console.log(files)
-   reader= new FileReader();
-    reader.onloadend= function (e){
-        let content=reader.result
-        console.log(content)
-       console.log(JSON.parse(content))
-       let temp= JSON.parse(content)
+    reader = new FileReader();
+    reader.onloadend = function (e) {
+      let content = reader.result
+      console.log(content)
+      console.log(JSON.parse(content))
+      let temp = JSON.parse(content)
       //  console.log(temp.classification.id)
       //  console.log(temp.issuer.id)
       //  console.log(temp.participant.did)
-      if(temp.classification!=undefined && temp.classification!="" && temp.classification!=' ' && temp.issuer!=undefined && temp.issuer!="" && temp.issuer!=' ' && temp.participant!=undefined && temp.participant!="" && temp.participant!=' ' ){
-        if(temp.classification.id!=' '   && temp.issuer.id!=' ' && temp.participant.did!=' ' && temp.classification.id!=''   && temp.issuer.id!='' && temp.participant.did!=''  && temp.classification.id!=undefined   && temp.issuer.id!=undefined && temp.participant.did!=undefined &&  temp.classification!=undefined && temp.issuer!=undefined && temp.participant!=undefined ){
+      if (temp.classification != undefined && temp.classification != "" && temp.classification != ' ' && temp.issuer != undefined && temp.issuer != "" && temp.issuer != ' ' && temp.participant != undefined && temp.participant != "" && temp.participant != ' ') {
+        if (temp.classification.id != ' ' && temp.issuer.id != ' ' && temp.participant.did != ' ' && temp.classification.id != '' && temp.issuer.id != '' && temp.participant.did != '' && temp.classification.id != undefined && temp.issuer.id != undefined && temp.participant.did != undefined && temp.classification != undefined && temp.issuer != undefined && temp.participant != undefined) {
           console.log("inside if condition")
           that.props.CHECK_FORMAT_FLAG(true)
           that.props.VERIFY_FILE_DATA(temp)
- 
+
         }
-        else{
+        else {
           that.props.CHECK_FORMAT_FLAG(false)
           console.log("wrong file uploaded")
         }
       }
-      else{
+      else {
         that.props.CHECK_FORMAT_FLAG(false)
         console.log("wrong File uploaded")
       }
-       
+
     }
     reader.readAsText(files)
 
@@ -135,56 +135,56 @@ console.log(event.target)
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
         onDrop={this.onDrop}
-        
+
         style={{ cursor: this.props.disabled ? "default" : "pointer" }}
       >
-         <Row>
-              
-              <Col md="12" className="form-group">
+        <Row>
 
-                <InputGroup className="mb-10">
-                  <FormInput
-                    type="text"
-                    placeholder="Certificate Url"
+          <Col md="12" className="form-group">
 
-                  />
-                  {(this.props.FileFormatFlag && this.props.uploadedFileData.classification!=undefined && this.props.uploadedFileData.participant!=undefined)?(
+            <InputGroup className="mb-10">
+              <FormInput
+                type="text"
+                placeholder="Certificate Url"
 
-                                    <Link to={{ pathname: "/Certificate", search: "?" + this.props.uploadedFileData.participant.did }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> </Link>
-                  ):(
-                     <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none" , borderRadius: "0rem" }}>  Verify</span> 
+              />
+              {(this.props.FileFormatFlag && this.props.uploadedFileData.classification != undefined && this.props.uploadedFileData.participant != undefined) ? (
 
-                  )}
+                <Link to={{ pathname: "/Certificate", search: "?" + this.props.uploadedFileData.participant.did }} >  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none", borderRadius: "0rem" }}>  Verify</span> </Link>
+              ) : (
+                  <span type="append" className="worldcerts-button verifierAppButton" style={{ border: "none", borderRadius: "0rem" }}>  Verify</span>
 
-                </InputGroup>
-              </Col>
-            </Row>
-        <Row style = {{padding: "0 4px"}}>
+                )}
+
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row style={{ padding: "0 4px" }}>
           <Col md="9">
-            <div style = {{float: "left"}}>
-            <input
-              ref={this.fileInputRef}
-              className="FileInput"
-              type="file"
-              accept="application/json"
-              multiple
-              onChange={e=>{this.handleFileChoosen(e.target.files[0])}}
-            />
+            <div style={{ float: "left" }}>
+              <input
+                ref={this.fileInputRef}
+                className="FileInput"
+                type="file"
+                accept="application/json"
+                multiple
+                onChange={e => { this.handleFileChoosen(e.target.files[0]) }}
+              />
 
-            <img
-              alt="upload"
-              className="Icon"
-              src={upload}
-            />
+              <img
+                alt="upload"
+                className="Icon"
+                src={upload}
+              />
 
-            <span  onClick={this.openFileDialog} style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
+              <span onClick={this.openFileDialog} style={{ fontSize: "13px", color: "grey" }}> Drag n drop your JSON file, or click to select file</span>
             </div>
           </Col>
           <Col md="3">
             <img src={logo} alt="" style={{ width: "100%" }} />
           </Col>
         </Row>
-        
+
       </div>
     );
   }
@@ -194,8 +194,8 @@ console.log(event.target)
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
-    FileFormatFlag:state.dashboard_reducer.FileFormatFlag,
-    uploadedFileData:state.dashboard_reducer.uploadedFileData,
+    FileFormatFlag: state.dashboard_reducer.FileFormatFlag,
+    uploadedFileData: state.dashboard_reducer.uploadedFileData,
     // userData: state.user_reducer.user
     // Title: state.pageTitle,
   }

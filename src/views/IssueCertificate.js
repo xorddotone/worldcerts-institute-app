@@ -33,7 +33,6 @@ const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
 
-
 class IssueCertificate extends Component {
 
   constructor(props) {
@@ -41,20 +40,20 @@ class IssueCertificate extends Component {
     this.state = {
       fileName: '',
       data: [
-      //   {
-      //   did: "1398239",
-      //   email: "abc@gmail.com",
-      //   name: "carolina",
-      //   phone: "6588888888",
-      //   studentid: "3224"
-      // }
-    ],
+        //   {
+        //   did: "1398239",
+        //   email: "abc@gmail.com",
+        //   name: "carolina",
+        //   phone: "6588888888",
+        //   studentid: "3224"
+        // }
+      ],
       columns: [],
       registeredClassifications: [],
       selectedClassification: { classification: "Choose" },
       alertMessage: "",
       alertShow: false,
-      classificationErrorShow:false,
+      classificationErrorShow: false,
       classificationErrorMessage: "",
       loading: false,
       cert: [
@@ -102,7 +101,7 @@ class IssueCertificate extends Component {
     this.getColumnsFromCSVFile = this.getColumnsFromCSVFile.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
     this.dismiss = this.dismiss.bind(this)
-    this.getColumnsFromClassification=this.getColumnsFromClassification.bind(this)
+    this.getColumnsFromClassification = this.getColumnsFromClassification.bind(this)
   }
 
   // getColumns() {
@@ -115,8 +114,6 @@ class IssueCertificate extends Component {
   //     };
   //   });
   // }
-
-
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
@@ -168,12 +165,12 @@ class IssueCertificate extends Component {
       })
     }
   }
+
   FileHandler(data) {
     console.log(data)
   }
 
   handleFiles = files => {
-    
     var reader = new FileReader();
     let temp;
     var temp1;
@@ -182,7 +179,7 @@ class IssueCertificate extends Component {
     this.setState({
       alertShow: false,
       fileName: name,
-      data:null
+      data: null
     })
     let that = this
     reader.onload = function (e) {
@@ -203,8 +200,6 @@ class IssueCertificate extends Component {
     }
     reader.readAsText(files[0]);
   }
-
-
 
   async onIssueCertificate() {
 
@@ -242,9 +237,6 @@ class IssueCertificate extends Component {
       name: this.state.selectedClassification.classification,
     }
     console.log("classification => ", classification)
-
-
-
 
     // {
     //   name:this.props.selectedInstituteName.name ,
@@ -330,13 +322,13 @@ class IssueCertificate extends Component {
         }
       })
   }
-  csvJSON(cssv) {
 
+  csvJSON(cssv) {
     let lines = cssv.split("\n");
     let result = [];
     let headers = lines[0].split(",");
     for (let i = 1; i < lines.length - 1; i++) {
-      let obj = {};
+      letobj = {};
       let currentline = lines[i].split(",");
       for (let j = 0; j < headers.length; j++) {
         obj[headers[j]] = currentline[j];
@@ -362,25 +354,21 @@ class IssueCertificate extends Component {
     this.setState({ columns: temp })
   }
 
-
-  getColumnsFromClassification(temp){
+  getColumnsFromClassification(temp) {
     // let temp=["name","did","email","phone","studentid"]
-    let temp1=[]
-    for(let i=0;i<temp.length;i++){
-      let obj={
-        title:temp[i],
-        field:temp[i]
+    let temp1 = []
+    for (let i = 0; i < temp.length; i++) {
+      let obj = {
+        title: temp[i],
+        field: temp[i]
       }
       temp1.push(obj)
     }
     console.log(temp1)
     this.setState({
-      columns:temp1
+      columns: temp1
     })
-
-
   }
-
 
   categoryChangeHandler(ev) {
     console.log(ev.target.value)
@@ -390,7 +378,7 @@ class IssueCertificate extends Component {
       selectedClassification: this.state.registeredClassifications[ev.target.value]
     })
     console.log(this.state.registeredClassifications[ev.target.value].list)
-    if(ev.target.value!=0){
+    if (ev.target.value != 0) {
 
       this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].list)
     }
@@ -399,14 +387,16 @@ class IssueCertificate extends Component {
     //   category: ev.target.value
     // })
   }
+
   dismiss() {
     this.setState({ alertShow: false });
   }
+  
   render() {
     //   if(this.state.data){
     //   this.getColumns()
     // }
-console.log(this.state)
+    console.log(this.state)
 
     return (
       <Container fluid className="main-content-container px-4">
@@ -471,64 +461,64 @@ console.log(this.state)
         inputStyle={{color: 'red'}}
       /> */}
         {
-          (this.state.selectedClassification.classification!='Choose') ? (
-          // <ReactTable
-          //       data={this.state.data}
-          //       columns={this.getColumns()}
-          //       defaultPageSize={10}
-          //       className="-striped -highlight"
-          //     />
-          <div style={{ marginBottom: "2em" }}>
-            <MaterialTable
-              title="Recievers List"
-              columns={this.state.columns}
-              data={this.state.data}
-              editable={{
-                onRowAdd: newData =>
-                  new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                      {
-                        console.log(this.state)
-                        console.log(this.state.data)
-                        const data = this.state.data;
-                        console.log(newData, "aaaa", this.state.data)
-                        data.push(newData);
-                        console.log(data)
-                        this.setState({ data }, () => resolve());
-                      }
-                      resolve()
-                    }, 1000)
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                      {
-                        const data = this.state.data;
-                        const index = data.indexOf(oldData);
-                        console.log(index)
-                        data[index] = newData;
-                        console.log(data)
-                        this.setState({ data }, () => resolve());
-                      }
-                      resolve()
-                    }, 1000)
-                  }),
-                onRowDelete: oldData =>
-                  new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                      {
-                        let data = this.state.data;
-                        const index = data.indexOf(oldData);
-                        data.splice(index, 1);
-                        this.setState({ data }, () => resolve());
-                      }
-                      resolve()
-                    }, 1000)
-                  }),
+          (this.state.selectedClassification.classification != 'Choose') ? (
+            // <ReactTable
+            //       data={this.state.data}
+            //       columns={this.getColumns()}
+            //       defaultPageSize={10}
+            //       className="-striped -highlight"
+            //     />
+            <div style={{ marginBottom: "2em" }}>
+              <MaterialTable
+                title="Recievers List"
+                columns={this.state.columns}
+                data={this.state.data}
+                editable={{
+                  onRowAdd: newData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        {
+                          console.log(this.state)
+                          console.log(this.state.data)
+                          const data = this.state.data;
+                          console.log(newData, "aaaa", this.state.data)
+                          data.push(newData);
+                          console.log(data)
+                          this.setState({ data }, () => resolve());
+                        }
+                        resolve()
+                      }, 1000)
+                    }),
+                  onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        {
+                          const data = this.state.data;
+                          const index = data.indexOf(oldData);
+                          console.log(index)
+                          data[index] = newData;
+                          console.log(data)
+                          this.setState({ data }, () => resolve());
+                        }
+                        resolve()
+                      }, 1000)
+                    }),
+                  onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        {
+                          let data = this.state.data;
+                          const index = data.indexOf(oldData);
+                          data.splice(index, 1);
+                          this.setState({ data }, () => resolve());
+                        }
+                        resolve()
+                      }, 1000)
+                    }),
 
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
           ) : (null)
         }
 

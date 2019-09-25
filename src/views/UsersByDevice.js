@@ -67,7 +67,7 @@ class UsersByDevice extends React.Component {
                 size="sm"
                 value="last-week"
                 style={{ maxWidth: "130px" }}
-                onChange={() => {}}
+                onChange={() => { }}
               >
                 <option value="last-week">Last Week</option>
                 <option value="today">Today</option>

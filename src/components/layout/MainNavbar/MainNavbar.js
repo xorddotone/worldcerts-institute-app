@@ -6,6 +6,7 @@ import NavbarSearch from "./NavbarSearch";
 import NavbarNav from "./NavbarNav/NavbarNav";
 import NavbarToggle from "./NavbarToggle";
 import NavbarInstitute from './NavbarInstitute'
+
 const MainNavbar = ({ layout, stickyTop }) => {
   const classes = classNames(
     "main-navbar",
@@ -18,10 +19,10 @@ const MainNavbar = ({ layout, stickyTop }) => {
       <Container className="p-0">
         {/* <Navbar type="light" className=" d-flex justify-content-end flex-md-nowrap p-0"> */}
         <Navbar type="light" className=" d-flex justify-content-end flex-md-nowrap p-0">
-        
+
           {/* <NavbarInstitute/> */}
           {/* <NavbarSearch /> */}
-          <NavbarNav/>
+          <NavbarNav />
           <NavbarToggle />
         </Navbar>
       </Container>

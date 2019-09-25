@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 // import '../../../constants/strings'
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
-import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
+import { SELECTED_INSTITUTE } from "../../../redux/actions/login-action"
 import { connect } from 'react-redux';
 import { Dispatcher, Constants } from "../../../flux";
 
@@ -30,23 +30,18 @@ class SidebarMainNavbar extends React.Component {
     }
   }
 
-
-
-
-
   toggleUserActions() {
     this.setState({
       visible: !this.state.visible
     });
   }
 
-
-
   handleToggleSidebar() {
     Dispatcher.dispatch({
       actionType: Constants.TOGGLE_SIDEBAR
     });
   }
+
   render() {
     // const { hideLogoText } = this.props;
     console.log(this.state)
@@ -62,19 +57,19 @@ class SidebarMainNavbar extends React.Component {
             style={{ lineHeight: "25px" }}
           > */}
           <div className="d-table m-auto">
-           
+
             <img
-                id="main-logo"
-                className="d-inline-block align-top mr-1"
-                style={{ maxWidth: "25px" }}
-                src={require("../../../images/logo1.png")}
-                alt="world certs"
-              />
-              {  (
-                <span className="d-md-inline ml-100 cursor-pointer">
-                  {this.state.name}
-                </span>
-              )}
+              id="main-logo"
+              className="d-inline-block align-top mr-1"
+              style={{ maxWidth: "25px" }}
+              src={require("../../../images/logo1.png")}
+              alt="world certs"
+            />
+            {(
+              <span className="d-md-inline ml-100 cursor-pointer">
+                {this.state.name}
+              </span>
+            )}
           </div>
           {/* </NavbarBrand> */}
           <a
@@ -82,7 +77,6 @@ class SidebarMainNavbar extends React.Component {
             onClick={this.handleToggleSidebar}
           >
             <i className="material-icons">&#xE5C4;</i>
-                  
 
           </a>
         </Navbar>
@@ -90,23 +84,24 @@ class SidebarMainNavbar extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
-    selectedInstituteName:state.user_reducer.selectedInstituteName,
-    userData:state.user_reducer.user
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
+    userData: state.user_reducer.user
     // Title: state.pageTitle,
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     SELECTED_INSTITUTE: (user) => {
       dispatch(SELECTED_INSTITUTE(user))
     },
-    
-    
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarMainNavbar);
 
 // export default SidebarMainNavbar;

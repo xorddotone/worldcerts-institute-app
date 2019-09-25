@@ -29,7 +29,6 @@ import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
 
-
 class UserProfile extends Component {
 
   constructor(props) {
@@ -54,6 +53,7 @@ class UserProfile extends Component {
       strongPasswordError: ""
 
     }
+
     this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
     this.onChangeConfirmPassword = this.onChangeConfirmPassword.bind(this)
     this.onChangeUserName = this.onChangeUserName.bind(this)
@@ -185,6 +185,7 @@ class UserProfile extends Component {
         })
     }
   }
+
   onClickSaveInModal() {
     console.log(" In update ")
     var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -194,7 +195,7 @@ class UserProfile extends Component {
     })
     if (!reg.test(this.state.password)) {
       this.setState({
-        modalLoader:false,
+        modalLoader: false,
         showStrongPasswordError: true,
         strongPasswordError: "*password is too weak"
       })
@@ -253,9 +254,11 @@ class UserProfile extends Component {
 
     }
   }
+
   dismiss() {
     this.setState({ alertShow: false });
   }
+
   toggle() {
     console.log("122")
     this.setState({
@@ -266,6 +269,7 @@ class UserProfile extends Component {
 
     });
   }
+
   onClickCancel() {
     this.setState({
       userName: this.props.userData.name,
@@ -273,11 +277,13 @@ class UserProfile extends Component {
     })
 
   }
+
   toggle2() {
     this.setState({
       info_open: !this.state.info_open
     });
   }
+
   render() {
     return (
 

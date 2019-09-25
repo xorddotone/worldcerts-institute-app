@@ -6,7 +6,7 @@ import {
   Card,
   CardBody,
   CardFooter,
-Alert,
+  Alert,
   Button,
   // CardFooter,
 
@@ -26,7 +26,6 @@ import { SELECTED_INSTITUTE } from "../redux/actions/login-action"
 
 const axios = require('axios');
 
-
 class ManageInstitutes extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +44,7 @@ class ManageInstitutes extends Component {
           authorAvatar: require("../images/logo.png"),
           title: "Had denoting properly jointure which well books beyond",
           body:
-          "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
+            "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
           date: "29 February 2019"
         },
         {
@@ -54,33 +53,32 @@ class ManageInstitutes extends Component {
           title: "Had denoting properly jointure which well books beyond",
 
           body:
-          "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
+            "In said to of poor full be post face snug. Introduced imprudence see say unpleasing devonshire acceptance son. Exeter longer wisdom work...",
           date: "29 February 2019"
         }
       ],
-      registeredInstitute:[],
+      registeredInstitute: [],
       alertMessage: "",
       alertShow: false,
       theme: ""
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
-
   }
 
   componentDidMount() {
     console.log(this.props.userData)
-    let that=this;
+    let that = this;
     console.log(this.props.userData._id)
-    axios.get(Routes.GET_REGISTERED_INSTITUTES+ this.props.userData._id)
-    .then(function (response) {
-      let temp;
+    axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
+      .then(function (response) {
+        let temp;
         // handle success
         console.log(response);
-        temp=response.data.result
+        temp = response.data.result
         console.log(temp)
         that.setState({
-          registeredInstitute:temp
+          registeredInstitute: temp
         })
 
       })
@@ -90,144 +88,139 @@ class ManageInstitutes extends Component {
       })
   }
 
-  async onClickClose(name,id){
-    let tempArr=[]
-    for(let i=0;i<this.state.registeredInstitute.length;i++){
-      if(this.state.registeredInstitute[i]._id!=id){
+  async onClickClose(name, id) {
+    let tempArr = []
+    for (let i = 0; i < this.state.registeredInstitute.length; i++) {
+      if (this.state.registeredInstitute[i]._id != id) {
         // console.log(this.state.registeredInstitute[i]._id)
         tempArr.push(this.state.registeredInstitute[i])
       }
     }
     console.log(tempArr)
 
-    if(this.props.selectedInstituteName.id==id){
+    if (this.props.selectedInstituteName.id == id) {
       let obj = {
         name: "Select Organization",
         id: '',
         url: '',
-        email:"",
-        certificateStore: ''      
+        email: "",
+        certificateStore: ''
       }
       this.props.SELECTED_INSTITUTE(obj)
-
     }
-    
+
     this.props.institutesList(tempArr)
-    
-    
-    
-    
-    try{
+
+    try {
       console.log(id)
       console.log(this.props.userData._id)
-  
+
       let obj = {
-        id : this.props.userData._id,
+        id: this.props.userData._id,
         // name: "hasanm"
       }
       console.log(obj)
 
-     let request =  await axios.delete(Routes.REGISTER_INSTITUTE + id, {data : obj});
-     console.log(request.data)
-     
-     this.setState({
-       alertShow: true,
-     alertMessage: name + " institute has been deleted",
-     registeredInstitute:tempArr,
-     theme: "success"
-     })
+      let request = await axios.delete(Routes.REGISTER_INSTITUTE + id, { data: obj });
+      console.log(request.data)
 
-     
-    }catch(e){
-      
+      this.setState({
+        alertShow: true,
+        alertMessage: name + " institute has been deleted",
+        registeredInstitute: tempArr,
+        theme: "success"
+      })
+    } catch (e) {
+
       console.log(e.response)
-      if(e.response == undefined){
+      if (e.response == undefined) {
         this.setState({
           alertShow: true,
-        alertMessage: "Network Error",
-        theme: "danger"
+          alertMessage: "Network Error",
+          theme: "danger"
         })
       }
     }
-  
   }
+
   dismiss() {
     this.setState({ alertShow: false });
   }
+
   render() {
     const {
       PostsListTwo,
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         
-      {(this.props.userData.isVerified)?(
-        null
-        ):(
-          <Alert className="mb-0" open={true} theme="danger">
-          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
-        </Alert>
-      )}
 
-<div>
-<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
-         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
-      </Alert>  
-           <Row noGutters className="page-header py-4">
-             <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-             {/* subtitle="Registration" */}
-             {/* <Link to="/organization_registration"><span theme="accent">Add</span></Link> */}
-           </Row>
-           {console.log(this.state.registeredInstitute)}
-         {  (this.state.registeredInstitute)?(
-               <Row>
-           {console.log(this.state.registeredInstitute)}
-                 
-               {this.state.registeredInstitute.map((institute, id) => (
-               
-                   <Col lg="4" key={id}>
-                   <Card small className="card-post mb-4">
-                     <CardBody>
-                       <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
-                       <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
-                       <p className="card-text text-muted">{institute.country}  </p>
-                       <p className="card-text text-muted">{institute.companyAddress}  </p>
-                       <p className="card-text text-muted">{institute.postalCode}  </p>
-   
-   
-                     </CardBody>
-                     <CardFooter className="border-top d-flex">
-                       <div className="card-post__author d-flex">
-                         <a
-                           href="#"
-                           className="card-post__author-avatar card-post__author-avatar--small"
-                           style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
-                         >
-                           {institute.companyWebsite}
-                         </a>
-                         <div className="d-flex flex-column justify-content-center ml-3">
-                           <span className="card-post__author-name">
-                           {institute.companyWebsite}
-                            </span>
-                           <small className="text-muted">{institute.companyContactNumber}</small>
-                         </div>
-                       </div>
-                       {/* <div className="my-auto ml-auto">
+        {(this.props.userData.isVerified) ? (
+          null
+        ) : (
+            <Alert className="mb-0" open={true} theme="danger">
+              <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
+        </Alert>
+          )}
+
+        <div>
+          <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+            <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
+          </Alert>
+          <Row noGutters className="page-header py-4">
+            <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+            {/* subtitle="Registration" */}
+            {/* <Link to="/organization_registration"><span theme="accent">Add</span></Link> */}
+          </Row>
+          {console.log(this.state.registeredInstitute)}
+          {(this.state.registeredInstitute) ? (
+            <Row>
+              {console.log(this.state.registeredInstitute)}
+
+              {this.state.registeredInstitute.map((institute, id) => (
+
+                <Col lg="4" key={id}>
+                  <Card small className="card-post mb-4">
+                    <CardBody>
+                      <h5 className="card-title ">{institute.companyName} <img src={cross} className="close-button" onClick={() => this.onClickClose(institute.companyName, institute._id)} /></h5>
+                      <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
+                      <p className="card-text text-muted">{institute.country}  </p>
+                      <p className="card-text text-muted">{institute.companyAddress}  </p>
+                      <p className="card-text text-muted">{institute.postalCode}  </p>
+
+
+                    </CardBody>
+                    <CardFooter className="border-top d-flex">
+                      <div className="card-post__author d-flex">
+                        <a
+                          href="#"
+                          className="card-post__author-avatar card-post__author-avatar--small"
+                          style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
+                        >
+                          {institute.companyWebsite}
+                        </a>
+                        <div className="d-flex flex-column justify-content-center ml-3">
+                          <span className="card-post__author-name">
+                            {institute.companyWebsite}
+                          </span>
+                          <small className="text-muted">{institute.companyContactNumber}</small>
+                        </div>
+                      </div>
+                      {/* <div className="my-auto ml-auto">
                          <span size="sm" theme="white">
                            <i className="far fa-bookmark mr-1" /> Bookmark
                          </span>
                        </div> */}
-                     </CardFooter>
-                   </Card>
-                 </Col>
-               )
-               )}
-             </Row>
-           ):(
-         <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
-         )}
-           </div>
-        
+                    </CardFooter>
+                  </Card>
+                </Col>
+              )
+              )}
+            </Row>
+          ) : (
+              <div style={{ textAlign: "center", margin: "15% 30%" }}><h3 >Nothing added yet</h3></div>
+            )}
+        </div>
+
       </Container>
     )
   }

@@ -19,7 +19,6 @@ import {
 import logo from '../images/logo2.png'
 import loader from '../images/loader.gif'
 
-
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import axios from 'axios'
@@ -41,7 +40,7 @@ class Register extends Component {
       passwordError: "",
       errorMsg: "",
       open: false,
-      showStrongPasswordError:false,
+      showStrongPasswordError: false,
       strongPasswordError: ""
 
     }
@@ -89,26 +88,26 @@ class Register extends Component {
     // });
     var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     console.log(reg.test(event.target.value))
-if(reg.test(event.target.value)){
-    this.setState({
-      open: false,
-      password: event.target.value,
-      errorMsg: "",
-      showStrongPasswordError: false,
-      strongPasswordError: ""
-    })
+    if (reg.test(event.target.value)) {
+      this.setState({
+        open: false,
+        password: event.target.value,
+        errorMsg: "",
+        showStrongPasswordError: false,
+        strongPasswordError: ""
+      })
+    }
+    else {
+      this.setState({
+        open: true,
+        password: event.target.value,
+        showStrongPasswordError: true,
+        strongPasswordError: "*password is too weak"
+      })
+
+    }
+
   }
-  else{
-    this.setState({
-      open: true,
-      password: event.target.value,
-      showStrongPasswordError: true,
-      strongPasswordError: "*password is too weak"
-    })
-
-}
-
-}
 
   onChangeConfirmPassword(event) {
     // console.log(event.target.value)
@@ -130,11 +129,13 @@ if(reg.test(event.target.value)){
       captchaText: event
     })
   }
+  
   toggle() {
     this.setState({
       open: !this.state.open
     });
   }
+
   onClickRegister() {
     console.log(this.state.password)
     var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -252,7 +253,7 @@ if(reg.test(event.target.value)){
                     <Col className="form-group">
                       <label>Email</label>
                       <FormInput
-                        onKeyPress={this.clickEnter.bind(this) }
+                        onKeyPress={this.clickEnter.bind(this)}
                         type="email"
                         placeholder="Enter your Email Address"
                         value={this.state.email}
@@ -264,7 +265,7 @@ if(reg.test(event.target.value)){
                   <Row >
                     <Col className="form-group">
                       <label>Password</label>
-                      <label style = {{float : "right", fontSize: "12px", color:"red"}}>{this.state.strongPasswordError}</label>
+                      <label style={{ float: "right", fontSize: "12px", color: "red" }}>{this.state.strongPasswordError}</label>
                       <FormInput
                         id="popover-2"
                         onClick={this.toggle}

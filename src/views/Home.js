@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 import PropTypes from "prop-types";
-import { Container, Row, Col , Alert } from "shards-react";
+import { Container, Row, Col, Alert } from "shards-react";
 import PageTitle from "./../components/common/PageTitle";
 import SmallStats from "./../components/common/SmallStats";
 import UsersOverview from "./UsersOverview";
@@ -13,8 +13,7 @@ import UsersByDevice from "./UsersByDevice";
 import { connect } from 'react-redux';
 import * as Routes from '../constants/apiRoutes'
 import * as Strings from '../constants/strings'
-import {Link} from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
 
 class Home extends Component {
   constructor(props) {
@@ -123,9 +122,9 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if(!this.props.userData.isVerified){
+    if (!this.props.userData.isVerified) {
       this.setState({
-        alertShow:true
+        alertShow: true
       })
     }
     // const { pagetitle } = this.state;
@@ -141,7 +140,7 @@ class Home extends Component {
     return (
       <Container fluid className="main-content-container px-4">
         <Alert className="mb-0" open={this.state.alertShow} theme="danger">
-          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
         {/* Page Header */}
         <Row noGutters className="page-header py-4">

@@ -25,8 +25,7 @@ import axios from 'axios'
 import logo from '../images/logo.png'
 import loader from '../images/loader.gif'
 
-import {LOGIN_STATUS,USER_DATA} from "../redux/actions/login-action"
-
+import { LOGIN_STATUS, USER_DATA } from "../redux/actions/login-action"
 
 class EmailVerification extends Component {
 
@@ -35,14 +34,14 @@ class EmailVerification extends Component {
     this.state = {
       code: "",
       errorMsg: "",
-      loader:false
+      loader: false
     }
 
     // Binding Functions
     this.onChangeCode = this.onChangeCode.bind(this)
     // this.onChangePassword = this.onChangePassword.bind(this)
     this.onClickVerify = this.onClickVerify.bind(this)
-    this.sendEmailVerificationCode=this.sendEmailVerificationCode.bind(this)
+    this.sendEmailVerificationCode = this.sendEmailVerificationCode.bind(this)
   }
 
   componentDidMount() {
@@ -62,11 +61,12 @@ class EmailVerification extends Component {
   //       password: event.target.value
   //     })
   //   }
-  sendEmailVerificationCode(){
 
-    axios.put(Routes.RESEND_EMAIL+this.props.userData._id,  ).then(response => {
+  sendEmailVerificationCode() {
+
+    axios.put(Routes.RESEND_EMAIL + this.props.userData._id).then(response => {
       console.log(response)
-      
+
     }).catch(err => {
       console.log(err)
       console.log(err.response)
@@ -82,44 +82,44 @@ class EmailVerification extends Component {
       //     loader: false
       //   })
       // }
-       
+
       console.log(err.response)
     })
   }
 
   onClickVerify() {
     this.setState({
-      loader:true
+      loader: true
     })
     console.log(this.state.code)
     if (this.state.code == "") {
       // console.log("All fields aur required")
       this.setState({
         errorMsg: Strings.CODE_NOT_EMPTY,
-        loader:false
+        loader: false
       })
     }
     else {
-      
+
       let user = {
         code: this.state.code,
-      } 
+      }
 
       console.log(this.props.userData._id)
 
       // let tempUser=this.props.userData;
-      console.log(this.props.userData,"========")
+      console.log(this.props.userData, "========")
       // tempUser.isVerified=true
       // console.log(tempUser,"+++++++")
-      let tempUser={
-        _id:this.props.userData._id,
-        classification:this.props.userData.classification,
-        code:this.props.userData.code,
-        email:this.props.userData.email,
-        hash:this.props.userData.hash,
-        isVerified:true,
-        name:this.props.userData.name,
-        registerInstitute:this.props.userData.registerInstitute
+      let tempUser = {
+        _id: this.props.userData._id,
+        classification: this.props.userData.classification,
+        code: this.props.userData.code,
+        email: this.props.userData.email,
+        hash: this.props.userData.hash,
+        isVerified: true,
+        name: this.props.userData.name,
+        registerInstitute: this.props.userData.registerInstitute
 
       }
       console.log(tempUser)
@@ -128,32 +128,32 @@ class EmailVerification extends Component {
         console.log(response.data.result)
         if (response.data.result) {
           this.props.USER_DATA(tempUser)
-          this.props.LOGIN_STATUS(true)  
+          this.props.LOGIN_STATUS(true)
           this.setState({
-            loader:false
-          })     
+            loader: false
+          })
           this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
         }
         else {
-         
-          this.setState({ errorMsg: Strings.CODE_NOT_EMPTY ,loader:false })
+
+          this.setState({ errorMsg: Strings.CODE_NOT_EMPTY, loader: false })
         }
       }).catch(err => {
         console.log(err)
         console.log(err.response)
-        if(err.response == undefined){
+        if (err.response == undefined) {
           this.setState({
             errorMsg: "Network Error",
             loader: false
           })
         }
-        else if(err.response.data.responseCode == Response.BAD_REQUEST){
+        else if (err.response.data.responseCode == Response.BAD_REQUEST) {
           this.setState({
             errorMsg: err.response.data.responseMessage,
             loader: false
           })
         }
-         
+
         console.log(err.response)
       })
     }
@@ -173,7 +173,7 @@ class EmailVerification extends Component {
                   <div >
                     <Row >
                       <Col className="form-group">
-                        <label>We have sent you the Verification Code at the {this.props.userData.email}. If you have not received email <span style={{color:"blue", cursor:"pointer"}} onClick={this.sendEmailVerificationCode}>click here</span> to resend</label>
+                        <label>We have sent you the Verification Code at the {this.props.userData.email}. If you have not received email <span style={{ color: "blue", cursor: "pointer" }} onClick={this.sendEmailVerificationCode}>click here</span> to resend</label>
                       </Col>
                     </Row>
                     <Row >
@@ -190,18 +190,18 @@ class EmailVerification extends Component {
                     {/* {(this.state.error)?(<label>{this.state.errorMsg}</label>):()} */}
                     <Row>
                       <Col>
-                    <div style={{ textAlign: "center" }}> 
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<span size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</span>)} 
-                      <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
-                    </div>
-                    </Col>
+                        <div style={{ textAlign: "center" }}>
+                          {(this.state.loader) ? (<img src={loader} className="loader loader-paddingLeft" />) : (<span size="sm" className="worldcerts-button" onClick={this.onClickVerify}>Verify</span>)}
+                          <div style={{ color: "red", textAlign: 'center', marginTop: "1em" }}>{this.state.errorMsg}</div>
+                        </div>
+                      </Col>
                     </Row>
                     <Row>
                       <Col>
-                    <div style={{ textAlign: "center" , fontSize: "13px" , marginTop: "1em"}}> 
-                    <span>if you want to skip now </span><Link to = "/home">click here</Link>
-                    </div>
-                    </Col>
+                        <div style={{ textAlign: "center", fontSize: "13px", marginTop: "1em" }}>
+                          <span>if you want to skip now </span><Link to="/home">click here</Link>
+                        </div>
+                      </Col>
                     </Row>
                   </div>
                 </Col>

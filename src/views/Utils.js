@@ -35,9 +35,9 @@ export function makeData(len = 5553) {
 }
 
 export const Logo = () =>
-  <div style={{ margin: '1rem auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
+  <div style={{ margin: '1rem auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
     For more examples, visit {''}
-  <br />
+    <br />
     <a href="https://github.com/react-tools/react-table" target="_blank">
       <img
         src="https://github.com/react-tools/media/raw/master/logo-react-table.png"

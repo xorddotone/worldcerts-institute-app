@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 // Layout Types
 import { DefaultLayout } from "./layouts";
-import  AuthLayout  from "./layouts/AuthLayout";
+import AuthLayout from "./layouts/AuthLayout";
 import VerifierLayout from "./layouts/VerifierLayout"
 
 // Route Views
@@ -22,7 +22,7 @@ import Home from "./views/Home";
 import AccountActivation from './views/accountActivation'
 import VerifyApp from './views/verifierApp'
 
-export const routes1= [
+export const routes1 = [
   {
     path: "/",
     exact: true,
@@ -62,7 +62,7 @@ export const routes1= [
     layout: AuthLayout,
     component: Register
   },
-  
+
   {
     path: "/signin",
     layout: AuthLayout,
@@ -72,7 +72,7 @@ export const routes1= [
   {
     path: "/emailVerification",
     layout: AuthLayout,
-    component: () => <Redirect to="/home"/>
+    component: () => <Redirect to="/home" />
   },
   {
     path: "/issueCertificate",
@@ -80,7 +80,7 @@ export const routes1= [
     component: IssueCertificate
   },
   {
-    exact:true,
+    exact: true,
     path: "/Certificate",
     layout: VerifierLayout,
     component: SingleCertificate
@@ -94,7 +94,7 @@ export const routes1= [
   {
     path: "/account_activation",
     layout: DefaultLayout,
-    component: () => <Redirect to="/home"/>
+    component: () => <Redirect to="/home" />
   },
   {
     exact: true,
@@ -115,16 +115,7 @@ export const routes1= [
   // },
 ];
 
-
-
-
-
-
-
-
-
-
-export const routes2= [
+export const routes2 = [
   {
     path: "/",
     exact: true,
@@ -137,7 +128,7 @@ export const routes2= [
     layout: AuthLayout,
     component: Register
   },
-  
+
   {
     path: "/signin",
     layout: AuthLayout,
@@ -155,7 +146,7 @@ export const routes2= [
     component: () => <Redirect to="/signin" />
   },
   {
-    exact:true,
+    exact: true,
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
@@ -164,19 +155,19 @@ export const routes2= [
     path: "/account_activation",
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
-    
+
   },
   {
     path: "/settings",
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
-    
+
   },
   {
     path: "/home",
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
-    
+
   },
   {
     path: "/manage_organization",
@@ -222,19 +213,7 @@ export const routes2= [
   // },
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-export const routes3= [
+export const routes3 = [
   {
     path: "/",
     exact: true,
@@ -274,7 +253,7 @@ export const routes3= [
     layout: AuthLayout,
     component: Register
   },
-  
+
   {
     path: "/signin",
     layout: AuthLayout,
@@ -292,7 +271,7 @@ export const routes3= [
     component: IssueCertificate
   },
   {
-    exact:true,
+    exact: true,
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
@@ -325,6 +304,5 @@ export const routes3= [
   //   layout: DefaultLayout,
   //   component: () => <Redirect to="/home" />
   // },
-  
-];
 
+];

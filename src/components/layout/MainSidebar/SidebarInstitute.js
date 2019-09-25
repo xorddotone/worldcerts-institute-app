@@ -1,4 +1,4 @@
-import React , { Component} from "react";
+import React, { Component } from "react";
 import {
   Navbar, NavbarBrand,
   Dropdown,
@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 // import '../../../constants/strings'
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
-import {SELECTED_INSTITUTE} from "../../../redux/actions/login-action"
+import { SELECTED_INSTITUTE } from "../../../redux/actions/login-action"
 import { connect } from 'react-redux';
 import { Dispatcher, Constants } from "../../../flux";
 const axios = require('axios');
@@ -24,23 +24,23 @@ class NavbarInstitute extends Component {
     this.state = {
       visible: false,
       name: "WorldCerts",
-      Institutes:[]
+      Institutes: []
     }
     this.onClickInstitute = this.onClickInstitute.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     let temp;
-    let that=this;
+    let that = this;
     console.log(this.props.userData._id)
-    axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
+    axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
       .then(function (response) {
         // handle success
         console.log(response);
-        temp=response.data.result
+        temp = response.data.result
         console.log(temp)
         that.setState({
-          Institutes:temp
+          Institutes: temp
         })
 
       })
@@ -50,94 +50,92 @@ class NavbarInstitute extends Component {
       })
   }
 
-
-
-
   toggleUserActions() {
     this.setState({
       visible: !this.state.visible
     });
   }
 
-  onClickInstitute(val,nameIns) {
-    console.log(val,nameIns, "vallllllllllllll")
+  onClickInstitute(val, nameIns) {
+    console.log(val, nameIns, "vallllllllllllll")
     this.setState({
       name: nameIns
     })
-    let obj={
-      name:nameIns,
-      id:val
+    let obj = {
+      name: nameIns,
+      id: val
     }
     this.props.SELECTED_INSTITUTE(obj)
     // this.props.history.push("/manage_organization")
   }
-  onClickAdd(ev){
+
+  onClickAdd(ev) {
     // ev.preventDefault()
     this.props.history.push("/organization_registration")
   }
-
 
   handleToggleSidebar() {
     Dispatcher.dispatch({
       actionType: Constants.TOGGLE_SIDEBAR
     });
   }
-  render(){
-    return(
-  <div className="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none" style={{  minHeight: "45px" }} >
-  <Navbar
-    className="align-items-stretch bg-white flex-md-nowrap border-bottom p-0"
-    
-    type="light"
-  >
-    {/* <NavbarBrand
+
+  render() {
+    return (
+      <div className="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none" style={{ minHeight: "45px" }} >
+        <Navbar
+          className="align-items-stretch bg-white flex-md-nowrap border-bottom p-0"
+
+          type="light"
+        >
+          {/* <NavbarBrand
       className="w-100"
       href="#"
       style={{ lineHeight: "25px" }}
     > */}
-    <div className="d-table m-auto">
-      <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
-        <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
-         
-           <img
-          id="main-logo"
-          className="d-inline-block align-top mr-1"
-          style={{ maxWidth: "25px" }}
-          src={require("../../../images/logo1.png")}
-          alt="Shards Dashboard"
-        />
+          <div className="d-table m-auto">
+            <NavItem tag={Dropdown} caret toggle={this.toggleUserActions.bind(this)}>
+              <DropdownToggle caret tag={NavLink} className="text-nowrap px-3">
 
-          <span className="d-none d-md-inline-block">{this.props.selectedInstituteName.name}</span>
-        </DropdownToggle>
-        <Collapse tag={DropdownMenu} right small open={this.state.visible}>
-          
-          {(this.state.Institutes)?(
-              <div>
-                {this.state.Institutes.map((names,id)=>(
-                  <DropdownItem to="/manage_organization" tag={Link} key={id}>
-                  <div onClick={() => this.onClickInstitute(names._id,names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
-                </DropdownItem>
-                ))}
-                
-             </div>   
-          ):(
-            null
-          )}
-          {/* onClick={this.onClickAdd.bind(this)} */}
-          <DropdownItem to="/organization_registration" tag={Link}>
+                <img
+                  id="main-logo"
+                  className="d-inline-block align-top mr-1"
+                  style={{ maxWidth: "25px" }}
+                  src={require("../../../images/logo1.png")}
+                  alt="Shards Dashboard"
+                />
+
+                <span className="d-none d-md-inline-block">{this.props.selectedInstituteName.name}</span>
+              </DropdownToggle>
+              <Collapse tag={DropdownMenu} right small open={this.state.visible}>
+
+                {(this.state.Institutes) ? (
+                  <div>
+                    {this.state.Institutes.map((names, id) => (
+                      <DropdownItem to="/manage_organization" tag={Link} key={id}>
+                        <div onClick={() => this.onClickInstitute(names._id, names.companyName)}><i className="material-icons">&#xE7FD;</i> {names.companyName} </div>
+                      </DropdownItem>
+                    ))}
+
+                  </div>
+                ) : (
+                    null
+                  )}
+                {/* onClick={this.onClickAdd.bind(this)} */}
+                <DropdownItem to="/organization_registration" tag={Link}>
                   <i className="material-icons">&#xE7FD;</i> ADD INSTITUTE
           </DropdownItem>
-          
-          
-          {/* <DropdownItem to="#" >
+
+
+                {/* <DropdownItem to="#" >
             <div onClick={() => this.onClickInstitute("Edit Profile")}> <i className="material-icons">&#xE8B8;</i> Edit Profile</div>
           </DropdownItem>
           <DropdownItem to="#" >
             <div onClick={() => this.onClickInstitute("Files")}><i className="material-icons">&#xE2C7;</i> Files</div>
           </DropdownItem> */}
-        </Collapse>
-      </NavItem>
-      {/* <img
+              </Collapse>
+            </NavItem>
+            {/* <img
           id="main-logo"
           className="d-inline-block align-top mr-1"
           style={{ maxWidth: "25px" }}
@@ -149,9 +147,9 @@ class NavbarInstitute extends Component {
             WorldCerts
           </span>
         )} */}
-    </div>
-    {/* </NavbarBrand> */}
-    {/* <a
+          </div>
+          {/* </NavbarBrand> */}
+          {/* <a
       className="toggle-sidebar d-sm-inline d-md-none d-lg-none"
       onClick={this.handleToggleSidebar}
     >
@@ -159,27 +157,27 @@ class NavbarInstitute extends Component {
       <span className="d-none d-md-inline-block">{this.props.selectedInstituteName.name}</span>
 
     </a> */}
-  </Navbar>
-</div>
-);
-      }
-    }
+        </Navbar>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
-    selectedInstituteName:state.user_reducer.selectedInstituteName,
-    userData:state.user_reducer.user
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
+    userData: state.user_reducer.user
     // Title: state.pageTitle,
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     SELECTED_INSTITUTE: (user) => {
       dispatch(SELECTED_INSTITUTE(user))
     },
-    
-    
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(NavbarInstitute);

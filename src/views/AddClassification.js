@@ -1,5 +1,3 @@
-
-
 import React, { Component } from "react";
 import {
   Container, Card,
@@ -34,8 +32,9 @@ import { EditClassification, EditClassificationState } from "../redux/actions/da
 import { Link } from 'react-router-dom'
 
 const duration = [
-  "Choose" , "year", "months", "days"
+  "Choose", "year", "months", "days"
 ]
+
 class InstituteRegistration extends Component {
   constructor(props) {
     super(props);
@@ -50,9 +49,9 @@ class InstituteRegistration extends Component {
       error: "",
       dropdown1: false,
       dropdown2: false,
-      registeredInstitute : [],
-      classificationCategory : [],
-      selectedInstituteId:"",
+      registeredInstitute: [],
+      classificationCategory: [],
+      selectedInstituteId: "",
       alertShow: false,
       alertMessage: "",
       loading: false
@@ -62,44 +61,43 @@ class InstituteRegistration extends Component {
     this.classificationChangeHandler = this.classificationChangeHandler.bind(this)
     this.durationChangeHandler = this.durationChangeHandler.bind(this)
     this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
-    this.onClickOptions=this.onClickOptions.bind(this)
+    this.onClickOptions = this.onClickOptions.bind(this)
     this.dismiss = this.dismiss.bind(this)
     this.onRegisterClick = this.onRegisterClick.bind(this)
   }
-
 
   componentDidMount() {
     console.log(this.props.userData)
     let temp;
     let temp2;
-    let that=this;
-    axios.get(Routes.GET_REGISTERED_INSTITUTES+this.props.userData._id)
+    let that = this;
+    axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
       .then(function (response) {
         // handle success
         console.log(response);
-        let obj = {companyName : "Choose"}
+        let obj = { companyName: "Choose" }
         // response.data.result.push(obj)
-        temp=response.data.result
+        temp = response.data.result
         console.log(temp)
         temp.unshift(obj)
         that.setState({
-          registeredInstitute:temp
+          registeredInstitute: temp
         })
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-      })   
-      axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+      })
+    axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
       .then(function (response) {
         // handle success
         console.log(response);
-        let obj = {categoryName : "Choose"}
-        temp2=response.data.result
+        let obj = { categoryName: "Choose" }
+        temp2 = response.data.result
         console.log(temp2)
         temp2.unshift(obj)
         that.setState({
-          classificationCategory:temp2
+          classificationCategory: temp2
         })
 
       })
@@ -108,6 +106,7 @@ class InstituteRegistration extends Component {
         console.log(error);
       })
   }
+
   instituteNameChangeHandler(ev) {
     // console.log(ev)
     console.log(ev.target.value)
@@ -122,12 +121,12 @@ class InstituteRegistration extends Component {
 
     //   console.log(this.state.duration.toString())
     // }
-    
+
     var reg = new RegExp('^\\d+$');
-    var reg1=new RegExp('[A-Za-z]+');
+    var reg1 = new RegExp('[A-Za-z]+');
     console.log(reg1.test(ev.target.value))
     console.log(reg.test(ev.target.value))
-    if( (reg.test(ev.target.value) && reg1.test(ev.target.value)==false) || ev.target.value ==""){
+    if ((reg.test(ev.target.value) && reg1.test(ev.target.value) == false) || ev.target.value == "") {
       console.log("inside")
 
       this.setState({
@@ -135,7 +134,7 @@ class InstituteRegistration extends Component {
         duration: parseInt(ev.target.value, 10)
       })
     }
-    else{
+    else {
       console.log("else")
     }
   }
@@ -148,120 +147,121 @@ class InstituteRegistration extends Component {
   }
 
   classificationChangeHandler(ev) {
-    console.log(ev.target.value)  
+    console.log(ev.target.value)
     this.setState({
       classification: ev.target.value
     })
   }
-  
+
   timedurationChangeHandler(ev) {
-      console.log(ev.target.value)
+    console.log(ev.target.value)
     this.setState({
       durationValidity: ev.target.value
     })
-  
+
   }
-  onClickOptions(ev){
+  onClickOptions(ev) {
     console.log(ev)
     this.setState({
-      selectedInstituteId:ev
+      selectedInstituteId: ev
     })
   }
 
   onRegisterClick() {
     console.log("#################################################3")
-    console.log(typeof(this.state.duration))
+    console.log(typeof (this.state.duration))
     console.log(this.state.selectedInstituteId)
     this.setState({
-      loading:true
+      loading: true
     })
     console.log(this.props.selectedInstituteName)
-    if(this.props.selectedInstituteName.name=="Select Organization"){
+    if (this.props.selectedInstituteName.name == "Select Organization") {
       console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
-      
+
       this.setState({
         alertShow: true,
         alertMessage: "Select Institute",
         theme: "danger",
-        loading:false
-      
+        loading: false
+
       })
       // alert("up")
       // this.setState({
       //   loading:false
       // })
     }
-    else{
-      let that = this;
-    console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
-    if ( that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
-      
-      that.setState({
-        alertMessage: Strings.ALL_FIELDS_REQUIRED,
-        alertShow: true,
-        theme: "info",
-        loading:false
-      })
-      alert("stop")
-    }
     else {
-      let timeDuration = ""
-      if(that.state.durationValidity == "year"){
-        timeDuration = that.state.duration*31536000
-      }
-      else if(that.state.durationValidity == "months"){
-        timeDuration = that.state.duration* 2592000
+      let that = this;
+      console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
+      if (that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
 
-        
-      }
-      else if(that.state.durationValidity == "days"){
-      }
-      timeDuration = that.state.duration* 86400
-      
-      console.log(timeDuration)
-      let obj = {
-        instituteName: that.props.selectedInstituteName.name,
-        category: that.state.category,
-        classification: that.state.classification,
-        durationValidity: timeDuration,
-         // country: this.state.country,
-        // postalCode: this.state.postalCode
-      }
-      console.log(obj)
-      console.log(that.state.selectedInstituteId)
-      axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-        .then(function (response) {
-
-          // console.log(response.data.data.result);
-          that.setState({
-            loading:false
-          })
-          alert("Classification has been added")
-          that.props.history.push('/manageClassification')
-         
+        that.setState({
+          alertMessage: Strings.ALL_FIELDS_REQUIRED,
+          alertShow: true,
+          theme: "info",
+          loading: false
         })
-        .catch(function (error) {
-          console.log(error);
-          console.log(error.response)
-          console.log(error.response.data.responseMessage)
-          if(error.response.data.responseCode == Response.BAD_REQUEST) { 
+        alert("stop")
+      }
+      else {
+        let timeDuration = ""
+        if (that.state.durationValidity == "year") {
+          timeDuration = that.state.duration * 31536000
+        }
+        else if (that.state.durationValidity == "months") {
+          timeDuration = that.state.duration * 2592000
+
+
+        }
+        else if (that.state.durationValidity == "days") {
+        }
+        timeDuration = that.state.duration * 86400
+
+        console.log(timeDuration)
+        let obj = {
+          instituteName: that.props.selectedInstituteName.name,
+          category: that.state.category,
+          classification: that.state.classification,
+          durationValidity: timeDuration,
+          // country: this.state.country,
+          // postalCode: this.state.postalCode
+        }
+        console.log(obj)
+        console.log(that.state.selectedInstituteId)
+        axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+          .then(function (response) {
+
+            // console.log(response.data.data.result);
             that.setState({
-              alertShow :true,
-              alertMessage: error.response.data.responseMessage,
-              theme: "danger",
               loading: false
             })
-          }
-          // that.setState({
-          //   loading:false
-          // })
-        });
-    }
+            alert("Classification has been added")
+            that.props.history.push('/manageClassification')
+
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.response)
+            console.log(error.response.data.responseMessage)
+            if (error.response.data.responseCode == Response.BAD_REQUEST) {
+              that.setState({
+                alertShow: true,
+                alertMessage: error.response.data.responseMessage,
+                theme: "danger",
+                loading: false
+              })
+            }
+            // that.setState({
+            //   loading:false
+            // })
+          });
+      }
     }
     // this.setState({
     //   loading:false
     // })
   }
+
   dismiss() {
     this.setState({ alertShow: false });
   }
@@ -271,48 +271,49 @@ class InstituteRegistration extends Component {
     newState[which] = !this.state[which];
     this.setState(newState);
   }
-  onClickOptionss(ev){
+
+  onClickOptionss(ev) {
     console.log(ev)
   }
-  onCancelClick(){
-    let obj={
-      category:'',
-      classification:'',
-      durationValidity:null,
-      instituteName:'',
-      _id:''
-  }
+
+  onCancelClick() {
+    let obj = {
+      category: '',
+      classification: '',
+      durationValidity: null,
+      instituteName: '',
+      _id: ''
+    }
     this.props.EditClassification(obj)
     this.props.EditClassificationState(false)
     this.props.history.push("/manageClassification")
   }
-  onSaveClick(){
+
+  onSaveClick() {
     this.setState({
       loading: true
     })
     let that = this;
-    console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
-    if ( that.state.category == "" || this.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || this.state.durationValidity == "Choose") {
+    console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
+    if (that.state.category == "" || this.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || this.state.durationValidity == "Choose") {
       that.setState({
         alertMessage: Strings.ALL_FIELDS_REQUIRED,
         alertShow: true,
         theme: "danger",
-        loading:false
+        loading: false
       })
     }
     else {
       let timeDuration = ""
-      if(that.state.durationValidity == "year"){
-        timeDuration = that.state.duration*31536000
+      if (that.state.durationValidity == "year") {
+        timeDuration = that.state.duration * 31536000
       }
-      else if(that.state.durationValidity == "months"){
-        timeDuration = that.state.duration* 2592000
-
-        
+      else if (that.state.durationValidity == "months") {
+        timeDuration = that.state.duration * 2592000
       }
-      else if(that.state.durationValidity == "days"){
+      else if (that.state.durationValidity == "days") {
       }
-      timeDuration = that.state.duration* 86400
+      timeDuration = that.state.duration * 86400
       console.log(that.props.selectedInstituteName.id)
       console.log(timeDuration)
       let obj = {
@@ -321,7 +322,7 @@ class InstituteRegistration extends Component {
         category: that.state.category,
         classification: that.state.classification,
         durationValidity: timeDuration,
-         // country: this.state.country,
+        // country: this.state.country,
         // postalCode: this.state.postalCode
       }
       console.log(obj)
@@ -331,69 +332,71 @@ class InstituteRegistration extends Component {
 
           // console.log(response.data.data.result);
           that.setState({
-            loading:false
+            loading: false
           })
           alert("Classification has been Updated")
           that.props.history.push('/manageClassification')
-         
+
         })
         .catch(function (error) {
           console.log(error);
           console.log(error.response);
 
-          if(error.response == undefined){
-          that.setState({
-            alertMessage: "Network Error",
-            alertShow: true,
-            theme: "danger",
-            loading:false
-          })
-        }
-        else if(error.response.data.responseCode == Response.BAD_REQUEST){
-          that.setState({
-            alertMessage: error.response.data.responseMessage,
-            alertShow: true,
-            theme: "danger",
-            loading:false
-          })
-        }
-        else{
-          that.setState({
-            alertMessage: error.response.data.responseMessage,
-            alertShow: true,
-            theme: "danger",
-            loading:false
-          })
-        }
+          if (error.response == undefined) {
+            that.setState({
+              alertMessage: "Network Error",
+              alertShow: true,
+              theme: "danger",
+              loading: false
+            })
+          }
+          else if (error.response.data.responseCode == Response.BAD_REQUEST) {
+            that.setState({
+              alertMessage: error.response.data.responseMessage,
+              alertShow: true,
+              theme: "danger",
+              loading: false
+            })
+          }
+          else {
+            that.setState({
+              alertMessage: error.response.data.responseMessage,
+              alertShow: true,
+              theme: "danger",
+              loading: false
+            })
+          }
         });
     }
   }
-  clickEnter(event){
+
+  clickEnter(event) {
     console.log(event.key)
-  
-    if(event.key=="Enter"){
-      if(this.props.editClassificationState){
+
+    if (event.key == "Enter") {
+      if (this.props.editClassificationState) {
         this.onSaveClick()
       }
-      else{
+      else {
 
         this.onRegisterClick()
       }
     }
   }
+  
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-     {(this.props.userData.isVerified)?(
-        null
-        ):(
-          <Alert className="mb-0" open={true} theme="danger">
-          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        {(this.props.userData.isVerified) ? (
+          null
+        ) : (
+            <Alert className="mb-0" open={true} theme="danger">
+              <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
-      )}
-         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
-         <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-      </Alert>
+          )}
+        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+          <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+        </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
@@ -434,10 +437,10 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder = "Category"   >
+                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder="Category"   >
                               {/* <option>category</option> */}
                               {/* {console.log(this.state.classificationCategory)} */}
-                             
+
                               {
                                 this.state.classificationCategory.map((category) => {
                                   return (
@@ -461,22 +464,22 @@ class InstituteRegistration extends Component {
                               value={this.state.classification}
                             />
                           </Col>
-                              <Col md = "6"className="form-group">
+                          <Col md="6" className="form-group">
                             <label >Duration</label>
 
-                          <InputGroup className="mb-3">
-                            <FormInput value={this.state.durationTemp} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
-                            <FormSelect type = "append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
-                              {
-                                duration.map((duration) => {
-                                  return (
-                                    <option>{duration}</option>
+                            <InputGroup className="mb-3">
+                              <FormInput value={this.state.durationTemp} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
+                              <FormSelect type="append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
+                                {
+                                  duration.map((duration) => {
+                                    return (
+                                      <option>{duration}</option>
 
-                                  )
-                                })
-                              }
-                            </FormSelect>
-                          </InputGroup>
+                                    )
+                                  })
+                                }
+                              </FormSelect>
+                            </InputGroup>
                           </Col>
                           {/* <Col md="3" className="form-group">
                             <label >Duration</label>
@@ -572,30 +575,30 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-                        {(this.props.editClassificationState)?(
-                          (this.state.loading)?(<img src = {loader} className = "loader"/>):(
-                             <div>
-                                <span size="sm"  className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onSaveClick.bind(this)}
-                        >Save</span>
-                        <span size="sm" theme = "success"  className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onCancelClick.bind(this)}
-                        >Cancel</span>
-                            
-                            
-                          </div>)
-                         
-                        ):(
-                          (this.state.loading)?(<img src = {loader} className = "loader"/>):(
+                        {(this.props.editClassificationState) ? (
+                          (this.state.loading) ? (<img src={loader} className="loader" />) : (
                             <div>
-                            <span size="sm" className="mb-2 mr-1 worldcerts-button"
-                          onClick={this.onRegisterClick.bind(this)}
-                        >Register</span>
-                         
-                        </div>
-                          )
-                          
-                        )}
+                              <span size="sm" className="mb-2 mr-1 worldcerts-button"
+                                onClick={this.onSaveClick.bind(this)}
+                              >Save</span>
+                              <span size="sm" theme="success" className="mb-2 mr-1 worldcerts-button"
+                                onClick={this.onCancelClick.bind(this)}
+                              >Cancel</span>
+
+
+                            </div>)
+
+                        ) : (
+                            (this.state.loading) ? (<img src={loader} className="loader" />) : (
+                              <div>
+                                <span size="sm" className="mb-2 mr-1 worldcerts-button"
+                                  onClick={this.onRegisterClick.bind(this)}
+                                >Register</span>
+
+                              </div>
+                            )
+
+                          )}
                         {/* {(this.props.editClassificationState)?(
                            <>
                            <span size="sm"  className="mb-2 mr-1 worldcerts-button"
@@ -610,8 +613,8 @@ class InstituteRegistration extends Component {
                           onClick={this.onRegisterClick.bind(this)}
                         >Register</span>
                         )} */}
-                        
-                        
+
+
                       </Form>
                     </Col>
                   </Row>
@@ -630,9 +633,9 @@ const mapStateToProps = (state) => {
   return {
     Title: state.pageTitle,
     userData: state.user_reducer.user,
-    selectedInstituteName:state.user_reducer.selectedInstituteName,
-    editClassificationState:state.dashboard_reducer.editClassificationState,
-    editClassificationData:state.dashboard_reducer.editClassificationData
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
+    editClassificationState: state.dashboard_reducer.editClassificationState,
+    editClassificationData: state.dashboard_reducer.editClassificationData
 
   }
 }

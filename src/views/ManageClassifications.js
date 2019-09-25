@@ -6,7 +6,7 @@ import {
   Card,
   CardBody,
   CardFooter,
-Alert,
+  Alert,
   Button,
   Badge
 } from "shards-react";
@@ -24,7 +24,7 @@ import { EditClassification, EditClassificationState } from "../redux/actions/da
 const axios = require('axios');
 
 class ManageClassifications extends Component {
-  constructor(props) {  
+  constructor(props) {
     super(props);
     this.state = {
       registeredClassifications: [],
@@ -60,110 +60,110 @@ class ManageClassifications extends Component {
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
-    this.onEditClick=this.onEditClick.bind(this)
-    this.onAddClick=this.onAddClick.bind(this)
+    this.onEditClick = this.onEditClick.bind(this)
+    this.onAddClick = this.onAddClick.bind(this)
   }
 
-  async onClickClose(name,classificationId){
+  async onClickClose(name, classificationId) {
     console.log(classificationId)
-    let tempArr=[]
-    for(let i=0;i<this.state.registeredClassifications.length;i++){
-      if(this.state.registeredClassifications[i]._id!=classificationId){
+    let tempArr = []
+    for (let i = 0; i < this.state.registeredClassifications.length; i++) {
+      if (this.state.registeredClassifications[i]._id != classificationId) {
         // console.log(this.state.registeredInstitute[i]._id)
         tempArr.push(this.state.registeredClassifications[i])
       }
     }
     console.log(tempArr)
-    try{
+    try {
       console.log(this.props.userData._id)
-  
+
       let obj = {
-        id :  classificationId,
-        
+        id: classificationId,
+
       }
       console.log(obj)
 
-     let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id ,{data:obj});
-     this.setState({
-      alertShow: true,
-    alertMessage: name + " classification has been deleted",
-    theme: "success",
-    registeredClassifications:tempArr
-    })
-    console.log(request.data)
-    }catch(e){
+      let request = await axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id, { data: obj });
+      this.setState({
+        alertShow: true,
+        alertMessage: name + " classification has been deleted",
+        theme: "success",
+        registeredClassifications: tempArr
+      })
+      console.log(request.data)
+    } catch (e) {
       console.log(e)
     }
-  
   }
+
   dismiss() {
     this.setState({ alertShow: false });
   }
-    // this.props.UpdateTitle("");
-    componentDidMount() {
-      console.log(this.props.userData)
-      let temp;
-      let that=this;
-      // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
-      //   .then(function (response) {
-      //     // handle success
-      //     console.log(response);
-      //     temp=response.data.result
-      //     console.log(temp)
-      //     that.setState({
-      //       registeredClassifications:temp
-      //     })
-  
-      //   })
-      //   .catch(function (error) {
-      //     // handle error
-      //     console.log(error);
-      //   })
-      if(this.props.selectedInstituteName.name!="Select Organization"){
-        console.log("inside if")
-      axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
+  // this.props.UpdateTitle("");
+  componentDidMount() {
+    console.log(this.props.userData)
+    let temp;
+    let that = this;
+    // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log(response);
+    //     temp=response.data.result
+    //     console.log(temp)
+    //     that.setState({
+    //       registeredClassifications:temp
+    //     })
+
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log(error);
+    //   })
+    if (this.props.selectedInstituteName.name != "Select Organization") {
+      console.log("inside if")
+      axios.get(Routes.CLASSIFICATION + this.props.selectedInstituteName.id)
         .then(function (response) {
           // handle success
           console.log(response);
-          temp=response.data.result
+          temp = response.data.result
           console.log(temp)
           that.setState({
-            registeredClassifications:temp
+            registeredClassifications: temp
           })
-  
+
         })
         .catch(function (error) {
           // handle error
           console.log(error);
         })
-      }
-      else{
-        console.log("inside else")
-        this.setState({
-          registeredClassifications:false
-        })
-      }
     }
+    else {
+      console.log("inside else")
+      this.setState({
+        registeredClassifications: false
+      })
+    }
+  }
 
-    onEditClick(data){
-      console.log(data)
-      this.props.EditClassification(data);
-      this.props.EditClassificationState(true);
-      this.props.history.push("/addClassification");
+  onEditClick(data) {
+    console.log(data)
+    this.props.EditClassification(data);
+    this.props.EditClassificationState(true);
+    this.props.history.push("/addClassification");
+  }
+
+  onAddClick() {
+    let obj = {
+      category: "",
+      classification: "",
+      durationValidity: null,
+      instituteName: "",
+      _id: ""
     }
-    onAddClick(){
-      let obj={
-        category:"",
-        classification:"",
-        durationValidity:null,
-        instituteName:"",
-        _id:""
-    }
-      this.props.EditClassification(obj)
-      this.props.EditClassificationState(false)
-      this.props.history.push("/addClassification")
-    }
-  
+    this.props.EditClassification(obj)
+    this.props.EditClassificationState(false)
+    this.props.history.push("/addClassification")
+  }
 
   render() {
     const {
@@ -171,35 +171,35 @@ class ManageClassifications extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-      {(this.props.userData.isVerified)?(
-        null
-        ):(
-          <Alert className="mb-0" open={true} theme="danger">
-          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        {(this.props.userData.isVerified) ? (
+          null
+        ) : (
+            <Alert className="mb-0" open={true} theme="danger">
+              <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
-      )}
-          <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
+          )}
+        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-      </Alert>
+        </Alert>
         <Row noGutters className="page-header py-4">
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
-          <span onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
-          Create
-          <img src = {add} alt = "" height= "17px"/>
-          {/* <i class="material-icons">
+          <span onClick={this.onAddClick} size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
+            Create
+          <img src={add} alt="" height="17px" />
+            {/* <i class="material-icons">
           add
 </i> */}
-      </span>
-      {/* </Link> */}
+          </span>
+          {/* </Link> */}
         </Row>
         {console.log(this.state.registeredClassifications)}
-        {  (this.state.registeredClassifications)?(
-            <Row>
+        {(this.state.registeredClassifications) ? (
+          <Row>
             {this.state.registeredClassifications.map((classification, id) => (
-            //  <div>{console.log(classification)}
-            //   {console.log(id)}</div> 
+              //  <div>{console.log(classification)}
+              //   {console.log(id)}</div> 
               // <Col lg="6" sm="12" className="mb-4" key={id}>
               //   <Card small className="card-post card-post--aside card-post--1">
               //     <div
@@ -220,7 +220,7 @@ class ManageClassifications extends Component {
               //         >
               //           Written by Anna Ken
               //         </a>
-                      
+
               //       </div>
               //     </div>
               //     <CardBody>
@@ -242,11 +242,11 @@ class ManageClassifications extends Component {
               //     </CardBody>
               //   </Card>
               // </Col>
-                <Col lg="4" key={id}>
+              <Col lg="4" key={id}>
                 <Card small className="card-post mb-4">
                   <CardBody>
-                    <h5 className="card-title ">{classification.instituteName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(classification.classification,classification._id)}/></h5>
-                    
+                    <h5 className="card-title ">{classification.instituteName} <img src={cross} className="close-button" onClick={() => this.onClickClose(classification.classification, classification._id)} /></h5>
+
                     <p className="card-text text-muted">{classification.category}</p>
                     <p className="card-text text-muted">{classification.classification}  </p>
                     {/* <p className="card-text text-muted">{institute.companyAddress}  </p>
@@ -261,17 +261,17 @@ class ManageClassifications extends Component {
                         className="card-post__author-avatar card-post__author-avatar--small"
                         style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
                       >
-                       {classification.instituteName}
+                        {classification.instituteName}
                       </a>
                       <div className="d-flex flex-column justify-content-center ml-3">
                         <span className="card-post__author-name">
-                        {classification.durationValidity}
-                         </span>
+                          {classification.durationValidity}
+                        </span>
                         {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
                       </div>
                     </div>
                     <div className="my-auto ml-auto">
-                      <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
+                      <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={() => this.onEditClick(classification)}>
                         {/* <i className="far fa-bookmark mr-1" />  */}
                         EDIT
                       </span>
@@ -279,19 +279,19 @@ class ManageClassifications extends Component {
 
 
 
-                  
-                  
-                  
-                  
+
+
+
+
                   </CardFooter>
                 </Card>
               </Col>
             )
             )}
           </Row>
-        ):(
-      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
-      )}
+        ) : (
+            <div style={{ textAlign: "center", margin: "15% 30%" }}><h3 >Nothing added yet</h3></div>
+          )}
       </Container>
     )
   }
@@ -302,7 +302,7 @@ const mapStateToProps = (state) => {
   return {
     Title: state.pageTitle,
     userData: state.user_reducer.user,
-    selectedInstituteName:state.user_reducer.selectedInstituteName,
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
   }
 }
 

@@ -90,6 +90,7 @@ class emailVerification extends Component {
       this.onClickVerify()
     }
   }
+  
   render() {
     return (
       <Card className="mb-4">

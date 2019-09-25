@@ -8,7 +8,6 @@ import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarNavItems from "./SidebarNavItems";
 import SidebarInstitute from "./SidebarInstitute";
 
-
 class MainSidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +20,7 @@ class MainSidebar extends React.Component {
     this.onChange = this.onChange.bind(this);
 
   }
+
   componentWillMount() {
     Store.addChangeListener(this.onChange);
   }
@@ -36,6 +36,7 @@ class MainSidebar extends React.Component {
       sidebarNavItems: Store.getSidebarItems()
     });
   }
+
   render() {
     const classes = classNames(
       "main-sidebar",
@@ -58,6 +59,7 @@ class MainSidebar extends React.Component {
     );
   }
 }
+
 MainSidebar.propTypes = {
   /**
    * Whether to hide the logo text, or not.
