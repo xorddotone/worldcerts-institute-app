@@ -29,7 +29,6 @@ import ReactFileReader from 'react-file-reader';
 // import "react-table/react-table.css";
 import MaterialTable from 'material-table'
 import certificate from '../images/certificate.png'
-import { generateQrCodes } from '../utils/functions'
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];

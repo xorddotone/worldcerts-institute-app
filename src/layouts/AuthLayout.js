@@ -6,13 +6,13 @@ import "../css/style.css"
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 
 const AuthLayout = ({ children, noNavbar, noFooter }) => (
-  <div  className = "authStyling" >
-  <Container>
+  <div className="authStyling" >
+    <Container>
       {/* <MainSidebar /> */}
-      
-        {!noNavbar && <MainNavbar />}
-        {children}
-  </Container>
+
+      {!noNavbar && <MainNavbar />}
+      {children}
+    </Container>
   </div>
 );
 

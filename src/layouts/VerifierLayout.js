@@ -6,13 +6,13 @@ import "../css/style.css"
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 
 const VerifierLayout = ({ children, noNavbar, noFooter }) => (
-  <div  className = "verifierStyling" >
-  <Container>
+  <div className="verifierStyling" >
+    <Container>
       {/* <MainSidebar /> */}
-      
-        {!noNavbar && <MainNavbar />}
-        {children}
-  </Container>
+
+      {!noNavbar && <MainNavbar />}
+      {children}
+    </Container>
   </div>
 );
 

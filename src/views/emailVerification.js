@@ -16,7 +16,7 @@ import {
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import Register from './Register'
-import * as constants from '../utils/constants'
+import * as Routes from '../constants/apiRoutes'
 import axios from 'axios'
 import logo from '../images/logo.png'
 
@@ -68,7 +68,7 @@ class emailVerification extends Component {
 
       console.log(this.props.userData._id)
 
-      axios.put(constants.server_url + "verifyUser/" + this.props.userData._id, user).then(response => {
+      axios.put(Routes.server_url + "verifyUser/" + this.props.userData._id, user).then(response => {
         console.log(response)
         console.log(response.data.data.result)
         if (response.data.data.result) {
