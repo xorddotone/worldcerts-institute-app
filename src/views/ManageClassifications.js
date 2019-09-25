@@ -24,7 +24,7 @@ import { EditClassification, EditClassificationState } from "../redux/actions/da
 const axios = require('axios');
 
 class ManageClassifications extends Component {
-  constructor(props) {
+  constructor(props) {  
     super(props);
     this.state = {
       registeredClassifications: [],
@@ -73,7 +73,7 @@ class ManageClassifications extends Component {
         tempArr.push(this.state.registeredClassifications[i])
       }
     }
-    // console.log(tempArr)
+    console.log(tempArr)
     try{
       console.log(this.props.userData._id)
   
@@ -153,11 +153,11 @@ class ManageClassifications extends Component {
     }
     onAddClick(){
       let obj={
-        category:'',
-        classification:'',
+        category:"",
+        classification:"",
         durationValidity:null,
-        instituteName:'',
-        _id:''
+        instituteName:"",
+        _id:""
     }
       this.props.EditClassification(obj)
       this.props.EditClassificationState(false)
@@ -171,6 +171,13 @@ class ManageClassifications extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
+      {(this.props.userData.isVerified)?(
+        null
+        ):(
+          <Alert className="mb-0" open={true} theme="danger">
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        </Alert>
+      )}
           <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
       </Alert>
@@ -178,13 +185,13 @@ class ManageClassifications extends Component {
           <PageTitle title="Classifications" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
-          <Button onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
-          Add  
+          <span onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
+          Create
           <img src = {add} alt = "" height= "17px"/>
           {/* <i class="material-icons">
           add
 </i> */}
-      </Button>
+      </span>
       {/* </Link> */}
         </Row>
         {console.log(this.state.registeredClassifications)}
@@ -264,10 +271,10 @@ class ManageClassifications extends Component {
                       </div>
                     </div>
                     <div className="my-auto ml-auto">
-                      <Button size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
+                      <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
                         {/* <i className="far fa-bookmark mr-1" />  */}
                         EDIT
-                      </Button>
+                      </span>
                     </div>
 
 
@@ -283,7 +290,7 @@ class ManageClassifications extends Component {
             )}
           </Row>
         ):(
-      <div><h3 >Nothing added yet</h3></div>
+      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
       )}
       </Container>
     )

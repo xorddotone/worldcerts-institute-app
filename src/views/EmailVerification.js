@@ -42,6 +42,7 @@ class EmailVerification extends Component {
     this.onChangeCode = this.onChangeCode.bind(this)
     // this.onChangePassword = this.onChangePassword.bind(this)
     this.onClickVerify = this.onClickVerify.bind(this)
+    this.sendEmailVerificationCode=this.sendEmailVerificationCode.bind(this)
   }
 
   componentDidMount() {
@@ -61,6 +62,30 @@ class EmailVerification extends Component {
   //       password: event.target.value
   //     })
   //   }
+  sendEmailVerificationCode(){
+
+    axios.put(Routes.RESEND_EMAIL+this.props.userData._id,  ).then(response => {
+      console.log(response)
+      
+    }).catch(err => {
+      console.log(err)
+      console.log(err.response)
+      // if(err.response == undefined){
+      //   this.setState({
+      //     errorMsg: "Network Error",
+      //     loader: false
+      //   })
+      // }
+      // else if(err.response.data.responseCode == Response.BAD_REQUEST){
+      //   this.setState({
+      //     errorMsg: err.response.data.responseMessage,
+      //     loader: false
+      //   })
+      // }
+       
+      console.log(err.response)
+    })
+  }
 
   onClickVerify() {
     this.setState({
@@ -114,12 +139,21 @@ class EmailVerification extends Component {
           this.setState({ errorMsg: Strings.CODE_NOT_EMPTY ,loader:false })
         }
       }).catch(err => {
-        if(err.response.data.responseCode == Response.BAD_REQUEST){
+        console.log(err)
+        console.log(err.response)
+        if(err.response == undefined){
+          this.setState({
+            errorMsg: "Network Error",
+            loader: false
+          })
+        }
+        else if(err.response.data.responseCode == Response.BAD_REQUEST){
           this.setState({
             errorMsg: err.response.data.responseMessage,
             loader: false
           })
         }
+         
         console.log(err.response)
       })
     }
@@ -129,17 +163,17 @@ class EmailVerification extends Component {
     return (
       <Card className="mb-4">
         <Row >
-          <Col md="7">
+          <Col md="6">
             <img src={logo} alt="" style={{ width: "100%" }} />
           </Col>
-          <Col md="5">
+          <Col md="6">
             <ListGroup style={{ margin: "5em 3em" }} >
               <Row >
                 <Col >
-                  <Form >
+                  <div >
                     <Row >
                       <Col className="form-group">
-                        <label>We have sent you the Verification Code at the {this.props.userData.email} Kindly check it</label>
+                        <label>We have sent you the Verification Code at the {this.props.userData.email}. If you have not received email <span style={{color:"blue"}} onClick={this.sendEmailVerificationCode}>click here</span> to resend</label>
                       </Col>
                     </Row>
                     <Row >
@@ -156,12 +190,19 @@ class EmailVerification extends Component {
                     <Row>
                       <Col>
                     <div style={{ textAlign: "center" }}> 
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<Button size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader loader-paddingLeft" />) : (<span size="sm" className ="worldcerts-button" onClick={this.onClickVerify}>Verify</span>)} 
                       <div style={{ color: "red", textAlign: 'center' , marginTop: "1em"  }}>{this.state.errorMsg}</div>
                     </div>
                     </Col>
                     </Row>
-                  </Form>
+                    <Row>
+                      <Col>
+                    <div style={{ textAlign: "center" , fontSize: "13px" , marginTop: "1em"}}> 
+                    <span>if you want to skip now </span><Link to = "/home">click here</Link>
+                    </div>
+                    </Col>
+                    </Row>
+                  </div>
                 </Col>
               </Row>
             </ListGroup>

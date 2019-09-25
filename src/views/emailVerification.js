@@ -83,6 +83,13 @@ class emailVerification extends Component {
     }
   }
 
+  clickEnter(event){
+    console.log(event.key)
+  
+    if(event.key=="Enter"){
+      this.onClickVerify()
+    }
+  }
   render() {
     return (
       <Card className="mb-4">
@@ -104,6 +111,7 @@ class emailVerification extends Component {
                       <Col className="form-group">
                         <label>Verification Code</label>
                         <FormInput
+                        onKeyPress={this.clickEnter.bind(this)}
                           type="text"
                           placeholder="Verification Code"
                           value={this.state.code}
@@ -112,7 +120,7 @@ class emailVerification extends Component {
                       </Col>
                       <div style={{ color: "red", borderBottom: "1px", textAlign: 'center' }}>{this.state.errorMsg}</div>
                     </Row>
-                    <div style={{ textAlign: "center" }}> <Button theme="accent" onClick={this.onClickVerify}>Verify</Button></div>
+                    <div style={{ textAlign: "center" }}> <span onClick={this.onClickVerify}>Verify</span></div>
                   </Form>
                 </Col>
               </Row>

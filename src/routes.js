@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 // Layout Types
 import { DefaultLayout } from "./layouts";
 import  AuthLayout  from "./layouts/AuthLayout";
+import VerifierLayout from "./layouts/VerifierLayout"
 
 // Route Views
 import Register from "./views/Register";
@@ -16,6 +17,10 @@ import ManageClassifications from "./views/ManageClassifications";
 import AddClassification from "./views/AddClassification";
 import IssueCertificate from "./views/IssueCertificate";
 import SingleCertificate from "./views/SingleCertificate";
+import Settings from "./views/settings";
+import Home from "./views/Home";
+import AccountActivation from './views/accountActivation'
+import VerifyApp from './views/verifierApp'
 
 export const routes1= [
   {
@@ -45,7 +50,9 @@ export const routes1= [
     component: AddClassification
   },
   {
-    path: "/userProfile",
+    exact: true,
+
+    path: "/settings/userProfile",
     layout: DefaultLayout,
     component: UserProfile
   },
@@ -73,10 +80,39 @@ export const routes1= [
     component: IssueCertificate
   },
   {
+
     path: "/Certificate",
     layout: DefaultLayout,
     component: SingleCertificate
   },
+  {
+
+    path: "/verifierApp",
+    layout: VerifierLayout,
+    component: VerifyApp
+  },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: AccountActivation
+  },
+  {
+    exact: true,
+
+    path: "/settings",
+    layout: DefaultLayout,
+    component: Settings
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: Home
+  },
+  // {
+  //   // path: "/userProfile",
+  //   layout: DefaultLayout,
+  //   component: () => <Redirect to="/home" />
+  // },
 ];
 export const routes2= [
   {
@@ -103,6 +139,77 @@ export const routes2= [
     layout: AuthLayout,
     component: EmailVerification
   },
+  {
+    path: "/issueCertificate",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  // {
+
+  //   path: "/Certificate",
+  //   layout: DefaultLayout,
+  //   component: SingleCertificate
+  // },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/settings",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+    
+  },
+  {
+    path: "/manage_organization",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/organization_registration",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/manageClassification",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/addClassification",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+    path: "/userProfile",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
+  {
+
+    path: "/Certificate",
+    layout: DefaultLayout,
+    component: SingleCertificate
+  },
+  {
+
+    path: "/verifierApp",
+    layout: VerifierLayout,
+    component: VerifyApp
+  },
+  {
+    // path: "/userProfile",
+    layout: AuthLayout,
+    component: () => <Redirect to="/signin" />
+  },
 ];
 
 export const routes3= [
@@ -111,7 +218,7 @@ export const routes3= [
     exact: true,
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
-  },
+  },  
 
   {
     path: "/register",
@@ -136,9 +243,32 @@ export const routes3= [
     component: ManageInstitutes
   },
   {
-    path: "/institute_registration",
+    path: "/organization_registration",
     layout: DefaultLayout,
     component: InstituteRegistration
   },
+  {
+    exact: true,
+    path: "/settings/userProfile",
+    layout: DefaultLayout,
+    component: UserProfile
+  },
+  {
+    path: "/account_activation",
+    layout: DefaultLayout,
+    component: AccountActivation
+  },
+  {
+    exact: true,
+    path: "/settings",
+    layout: DefaultLayout,
+    component: Settings
+  },
+  {
+    path: "/home",
+    layout: DefaultLayout,
+    component: Home
+  },
+  
 ];
 

@@ -10,7 +10,9 @@
 .userImage{
     width: 9%;
 }
-
+.MuiTableCell-paddingCheckbox {
+    width : 0px !important;
+}
 .nothing-added-yet{
     text-align: center;
     margin: 15% 30%;
@@ -27,12 +29,27 @@
     cursor: default
 }
 
+
 /* .btn-grad:hover { background-position: right center; } */
 .worldcerts-button{
-    padding: 0.5em 3em !important;
+    cursor: pointer;
+    line-height: 1.5;
+    border-radius: .25rem;
+    box-shadow: none;
+    color:white;
+    border: 1px transparent;
+    transition: all 250ms cubic-bezier(.27,.01,.38,1.06);
+    padding: 8px 16px  !important;
     font-size: 12px !important;
     font-weight: bold !important;
-    background-image: linear-gradient(to right, rgb(49, 158, 170) 0%, #3CD3AD 100%, rgb(63, 159, 170) 40%)
+    background-image: linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));
+}
+.worldcerts-button:hover{
+    background-image: linear-gradient(to right, rgb(4, 221, 138), rgb(18, 178, 165));
+}
+
+.react-tel-input input[type=text], .react-tel-input input[type=tel]{
+    width: 100% !important
 }
 .cursor-pointer{
     cursor: pointer !important;
@@ -50,6 +67,19 @@
 }
 .loader-paddingLeft{
     padding-left: 1em;
+}
+.verifierApp{
+    margin: 5em 20em 5em 17em;
+
+}
+.verifierStyling{
+    background: rgb(25,22,71);
+    background: linear-gradient(90deg, rgba(25,22,71,1) 0%, rgba(0,0,0,1) 100%, rgba(0,212,255,1) 100%);
+
+}
+.verifierContainer{
+    padding:10em 10em;
+    height: 100vh;
 }
 @media (max-width:320px)  { 
     .authStyling{

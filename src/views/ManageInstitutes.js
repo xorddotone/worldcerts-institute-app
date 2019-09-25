@@ -21,6 +21,9 @@ import cross from '../images/cross.svg'
 import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import '../css/style.css'
+import { InstituteList } from "../redux/actions/dashboard-action";
+import { SELECTED_INSTITUTE } from "../redux/actions/login-action"
+
 const axios = require('axios');
 
 
@@ -95,7 +98,25 @@ class ManageInstitutes extends Component {
         tempArr.push(this.state.registeredInstitute[i])
       }
     }
-    // console.log(tempArr)
+    console.log(tempArr)
+
+    if(this.props.selectedInstituteName.id==id){
+      let obj = {
+        name: "Select Organization",
+        id: '',
+        url: '',
+        email:"",
+        certificateStore: ''      
+      }
+      this.props.SELECTED_INSTITUTE(obj)
+
+    }
+    
+    this.props.institutesList(tempArr)
+    
+    
+    
+    
     try{
       console.log(id)
       console.log(this.props.userData._id)
@@ -139,72 +160,73 @@ class ManageInstitutes extends Component {
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-         <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
-         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
-      </Alert>
+         
       {(this.props.userData.isVerified)?(
-        <div>
-           
-        <Row noGutters className="page-header py-4">
-          <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-          {/* subtitle="Registration" */}
-          {/* <Link to="/organization_registration"><Button theme="accent">Add</Button></Link> */}
-        </Row>
-        {console.log(this.state.registeredInstitute)}
-      {  (this.state.registeredInstitute)?(
-            <Row>
-        {console.log(this.state.registeredInstitute)}
-              
-            {this.state.registeredInstitute.map((institute, id) => (
-            
-                <Col lg="4" key={id}>
-                <Card small className="card-post mb-4">
-                  <CardBody>
-                    <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
-                    <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
-                    <p className="card-text text-muted">{institute.country}  </p>
-                    <p className="card-text text-muted">{institute.companyAddress}  </p>
-                    <p className="card-text text-muted">{institute.postalCode}  </p>
+        null
+        ):(
+          <Alert className="mb-0" open={true} theme="danger">
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        </Alert>
+      )}
 
-
-                  </CardBody>
-                  <CardFooter className="border-top d-flex">
-                    <div className="card-post__author d-flex">
-                      <a
-                        href="#"
-                        className="card-post__author-avatar card-post__author-avatar--small"
-                        style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
-                      >
-                        {institute.companyWebsite}
-                      </a>
-                      <div className="d-flex flex-column justify-content-center ml-3">
-                        <span className="card-post__author-name">
-                        {institute.companyWebsite}
+<div>
+<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
+         <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
+      </Alert>  
+           <Row noGutters className="page-header py-4">
+             <PageTitle title="Organizations" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+             {/* subtitle="Registration" */}
+             {/* <Link to="/organization_registration"><span theme="accent">Add</span></Link> */}
+           </Row>
+           {console.log(this.state.registeredInstitute)}
+         {  (this.state.registeredInstitute)?(
+               <Row>
+           {console.log(this.state.registeredInstitute)}
+                 
+               {this.state.registeredInstitute.map((institute, id) => (
+               
+                   <Col lg="4" key={id}>
+                   <Card small className="card-post mb-4">
+                     <CardBody>
+                       <h5 className="card-title ">{institute.companyName} <img src = {cross} className = "close-button" onClick = {() => this.onClickClose(institute.companyName,institute._id)}/></h5>
+                       <p className="card-text text-muted">{institute.buisnessRegistrationNumber}</p>
+                       <p className="card-text text-muted">{institute.country}  </p>
+                       <p className="card-text text-muted">{institute.companyAddress}  </p>
+                       <p className="card-text text-muted">{institute.postalCode}  </p>
+   
+   
+                     </CardBody>
+                     <CardFooter className="border-top d-flex">
+                       <div className="card-post__author d-flex">
+                         <a
+                           href="#"
+                           className="card-post__author-avatar card-post__author-avatar--small"
+                           style={{ backgroundImage: `url('${require("../images/logo.png")}')` }}
+                         >
+                           {institute.companyWebsite}
+                         </a>
+                         <div className="d-flex flex-column justify-content-center ml-3">
+                           <span className="card-post__author-name">
+                           {institute.companyWebsite}
+                            </span>
+                           <small className="text-muted">{institute.companyContactNumber}</small>
+                         </div>
+                       </div>
+                       {/* <div className="my-auto ml-auto">
+                         <span size="sm" theme="white">
+                           <i className="far fa-bookmark mr-1" /> Bookmark
                          </span>
-                        <small className="text-muted">{institute.companyContactNumber}</small>
-                      </div>
-                    </div>
-                    {/* <div className="my-auto ml-auto">
-                      <Button size="sm" theme="white">
-                        <i className="far fa-bookmark mr-1" /> Bookmark
-                      </Button>
-                    </div> */}
-                  </CardFooter>
-                </Card>
-              </Col>
-            )
-            )}
-          </Row>
-        ):(
-      <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
-      )}
-        </div>
-        ):(
-        <div style={{textAlign:"center",margin:"15% 30%"}}>
-          <h3 >Verify your account first</h3>
-          <Link to="/emailVerification"><Button size="sm" className = "worldcerts-button">Verify</Button></Link>
-        </div>
-      )}
+                       </div> */}
+                     </CardFooter>
+                   </Card>
+                 </Col>
+               )
+               )}
+             </Row>
+           ):(
+         <div style={{textAlign:"center",margin:"15% 30%"}}><h3 >Nothing added yet</h3></div>
+         )}
+           </div>
         
       </Container>
     )
@@ -215,13 +237,20 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
+    userData: state.user_reducer.user,
+    selectedInstituteName: state.user_reducer.selectedInstituteName,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     // UpdateTitle: (title) => dispatch(pageTitle(title))
+    institutesList: (institutes) => {
+      dispatch(InstituteList(institutes))
+    },
+    SELECTED_INSTITUTE: (user) => {
+      dispatch(SELECTED_INSTITUTE(user))
+    },
   }
 }
 

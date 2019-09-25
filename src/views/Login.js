@@ -86,12 +86,18 @@ class Login extends Component {
       axios.post(Routes.LOGIN_USER, user).then(response => {
         console.log(response)
        if(response.data.responseCode == Response.SUCCESS) {
+         console.log(response.data.result)
           this.props.USER_DATA(response.data.result)
           this.props.LOGIN_STATUS(true)
           this.setState({
             loader:false
           })
-          this.props.history.push('/manage_organization')
+          if(response.data.result.isVerified){
+          this.props.history.push('/home')
+          }
+          else{
+            this.props.history.push('/emailVerification')
+          }
         }
       })
         .catch(err => {
@@ -134,10 +140,16 @@ class Login extends Component {
       })
     }
   }
+clickEnter(event){
+  console.log(event.key)
 
+  if(event.key=="Enter"){
+    this.onClickLogin()
+  }
+}
   render() {
     return (
-      <Card className="mb-4">
+      <Card className="mb-4" >
         <Row >
           <Col md="7">
             <img src={logo} alt="" style={{ width: "100%" }} />
@@ -152,6 +164,7 @@ class Login extends Component {
                       <Col className="form-group">
                         <label>Email</label>
                         <FormInput
+                        onKeyPress={this.clickEnter.bind(this)}
                           type="email"
                           placeholder="Enter your Email Address"
                           value={this.state.email}
@@ -163,6 +176,7 @@ class Login extends Component {
                       <Col className="form-group">
                         <label>Password</label>
                         <FormInput
+                         onKeyPress={this.clickEnter.bind(this)}
                           type="password"
                           placeholder="Password"
                           value={this.state.password}
@@ -183,7 +197,7 @@ class Login extends Component {
                     {/* <img src = {loader} style = {{height : "8%"}} /> */}
                     <div style={{ textAlign: "center" }}> 
                     
-                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<Button size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</Button>)} 
+                    {( this.state.loader ) ? (<img src = {loader} className = "loader" />) : (<span size="sm"  className="mb-2 mr-1 worldcerts-button" onClick={this.onClickLogin}>Login</span>)} 
                     </div>
                   </Form>
                 </Col>
