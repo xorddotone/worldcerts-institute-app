@@ -279,7 +279,7 @@ export const routes3 = [
   {
 
     path: "/verifierApp",
-    layout: VerifierLayout,
+    layout: AuthLayout,
     component: VerifyApp
   },
   {

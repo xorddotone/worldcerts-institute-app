@@ -328,7 +328,7 @@ class IssueCertificate extends Component {
     let result = [];
     let headers = lines[0].split(",");
     for (let i = 1; i < lines.length - 1; i++) {
-      letobj = {};
+      let obj = {};
       let currentline = lines[i].split(",");
       for (let j = 0; j < headers.length; j++) {
         obj[headers[j]] = currentline[j];
