@@ -23,6 +23,8 @@ import * as Strings from '../constants/strings'
 import * as Routes from '../constants/apiRoutes'
 import * as Response from '../constants/responseCodes'
 import loader from '../images/loader.gif'
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
 import ReactPhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/dist/style.css'
 
@@ -42,7 +44,9 @@ class AddClassification extends Component {
       alertShow: false,
       alertMessage: "",
       theme: "",
-      loader: false
+      loader: false,
+      options: countryList().getData(),
+      countryValue: null,
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.buisnessRegistrationNumChangeHandler = this.buisnessRegistrationNumChangeHandler.bind(this)
@@ -94,23 +98,21 @@ class AddClassification extends Component {
     })
   }
 
-  countryChangeHandler(ev) {
-    console.log(ev.target.value)
+  countryChangeHandler(value) {
+    console.log(value)
+    console.log(value.label)
     this.setState({
-      country: ev.target.value
+      countryValue: value , country: value.label
     })
+  
   }
 
   postalcodeChangeHandler(ev) {
-    var reg = new RegExp('^\\d+$');
-    console.log(reg.test(ev.target.value) || ev.target.value == "")
-    if (reg.test(ev.target.value)) {
 
-      console.log(ev.target.value)
-      this.setState({
-        postalCode: ev.target.value
-      })
-    }
+    console.log(ev.target.value)
+    this.setState({
+      postalCode: ev.target.value
+    })
   }
 
   onRegisterClick() {
@@ -140,7 +142,7 @@ class AddClassification extends Component {
     //     console.log(error);
     //   });
     console.log(this.state)
-    if (this.state.buisnessRegistrationNum == " " || this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " || this.state.buisnessRegistrationNum == "" || this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
+    if ( this.state.country == " " || this.state.instituteAddress == " " || this.state.instituteName == " " || this.state.instituteTelephone == " " || this.state.instituteWebsite == " " || this.state.postalCode == " " ||this.state.country == "" || this.state.instituteAddress == "" || this.state.instituteName == "" || this.state.instituteTelephone == "" || this.state.instituteWebsite == "" || this.state.postalCode == "") {
       console.log(Strings.ALL_FIELDS_REQUIRED)
       this.setState({
         ErrorStatus: true,
@@ -156,7 +158,6 @@ class AddClassification extends Component {
       console.log(organization)
       let obj = {
         companyName: this.state.instituteName,
-        businessRegistrationNumber: this.state.buisnessRegistrationNum,
         companyAddress: this.state.instituteAddress,
         companyWebsite: this.state.instituteWebsite,
         companyContactNumber: this.state.instituteTelephone,
@@ -226,7 +227,6 @@ class AddClassification extends Component {
   dismiss() {
     this.setState({ alertShow: false });
   }
-
   clickEnter(event) {
     console.log(event.key)
 
@@ -257,7 +257,7 @@ class AddClassification extends Component {
                       <Form>
                         <Row form>
                           <Col md="6" className="form-group">
-                            <label>Organization Name</label>
+                            <label>Business Legal Name</label>
                             <FormInput
                               onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.instituteNameChangeHandler}
@@ -266,53 +266,28 @@ class AddClassification extends Component {
                             />
                           </Col>
                           <Col md="6" className="form-group">
-                            <label >Business Registration Number (UEN)</label>
-                            <FormInput
-                              onKeyPress={this.clickEnter.bind(this)}
-                              onChange={this.buisnessRegistrationNumChangeHandler}
-                              placeholder="Business Registration Number"
-                              value={this.state.buisnessRegistrationNum}
-                            />
-                          </Col>
-                        </Row>
-                        <Row form>
-                          <Col md="12" className="form-group">
-                            <label>Organization Address</label>
+                          <label>Business Address</label>
                             <FormInput
                               onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.instituteAddressChangeHandler}
-                              placeholder="Organization Address"
+                              placeholder="Business Address"
                               value={this.state.instituteAddress}
                             />
                           </Col>
                         </Row>
                         <Row form>
-                          <Col md="6">
-                            <label>Organization Website</label>
-                            <FormInput
-                              onKeyPress={this.clickEnter.bind(this)}
-                              onChange={this.instituteWebsiteChangeHandler}
-                              placeholder="www.organizationwebsite.com"
-                              value={this.state.instituteWebsite}
-                            />
-                          </Col>
-                          <Col md="6">
-                            <label>Organization Telephone #</label>
-                            <ReactPhoneInput
-                              onKeyPress={this.clickEnter.bind(this)}
-                              defaultCountry={'us'}
-                              value={this.state.instituteTelephone}
-                              onChange={this.instituteTelephoneChangeHandler} />
-                          </Col>
-                        </Row>
-                        <Row form style={{ marginTop: "15px" }}>
                           <Col md="6" className="form-group">
                             <label>Country</label>
-                            <FormInput
-                              onKeyPress={this.clickEnter.bind(this)}
+                            {/* <FormInput
+                      onKeyPress={this.clickEnter.bind(this)}
+                        onChange={this.countryChangeHandler}
+                        placeholder="Country"
+                        value={this.state.country}
+                      /> */}
+                            <Select
+                              options={this.state.options}
+                              value={this.state.countryValue}
                               onChange={this.countryChangeHandler}
-                              placeholder="Country"
-                              value={this.state.country}
                             />
                           </Col>
                           <Col md="6" className="form-group">
@@ -324,13 +299,33 @@ class AddClassification extends Component {
                               value={this.state.postalCode}
                             />
                           </Col>
+                        </Row>
+                        <Row form style={{ marginTop: "15px" }}>
+
+                          <Col md="6">
+                            <label>Business Website</label>
+                            <FormInput
+                              onKeyPress={this.clickEnter.bind(this)}
+                              onChange={this.instituteWebsiteChangeHandler}
+                              placeholder="Business Website"
+                              value={this.state.instituteWebsite}
+                            />
+                          </Col>
+                          <Col md="6">
+                            <label>Business Contact No</label>
+                            <ReactPhoneInput
+                              onKeyPress={this.clickEnter.bind(this)}
+                              defaultCountry={'us'}
+                              value={this.state.instituteTelephone}
+                              onChange={this.instituteTelephoneChangeHandler} />
+                          </Col>
 
                         </Row>
                         <hr />
 
                         {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Register</span>)}
+                        >Create</span>)}
                       </Form>
                     </Col>
                   </Row>

@@ -229,7 +229,7 @@ class SidebarNavItems extends React.Component {
               <DropdownItem to="/organization_registration" tag={Link}>
                 <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
-                Add New Account
+              Create New Account
         </DropdownItem>
             </Collapse>
           </NavItem>
