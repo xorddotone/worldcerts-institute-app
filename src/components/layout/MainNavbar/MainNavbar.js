@@ -15,7 +15,7 @@ const MainNavbar = ({ layout, stickyTop }) => {
 
   return (
     <div className={classes}>
-      <Container className="p-0">
+      <Container className="">
         {/* <Navbar type="light" className=" d-flex justify-content-end flex-md-nowrap p-0"> */}
         <Navbar type="light" className=" d-flex justify-content-end flex-md-nowrap p-0">
         
