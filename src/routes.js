@@ -14,7 +14,7 @@ import InstituteRegistration from "./views/InstituteRegistration";
 import EmailVerification from "./views/EmailVerification";
 import ManageInstitutes from "./views/ManageInstitutes";
 import ManageClassifications from "./views/ManageClassifications";
-import AddClassification from "./views/AddClassification";
+import AddClassification from "./components/Classification/addClassificationLayout";
 import IssueCertificate from "./views/IssueCertificate";
 import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
