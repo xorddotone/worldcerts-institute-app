@@ -24,6 +24,12 @@ export const GET_PARTICIPANT_DATA = SERVER_URL + "participation/"
 export const RESEND_EMAIL = SERVER_URL + "sendVerificationCode/"
 
 
+// Cloudinary Constants
+
+export const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/worldcertdemo/image/upload"
+export const CLOUDINARY_PRESET = "easydemo"
+
+
 
 
 

@@ -37,6 +37,8 @@ import { Link , withRouter } from 'react-router-dom'
 const duration = [
   "Choose" , "year", "months", "days"
 ]
+var CLOUDINARY_API = 'https://api.cloudinary.com/v1_1/demoworldcert/upload'
+var CLOUDINARY_PRESET = 'demoWorldCertification'
 class RegisterClassification extends Component {
   constructor(props) {
     super(props);
@@ -56,19 +58,25 @@ class RegisterClassification extends Component {
       selectedInstituteId:"",
       alertShow: false,
       alertMessage: "",
-      loading: false
+      loading: false,
+      certificateImageURL: ''
     }
     this.onRegisterClick = this.onRegisterClick.bind(this)
     this.dismiss = this.dismiss.bind(this)
   }
 
+  componentDidMount(){
+    
+  }
 
-  onRegisterClick() {
+
+ async onRegisterClick() {
     console.log("#################################################3")
     console.log(this.props.classificationName ,this.props.classificationCategory,this.props.classificationDuration,this.props.classificationDurationValidity )
     console.log(typeof(this.props.classificationDuration))
     console.log(this.props.classificationCertificate)
     console.log(this.props.classificationFields)
+    let imageURL = ''
     // console.log(this.state.selectedInstituteId)
     this.setState({
       loading:true
@@ -117,12 +125,26 @@ class RegisterClassification extends Component {
       timeDuration = that.props.classificationDuration* 86400
       
       console.log(timeDuration)
+      let imageFile = this.props.classificationCertificate
+    console.log(imageFile)
+    var formData = new FormData()
+    formData.append('file',imageFile)
+    formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+    await axios.post(Routes.CLOUDINARY_API,formData)
+    .then( function(res){
+        console.log(res)
+        console.log(res.data.secure_url)
+        imageURL  =res.data.secure_url
+    })
+    .catch(function(err) {
+      console.log("err" , err)
+    })
       let obj = {
         instituteName: that.props.selectedInstituteName.name,
         category: that.props.classificationCategory,
         classification: that.props.classificationName,
         durationValidity: timeDuration,
-        certificateImageUrl: URL.createObjectURL(that.props.classificationCertificate),
+        certificateImageUrl:imageURL,
         dynamicCertificateFields: that.props.classificationFields
         
          // country: this.state.country,
