@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDrop } from 'react-dnd'
 import ItemTypes from './ItemTypes'
 import Box from './Box'
@@ -19,10 +19,10 @@ const Container = ({ hideSourceOnDrag }) => {
   //   b: { top: 60, left: 920, title: 'Drag me too' },
   // })
   const dispatch = useDispatch()
-  const image =  useSelector(state => state.dashboard_reducer.image)
+  const image = useSelector(state => state.dashboard_reducer.image)
   const [fields, setFields] = useState([]);
-  const [boxTop , setTop] = useState(0)
-  const [boxLeft , setLeft] = useState(0)
+  const [boxTop, setTop] = useState(0)
+  const [boxLeft, setLeft] = useState(0)
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop(item, monitor) {
@@ -36,13 +36,8 @@ const Container = ({ hideSourceOnDrag }) => {
     },
   })
   const moveBox = (id, left, top) => {
-    console.log("Fields in Move Box",fields)
-    console.log("left ==> " , left , "top ==> ", top)
-    console.log("imageWidth => ",document.getElementById("DnDImage").clientWidth);
-    console.log("imageHeight=> ",document.getElementById("DnDImage").clientHeight);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
-    console.log("Fields ==> ",fields)
 
     setFields(
       update(fields, {
@@ -51,108 +46,64 @@ const Container = ({ hideSourceOnDrag }) => {
         },
       }),
     )
-    console.log("Fields after update",fields)
-     let tempField = JSON.parse(JSON.stringify(fields))
-    console.log("tempFields ==> ",tempField)
-    console.log("Fields ==> ",fields)
-    //  tempFields[id].left = left
-    //  tempFields[id].top = top
-    let tops = null
-    let lefts = null
-     for(let i = 0 ; i< tempField.length ;i++ ){
-      console.log("In for loop")
-      console.log(tempField)
-      console.log(i)
-      console.log(tempField[i])
-      if(imageHeight > top && imageWidth > left){
-      tops = convertPxToPercentage(imageHeight,top)
-      lefts = convertPxToPercentage(imageWidth,left)
-      tempField[id].left = lefts
-      tempField[id].top = tops
+    let tempField = JSON.parse(JSON.stringify(fields))
+    for (let i = 0; i < tempField.length - 1; i++) {
+      let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+      let lefts = convertPxToPercentage(imageWidth, tempField[i].left)
+      tempField[i].left = lefts
+      tempField[i].top = tops
     }
+
+    let tops = convertPxToPercentage(imageHeight, top)
+    let lefts = convertPxToPercentage(imageWidth, left)
+    tempField[id].left = lefts
+    tempField[id].top = tops
+    console.log("tempFields ==> ", tempField)
+
+    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
+
   }
-    console.log("tempFields ==> ",tempField)
-     
-    dispatch({type : 'CLASSIFICATION_FIELDS',payload: tempField})
 
-     console.log(tops , lefts)
-  } 
-
-  useEffect( () => {
-    console.log("container =>" , document.getElementById("DnDContainer").clientWidth);
-    console.log("imageWidth => ",document.getElementById("DnDImage").clientWidth);
+  useEffect(() => {
     let left = document.getElementById("DnDImage").clientWidth;
-    console.log(typeof(left))
-    // setTop(prev => prev+4)
+    console.log(typeof (left))
     setTop(4)
     setLeft(left)
-    // const values = [...fields];
-    // let imageWidth = document.getElementById("DnDImage").clientWidth
-    // for(let i = 0 ; i< values.length , i++){
-    //   values
     return () => {
       console.log(fields)
-      // let check = false
-      // for(let i=0 ; i<= fields.length ; i++){
-      //   if(fields[i].value == null){
-      //     alert("You cant pass the empty value else you can close the fields")
-      //     return
-      //   }
-      //   else {
-      //     check = true
-      //   }
-      // }
-      // if(check){
-      // console.log(fields)
-      // }
     }
-    // }
-  },[])
+  }, [])
 
- function convertPxToPercentage(image , box){
-   let percentage = (box/image) * 100
-   return percentage
- }
+  function convertPxToPercentage(image, box) {
+    console.log("In percentage")
+    let percentage = (box / image) * 100
+    return percentage
+  }
   function handleChange(i, event) {
     const values = [...fields];
     values[i].value = event.target.value;
-    console.log("values in Handle CHange",values)
     setFields(values);
-
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(fields))
-    console.log("tempFields ==> ",tempFields)
-    console.log("Fields ==> ",fields)
-    console.log(tempFields.length)
-    for(let i = 0 ; i< tempFields.length ;i++ ){
-      console.log("In for loop")
-      console.log(tempFields)
-      console.log(i)
-      console.log(tempFields[i])
-      let top = tempFields[i].top
-      let left = tempFields[i].left
-      if(imageHeight > top && imageWidth > left){
-       let tops = convertPxToPercentage(imageHeight,top)
-       let lefts = convertPxToPercentage(imageWidth,left)
-       tempFields[i].left = lefts
-       tempFields[i].top = tops
+    for (let i = 0; i < tempFields.length; i++) {
+      if (imageHeight > tempFields[i].top || imageWidth > tempFields[i].left) {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
+        tempFields[i].left = lefts
+        tempFields[i].top = tops
+      }
     }
-  }
-    
-    console.log("tempFields ==> ",tempFields)
-     
-    dispatch({type : 'CLASSIFICATION_FIELDS',payload: tempFields})
-
-
+    console.log("tempFields ==> ", tempFields)
+    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
   }
 
   function handleAdd() {
     const values = [...fields];
-    console.log("boxTop==>" , boxTop , "boxLeft==>" , boxLeft)
-    values.push({ top: boxTop, left: boxLeft,value: null });
+    console.log("boxTop==>", boxTop, "boxLeft==>", boxLeft)
+    values.push({ top: boxTop, left: boxLeft, value: null });
     console.log(values)
-    setFields( values);
+    setFields(values);
 
   }
 
@@ -162,38 +113,38 @@ const Container = ({ hideSourceOnDrag }) => {
     setFields(values);
   }
   return (
-    
-    <div id = "DnDContainer" ref={drop} style={styles}>
-       
+
+    <div id="DnDContainer" ref={drop} style={styles}>
+
       {Object.keys(fields).map((field, idx) => {
-      const { left, top, title } = fields[idx]
-      console.log(fields[idx].value)
+        const { left, top, title } = fields[idx]
+        console.log(fields[idx].value)
         return (
           <div key={`${field}-${idx}`}>
-          {console.log(field,idx)}
-            
-             <Box
-            key={idx}
-            id={idx}
-            left={left}
-            top={top}
-            value={fields}
-            hideSourceOnDrag={hideSourceOnDrag}
-          >
-            <input
-              type="text"
-              placeholder="Enter text"
-              value={fields[idx].value}
-              onChange={e => handleChange(idx, e)}
-            />
-            <button type="button" onClick={() => handleRemove(idx)}>
-              X
+            {console.log(field, idx)}
+
+            <Box
+              key={idx}
+              id={idx}
+              left={left}
+              top={top}
+              value={fields}
+              hideSourceOnDrag={hideSourceOnDrag}
+            >
+              <input
+                type="text"
+                placeholder="Enter text"
+                value={fields[idx].value}
+                onChange={e => handleChange(idx, e)}
+              />
+              <button type="button" onClick={() => handleRemove(idx)}>
+                X
             </button>
             </Box>
           </div>
         );
       })}
-      <img id = "DnDImage" src = {URL.createObjectURL(image)} width= "75%" />
+      <img id="DnDImage" src={URL.createObjectURL(image)} width="75%" />
       <button type="button" onClick={() => handleAdd()}>
         Add fields
       </button>
@@ -211,7 +162,7 @@ const Container = ({ hideSourceOnDrag }) => {
           </Box>
         )
       })} */}
-      
+
     </div>
   )
 }
