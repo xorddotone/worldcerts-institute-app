@@ -76,7 +76,10 @@ const Container = ({ hideSourceOnDrag }) => {
 
   function convertPxToPercentage(image, box) {
     console.log("In percentage")
+    console.log("box => " , box)
+    console.log("image => " , image)
     let percentage = (box / image) * 100
+    console.log("percentage => " , percentage)
     return percentage
   }
   function handleChange(i, event) {
@@ -85,15 +88,13 @@ const Container = ({ hideSourceOnDrag }) => {
     setFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
-    let tempFields = JSON.parse(JSON.stringify(fields))
+    let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
-      if (imageHeight > tempFields[i].top || imageWidth > tempFields[i].left) {
         let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
         tempFields[i].left = lefts
         tempFields[i].top = tops
       }
-    }
     console.log("tempFields ==> ", tempFields)
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
   }
@@ -108,9 +109,30 @@ const Container = ({ hideSourceOnDrag }) => {
   }
 
   function handleRemove(i) {
+    console.log("fields before ==> ", fields)
+
     const values = [...fields];
+    console.log("fields before ==> ", fields)
+    console.log("values before ==> ", values)
     values.splice(i, 1);
+    console.log("values after splice ==> ", values)
     setFields(values);
+    console.log("values after set ==> ",values)
+    let imageHeight = document.getElementById("DnDImage").clientHeight
+    let imageWidth = document.getElementById("DnDImage").clientWidth
+    let tempFields = JSON.parse(JSON.stringify(values))
+    console.log("tempFields after parse==> ", tempFields)
+    console.log("values after parse ==> ", values)
+
+    for (let i = 0; i < tempFields.length; i++) {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
+        tempFields[i].left = lefts
+        tempFields[i].top = tops
+    }
+    console.log("tempFields => " , tempFields)
+    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
+
   }
   return (
 

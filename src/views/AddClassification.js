@@ -456,7 +456,7 @@ class InstituteRegistration extends Component {
                             </FormSelect>
                           </Col>
                         </Row>
-                        <Row form>
+                        <Row >
 
                           <Col md="6" className="form-group">
                             <label >Classification</label>
