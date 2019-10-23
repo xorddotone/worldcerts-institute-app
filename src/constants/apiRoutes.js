@@ -26,8 +26,8 @@ export const RESEND_EMAIL = SERVER_URL + "sendVerificationCode/"
 
 // Cloudinary Constants
 
-export const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/worldcertdemo/image/upload"
-export const CLOUDINARY_PRESET = "easydemo"
+export const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/da2sdh0h1/image/upload"
+export const CLOUDINARY_PRESET = "cupxjjdc"
 
 
 
