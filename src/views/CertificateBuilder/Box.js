@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from 'react-dnd'
 import ItemTypes from './ItemTypes'
+import FontPicker from "font-picker-react";
+import {
+  FormSelect,
+} from "shards-react";
 const style = {
   position: 'absolute',
   border: '1px dashed gray',
   backgroundColor: 'white',
-  padding: '0.5rem',
+  padding: '',
   cursor: 'move',
 }
-const Box = ({ id, left, top,value, hideSourceOnDrag, children }) => {
+const Box = ({ id, left, top, value, hideSourceOnDrag, children }) => {
   // console.log({ id, left, top,value, hideSourceOnDrag, children })
   console.log(value[id].value)
-  let val=value[id].value;
+  let val = value[id].value;
   const [{ isDragging }, drag] = useDrag({
-    
-    item: { id, left, top, type: ItemTypes.BOX,val },
-    
+
+    item: { id, left, top, type: ItemTypes.BOX, val },
+
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -25,7 +30,6 @@ const Box = ({ id, left, top,value, hideSourceOnDrag, children }) => {
   }
   return (
     <div ref={drag} style={{ ...style, left, top }}>
-    {/* {console.log(item)} */}
       {children}
     </div>
   )

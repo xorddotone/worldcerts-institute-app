@@ -22,7 +22,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "shards-react"; import PageTitle from "../components/common/PageTitle";
+} from "shards-react"; 
+import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
@@ -456,7 +457,7 @@ class InstituteRegistration extends Component {
                             </FormSelect>
                           </Col>
                         </Row>
-                        <Row form>
+                        <Row >
 
                           <Col md="6" className="form-group">
                             <label >Classification</label>

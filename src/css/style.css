@@ -132,6 +132,15 @@
 .MuiPaper-root{
     background-color: transparent !important
 }
+
+.fontFormatting{
+    width : 23% !important;
+    border-radius : 0 !important
+}
+div[id^=font-picker]{
+    width: 54% !important
+}
+
 @media (max-width:320px)  { 
     .authStyling{
         width: 100% !important;
