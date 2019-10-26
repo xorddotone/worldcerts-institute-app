@@ -5,10 +5,18 @@ import Box from './Box'
 import update from 'immutability-helper'
 import { useDispatch, useSelector } from "react-redux";
 import FontPicker from "font-picker-react";
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+
 import {
 
   FormSelect,
-  FormCheckbox
+  FormCheckbox,
+  Row,
+  Col,
 } from "shards-react";
 
 const Checkbox = ({ type = "checkbox", name, checked = false, onChange }) => {
@@ -35,48 +43,12 @@ const Container = ({ hideSourceOnDrag }) => {
   const [fields, setFields] = useState([]);
   const [fontSizes, setFontSize] = useState([]);
   const [activeFontSize, setActiveFontSize] = useState(6)
-  // const fontDecoration = [
-  //   {
-  //     name: 'bold',
-  //     key: "bold",
-  //     label: "bold"
-  //   },
-  //   {
-  //     name: 'italic',
-  //     key: "italic",
-  //     label: "italic"
-  //   },
-  //   {
-  //     name: 'underline',
-  //     key: "underline",
-  //     label: "underline"
-  //   }
-  // ]
   const [activeFontDecoration, setActiveFontDecoration] = useState(6)
+  const [editorState,setEditorState] = useState([])
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const [activeFontFamily, setActiveFontFamily] = useState("Open Sans")
-  const [checkedItems, setCheckedItems] = useState({});
-  const handleeChange = event => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked
-    });
-    console.log("checkedItems: ", checkedItems);
-  };
 
-  const checkboxes = [
-    {
-      name: "check-box-1",
-      key: "checkBox1",
-      label: "Check Box 1"
-    },
-    {
-      name: "check-box-2",
-      key: "checkBox2",
-      label: "Check Box 2"
-    }
-  ];
 
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
@@ -143,9 +115,14 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("percentage => ", percentage)
     return percentage
   }
-  function handleChange(i, event) {
+  function handleChange(i,editorStateValue) {
+    console.log(editorStateValue)
+    const tempEditorState = [...editorState]
+    tempEditorState[i] = editorStateValue
+    setEditorState(tempEditorState)
+   console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
     const values = [...fields];
-    values[i].value = event.target.value;
+    values[i].value = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     setFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
@@ -161,9 +138,12 @@ const Container = ({ hideSourceOnDrag }) => {
   }
 
   function handleAdd() {
+    const tempEditorState = [...editorState]
+    tempEditorState.push(EditorState.createEmpty())
+    setEditorState(tempEditorState)
     const values = [...fields];
     console.log("boxTop==>", boxTop, "boxLeft==>", boxLeft)
-    values.push({ top: boxTop, left: boxLeft, value: null });
+    values.push({ top: boxTop, left: boxLeft, value: EditorState.createEmpty(), });
     console.log(values)
     setFields(values);
 
@@ -204,19 +184,7 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log(ev.target.value)
     setActiveFontDecoration(ev.target.value)
   }
-  // function handleDecorationChange(e, styling) {
-  //   const newState = {};
-  //   newState[styling] = !this.state[fruit];
-  //   this.setState({ ...this.state, ...newState });
-  // }
 
-  const handleDecorationChange = event => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked
-    });
-    console.log("checkedItems: ", checkedItems);
-  };
   return (
     <div id="DnDContainer" ref={drop} style={styles}>
       {console.log(fontSizes)}
@@ -236,73 +204,55 @@ const Container = ({ hideSourceOnDrag }) => {
               value={fields}
               hideSourceOnDrag={hideSourceOnDrag}
             >
-              <div style={{ display: "" }}>
-                <FontPicker
-                  apiKey="AIzaSyAmqQ1A8OI23qP1KGqzL1ICoo5ax7EFdzM"
-                  activeFontFamily={activeFontFamily}
-                  onChange={nextFont => setActiveFontFamily(nextFont.family)}
-                />
-                <FormSelect
-                  onChange={() => fontSizeChangeHandler}
-                  className="fontFormatting"
-                  placeholder="fontSize"   >
-                  {
-                    fontSizes.map((fontSize) => {
-                      return (
-                        <option >{fontSize}</option>
-                      )
-                    })
-                  }
-                </FormSelect>
-                <FormSelect
-                  onChange={() => fontDecorationChangeHandler}
-                  className="fontFormatting"
-                  placeholder="fontSize"   >
-                  {/* {
-                    fontDecoration.map((item) => {
-                      return (
-                        <option >
-                          <label key={item.key}>
-                            {item.name}
-                            <Checkbox
-                              name={item.name}
-                              checked={checkedItems[item.name]}
-                              onChange={handleDecorationChange}
-                            />
-                          </label>
-                        </option>
-                      )
-                    })
-                  } */}
-                  
-                  {checkboxes.map(item => (
-                     <option>
-                     <label key={item.key}>
-                       {item.name}
-                       <Checkbox
-                         name={item.name}
-                         checked={checkedItems[item.name]}
-                         onChange={handleeChange}
-                       />
-                     </label>
-                     </option>
-                   ))}
-                 
-                </FormSelect>
-              </div>
-              <div style={{ display: "inline-flex" }}>
-                <input
-                  type="text"
-                  placeholder="Enter text"
-                  value={fields[idx].value}
-                  onChange={e => handleChange(idx, e)}
-                  className="apply-font"
-                  style={{ width: '250px' }}
-                />
-                <button type="button" onClick={() => handleRemove(idx)}>
-                  X
-            </button>
-              </div>
+              <Row>
+<Col md = "11">
+<Editor
+  wrapperClassName="wrapper-class"
+  editorClassName="editor-class"
+  toolbarClassName="toolbar-class"
+  // toolbarOnFocus
+  toolbar={{
+    options: ['inline','textAlign','fontSize', 'fontFamily',],
+    inline: {
+      inDropdown: true,
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+      options: ['bold', 'italic', 'underline'],
+    },
+    fontSize: {
+      // icon: fontSize,
+      options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+    },
+    fontFamily: {
+      options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+    },
+    textAlign: {
+      inDropdown: true,
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+      options: ['left', 'center', 'right', 'justify'],
+    },
+  }}
+  editorState={editorState[idx]}
+  onEditorStateChange={e => handleChange( idx,e)}
+
+/> 
+</Col>
+  <Col md = "1">
+<button   onClick={() => handleRemove(idx)}>
+    X
+</button>
+</Col>
+
+</Row>
             </Box>
           </div>
         );
@@ -311,18 +261,7 @@ const Container = ({ hideSourceOnDrag }) => {
       <button type="button" onClick={() => handleAdd()}>
         Add fields
       </button>
-      {checkboxes.map(item => (
-                     
-                     <label key={item.key}>
-                       {item.name}
-                       <Checkbox
-                         name={item.name}
-                         checked={checkedItems[item.name]}
-                         onChange={handleeChange}
-                       />
-                     </label>
-                     
-                   ))}
+     
       {/* {Object.keys(boxes).map(key => {
         const { left, top, title } = boxes[key]
         return (
@@ -337,6 +276,7 @@ const Container = ({ hideSourceOnDrag }) => {
           </Box>
         )
       })} */}
+      
 
     </div>
   )
