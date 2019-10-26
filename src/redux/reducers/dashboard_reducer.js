@@ -1,47 +1,103 @@
-import { TOGGLE_SWITCH,EDIT_CLASSIFICATION_DATA,EDIT_CLASSIFICATION_STATE,UPLOADED_FILE_DATA,UPLOADED_FILE_FORMAT } from "../actions/dashboard-action";
+import {
+    TOGGLE_SWITCH,
+    EDIT_CLASSIFICATION_DATA,
+    EDIT_CLASSIFICATION_STATE,
+    UPLOADED_FILE_DATA,
+    UPLOADED_FILE_FORMAT,
+    UPLOADED_IMAGE,
+    CLASSIFICATION_INSTITUTE_NAME,
+    CLASSIFICATION_CATEGORY,
+    CLASSIFICATION_NAME,
+    CLASSIFICATION_DURATION,
+    CLASSIFICATION_DURATION_VALIDITY,
+    CLASSIFICATION_FIELDS
+} from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
-    uploadedFileData:{},
-    FileFormatFlag:false,
-    toggle_switch_state : false,
-    editClassificationData:{
-        category:'',
-        classification:'',
-        durationValidity:null,
-        instituteName:'',
-        _id:''
+    uploadedFileData: {},
+    FileFormatFlag: false,
+    toggle_switch_state: false,
+    editClassificationData: {
+        category: '',
+        classification: '',
+        durationValidity: null,
+        instituteName: '',
+        _id: '',
     },
-    editClassificationState:false
-} 
+    editClassificationState: false,
+    image: {},
+    //  Classification attributes
+    registerClassificationInstituteName: "",
+    registerClassificationName: "",
+    registerClassificationCategory: "",
+    registerClassificationDuration: null,
+    registerClassificationDurationValidity: "",
+    classificationFields: {}
+}
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case TOGGLE_SWITCH:
-        return({ 
-            ...state,
-            toggle_switch_state : action.payload
-        })
+            return ({
+                ...state,
+                toggle_switch_state: action.payload
+            })
         case EDIT_CLASSIFICATION_DATA:
-        return({ 
-            ...state,
-            editClassificationData : action.payload
-        })
+            return ({
+                ...state,
+                editClassificationData: action.payload
+            })
         case EDIT_CLASSIFICATION_STATE:
-        return({ 
-            ...state,
-            editClassificationState : action.payload
-        })
+            return ({
+                ...state,
+                editClassificationState: action.payload
+            })
         case UPLOADED_FILE_DATA:
-        return({ 
-            ...state,
-            uploadedFileData : action.payload
-        })
+            return ({
+                ...state,
+                uploadedFileData: action.payload
+            })
         case UPLOADED_FILE_FORMAT:
-        return({ 
-            ...state,
-            FileFormatFlag : action.payload
-        })
-        default: 
-        return state
+            return ({
+                ...state,
+                FileFormatFlag: action.payload
+            })
+        case UPLOADED_IMAGE:
+            return ({
+                ...state,
+                image: action.payload
+            })
+        case CLASSIFICATION_INSTITUTE_NAME:
+            return ({
+                ...state,
+                registerClassificationInstituteName: action.payload
+            })
+        case CLASSIFICATION_CATEGORY:
+            return ({
+                ...state,
+                registerClassificationCategory: action.payload
+            })
+        case CLASSIFICATION_NAME:
+            return ({
+                ...state,
+                registerClassificationName: action.payload
+            })
+        case CLASSIFICATION_DURATION:
+            return ({
+                ...state,
+                registerClassificationDuration: action.payload
+            })
+            case CLASSIFICATION_DURATION_VALIDITY:
+            return ({
+                ...state,
+                registerClassificationDurationValidity: action.payload
+            })
+            case CLASSIFICATION_FIELDS:
+            return ({
+                ...state,
+                classificationFields: action.payload
+            })
+        default:
+            return state
     }
 }

@@ -188,11 +188,11 @@ class UserProfile extends Component {
   onClickSaveInModal() {
     console.log(" In update ")
     var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    console.log(reg.test(this.state.password))
+    console.log(reg.test(this.state.newPassword))
     this.setState({
       modalLoader: true
     })
-    if (!reg.test(this.state.password)) {
+    if (!reg.test(this.state.newPassword)) {
       this.setState({
         modalLoader:false,
         showStrongPasswordError: true,

@@ -30,7 +30,7 @@ import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
-import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationCategory, ClassificationInstituteName, ClassificationDuration, ClassificationDurationValidity, ClassificationName } from "../redux/actions/dashboard-action"
 import { Link } from 'react-router-dom'
 
 const duration = [
@@ -114,6 +114,7 @@ class InstituteRegistration extends Component {
     this.setState({
       instituteName: ev.target.value
     })
+
   }
 
   durationChangeHandler(ev) {
@@ -134,6 +135,8 @@ class InstituteRegistration extends Component {
         durationTemp: ev.target.value,
         duration: parseInt(ev.target.value, 10)
       })
+
+      this.props.ClassificationDuration(parseInt(ev.target.value, 10))
     }
     else{
       console.log("else")
@@ -145,6 +148,7 @@ class InstituteRegistration extends Component {
     this.setState({
       category: ev.target.value
     })
+    this.props.ClassificationCategory(ev.target.value)
   }
 
   classificationChangeHandler(ev) {
@@ -152,6 +156,7 @@ class InstituteRegistration extends Component {
     this.setState({
       classification: ev.target.value
     })
+    this.props.ClassificationName(ev.target.value)
   }
   
   timedurationChangeHandler(ev) {
@@ -159,6 +164,7 @@ class InstituteRegistration extends Component {
     this.setState({
       durationValidity: ev.target.value
     })
+    this.props.ClassificationDurationValidity(ev.target.value)
   
   }
   onClickOptions(ev){
@@ -572,7 +578,13 @@ class InstituteRegistration extends Component {
                             <label style={{ color: "red", borderBottom: "1px" }}>{this.state.error}</label>
                           ) : (null)}
                         </Row> */}
-                        {(this.props.editClassificationState)?(
+
+
+{/* ********************************************* */}
+
+ {/* Commented while shifting to the progress bar */}
+
+                        {/* {(this.props.editClassificationState)?(
                           (this.state.loading)?(<img src = {loader} className = "loader"/>):(
                              <div>
                                 <span size="sm"  className="mb-2 mr-1 worldcerts-button"
@@ -595,7 +607,12 @@ class InstituteRegistration extends Component {
                         </div>
                           )
                           
-                        )}
+                        )} */}
+
+
+
+{/* ********************************************* */}
+
                         {/* {(this.props.editClassificationState)?(
                            <>
                            <span size="sm"  className="mb-2 mr-1 worldcerts-button"
@@ -644,6 +661,21 @@ const mapDispatchToProps = (dispatch) => {
     },
     EditClassificationState: (data) => {
       dispatch(EditClassificationState(data))
+    },
+    ClassificationCategory: (data) => {
+      dispatch(ClassificationCategory(data))
+    },
+    ClassificationInstituteName: (data) => {
+      dispatch(ClassificationInstituteName(data))
+    },
+    ClassificationDuration: (data) => {
+      dispatch(ClassificationDuration(data))
+    },
+    ClassificationDurationValidity: (data) => {
+      dispatch(ClassificationDurationValidity(data))
+    },
+    ClassificationName: (data) => {
+      dispatch(ClassificationName(data))
     },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
