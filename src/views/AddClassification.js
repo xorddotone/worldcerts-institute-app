@@ -22,7 +22,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "shards-react"; import PageTitle from "../components/common/PageTitle";
+} from "shards-react"; 
+import PageTitle from "../components/common/PageTitle";
 // import { pageTitle } from '../Redux/action';
 import { connect } from 'react-redux';
 import * as Strings from '../constants/strings'
