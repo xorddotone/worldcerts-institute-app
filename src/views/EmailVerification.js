@@ -132,7 +132,7 @@ class EmailVerification extends Component {
           this.setState({
             loader:false
           })     
-          this.props.history.push(Strings.INSTITUTE_MANAGEMENT)
+          this.props.history.push("/home")
         }
         else {
          
