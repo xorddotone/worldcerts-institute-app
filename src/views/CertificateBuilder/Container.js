@@ -75,13 +75,13 @@ const Container = ({ hideSourceOnDrag }) => {
     )
     let tempField = JSON.parse(JSON.stringify(fields))
     for (let i = 0; i < tempField.length - 1; i++) {
-      let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+      let tops = convertPxToPercentage(imageHeight, tempField[i].top +60)
       let lefts = convertPxToPercentage(imageWidth, tempField[i].left)
       tempField[i].left = lefts
       tempField[i].top = tops
     }
 
-    let tops = convertPxToPercentage(imageHeight, top)
+    let tops = convertPxToPercentage(imageHeight, top +60)
     let lefts = convertPxToPercentage(imageWidth, left)
     tempField[id].left = lefts
     tempField[id].top = tops
@@ -117,18 +117,20 @@ const Container = ({ hideSourceOnDrag }) => {
   }
   function handleChange(i,editorStateValue) {
     console.log(editorStateValue)
+    console.log(editorStateValue.getCurrentContent().getPlainText())
     const tempEditorState = [...editorState]
     tempEditorState[i] = editorStateValue
     setEditorState(tempEditorState)
    console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
     const values = [...fields];
-    values[i].value = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
+    values[i].value = editorStateValue.getCurrentContent().getPlainText()
+    values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     setFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
-      let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+      let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
       let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
       tempFields[i].left = lefts
       tempFields[i].top = tops
@@ -143,7 +145,7 @@ const Container = ({ hideSourceOnDrag }) => {
     setEditorState(tempEditorState)
     const values = [...fields];
     console.log("boxTop==>", boxTop, "boxLeft==>", boxLeft)
-    values.push({ top: boxTop, left: boxLeft, value: EditorState.createEmpty(), });
+    values.push({ top: boxTop, left: boxLeft,htmlStringCode:EditorState.createEmpty(), value: EditorState.createEmpty() });
     console.log(values)
     setFields(values);
 
@@ -205,14 +207,14 @@ const Container = ({ hideSourceOnDrag }) => {
               hideSourceOnDrag={hideSourceOnDrag}
             >
               <Row>
-<Col md = "11">
+<Col md = "10">
 <Editor
   wrapperClassName="wrapper-class"
   editorClassName="editor-class"
   toolbarClassName="toolbar-class"
   // toolbarOnFocus
   toolbar={{
-    options: ['inline','textAlign','fontSize', 'fontFamily',],
+    options: ['inline','fontSize', 'fontFamily',],
     inline: {
       inDropdown: true,
       className: undefined,
@@ -233,20 +235,20 @@ const Container = ({ hideSourceOnDrag }) => {
       component: undefined,
       dropdownClassName: undefined,
     },
-    textAlign: {
-      inDropdown: true,
-      className: undefined,
-      component: undefined,
-      dropdownClassName: undefined,
-      options: ['left', 'center', 'right', 'justify'],
-    },
+    // textAlign: {
+    //   inDropdown: true,
+    //   className: undefined,
+    //   component: undefined,
+    //   dropdownClassName: undefined,
+    //   options: ['left', 'center', 'right', 'justify'],
+    // },
   }}
   editorState={editorState[idx]}
   onEditorStateChange={e => handleChange( idx,e)}
 
 /> 
 </Col>
-  <Col md = "1">
+  <Col md = "2">
 <button   onClick={() => handleRemove(idx)}>
     X
 </button>

@@ -84,6 +84,7 @@
     constructor(props) {
       super(props);
       this.state = {
+        certificateImage: '', 
         fileName: '',
         data: [
         //   {
@@ -450,9 +451,11 @@
     categoryChangeHandler(ev) {
       console.log(ev.target.value)
       console.log(this.state.registeredClassifications[ev.target.value])
+      console.log(this.state.registeredClassifications[ev.target.value].certificateImageUrl)
       this.setState({
         alertShow: false,
-        selectedClassification: this.state.registeredClassifications[ev.target.value]
+        selectedClassification: this.state.registeredClassifications[ev.target.value],
+        certificateImage: this.state.registeredClassifications[ev.target.value].certificateImageUrl
       })
       console.log(this.state.registeredClassifications[ev.target.value].list)
       if(ev.target.value!=0){
@@ -516,7 +519,7 @@
             <Col lg="5" md="12">
               <Card small className="mb-3">
                 <CardBody className="p-0">
-                  <img src={certificate} alt="certificate" height="100%" width="100%" />
+                {(this.state.certificateImage)? ( <img src={this.state.certificateImage} alt="certificate" height="100%" width="100%" />): (null)} 
                 </CardBody>
 
               </Card>

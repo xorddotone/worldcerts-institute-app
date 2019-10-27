@@ -306,6 +306,10 @@ class RegisterClassification extends Component {
       }
     }
   }
+  createMarkup(key) {
+    return {__html: this.props.classificationFields[key].htmlStringCode};
+  }
+  
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -377,6 +381,17 @@ class RegisterClassification extends Component {
                 </ListGroupItem>
               </ListGroup>
             </Card>
+            <div style={{ backgroundSize: 'cover' , position:'relative'}} className="cert-border">
+            <img src = {URL.createObjectURL(this.props.classificationCertificate)} width = "100%"/>
+            {
+              Object.keys(this.props.classificationFields).map(key => { 
+                return(
+                  <div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , left: this.props.classificationFields[key].left + "%" , position: 'absolute'}}></div>
+                )
+              }
+              )
+            }
+          </div>
 
 
 
@@ -428,7 +443,8 @@ const mapStateToProps = (state) => {
     classificationDurationValidity: state.dashboard_reducer.registerClassificationDurationValidity,
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
-    classificationFields: state.dashboard_reducer.classificationFields
+    classificationFields: state.dashboard_reducer.classificationFields,
+  
 
 
 

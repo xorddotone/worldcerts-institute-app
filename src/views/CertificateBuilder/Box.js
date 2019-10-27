@@ -9,7 +9,7 @@ import {
 const style = {
   position: 'absolute',
   border: '1px dashed gray',
-  backgroundColor: 'white',
+  backgroundColor: 'transparent',
   padding: '',
   cursor: 'move',
 }

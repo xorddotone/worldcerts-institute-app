@@ -141,6 +141,13 @@ div[id^=font-picker]{
     width: 54% !important
 }
 
+.public-DraftStyleDefault-block{
+    margin: 0em !important;
+}
+
+.rdw-editor-toolbar{
+    background: none !important;
+}
 @media (max-width:320px)  { 
     .authStyling{
         width: 100% !important;
