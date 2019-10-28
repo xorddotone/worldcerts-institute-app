@@ -441,7 +441,7 @@ class InstituteRegistration extends Component {
                           <Col md="6" className="form-group">
                             <label>Category</label>
 
-                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder = "Category"   >
+                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder = "Category" value = {this.props.classificationCategory}   >
                               {/* <option>category</option> */}
                               {/* {console.log(this.state.classificationCategory)} */}
                              
@@ -465,15 +465,16 @@ class InstituteRegistration extends Component {
                               onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.classificationChangeHandler}
                               placeholder="Classification"
-                              value={this.state.classification}
+                              // value={this.state.classification}
+                              value = {this.props.classificationName}
                             />
                           </Col>
                               <Col md = "6"className="form-group">
                             <label >Duration</label>
 
                           <InputGroup className="mb-3">
-                            <FormInput value={this.state.durationTemp} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
-                            <FormSelect type = "append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
+                            <FormInput value={this.props.classificationDuration} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
+                            <FormSelect value = {this.props.classificationDurationValidity} type = "append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                               {
                                 duration.map((duration) => {
                                   return (
@@ -650,7 +651,13 @@ const mapStateToProps = (state) => {
     userData: state.user_reducer.user,
     selectedInstituteName:state.user_reducer.selectedInstituteName,
     editClassificationState:state.dashboard_reducer.editClassificationState,
-    editClassificationData:state.dashboard_reducer.editClassificationData
+    editClassificationData:state.dashboard_reducer.editClassificationData,
+    
+    classificationCertificate: state.dashboard_reducer.image,
+    classificationCategory: state.dashboard_reducer.registerClassificationCategory,
+    classificationName: state.dashboard_reducer.registerClassificationName,
+    classificationDuration: state.dashboard_reducer.registerClassificationDuration,
+    classificationDurationValidity: state.dashboard_reducer.registerClassificationDurationValidity,
 
   }
 }

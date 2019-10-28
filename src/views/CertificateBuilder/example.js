@@ -7,7 +7,7 @@ export default function DragAroundNaive() {
   ])
   return (
     <div>
-      <Container  hideSourceOnDrag={true} />
+      <Container hideSourceOnDrag={true} />
       {console.log("In the example")}
       {/* <p>
         <label htmlFor="hideSourceOnDrag">

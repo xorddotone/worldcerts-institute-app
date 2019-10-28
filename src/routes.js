@@ -29,11 +29,11 @@ export const routes1= [
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
-    path: "/manage_organization",
-    layout: DefaultLayout,
-    component: ManageInstitutes
-  },
+  // {
+  //   path: "/manage_organization",
+  //   layout: DefaultLayout,
+  //   component: ManageInstitutes
+  // },
   {
     path: "/organization_registration",
     layout: DefaultLayout,
@@ -241,11 +241,11 @@ export const routes3= [
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
-    path: "/manage_organization",
-    layout: DefaultLayout,
-    component: ManageInstitutes
-  },
+  // {
+  //   path: "/manage_organization",
+  //   layout: DefaultLayout,
+  //   component: ManageInstitutes
+  // },
   {
     path: "/organization_registration",
     layout: DefaultLayout,

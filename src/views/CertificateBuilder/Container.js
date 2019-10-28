@@ -15,6 +15,7 @@ import {
 
   FormSelect,
   FormCheckbox,
+  Card,
   Row,
   Col,
 } from "shards-react";
@@ -30,7 +31,6 @@ const Checkbox = ({ type = "checkbox", name, checked = false, onChange }) => {
 const styles = {
   width: "100%",
   height: "100%",
-  border: '1px solid black',
   position: 'relative',
 }
 const Container = ({ hideSourceOnDrag }) => {
@@ -188,6 +188,7 @@ const Container = ({ hideSourceOnDrag }) => {
   }
 
   return (
+    <Card small className="mb-4">
     <div id="DnDContainer" ref={drop} style={styles}>
       {console.log(fontSizes)}
       {console.log(activeFontSize)}
@@ -260,7 +261,7 @@ const Container = ({ hideSourceOnDrag }) => {
         );
       })}
       <img id="DnDImage" src={URL.createObjectURL(image)} width="75%" />
-      <button type="button" onClick={() => handleAdd()}>
+      <button type="button" className = "worldcerts-button" style = {{marginLeft: "5%"}} onClick={() => handleAdd()}>
         Add fields
       </button>
      
@@ -281,6 +282,7 @@ const Container = ({ hideSourceOnDrag }) => {
       
 
     </div>
+    </Card>
   )
 }
 export default Container

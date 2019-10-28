@@ -53,6 +53,21 @@ class UploadCertificate extends Component {
     }
     this.handleSize = this.handleSize.bind(this)
   }
+  componentDidMount()
+  {
+    console.log(this.props.imageFile)
+    if(this.props.imageFile.name != null && this.props.imageFile.name != undefined && this.props.imageFile.name != "" ){
+    console.log(this.props.imageFile.name)     
+      console.log("in if")
+      this.setState({
+        certificate: URL.createObjectURL(this.props.imageFile)
+      })
+    }
+      else{
+        console.log("in else")
+      }
+    }
+  
  
   handleFiles(file) {
     console.log(file[0])
@@ -87,12 +102,13 @@ class UploadCertificate extends Component {
 
               <button size="sm" className="mb-2 mr-1 worldcerts-button"
 
-              >Upload Cetificate</button>
+              >Upload Certificate</button>
             </ReactFileReader>
 
           </Col>
           {/* <img src = {this.state.certificate}  ref={this.imgEl} width= "100%"
         onLoad={() => console.log(this.imgEl.current.naturalHeight, this.imgEl.current.naturalWidth)} /> */}
+        {console.log(this.props.imageFile)}
         {console.log(this.props.imageFile)}
 {(this.state.certificate =="")? (null): 
 (<DndProvider backend={HTML5Backend}>
@@ -115,6 +131,7 @@ const mapStateToProps = (state) => {
     editClassificationState: state.dashboard_reducer.editClassificationState,
     editClassificationData: state.dashboard_reducer.editClassificationData,
     imageFile : state.dashboard_reducer.image
+    
 
   }
 }

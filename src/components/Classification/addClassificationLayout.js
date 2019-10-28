@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import AddClassification from '../../views/AddClassification';
 import UploadCertificate from '../../views/UploadCertificate'
 import RegisterClassification from '../../views/Classification/RegisterClassification';
+import ClassificationRegistration from '../../views/Classification/ClassificationRegistration';
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -120,6 +121,8 @@ function getStepContent(step) {
       return <UploadCertificate/>;
     case 2:
       return <RegisterClassification/>;
+      case 3:
+        return <ClassificationRegistration/>
     default:
       return 'Unknown step';
   }
@@ -131,6 +134,13 @@ export default function CustomizedSteppers() {
   const steps = getSteps();
 
   const handleNext = () => {
+    // console.log(activeStep)
+    // switch (activeStep) {
+    //   case 0: 
+    //   if()
+    //   return 
+
+    // }
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
@@ -153,18 +163,9 @@ export default function CustomizedSteppers() {
         ))}
       </Stepper>
       <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
           <div>
             <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+            {activeStep === steps.length ? (null) : (
             <div>
               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                 Back
@@ -176,11 +177,13 @@ export default function CustomizedSteppers() {
                 onClick={handleNext}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                {activeStep === steps.length - 1 ? 'Register' : 'Next'}
               </Button>
             </div>
+            )
+            }
           </div>
-        )}
+        
       </div>
     </div>
   );

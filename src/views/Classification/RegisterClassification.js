@@ -102,7 +102,7 @@ class RegisterClassification extends Component {
     else {
       let that = this;
       // console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
-      if (that.props.classificationCategory == "" || that.props.classificationCategory == "Choose" || that.props.classificationName == "" || that.props.classificationDuration == "" || that.props.classificationDurationValidity == "" || that.props.classificationDurationValidity == "Choose") {
+      if (that.props.classificationCategory == "" || that.props.classificationCategory == "Choose" || that.props.classificationName == "") {
 
         that.setState({
           alertMessage: Strings.ALL_FIELDS_REQUIRED,
@@ -110,7 +110,6 @@ class RegisterClassification extends Component {
           theme: "info",
           loading: false
         })
-        alert("stop")
       }
       else {
         let timeDuration = ""
@@ -119,12 +118,13 @@ class RegisterClassification extends Component {
         }
         else if (that.props.classificationDurationValidity == "months") {
           timeDuration = that.props.classificationDuration * 2592000
-
-
         }
         else if (that.props.classificationDurationValidity == "days") {
+          timeDuration = that.props.classificationDuration * 86400
         }
-        timeDuration = that.props.classificationDuration * 86400
+        else if(that.props.classificationDurationValidity == "" ||that.props.classificationDurationValidity == "Choose" ){
+          timeDuration = 0
+        }
 
         console.log(timeDuration)
         let imageFile = this.props.classificationCertificate
@@ -311,7 +311,9 @@ class RegisterClassification extends Component {
   }
   
   render() {
+    console.log(this.props.classificationCertificate)
     return (
+
       <Container fluid className="main-content-container px-4">
         {(this.props.userData.isVerified) ? (
           null
@@ -365,9 +367,16 @@ class RegisterClassification extends Component {
                             <label >Duration</label>
 
                             <InputGroup className="mb-3">
-                              <FormInput
+                           {(this.props.classificationDuration == "" && this.props.classificationDurationValidity == "Choose")?
+                           ( 
+                           <FormInput
+                                value="none"
+                                disabled />)
+                            :
+                                ( <FormInput
                                 value={this.props.classificationDuration + " " +  this.props.classificationDurationValidity}
-                                disabled />
+                                disabled />) }
+                             
 
                             </InputGroup>
                           </Col>
@@ -381,8 +390,9 @@ class RegisterClassification extends Component {
                 </ListGroupItem>
               </ListGroup>
             </Card>
-            <div style={{ backgroundSize: 'cover' , position:'relative'}} className="cert-border">
-            <img src = {URL.createObjectURL(this.props.classificationCertificate)} width = "100%"/>
+            {( this.props.classificationCertificate.name == "" ) ?  (null) :( 
+           <div style={{ backgroundSize: 'cover' , position:'relative'}}>
+           <img src = {URL.createObjectURL(this.props.classificationCertificate)} width = "100%"/>
             {
               Object.keys(this.props.classificationFields).map(key => { 
                 return(
@@ -391,10 +401,13 @@ class RegisterClassification extends Component {
               }
               )
             }
+            
           </div>
+          )}
+           
 
 
-
+{/* 
             {(this.props.editClassificationState) ? (
               (this.state.loading) ? (<img src={loader} className="loader" />) : (
                 <div>
@@ -418,7 +431,7 @@ class RegisterClassification extends Component {
                   </div>
                 )
 
-              )}
+              )} */}
 
 
 

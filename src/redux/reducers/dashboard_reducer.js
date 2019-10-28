@@ -25,7 +25,9 @@ const INITIAL_STATE = {
         _id: '',
     },
     editClassificationState: false,
-    image: {},
+    image: {
+        name:""
+    },
     //  Classification attributes
     registerClassificationInstituteName: "",
     registerClassificationName: "",

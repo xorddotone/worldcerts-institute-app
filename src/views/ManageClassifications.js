@@ -20,7 +20,13 @@ import * as Routes from '../constants/apiRoutes'
 import cross from '../images/cross.svg'
 import add from '../images/add.png'
 import '../css/style.css'
-import { EditClassification, EditClassificationState } from "../redux/actions/dashboard-action"
+import { EditClassification,
+   EditClassificationState ,
+    ClassificationCategory,
+  ClassificationDuration,
+ClassificationDurationValidity,
+ClassificationName,
+Image } from "../redux/actions/dashboard-action"
 const axios = require('axios');
 
 class ManageClassifications extends Component {
@@ -104,21 +110,11 @@ class ManageClassifications extends Component {
       console.log(this.props.userData)
       let temp;
       let that=this;
-      // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
-      //   .then(function (response) {
-      //     // handle success
-      //     console.log(response);
-      //     temp=response.data.result
-      //     console.log(temp)
-      //     that.setState({
-      //       registeredClassifications:temp
-      //     })
-  
-      //   })
-      //   .catch(function (error) {
-      //     // handle error
-      //     console.log(error);
-      //   })
+      this.props.ClassificationCategory("")
+      this.props.ClassificationDuration(null)
+      this.props.ClassificationDurationValidity("")
+      this.props.ClassificationName("")
+      this.props.IMAGE({name: ""})
       if(this.props.selectedInstituteName.name!="Select Organization"){
         console.log("inside if")
       axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
@@ -186,8 +182,8 @@ class ManageClassifications extends Component {
           {/* subtitle="Registration" */}
           {/* <Link to="/addClassification">   */}
           <span onClick={this.onAddClick} size="sm"  className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">
-          Create
           <img src = {add} alt = "" height= "17px"/>
+          Create
           {/* <i class="material-icons">
           add
 </i> */}
@@ -313,6 +309,21 @@ const mapDispatchToProps = (dispatch) => {
     },
     EditClassificationState: (data) => {
       dispatch(EditClassificationState(data))
+    },
+    ClassificationCategory: (data) => {
+      dispatch(ClassificationCategory(data))
+    },
+    ClassificationDuration: (data) => {
+      dispatch(ClassificationDuration(data))
+    },
+    ClassificationDurationValidity: (data) => {
+      dispatch(ClassificationDurationValidity(data))
+    },
+    ClassificationName: (data) => {
+      dispatch(ClassificationName(data))
+    },
+    IMAGE: (imageFile) => {
+      dispatch(Image(imageFile))
     },
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }

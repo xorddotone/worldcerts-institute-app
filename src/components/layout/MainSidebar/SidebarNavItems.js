@@ -36,11 +36,11 @@ class SidebarNavItems extends React.Component {
           //   to: "/account_activation",
           //   htmlBefore: ' <i class="material-icons">done</i>',
           // },
-          {
-          title: "Manage Organization",
-          to: "/manage_organization",
-          htmlBefore: '<i class="material-icons">home</i>',
-        },
+        //   {
+        //   title: "Manage Organization",
+        //   to: "/manage_organization",
+        //   htmlBefore: '<i class="material-icons">home</i>',
+        // },
         {
           title: "Certificate Classification",
           to: "/manageClassification",
@@ -69,11 +69,11 @@ class SidebarNavItems extends React.Component {
           to: "/account_activation",
           htmlBefore: ' <i class="material-icons">done</i>',
         },
-        {
-          title: "Manage Organization",
-          to: "/manage_organization",
-          htmlBefore: '<i class="material-icons">home</i>',
-        },
+        // {
+        //   title: "Manage Organization",
+        //   to: "/manage_organization",
+        //   htmlBefore: '<i class="material-icons">home</i>',
+        // },
         {
           title: "Certificate Classification",
           to: "/manageClassification",
