@@ -10,7 +10,9 @@ import {
     CLASSIFICATION_NAME,
     CLASSIFICATION_DURATION,
     CLASSIFICATION_DURATION_VALIDITY,
-    CLASSIFICATION_FIELDS
+    CLASSIFICATION_FIELDS,
+    CLASSIFICATION_COMBINE_FIELDS,
+    CLASSIFICATION_QR
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -34,7 +36,9 @@ const INITIAL_STATE = {
     registerClassificationCategory: "",
     registerClassificationDuration: null,
     registerClassificationDurationValidity: "",
-    classificationFields: {}
+    classificationFields: {},
+    classificationCombineFields: [],
+    qrVisibility: true
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -98,6 +102,16 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 classificationFields: action.payload
+            })
+            case CLASSIFICATION_COMBINE_FIELDS:
+            return ({
+                ...state,
+                classificationCombineFields: action.payload
+            })
+            case CLASSIFICATION_QR:
+            return ({
+                ...state,
+                qrVisibility: action.payload
             })
         default:
             return state

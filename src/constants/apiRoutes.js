@@ -22,6 +22,8 @@ export const EDIT_CLASSIFICATION = SERVER_URL + "classification/"
 export const UPDATE_USER_PASSWORD = SERVER_URL + "userPassword/"
 export const GET_PARTICIPANT_DATA = SERVER_URL + "participation/"
 export const RESEND_EMAIL = SERVER_URL + "sendVerificationCode/"
+export const GET_CLASSIFICATION_FIELDS = SERVER_URL + "constantClassificationFields/"
+
 
 
 // Cloudinary Constants

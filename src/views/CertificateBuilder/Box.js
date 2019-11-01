@@ -8,7 +8,7 @@ import {
 } from "shards-react";
 const style = {
   position: 'absolute',
-  border: '1px dashed gray',
+  // border: '1px dashed gray',
   backgroundColor: 'transparent',
   padding: '',
   cursor: 'move',

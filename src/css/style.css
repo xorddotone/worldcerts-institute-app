@@ -13,6 +13,10 @@
 .MuiTableCell-paddingCheckbox {
     width : 0px !important;
 }
+
+.public-DraftStyleDefault-ltr{
+    border: 1px solid !important
+}
 .nothing-added-yet{
     text-align: center;
     margin: 15% 30%;

@@ -59,6 +59,7 @@ class UploadCertificate extends Component {
     if(this.props.imageFile.name != null && this.props.imageFile.name != undefined && this.props.imageFile.name != "" ){
     console.log(this.props.imageFile.name)     
       console.log("in if")
+      document.getElementById("uploadButton").hidden = true;
       this.setState({
         certificate: URL.createObjectURL(this.props.imageFile)
       })
@@ -74,6 +75,7 @@ class UploadCertificate extends Component {
     this.setState({
         certificate: URL.createObjectURL(file[0])
       })
+      document.getElementById("uploadButton").hidden = true;
     this.props.IMAGE(file[0])
   }
   handleSize(image) {
@@ -82,7 +84,7 @@ class UploadCertificate extends Component {
   }
 
   render() {
-    console.log("REndering Upload Certificate")
+    console.log("Rendering Upload Certificate")
     return (
 
 
@@ -96,15 +98,16 @@ class UploadCertificate extends Component {
         <Row>
           <Col lg="12">
 
-
+<div id = "uploadButton" style = {{textAlign: 'center' , verticalAlign: 'center', border: '1px dashed',padding: "15%"}}>
             <ReactFileReader
-              handleFiles={this.handleFiles.bind(this)} fileTypes={['.png', '.jpg', '.jpeg']} >
+              handleFiles={this.handleFiles.bind(this)} fileTypes={['.png', '.jpg', '.jpeg']} 
+              >
 
-              <button size="sm" className="mb-2 mr-1 worldcerts-button"
+              <button  size="sm" className="mb-2 mr-1 worldcerts-button"
 
               >Upload Certificate</button>
             </ReactFileReader>
-
+            </div>
           </Col>
           {/* <img src = {this.state.certificate}  ref={this.imgEl} width= "100%"
         onLoad={() => console.log(this.imgEl.current.naturalHeight, this.imgEl.current.naturalWidth)} /> */}

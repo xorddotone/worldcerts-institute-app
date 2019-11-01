@@ -110,11 +110,6 @@ class ManageClassifications extends Component {
       console.log(this.props.userData)
       let temp;
       let that=this;
-      this.props.ClassificationCategory("")
-      this.props.ClassificationDuration(null)
-      this.props.ClassificationDurationValidity("")
-      this.props.ClassificationName("")
-      this.props.IMAGE({name: ""})
       if(this.props.selectedInstituteName.name!="Select Organization"){
         console.log("inside if")
       axios.get(Routes.CLASSIFICATION +this.props.selectedInstituteName.id)
@@ -142,12 +137,15 @@ class ManageClassifications extends Component {
     }
 
     onEditClick(data){
+      console.log("in edit")
+
       console.log(data)
       this.props.EditClassification(data);
       this.props.EditClassificationState(true);
       this.props.history.push("/addClassification");
     }
     onAddClick(){
+      console.log("in add")
       let obj={
         category:"",
         classification:"",
@@ -155,6 +153,11 @@ class ManageClassifications extends Component {
         instituteName:"",
         _id:""
     }
+    this.props.ClassificationCategory("")
+      this.props.ClassificationDuration(null)
+      this.props.ClassificationDurationValidity("")
+      this.props.ClassificationName("")
+      this.props.IMAGE({name: ""})
       this.props.EditClassification(obj)
       this.props.EditClassificationState(false)
       this.props.history.push("/addClassification")

@@ -10,6 +10,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import qrExample from '../../images/qrcode.png'
 
 import {
 
@@ -41,10 +42,13 @@ const Container = ({ hideSourceOnDrag }) => {
   const dispatch = useDispatch()
   const image = useSelector(state => state.dashboard_reducer.image)
   const [fields, setFields] = useState([]);
+  const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)  
   const [fontSizes, setFontSize] = useState([]);
   const [activeFontSize, setActiveFontSize] = useState(6)
   const [activeFontDecoration, setActiveFontDecoration] = useState(6)
   const [editorState,setEditorState] = useState([])
+  const [qrIndex, setQrIndex] = useState()
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const [activeFontFamily, setActiveFontFamily] = useState("Open Sans")
@@ -82,7 +86,7 @@ const Container = ({ hideSourceOnDrag }) => {
     }
 
     let tops = convertPxToPercentage(imageHeight, top +60)
-    let lefts = convertPxToPercentage(imageWidth, left)
+    let lefts = convertPxToPercentage(imageWidth, Math.abs(left))
     tempField[id].left = lefts
     tempField[id].top = tops
     console.log("tempFields ==> ", tempField)
@@ -101,6 +105,28 @@ const Container = ({ hideSourceOnDrag }) => {
     for (let i = 1; i < 25; i++) {
       fontSizes[i] = fontSizes[i - 1] + 2
       setFontSize(fontSizes)
+    }
+
+    
+
+    console.log(classificationFields.length)
+    const tempEditorState = [...editorState]
+    let top = 0 
+    for(let i = 0;i<classificationFields.length;i++){
+        top = top + 80
+       console.log("top ==> ", top)
+      fields.push({top: top , left:-40 , htmlStringCode:classificationFields[i],value: classificationFields[i]})
+    tempEditorState.push(EditorState.createEmpty())
+    // console.log(tempEditorState)
+    setEditorState(tempEditorState)
+      
+    }
+    if(qrVisibility){
+      fields.push({top: top + 80, left:-40 , htmlStringCode:qrVisibility, value: qrVisibility})
+      console.log("fields ==> ",fields)      
+      console.log("fields length ==> ",fields.length)
+      setQrIndex(fields.length - 1 )
+
     }
     return () => {
       console.log(fields)
@@ -131,7 +157,7 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
       let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
-      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
+      let lefts = convertPxToPercentage(imageWidth, Math.abs(tempFields[i].left))
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -160,6 +186,12 @@ const Container = ({ hideSourceOnDrag }) => {
     values.splice(i, 1);
     console.log("values after splice ==> ", values)
     setFields(values);
+    console.log(values)
+    if( i !== qrIndex && values.length !== 0 ){
+      if(values[values.length - 1].value == true){
+    setQrIndex(values.length - 1)
+    }
+  }
     console.log("values after set ==> ", values)
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
@@ -169,7 +201,7 @@ const Container = ({ hideSourceOnDrag }) => {
 
     for (let i = 0; i < tempFields.length; i++) {
       let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
-      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left)
+      let lefts = convertPxToPercentage(imageWidth, Math.abs(tempFields[i].left))
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -188,16 +220,120 @@ const Container = ({ hideSourceOnDrag }) => {
   }
 
   return (
-    <Card small className="mb-4">
+    <Card >
     <div id="DnDContainer" ref={drop} style={styles}>
-      {console.log(fontSizes)}
-      {console.log(activeFontSize)}
-      {console.log(activeFontDecoration)}
-      {Object.keys(fields).map((field, idx) => {
+      {console.log("FontSize",fontSizes)}
+      {console.log("activeFontSize",activeFontSize)}
+      {console.log("activeFoneDec",activeFontDecoration)}
+      {console.log("fields",fields)}
+      {console.log("editorState",editorState)}
+      
+
+  {/* {
+    classificationFields.map((field,idx) => {
+      const { left, top, title } = fields[idx]
+        console.log(fields[idx].value)
+      return(
+        
+        <div key={`${field}-${idx}`}>
+
+            {console.log(field, idx)}
+            <Box
+              key={idx}
+              id={idx}
+              left={left}
+              top={top}
+              value={fields}
+              hideSourceOnDrag={hideSourceOnDrag}
+            >
+              <Row>
+<Col md = "10">
+<Editor
+  wrapperClassName="wrapper-class"
+  editorClassName="editor-class"
+  toolbarClassName="toolbar-class"
+  toolbarOnFocus
+  toolbar={{
+    options: ['inline','fontSize', 'fontFamily', 'textAlign'],
+    inline: {
+      inDropdown: true,
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+      options: ['bold', 'italic', 'underline'],
+    },
+    fontSize: {
+      // icon: fontSize,
+      options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+    },
+    fontFamily: {
+      options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+    },
+    textAlign: {
+      inDropdown: true,
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+      options: ['left', 'center', 'right', 'justify'],
+    },
+  }}
+  editorState={editorState[idx]}
+  onEditorStateChange={e => handleChange( idx,e)}
+
+/> 
+</Col>
+  <Col md = "2">
+<button   onClick={() => handleRemove(idx)}>
+    X
+</button>
+</Col>
+
+</Row>
+            </Box>
+          </div>
+      )
+    })
+  } */}
+
+      <Row>
+        <Col md = "9">
+          <div style = {{width: "100%"}}>
+      <img id="DnDImage" src={URL.createObjectURL(image)} style = {{maxWidth: "100%"}}/>
+      </div>
+      </Col>
+<Col md = "3">
+{Object.keys(fields).map((field, idx) => {
         const { left, top, title } = fields[idx]
         console.log(fields[idx].value)
         return (
-          <div key={`${field}-${idx}`}>
+          (qrIndex == idx )?
+            (<Box
+              key={idx}
+              id={idx}
+              left={left}
+              top={top}
+              value ={fields}
+              hideSourceOnDrag={hideSourceOnDrag}
+            >
+              <Row>
+      <Col md = "10">
+      <img src = {qrExample} width= "40%"/> 
+      </Col>
+      <Col md = "2">
+      <button onClick = {() => handleRemove(idx)}>
+      X
+      </button>
+      </Col>
+      
+      </Row>
+            </Box> ):
+            (<div key={`${field}-${idx}`}>
             {console.log(field, idx)}
             <Box
               key={idx}
@@ -215,7 +351,7 @@ const Container = ({ hideSourceOnDrag }) => {
   toolbarClassName="toolbar-class"
   // toolbarOnFocus
   toolbar={{
-    options: ['inline','fontSize', 'fontFamily',],
+    options: ['inline','fontSize', 'fontFamily'],
     inline: {
       inDropdown: true,
       className: undefined,
@@ -245,26 +381,55 @@ const Container = ({ hideSourceOnDrag }) => {
     // },
   }}
   editorState={editorState[idx]}
+  // defaultEditorState = "Text"
   onEditorStateChange={e => handleChange( idx,e)}
+  placeholder = {fields[idx].value}
+  // value = {fields[idx].value}
 
 /> 
 </Col>
   <Col md = "2">
-<button   onClick={() => handleRemove(idx)}>
+<button onClick = {() => handleRemove(idx)}>
     X
 </button>
 </Col>
 
 </Row>
             </Box>
-          </div>
+          </div>)
+         
         );
-      })}
-      <img id="DnDImage" src={URL.createObjectURL(image)} width="75%" />
-      <button type="button" className = "worldcerts-button" style = {{marginLeft: "5%"}} onClick={() => handleAdd()}>
-        Add fields
-      </button>
-     
+      })
+    }
+    {/* {
+      (qrVisibility)?(
+        <Box
+        key={qrIndex}
+        id={qrIndex}
+        left={-40}
+        top={600}
+        value ={fields}
+        hideSourceOnDrag={hideSourceOnDrag}
+      >
+        <Row>
+<Col md = "10">
+<img src = {qrExample} width= "100%"/> 
+</Col>
+<Col md = "2">
+<button onClick = {() => handleRemove()}>
+X
+</button>
+</Col>
+
+</Row>
+      </Box>
+      ):(null)
+      
+      } */}
+      
+
+      </Col>
+      </Row>
       {/* {Object.keys(boxes).map(key => {
         const { left, top, title } = boxes[key]
         return (

@@ -11,6 +11,8 @@ export const CLASSIFICATION_NAME = "CLASSIFICATION_NAME"
 export const CLASSIFICATION_DURATION = "CLASSIFICATION_DURATION"
 export const CLASSIFICATION_DURATION_VALIDITY = "CLASSIFICATION_DURATION_VALIDITY"
 export const CLASSIFICATION_FIELDS = "CLASSIFICATION_FIELDS"
+export const CLASSIFICATION_COMBINE_FIELDS = "CLASSIFICATION_COMBINE_FIELDS"
+export const CLASSIFICATION_QR = "CLASSIFICATION_QR"
 
 
 export function TOGGLE(toggle_switch) {
@@ -75,4 +77,14 @@ export function ClassificationDurationValidity(durationValidity){
 export function ClassificationFields(fields){
   console.log(fields)
   return { type: CLASSIFICATION_FIELDS , payload: fields}
+}
+
+export function ClassificationCombineFields(fields){
+  console.log(fields)
+  return { type: CLASSIFICATION_COMBINE_FIELDS , payload: fields}
+}
+
+export function QRVisibility(visible){
+  console.log(visible)
+  return { type: CLASSIFICATION_QR , payload: visible}
 }

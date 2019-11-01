@@ -16,6 +16,7 @@ import AddClassification from '../../views/AddClassification';
 import UploadCertificate from '../../views/UploadCertificate'
 import RegisterClassification from '../../views/Classification/RegisterClassification';
 import ClassificationRegistration from '../../views/Classification/ClassificationRegistration';
+import { useDispatch, useSelector } from "react-redux";
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -24,13 +25,13 @@ const ColorlibConnector = withStyles({
   active: {
     '& $line': {
       backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));',
     },
   },
   completed: {
     '& $line': {
       backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));',
     },
   },
   line: {
@@ -55,12 +56,12 @@ const useColorlibStepIconStyles = makeStyles({
   },
   active: {
     backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   },
   completed: {
     backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165));',
   },
 });
 
@@ -131,17 +132,47 @@ function getStepContent(step) {
 export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  // const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
+  // const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
+  // const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
+  // const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
+
   const steps = getSteps();
 
   const handleNext = () => {
     // console.log(activeStep)
     // switch (activeStep) {
     //   case 0: 
-    //   if()
-    //   return 
+    //   if(organizationName == "Select Organization" || classificationCategory == "" || classificationName == "" ){
+    //     alert("Fill the required Fields before Proceeding to next Step")
+    //   }
+    //   else{
+    //     return setActiveStep(prevActiveStep => prevActiveStep + 1);    
+    //   }
+    //   case 1: 
+    //   if(classificationCertificate == ""){
+    //     alert("upload the certificate before Proceeding to next Step")
+    //   }
+    //   else{
+    //     return setActiveStep(prevActiveStep => prevActiveStep + 1);  
+    //   }
+    
+    //   case 2:
+    //       return setActiveStep(prevActiveStep => prevActiveStep + 1);  
 
     // }
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    console.log(activeStep)
+    switch (activeStep){
+      case 0: 
+      console.log("zero")
+      return setActiveStep(prevActiveStep => prevActiveStep + 1);
+      case 1: 
+       console.log("one")
+       return setActiveStep(prevActiveStep => prevActiveStep + 1);
+       case 0: 
+       return setActiveStep(prevActiveStep => prevActiveStep + 1);
+       console.log("two")
+    }
   };
 
   const handleBack = () => {
@@ -154,6 +185,7 @@ export default function CustomizedSteppers() {
 
   return (
     <div className={classes.root}>
+    {    console.log(activeStep)}
       
       <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
         {steps.map(label => (
@@ -173,7 +205,7 @@ export default function CustomizedSteppers() {
               
               <Button
                 variant="contained"
-                color="primary"
+                style = {{backgroundImage:'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))' , color: 'white', fontWeight: 'bold'}}
                 onClick={handleNext}
                 className={classes.button}
               >

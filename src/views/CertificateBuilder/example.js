@@ -6,7 +6,7 @@ export default function DragAroundNaive() {
     hideSourceOnDrag,
   ])
   return (
-    <div>
+    <div style = {{width: "100%"}}>
       <Container hideSourceOnDrag={true} />
       {console.log("In the example")}
       {/* <p>

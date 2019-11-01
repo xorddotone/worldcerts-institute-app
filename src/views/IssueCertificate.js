@@ -97,6 +97,7 @@
       ],
         columns: [],
         registeredClassifications: [],
+        classificationFields : [],
         selectedClassification: { classification: "Choose" },
         alertMessage: "",
         alertShow: false,
@@ -239,6 +240,11 @@
         temp1 = that.csvJSON(temp)
         console.log(temp1)
         console.log(JSON.parse(temp1))
+
+        // let uploadedData = JSON.parse(temp1)
+        // console.log(uploadedData)
+        
+
         // that.getColumnsFromCSVFile(JSON.parse(temp1))
         that.setState({
           data: JSON.parse(temp1),
@@ -391,7 +397,7 @@
             })
           }
           else {
-            console.log("****"+err.response.data.responseMessage)
+            console.log("**** err"+err.response.data.responseMessage)
           }
           
         })
@@ -452,15 +458,17 @@
       console.log(ev.target.value)
       console.log(this.state.registeredClassifications[ev.target.value])
       console.log(this.state.registeredClassifications[ev.target.value].certificateImageUrl)
+      console.log(this.state.registeredClassifications.combineFields)
       this.setState({
         alertShow: false,
         selectedClassification: this.state.registeredClassifications[ev.target.value],
-        certificateImage: this.state.registeredClassifications[ev.target.value].certificateImageUrl
+        certificateImage: this.state.registeredClassifications[ev.target.value].certificateImageUrl,
+        classificationFields: this.state.registeredClassifications.combineFields
       })
-      console.log(this.state.registeredClassifications[ev.target.value].list)
+      console.log(this.state.registeredClassifications[ev.target.value].combineFields)
       if(ev.target.value!=0){
 
-        this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].list)
+        this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].combineFields)
       }
       // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
       // this.setState({
@@ -529,7 +537,9 @@
             <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
             {/* subtitle="Registration" */}
           </Row>
-          {(this.state.loading == true) ? (<img src={loader} className="loader" style={{ marginBottom: "2em" }} />) : (<label style={{ marginBottom: "2em" }} size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue</label>)}
+          {(this.state.loading == true) ? 
+            (<img src={loader} className="loader" style={{ marginBottom: "2em" }} />) :
+             (<label style={{ marginBottom: "2em" }} size="sm" className="worldcerts-button" onClick={this.onIssueCertificate}>Issue</label>)}
           {/* <CSVReader
           cssClass="csv-reader-input"
           label="Select CSV File"
