@@ -16,6 +16,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   FormSelect,
+  FormCheckbox,
   FormRadio,
   FormTextarea,
   Button,
@@ -60,7 +61,7 @@ class InstituteRegistration extends Component {
       alertShow: false,
       alertMessage: "",
       loading: false,
-      QRVisible: null
+      QRVisible: false
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -433,26 +434,34 @@ componentWillUnmount(){
     this.setState({ classificationDynamicFields: values });
   }
 
-  QrVisibility(choice) {
-    console.log(choice)
-    if(choice == "Yes"){
+  // QrVisibility(choice) {
+  //   console.log(choice)
+  //   if(choice == "Yes"){
 
     
-    this.setState({
-      QRVisible: choice
-    });
-    this.props.QRVisible(true)
-  }
-  else if(choice == "No"){
-    this.setState({
-      QRVisible: choice
-    });
-    this.props.QRVisible(false)
-  }
+  //   this.setState({
+  //     QRVisible: choice
+  //   });
+  //   this.props.QRVisible(true)
+  // }
+  // else if(choice == "No"){
+  //   this.setState({
+  //     QRVisible: choice
+  //   });
+  //   this.props.QRVisible(false)
+  // }
   
+  // }
+
+  QrVisibility(e) {
+    let temp = this.state.QRVisible
+    this.setState({QRVisible : !temp})
   }
+
   render() {
     console.log(this.state.classificationDynamicFields)
+    console.log(this.state.QRVisible)
+
     return (
       <Container fluid className="main-content-container px-4">
         {(this.props.userData.isVerified) ? (
@@ -561,8 +570,8 @@ componentWillUnmount(){
                             {
 
                               this.state.classificationConstantFields.map((el, i) =>
-                                <Col md="3">
-                                  <span key={i} style={{ marginLeft: "10px" }}>
+                                <Col md="3" style={{marginBottom: "10px" }}>
+                                  <span key={i} >
                                     <FormInput
                                       type="text"
                                       value={el}
@@ -577,8 +586,8 @@ componentWillUnmount(){
                             {
 
                               this.state.classificationDynamicFields.map((el, i) =>
-                                <Col md="3">
-                                  <span key={i} style={{ width: "165px", marginLeft: "10px", marginTop: "10px" }}>
+                                <Col md="3" style={{marginBottom: "5px" }}>
+                                  <span key={i} style={{ width: "165px" }}>
                                     <span style={{ display: "flex" }}>
                                       <FormInput
                                         type="text"
@@ -592,10 +601,12 @@ componentWillUnmount(){
                                 </Col>
                               )
                             }
+                            <Col md = "3" style = {{marginTop: "10px"}}>
+                        <span  style = {{ fontSize: "14px" , color: 'gray', cursor: 'pointer'}} onClick={this.addClick.bind(this)} >+ add Certificate Fields</span>
+                        </Col>
                           </Row>
                         </div>
 
-                        <input className="worldcerts-button" style={{ marginBottom: "1rem" }} type='button' value='add Certificate Fields' onClick={this.addClick.bind(this)} />
 
 
 
@@ -603,33 +614,16 @@ componentWillUnmount(){
                         </Row> */}
                         <Row>
                           <Col md="6" className="form-group">
-                            <label >QR Code</label>
-
                             <div>
-                              <div>
-                                <FormRadio
-                                  inline
-                                  name="qr"
-                                  checked={this.state.QRVisible === "Yes"}
-                                  onChange={() => {
-                                    this.QrVisibility("Yes");
-                                  }}
-                                >
-                                  Yes
-          </FormRadio>
-                                <FormRadio
-                                  inline
-                                  name="qr"
-                                  checked={this.state.QRVisible === "No"}
-                                  onChange={() => {
-                                    this.QrVisibility("No")
-                                  }}
-                                >
-                                  No
-          </FormRadio>
-                              </div>
-
-                            </div>
+        <FormCheckbox
+          checked={this.state.QRVisible}
+          onChange={e => this.QrVisibility(e)}
+        >
+                            QR Code
+          
+        </FormCheckbox>
+       
+      </div>
                           </Col>
                         </Row>
                         {/* <Col md="3" className="form-group">

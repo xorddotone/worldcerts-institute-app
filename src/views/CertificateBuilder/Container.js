@@ -115,14 +115,14 @@ const Container = ({ hideSourceOnDrag }) => {
     for(let i = 0;i<classificationFields.length;i++){
         top = top + 80
        console.log("top ==> ", top)
-      fields.push({top: top , left:-40 , htmlStringCode:classificationFields[i],value: classificationFields[i]})
+      fields.push({top: top , left:-150 , htmlStringCode:classificationFields[i],value: classificationFields[i]})
     tempEditorState.push(EditorState.createEmpty())
     // console.log(tempEditorState)
     setEditorState(tempEditorState)
       
     }
     if(qrVisibility){
-      fields.push({top: top + 80, left:-40 , htmlStringCode:qrVisibility, value: qrVisibility})
+      fields.push({top: top + 80, left:-150 , htmlStringCode:qrVisibility, value: qrVisibility})
       console.log("fields ==> ",fields)      
       console.log("fields length ==> ",fields.length)
       setQrIndex(fields.length - 1 )
@@ -349,9 +349,9 @@ const Container = ({ hideSourceOnDrag }) => {
   wrapperClassName="wrapper-class"
   editorClassName="editor-class"
   toolbarClassName="toolbar-class"
-  // toolbarOnFocus
+  toolbarOnFocus
   toolbar={{
-    options: ['inline','fontSize', 'fontFamily'],
+    options: ['inline','fontSize', 'fontFamily','textAlign'],
     inline: {
       inDropdown: true,
       className: undefined,
@@ -372,13 +372,13 @@ const Container = ({ hideSourceOnDrag }) => {
       component: undefined,
       dropdownClassName: undefined,
     },
-    // textAlign: {
-    //   inDropdown: true,
-    //   className: undefined,
-    //   component: undefined,
-    //   dropdownClassName: undefined,
-    //   options: ['left', 'center', 'right', 'justify'],
-    // },
+    textAlign: {
+      inDropdown: true,
+      className: undefined,
+      component: undefined,
+      dropdownClassName: undefined,
+      options: ['left', 'center', 'right', 'justify'],
+    },
   }}
   editorState={editorState[idx]}
   // defaultEditorState = "Text"
