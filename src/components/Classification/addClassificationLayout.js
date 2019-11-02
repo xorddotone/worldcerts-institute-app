@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Add classification details', 'Create Certificate ', 'complete the process'];
+  return ['Add Classification Details', 'Create Certificate ', 'Complete the Process'];
 }
 
 function getStepContent(step) {
