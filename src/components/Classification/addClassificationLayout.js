@@ -132,47 +132,47 @@ function getStepContent(step) {
 export default function CustomizedSteppers() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  // const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
-  // const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
-  // const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
-  // const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
+  const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
+  const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
+  const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
+  const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
 
   const steps = getSteps();
 
   const handleNext = () => {
-    // console.log(activeStep)
-    // switch (activeStep) {
-    //   case 0: 
-    //   if(organizationName == "Select Organization" || classificationCategory == "" || classificationName == "" ){
-    //     alert("Fill the required Fields before Proceeding to next Step")
-    //   }
-    //   else{
-    //     return setActiveStep(prevActiveStep => prevActiveStep + 1);    
-    //   }
-    //   case 1: 
-    //   if(classificationCertificate == ""){
-    //     alert("upload the certificate before Proceeding to next Step")
-    //   }
-    //   else{
-    //     return setActiveStep(prevActiveStep => prevActiveStep + 1);  
-    //   }
-    
-    //   case 2:
-    //       return setActiveStep(prevActiveStep => prevActiveStep + 1);  
-
-    // }
     console.log(activeStep)
-    switch (activeStep){
+    switch (activeStep) {
       case 0: 
-      console.log("zero")
-      return setActiveStep(prevActiveStep => prevActiveStep + 1);
+      if(organizationName == "Select Organization" || classificationCategory == "" || classificationName == "" ){
+       return alert("Fill the required Fields before Proceeding to next Step")
+      }
+      else{
+        return setActiveStep(prevActiveStep => prevActiveStep + 1);    
+      }
       case 1: 
-       console.log("one")
-       return setActiveStep(prevActiveStep => prevActiveStep + 1);
-       case 0: 
-       return setActiveStep(prevActiveStep => prevActiveStep + 1);
-       console.log("two")
+      if(classificationCertificate == ""){
+       return alert("upload the certificate before Proceeding to next Step")
+      }
+      else{
+        return setActiveStep(prevActiveStep => prevActiveStep + 1);  
+      }
+    
+      case 2:
+          return setActiveStep(prevActiveStep => prevActiveStep + 1);  
+
     }
+    // console.log(activeStep)
+    // switch (activeStep){
+    //   case 0: 
+    //   console.log("zero")
+    //   return setActiveStep(prevActiveStep => prevActiveStep + 1);
+    //   case 1: 
+    //    console.log("one")
+    //    return setActiveStep(prevActiveStep => prevActiveStep + 1);
+    //    case 0: 
+    //    return setActiveStep(prevActiveStep => prevActiveStep + 1);
+    //    console.log("two")
+    // }
   };
 
   const handleBack = () => {

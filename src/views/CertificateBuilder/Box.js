@@ -10,6 +10,7 @@ const style = {
   position: 'absolute',
   // border: '1px dashed gray',
   backgroundColor: 'transparent',
+  width: 400,
   padding: '',
   cursor: 'move',
 }
