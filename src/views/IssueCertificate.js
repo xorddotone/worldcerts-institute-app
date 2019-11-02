@@ -487,13 +487,16 @@ if(!checkFlag){
         tempFieldsArray.push(temp[key].title)
         // console.log(temp[key].title)
       }
+      console.log("tempFieldsArray ==>", tempFieldsArray)
       for (var key in tempFieldsArray){
-        let checkFlag=tempFieldsArray.includes(this.state.columns.title)
+        console.log(this.state.columns[key].title)
+        let checkFlag=tempFieldsArray.includes(this.state.columns[key].title)
+        console.log(checkFlag)
         if(!checkFlag){
           matchCsvAndClassificationColumn=false;
         }
       }
-      
+      console.log(matchCsvAndClassificationColumn)
       if(matchCsvAndClassificationColumn){
         this.setState({
           data: dt,

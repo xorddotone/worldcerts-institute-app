@@ -31,7 +31,7 @@ import * as Response from '../../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../../constants/apiRoutes'
 import loader from '../../images/loader.gif'
-import { EditClassification, EditClassificationState } from "../../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState ,ClassificationFields} from "../../redux/actions/dashboard-action"
 import { Link, withRouter } from 'react-router-dom'
 import PropagateLoader from 'react-spinners/PropagateLoader';
 
@@ -128,18 +128,18 @@ class ClassificationRegistration extends Component {
                 console.log(timeDuration)
                 let imageFile = this.props.classificationCertificate
                 console.log(imageFile)
-                // var formData = new FormData()
-                // formData.append('file', imageFile)
-                // formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
-                // await axios.post(Routes.CLOUDINARY_API, formData)
-                //     .then(function (res) {
-                //         console.log(res)
-                //         console.log(res.data.secure_url)
-                //         imageURL = res.data.secure_url
-                //     })
-                //     .catch(function (err) {
-                //         console.log("err", err)
-                //     })
+                var formData = new FormData()
+                formData.append('file', imageFile)
+                formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+                await axios.post(Routes.CLOUDINARY_API, formData)
+                    .then(function (res) {
+                        console.log(res)
+                        console.log(res.data.secure_url)
+                        imageURL = res.data.secure_url
+                    })
+                    .catch(function (err) {
+                        console.log("err", err)
+                    })
                 let temp = that.props.classificationFields
                 for(let i= 0 ; i < temp.length ; i++){
                       let str =  temp[i].htmlStringCode
@@ -148,6 +148,8 @@ class ClassificationRegistration extends Component {
                       delete temp[i].editorValue
                       }
                 }
+                this.props.ClassificationFields(temp)
+
                 let obj = {
                     instituteName: that.props.selectedInstituteName.name,
                     category: that.props.classificationCategory,
@@ -160,34 +162,34 @@ class ClassificationRegistration extends Component {
                     // postalCode: this.state.postalCode
                 }
                 console.log(obj)
-                //   console.log(that.state.selectedInstituteId)
-                // axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-                //     .then(function (response) {
+                  console.log(that.state.selectedInstituteId)
+                axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+                    .then(function (response) {
 
-                //         // console.log(response.data.data.result);
-                //         that.setState({
-                //             loading: true
-                //         })
-                //         alert("Classification has been added")
-                //         that.props.history.push('/manageClassification')
+                        // console.log(response.data.data.result);
+                        that.setState({
+                            loading: true
+                        })
+                        alert("Classification has been added")
+                        that.props.history.push('/manageClassification')
 
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //         console.log(error.response)
-                //         console.log(error.response.data.responseMessage)
-                //         if (error.response.data.responseCode == Response.BAD_REQUEST) {
-                //             that.setState({
-                //                 alertShow: true,
-                //                 alertMessage: error.response.data.responseMessage,
-                //                 theme: "danger",
-                //                 loading: false
-                //             })
-                //         }
-                //         // that.setState({
-                //         //   loading:false
-                //         // })
-                //     });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        console.log(error.response)
+                        console.log(error.response.data.responseMessage)
+                        if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                            that.setState({
+                                alertShow: true,
+                                alertMessage: error.response.data.responseMessage,
+                                theme: "danger",
+                                loading: false
+                            })
+                        }
+                        // that.setState({
+                        //   loading:false
+                        // })
+                    });
             }
         }
 
@@ -473,7 +475,9 @@ const mapDispatchToProps = (dispatch) => {
         EditClassificationState: (data) => {
             dispatch(EditClassificationState(data))
         },
-
+        ClassificationFields : (data) => {
+            dispatch(ClassificationFields(data))
+        },
         // UpdateTitle: (title) => dispatch(pageTitle(title))
     }
 }
