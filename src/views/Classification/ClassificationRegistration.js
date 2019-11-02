@@ -128,58 +128,66 @@ class ClassificationRegistration extends Component {
                 console.log(timeDuration)
                 let imageFile = this.props.classificationCertificate
                 console.log(imageFile)
-                var formData = new FormData()
-                formData.append('file', imageFile)
-                formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
-                await axios.post(Routes.CLOUDINARY_API, formData)
-                    .then(function (res) {
-                        console.log(res)
-                        console.log(res.data.secure_url)
-                        imageURL = res.data.secure_url
-                    })
-                    .catch(function (err) {
-                        console.log("err", err)
-                    })
+                // var formData = new FormData()
+                // formData.append('file', imageFile)
+                // formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+                // await axios.post(Routes.CLOUDINARY_API, formData)
+                //     .then(function (res) {
+                //         console.log(res)
+                //         console.log(res.data.secure_url)
+                //         imageURL = res.data.secure_url
+                //     })
+                //     .catch(function (err) {
+                //         console.log("err", err)
+                //     })
+                let temp = that.props.classificationFields
+                for(let i= 0 ; i < temp.length ; i++){
+                      let str =  temp[i].htmlStringCode
+                      if(temp[i].editorValue){
+                      temp[i].htmlStringCode = str.replace(temp[i].editorValue , temp[i].value)
+                      delete temp[i].editorValue
+                      }
+                }
                 let obj = {
                     instituteName: that.props.selectedInstituteName.name,
                     category: that.props.classificationCategory,
                     classification: that.props.classificationName,
                     durationValidity: timeDuration,
                     certificateImageUrl: imageURL,
-                    dynamicCertificateFields: that.props.classificationFields
+                    dynamicCertificateFields: temp
 
                     // country: this.state.country,
                     // postalCode: this.state.postalCode
                 }
                 console.log(obj)
                 //   console.log(that.state.selectedInstituteId)
-                axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-                    .then(function (response) {
+                // axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+                //     .then(function (response) {
 
-                        // console.log(response.data.data.result);
-                        that.setState({
-                            loading: true
-                        })
-                        alert("Classification has been added")
-                        that.props.history.push('/manageClassification')
+                //         // console.log(response.data.data.result);
+                //         that.setState({
+                //             loading: true
+                //         })
+                //         alert("Classification has been added")
+                //         that.props.history.push('/manageClassification')
 
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        console.log(error.response)
-                        console.log(error.response.data.responseMessage)
-                        if (error.response.data.responseCode == Response.BAD_REQUEST) {
-                            that.setState({
-                                alertShow: true,
-                                alertMessage: error.response.data.responseMessage,
-                                theme: "danger",
-                                loading: false
-                            })
-                        }
-                        // that.setState({
-                        //   loading:false
-                        // })
-                    });
+                //     })
+                //     .catch(function (error) {
+                //         console.log(error);
+                //         console.log(error.response)
+                //         console.log(error.response.data.responseMessage)
+                //         if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                //             that.setState({
+                //                 alertShow: true,
+                //                 alertMessage: error.response.data.responseMessage,
+                //                 theme: "danger",
+                //                 loading: false
+                //             })
+                //         }
+                //         // that.setState({
+                //         //   loading:false
+                //         // })
+                //     });
             }
         }
 

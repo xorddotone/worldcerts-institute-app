@@ -80,13 +80,13 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempField = JSON.parse(JSON.stringify(fields))
     for (let i = 0; i < tempField.length - 1; i++) {
       let tops = convertPxToPercentage(imageHeight, tempField[i].top +60)
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left)
+      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
       tempField[i].left = lefts
       tempField[i].top = tops
     }
 
     let tops = convertPxToPercentage(imageHeight, top +60)
-    let lefts = convertPxToPercentage(imageWidth, Math.abs(left))
+    let lefts = convertPxToPercentage(imageWidth, left)
     tempField[id].left = lefts
     tempField[id].top = tops
     console.log("tempFields ==> ", tempField)
@@ -115,18 +115,15 @@ const Container = ({ hideSourceOnDrag }) => {
     for(let i = 0;i<classificationFields.length;i++){
         top = top + 80
        console.log("top ==> ", top)
-      fields.push({top: top , left:-150 , htmlStringCode:classificationFields[i],value: classificationFields[i]})
-    tempEditorState.push(EditorState.createEmpty())
-    // console.log(tempEditorState)
+      fields.push({top: top , left:-150 , htmlStringCode:classificationFields[i],value: classificationFields[i], editorValue: classificationFields[i]})
+        tempEditorState.push(EditorState.createEmpty())
     setEditorState(tempEditorState)
-      
     }
     if(qrVisibility){
-      fields.push({top: top + 80, left:-150 , htmlStringCode:qrVisibility, value: qrVisibility})
+      fields.push({top: top + 80, left:-150 , htmlStringCode : qrVisibility, value : qrVisibility})
       console.log("fields ==> ",fields)      
       console.log("fields length ==> ",fields.length)
       setQrIndex(fields.length - 1 )
-
     }
     return () => {
       console.log(fields)
@@ -149,7 +146,7 @@ const Container = ({ hideSourceOnDrag }) => {
     setEditorState(tempEditorState)
    console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
     const values = [...fields];
-    values[i].value = editorStateValue.getCurrentContent().getPlainText()
+    values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
     values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     setFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
@@ -157,7 +154,7 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
       let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
-      let lefts = convertPxToPercentage(imageWidth, Math.abs(tempFields[i].left))
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 100)
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -200,8 +197,8 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("values after parse ==> ", values)
 
     for (let i = 0; i < tempFields.length; i++) {
-      let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
-      let lefts = convertPxToPercentage(imageWidth, Math.abs(tempFields[i].left))
+      let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 100)
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -227,80 +224,6 @@ const Container = ({ hideSourceOnDrag }) => {
       {console.log("activeFoneDec",activeFontDecoration)}
       {console.log("fields",fields)}
       {console.log("editorState",editorState)}
-      
-
-  {/* {
-    classificationFields.map((field,idx) => {
-      const { left, top, title } = fields[idx]
-        console.log(fields[idx].value)
-      return(
-        
-        <div key={`${field}-${idx}`}>
-
-            {console.log(field, idx)}
-            <Box
-              key={idx}
-              id={idx}
-              left={left}
-              top={top}
-              value={fields}
-              hideSourceOnDrag={hideSourceOnDrag}
-            >
-              <Row>
-<Col md = "10">
-<Editor
-  wrapperClassName="wrapper-class"
-  editorClassName="editor-class"
-  toolbarClassName="toolbar-class"
-  toolbarOnFocus
-  toolbar={{
-    options: ['inline','fontSize', 'fontFamily', 'textAlign'],
-    inline: {
-      inDropdown: true,
-      className: undefined,
-      component: undefined,
-      dropdownClassName: undefined,
-      options: ['bold', 'italic', 'underline'],
-    },
-    fontSize: {
-      // icon: fontSize,
-      options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
-      className: undefined,
-      component: undefined,
-      dropdownClassName: undefined,
-    },
-    fontFamily: {
-      options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
-      className: undefined,
-      component: undefined,
-      dropdownClassName: undefined,
-    },
-    textAlign: {
-      inDropdown: true,
-      className: undefined,
-      component: undefined,
-      dropdownClassName: undefined,
-      options: ['left', 'center', 'right', 'justify'],
-    },
-  }}
-  editorState={editorState[idx]}
-  onEditorStateChange={e => handleChange( idx,e)}
-
-/> 
-</Col>
-  <Col md = "2">
-<button   onClick={() => handleRemove(idx)}>
-    X
-</button>
-</Col>
-
-</Row>
-            </Box>
-          </div>
-      )
-    })
-  } */}
-
       <Row>
         <Col md = "9">
           <div style = {{width: "100%"}}>
@@ -329,8 +252,7 @@ const Container = ({ hideSourceOnDrag }) => {
       <button onClick = {() => handleRemove(idx)}>
       X
       </button>
-      </Col>
-      
+      </Col>   
       </Row>
             </Box> ):
             (<div key={`${field}-${idx}`}>
@@ -385,7 +307,6 @@ const Container = ({ hideSourceOnDrag }) => {
   onEditorStateChange={e => handleChange( idx,e)}
   placeholder = {fields[idx].value}
   // value = {fields[idx].value}
-
 /> 
 </Col>
   <Col md = "2">
@@ -393,41 +314,12 @@ const Container = ({ hideSourceOnDrag }) => {
     X
 </button>
 </Col>
-
 </Row>
             </Box>
-          </div>)
-         
+          </div>)       
         );
       })
     }
-    {/* {
-      (qrVisibility)?(
-        <Box
-        key={qrIndex}
-        id={qrIndex}
-        left={-40}
-        top={600}
-        value ={fields}
-        hideSourceOnDrag={hideSourceOnDrag}
-      >
-        <Row>
-<Col md = "10">
-<img src = {qrExample} width= "100%"/> 
-</Col>
-<Col md = "2">
-<button onClick = {() => handleRemove()}>
-X
-</button>
-</Col>
-
-</Row>
-      </Box>
-      ):(null)
-      
-      } */}
-      
-
       </Col>
       </Row>
       {/* {Object.keys(boxes).map(key => {

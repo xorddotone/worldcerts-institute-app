@@ -61,7 +61,7 @@ class InstituteRegistration extends Component {
       alertShow: false,
       alertMessage: "",
       loading: false,
-      QRVisible: false
+      QRVisible: this.props.qrVisibility
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -791,7 +791,7 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     editClassificationState: state.dashboard_reducer.editClassificationState,
     editClassificationData: state.dashboard_reducer.editClassificationData,
-
+    qrVisibility : state.dashboard_reducer.qrVisibility,
     classificationCertificate: state.dashboard_reducer.image,
     classificationCategory: state.dashboard_reducer.registerClassificationCategory,
     classificationName: state.dashboard_reducer.registerClassificationName,

@@ -33,6 +33,7 @@ import * as Routes from '../../constants/apiRoutes'
 import loader from '../../images/loader.gif'
 import { EditClassification, EditClassificationState } from "../../redux/actions/dashboard-action"
 import { Link, withRouter } from 'react-router-dom'
+import qrCode from '../../images/qrcode.png'
 
 const duration = [
   "Choose", "year", "months", "days"
@@ -312,6 +313,7 @@ class RegisterClassification extends Component {
   
   render() {
     console.log(this.props.classificationCertificate)
+    console.log(this.props.classificationFields)
     return (
 
       <Container fluid className="main-content-container px-4">
@@ -396,8 +398,15 @@ class RegisterClassification extends Component {
             {
               Object.keys(this.props.classificationFields).map(key => { 
                 return(
-                  <div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , left: this.props.classificationFields[key].left + "%" , position: 'absolute'}}></div>
-                )
+                  
+                    (this.props.classificationFields[key].value !== true)
+                    ?
+                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" , position: 'absolute'}}></div>)
+                    :
+                    (<div><img src = {qrCode} style = {{top: (this.props.classificationFields[key].top - 7) + "%" , right: (Math.abs(this.props.classificationFields[key].left) - 18) + "%" , position: 'absolute'}} width = '15%'/></div>)
+
+                  
+                  )
               }
               )
             }
