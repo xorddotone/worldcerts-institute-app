@@ -268,7 +268,7 @@ class IssueCertificate extends Component {
     console.log("data => ", this.state.data)
     console.log("institute => ", this.props.selectedInstituteName)
     console.log(this.state.selectedClassification)
-    if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose") {
+    if (this.state.data == null || this.state.selectedClassification == null || this.state.selectedClassification.classification == "Choose" || this.state.data.length==0) {
       this.setState({
         loading: false,
         alertShow: true,
@@ -319,88 +319,135 @@ class IssueCertificate extends Component {
     //   await delete temp[i].tableData
     // }
     console.log("temp => ", temp)
-
-
-
-    let obj = {
-      classification,
-      issuer,
-      recipient: temp
-    }
-    console.log(this.props.selectedInstituteName.id)
-    axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
-      console.log(response)
-      if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
-        this.setState({
-          loading: false,
-          alertShow: true,
-          alertMessage: response.data.result,
-          theme: "info",
-          data: [],
-          fileName: ""
-        })
+    var arrTemp=[];
+    let checkFlag=false;
+    //Data validation
+    for(let key in temp){
+      console.log(Object.values(temp[key]))
+      console.log(Object.values(temp[key]).length-1!=this.state.columns.length)
+      //adding -1 because material table add one extra field to data called tableData:(index)
+      if(Object.values(temp[key]).length-1!=this.state.columns.length){
+        checkFlag=true;
+        break;
       }
-      else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+      arrTemp.push(Object.values(temp[key]))
+    }
+    if(checkFlag){
+      console.log("Data Missing")
+      this.setState({
+        loading: false,
+        alertShow: true,
+        alertMessage: "Data is Missing in Column",
+        theme: "danger"
+      })
+    }
+    else{
+      console.log(arrTemp)
+      for(let key in arrTemp){
+        for(let i=0;i<arrTemp[key].length-1;i++){
+          console.log(arrTemp[key][i])
+          if(arrTemp[key][i]=="" || arrTemp[key][i]==" "){
+            console.log("inside")
+            this.setState({
+              loading: false,
+              alertShow: true,
+              alertMessage: "Data is Missing in Column",
+              theme: "danger"
+            })
+            checkFlag=true;
+            break
+          }
+        }
+        if(checkFlag){
+          break
+        }
+        console.log("++++++++")
+      }
+
+    }
+console.log(checkFlag)
+if(!checkFlag){
+  let obj = {
+    classification,
+    issuer,
+    recipient: temp
+  }
+  console.log(this.props.selectedInstituteName.id)
+  axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
+    console.log(response)
+    if (response.data.responseMessage == Strings.CERTIFICATE_ISSUED) {
+      this.setState({
+        loading: false,
+        alertShow: true,
+        alertMessage: response.data.result,
+        theme: "info",
+        data: [],
+        fileName: ""
+      })
+    }
+    else if (response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+      this.setState({
+        loading: false,
+        theme: "danger",
+        alertShow: true,
+        alertMessage: response.data.responseMessage,
+        data: [],
+        fileName: ""
+
+      })
+    }
+  })
+    .catch(err => {
+      console.log(err.response)
+      if (err.response == undefined) {
         this.setState({
           loading: false,
           theme: "danger",
           alertShow: true,
-          alertMessage: response.data.responseMessage,
+          alertMessage: "Network Error",
+          data: [],
+          fileName: ""
+        })
+      }
+      else if (err.response.data.responseCode == Response.SERVER_ERROR) {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: "Internal Server Error! Please Try Again",
+          data: [],
+          fileName: ""
+        })
+      }
+      else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: err.response.data.responseMessage,
+          data: "",
+          fileName: ""
+        })
+
+      }
+      else if (err.response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: err.response.data.responseMessage,
           data: [],
           fileName: ""
 
         })
       }
+      else {
+        console.log("**** err" + err.response.data.responseMessage)
+      }
+
     })
-      .catch(err => {
-        console.log(err.response)
-        if (err.response == undefined) {
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: "Network Error",
-            data: [],
-            fileName: ""
-          })
-        }
-        else if (err.response.data.responseCode == Response.SERVER_ERROR) {
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: "Internal Server Error! Please Try Again",
-            data: [],
-            fileName: ""
-          })
-        }
-        else if (err.response.data.responseMessage == Strings.INVALID_FILE_UPLOADED || err.response.data.responseMessage == Strings.COULD_NOT_CREATE_PARTICIPANT) {
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: err.response.data.responseMessage,
-            data: "",
-            fileName: ""
-          })
-
-        }
-        else if (err.response.data.responseMessage == Strings.TRANSACTION_REVERTED) {
-          this.setState({
-            loading: false,
-            theme: "danger",
-            alertShow: true,
-            alertMessage: err.response.data.responseMessage,
-            data: [],
-            fileName: ""
-
-          })
-        }
-        else {
-          console.log("**** err" + err.response.data.responseMessage)
-        }
-
-      })
+}
+    
   }
   csvJSON(cssv) {
 
