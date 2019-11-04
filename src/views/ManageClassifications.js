@@ -283,12 +283,12 @@ class ManageClassifications extends Component {
                         {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
                       </div>
                     </div>
-                    <div className="my-auto ml-auto">
+                    {/* <div className="my-auto ml-auto">
                       <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
-                        {/* <i className="far fa-bookmark mr-1" />  */}
+                        {/* <i className="far fa-bookmark mr-1" />  
                         EDIT
                       </span>
-                    </div>
+                    </div> */}
 
 
 
