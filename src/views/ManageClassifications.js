@@ -146,6 +146,20 @@ class ManageClassifications extends Component {
     }
     onAddClick(){
       console.log("in add")
+      if (this.props.selectedInstituteName.name == "Select Organization") {
+        console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+
+        this.setState({
+            alertShow: true,
+            alertMessage: "Select Institute",
+            theme: "danger",
+        })
+        // alert("up")
+        // this.setState({
+        //   loading:false
+        // })
+    }
+    else {
       let obj={
         category:"",
         classification:"",
@@ -162,7 +176,7 @@ class ManageClassifications extends Component {
       this.props.EditClassificationState(false)
       this.props.history.push("/addClassification")
     }
-  
+    }
 
   render() {
     const {
