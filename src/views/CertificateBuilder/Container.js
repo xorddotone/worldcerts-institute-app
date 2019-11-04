@@ -178,10 +178,13 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("fields before ==> ", fields)
 
     const values = [...fields];
+    const tempEditorstate = [...editorState]
     console.log("fields before ==> ", fields)
     console.log("values before ==> ", values)
+    tempEditorstate.splice(i,1)
     values.splice(i, 1);
     console.log("values after splice ==> ", values)
+    setEditorState(tempEditorstate)
     setFields(values);
     console.log(values)
     if( i !== qrIndex && values.length !== 0 ){
