@@ -154,10 +154,10 @@ class InstituteRegistration extends Component {
 
       this.setState({
         durationTemp: ev.target.value,
-        duration: parseInt(ev.target.value, 10)
+        duration: ev.target.value
       })
 
-      this.props.ClassificationDuration(parseInt(ev.target.value, 10))
+      this.props.ClassificationDuration(ev.target.value)
     }
     else {
       console.log("else")
@@ -546,7 +546,12 @@ componentWillUnmount(){
                             <label >Duration</label>
 
                             <InputGroup className="mb-3">
-                              <FormInput value={this.props.classificationDuration} onChange={this.durationChangeHandler} onKeyPress={this.clickEnter.bind(this)} />
+                              <FormInput 
+                              value={this.props.classificationDuration} 
+                              onChange={this.durationChangeHandler} 
+                              onKeyPress={this.clickEnter.bind(this)} 
+                              placeholder = "Duration"
+                              />
                               <FormSelect value={this.props.classificationDurationValidity} type="append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                                 {
                                   duration.map((duration) => {
@@ -592,7 +597,7 @@ componentWillUnmount(){
                                       <FormInput
                                         type="text"
                                         value={el || ''}
-
+                                        placeholder = "Certificate Field"
                                         onChange={this.handleFieldsChange.bind(this, i)}
                                       />
                                       <input type='button' value='X' onClick={this.removeClick.bind(this, i)} />
@@ -606,24 +611,18 @@ componentWillUnmount(){
                         </Col>
                           </Row>
                         </div>
-
-
-
-
                         {/* </Col>
                         </Row> */}
                         <Row>
                           <Col md="6" className="form-group">
                             <div>
-        <FormCheckbox
-          checked={this.state.QRVisible}
-          onChange={e => this.QrVisibility(e)}
-        >
+                          <FormCheckbox
+                          checked={this.state.QRVisible}
+                          onChange={e => this.QrVisibility(e)}
+                        >
                             QR Code
-          
-        </FormCheckbox>
-       
-      </div>
+                            </FormCheckbox>                         
+                          </div>
                           </Col>
                         </Row>
                         {/* <Col md="3" className="form-group">

@@ -111,15 +111,15 @@ class ClassificationRegistration extends Component {
             else {
                 let timeDuration = ""
                 if (that.props.classificationDurationValidity == "year") {
-                    timeDuration = that.props.classificationDuration * 31536000
+                    timeDuration = parseInt(that.props.classificationDuration,10) * 31536000
                 }
                 else if (that.props.classificationDurationValidity == "months") {
-                    timeDuration = that.props.classificationDuration * 2592000
+                    timeDuration = parseInt(that.props.classificationDuration,10) * 2592000
 
 
                 }
                 else if (that.props.classificationDurationValidity == "days") {
-                    timeDuration = that.props.classificationDuration * 86400
+                    timeDuration = parseInt(that.props.classificationDuration,10) * 86400
                 }
                 else if(that.props.classificationDurationValidity == "" ||that.props.classificationDurationValidity == "Choose" ){
                     timeDuration = 0
