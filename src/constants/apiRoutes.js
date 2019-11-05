@@ -28,7 +28,7 @@ export const GET_CLASSIFICATION_FIELDS = SERVER_URL + "constantClassificationFie
 
 // Cloudinary Constants
 
-export const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/da2sdh0h1/image/upload"
+export const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/da2sdh0h1/image"
 export const CLOUDINARY_PRESET = "cupxjjdc"
 
 

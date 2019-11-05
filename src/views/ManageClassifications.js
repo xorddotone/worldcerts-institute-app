@@ -90,13 +90,24 @@ class ManageClassifications extends Component {
       console.log(obj)
 
      let request =  await  axios.delete(Routes.Delete_CLASSIFICATION + this.props.selectedInstituteName.id ,{data:obj});
+     console.log(request.data)
+    //  let certificateId = request.data.result.certificateImage.certificateImageID
+    //  Routes.CLOUDINARY_API.destroy(certificateId, function(error,result) {
+    //   console.log(result, error) });
+      // await axios.post(Routes.CLOUDINARY_API + "destory", certificateId)
+      //               .then(function (res) {
+      //                   console.log(res)
+      //                   console.log(res.data)
+      //               })
+      //               .catch(function (err) {
+      //                   console.log("err", err)
+      //               })
      this.setState({
       alertShow: true,
     alertMessage: name + " classification has been deleted",
     theme: "success",
     registeredClassifications:tempArr
     })
-    console.log(request.data)
     }catch(e){
       console.log(e)
     }

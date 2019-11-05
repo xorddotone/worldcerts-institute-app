@@ -553,7 +553,7 @@ if(!checkFlag){
     this.setState({
       alertShow: false,
       selectedClassification: this.state.registeredClassifications[ev.target.value],
-      certificateImage: this.state.registeredClassifications[ev.target.value].certificateImageUrl,
+      certificateImage: this.state.registeredClassifications[ev.target.value].certificateImage.certificateImageUrl,
       classificationFields: this.state.registeredClassifications.combineFields
     })
     console.log(this.state.registeredClassifications[ev.target.value].combineFields)

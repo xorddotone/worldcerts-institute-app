@@ -36,7 +36,7 @@ import ReactFileReader from 'react-file-reader';
 import Example from './CertificateBuilder/example'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-
+import ClassificationDropZone from './Classification/ClassificationDropZone'
 const duration = [
   "Choose", "year", "months", "days"
 ]
@@ -69,7 +69,12 @@ class UploadCertificate extends Component {
       }
     }
   
- 
+//  getDerivedStateFromProps(nextProps, prevState){
+//   this.setState({
+//     certificate: URL.createObjectURL(nextProps.imageFile)
+//   })
+   
+//  }
   handleFiles(file) {
     console.log(file[0])
     this.setState({
@@ -98,7 +103,7 @@ class UploadCertificate extends Component {
         <Row>
           <Col lg="12">
 
-<div id = "uploadButton" style = {{textAlign: 'center' , verticalAlign: 'center', border: '1px dashed',padding: "15%"}}>
+{/* <div id = "uploadButton" style = {{textAlign: 'center' , verticalAlign: 'center', border: '1px dashed',padding: "15%"}}>
             <ReactFileReader
               handleFiles={this.handleFiles.bind(this)} fileTypes={['.png', '.jpg', '.jpeg']} 
               >
@@ -107,13 +112,15 @@ class UploadCertificate extends Component {
 
               >Upload Certificate</button>
             </ReactFileReader>
-            </div>
+            </div> */}
+            <ClassificationDropZone id = "uploadButton"/>
           </Col>
           {/* <img src = {this.state.certificate}  ref={this.imgEl} width= "100%"
         onLoad={() => console.log(this.imgEl.current.naturalHeight, this.imgEl.current.naturalWidth)} /> */}
         {console.log(this.props.imageFile)}
         {console.log(this.props.imageFile)}
-{(this.state.certificate =="")? (null): 
+        {console.log(this.state.certificate)}
+{(this.state.certificate == "")? (null): 
 (<DndProvider backend={HTML5Backend}>
   {console.log("in the container")}
             <Example />

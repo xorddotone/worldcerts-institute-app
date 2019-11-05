@@ -75,6 +75,7 @@ class ClassificationRegistration extends Component {
         console.log(Object.keys(this.props.classificationFields))
         console.log(this.props.classificationFields)
         let imageURL = ''
+        let certificatePublicId = ''
         // console.log(this.state.selectedInstituteId)
         this.setState({
             loading: true
@@ -131,11 +132,13 @@ class ClassificationRegistration extends Component {
                 var formData = new FormData()
                 formData.append('file', imageFile)
                 formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
-                await axios.post(Routes.CLOUDINARY_API, formData)
+                await axios.post(Routes.CLOUDINARY_API + "/upload", formData)
                     .then(function (res) {
                         console.log(res)
+                        console.log(res.data.public_id)
                         console.log(res.data.secure_url)
                         imageURL = res.data.secure_url
+                        certificatePublicId = res.data.public_id
                     })
                     .catch(function (err) {
                         console.log("err", err)
@@ -155,8 +158,11 @@ class ClassificationRegistration extends Component {
                     category: that.props.classificationCategory,
                     classification: that.props.classificationName,
                     durationValidity: timeDuration,
+                    dynamicCertificateFields: temp,
+                    certificateImage : {
                     certificateImageUrl: imageURL,
-                    dynamicCertificateFields: temp
+                    certificateImageID : certificatePublicId
+                    },
 
                     // country: this.state.country,
                     // postalCode: this.state.postalCode

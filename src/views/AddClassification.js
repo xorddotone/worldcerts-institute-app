@@ -593,14 +593,15 @@ componentWillUnmount(){
                               this.state.classificationDynamicFields.map((el, i) =>
                                 <Col md="3" style={{marginBottom: "5px" }}>
                                   <span key={i} style={{ width: "165px" }}>
-                                    <span style={{ display: "flex" }}>
+                                    <span style={{ display: "flex" ,border: "1px solid #e1e5eb" , borderRadius: ".25rem" }}>
                                       <FormInput
+                                        style = {{border: "none"}}
                                         type="text"
                                         value={el || ''}
                                         placeholder = "Certificate Field"
                                         onChange={this.handleFieldsChange.bind(this, i)}
                                       />
-                                      <input type='button' value='X' onClick={this.removeClick.bind(this, i)} />
+                                      <span  style = {{marginRight: "6px" , fontSize: "12px" , cursor: 'pointer' , color: "rgba(73, 80, 87, 0.7)"}} onClick={this.removeClick.bind(this, i)} >x</span>
                                     </span>
                                   </span>
                                 </Col>

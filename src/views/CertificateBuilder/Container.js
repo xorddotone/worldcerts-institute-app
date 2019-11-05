@@ -11,6 +11,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import qrExample from '../../images/qrcode.png'
+import { Resizable } from "re-resizable";
 
 import {
 
@@ -27,6 +28,14 @@ const Checkbox = ({ type = "checkbox", name, checked = false, onChange }) => {
   return (
     <input type={type} name={name} checked={checked} onChange={onChange} />
   );
+};
+
+const Qrstyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "solid 1px #ddd",
+  background: "#f0f0f0"
 };
 
 const styles = {
@@ -51,6 +60,9 @@ const Container = ({ hideSourceOnDrag }) => {
   const [qrIndex, setQrIndex] = useState()
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
+  const [qrWidth, setqrWidth] = useState(200)
+  const [qrHeight, setqrHeight] = useState(200)
+
   const [activeFontFamily, setActiveFontFamily] = useState("Open Sans")
 
 
@@ -227,6 +239,7 @@ const Container = ({ hideSourceOnDrag }) => {
       {console.log("activeFoneDec",activeFontDecoration)}
       {console.log("fields",fields)}
       {console.log("editorState",editorState)}
+      {console.log("image ==> " , image)}
       <Row>
         <Col md = "9">
           <div style = {{width: "100%"}}>
@@ -239,7 +252,8 @@ const Container = ({ hideSourceOnDrag }) => {
         console.log(fields[idx].value)
         return (
           (qrIndex == idx )?
-            (<Box
+            (
+            <Box
               key={idx}
               id={idx}
               left={left}
@@ -248,16 +262,34 @@ const Container = ({ hideSourceOnDrag }) => {
               hideSourceOnDrag={hideSourceOnDrag}
             >
               <Row>
+          {/* <Resizable
+           style={Qrstyle}
+           defaultSize={{
+             width: 250,
+             height: 250
+           }}
+              // style={Qrstyle}
+              // size={{ width: qrWidth, height: qrHeight }}
+              // onResizeStop={(e, direction, ref, d) => {
+                
+              //     setqrWidth(qrWidth + d.width)
+              //     setqrHeight(qrHeight + d.height)
+              
+              // }}
+            > */}
       <Col md = "10">
-      <img src = {qrExample} width= "40%"/> 
+
+      <img src = {qrExample} width = "40%" /> 
       </Col>
+      {/* </Resizable> */}
       <Col md = "2">
       <button onClick = {() => handleRemove(idx)}>
       X
       </button>
       </Col>   
       </Row>
-            </Box> ):
+            </Box> 
+            ):
             (<div key={`${field}-${idx}`}>
             {console.log(field, idx)}
             <Box

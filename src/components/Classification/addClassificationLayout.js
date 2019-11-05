@@ -17,6 +17,7 @@ import UploadCertificate from '../../views/UploadCertificate'
 import RegisterClassification from '../../views/Classification/RegisterClassification';
 import ClassificationRegistration from '../../views/Classification/ClassificationRegistration';
 import { useDispatch, useSelector } from "react-redux";
+import ClassificationDropZone from '../../views/Classification/ClassificationDropZone';
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -119,7 +120,7 @@ function getStepContent(step) {
           <AddClassification/>
       );
     case 1:
-      return <UploadCertificate/>;
+      return <ClassificationDropZone/>;
     case 2:
       return <RegisterClassification/>;
       case 3:
