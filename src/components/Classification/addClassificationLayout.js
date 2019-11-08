@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -18,6 +18,10 @@ import RegisterClassification from '../../views/Classification/RegisterClassific
 import ClassificationRegistration from '../../views/Classification/ClassificationRegistration';
 import { useDispatch, useSelector } from "react-redux";
 import ClassificationDropZone from '../../views/Classification/ClassificationDropZone';
+import { Link } from 'react-router-dom'
+import {
+  Alert,
+} from "shards-react";
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -97,7 +101,7 @@ ColorlibStepIcon.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: '98%',
-    margin: "1em"
+    // margin: "1em"
     // height: '50%'
   },
   button: {
@@ -131,29 +135,56 @@ function getStepContent(step) {
 }
 
 export default function CustomizedSteppers() {
-  const classes = useStyles();
+  const classes = useStyles(); 
+  const [isTop , setTop] = React.useState(true)
+  const [alertMessage,setALertMessage] = React.useState("")
+  const [open , setAlertOpen] = React.useState(false)
   const [activeStep, setActiveStep] = React.useState(0);
   const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
   const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
   const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
   const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
+  const userData = useSelector(state => state.user_reducer.user)
+
 
   const steps = getSteps();
 
+
+  useEffect(() => {
+    console.log("this.asd,aldkadkoasjd")
+    document.addEventListener('scroll', () => {
+      console.log(window.scrollY)
+      const istempTop = window.scrollY < 1;
+      if (istempTop !== isTop) {
+          console.log(isTop)
+          setTop(istempTop)
+      }
+  } );} )
+
   const handleNext = () => {
     console.log(activeStep)
+    if(open){
+    setAlertOpen(false)
+    }
     switch (activeStep) {
       case 0: 
       if(organizationName == "Select Organization" || classificationCategory == "" || classificationName == "" ){
-       return alert("Fill the required Fields before Proceeding to next Step")
+       return(
+        setAlertOpen(true),
+        setALertMessage("Fill the required Fields before Proceeding to next Step")
+       )
       }
       else{
         return setActiveStep(prevActiveStep => prevActiveStep + 1);    
       }
       case 1: 
       if(classificationCertificate == ""){
-       return alert("upload the certificate before Proceeding to next Step")
-      }
+       return (
+         
+        setAlertOpen(true),
+        setALertMessage("upload the certificate before Proceeding to next Step")
+       
+        ) }
       else{
         return setActiveStep(prevActiveStep => prevActiveStep + 1);  
       }
@@ -179,16 +210,28 @@ export default function CustomizedSteppers() {
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
-
+ const dismiss = () => {
+    setAlertOpen(false)
+  };
   const handleReset = () => {
     setActiveStep(0);
   };
 
   return (
-    <div className={classes.root}>
-    {    console.log(activeStep)}
-      
-      <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+    <div>
+    {console.log(userData)}
+      {(userData.isVerified) ? (
+          null
+        ) : (
+            <Alert className="mb-0" style = {(isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "84%", maxWidth: "100%"})} open={true} theme="danger">
+              <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
+        </Alert>
+          )}
+    <Alert className="mb-0" style = {(isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "84%", maxWidth: "100%"})} open = {open} theme = "danger" dismissible={() => dismiss()} >
+         <i className="fas fa-exclamation mx-2"></i>{alertMessage}
+      </Alert> 
+     <div className={classes.root}>
+     <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
         {steps.map(label => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
@@ -218,6 +261,7 @@ export default function CustomizedSteppers() {
           </div>
         
       </div>
+    </div>
     </div>
   );
 }

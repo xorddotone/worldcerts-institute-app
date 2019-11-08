@@ -61,7 +61,7 @@ class InstituteRegistration extends Component {
       alertShow: false,
       alertMessage: "",
       loading: false,
-      QRVisible: this.props.qrVisibility
+      QRVisible: this.props.qrVisibility,
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
@@ -129,6 +129,16 @@ class InstituteRegistration extends Component {
         console.log(error);
       })
   }
+
+  componentDidUpdate(){
+    document.addEventListener('scroll', () => {
+      const isTop = window.scrollY < 1;
+      if (isTop !== this.state.isTop) {
+          this.setState({ isTop })
+      }
+  });
+  }
+
   instituteNameChangeHandler(ev) {
     // console.log(ev)
     console.log(ev.target.value)
@@ -464,16 +474,16 @@ componentWillUnmount(){
 
     return (
       <Container fluid className="main-content-container px-4">
-        {(this.props.userData.isVerified) ? (
+        {/* {(this.props.userData.isVerified) ? (
           null
         ) : (
-            <Alert className="mb-0" open={true} theme="danger">
+            <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={true} theme="danger">
               <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
           )}
-        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+        <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-        </Alert>
+        </Alert> */}
         <Row noGutters className="page-header py-4">
           <PageTitle title="Add Classification" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}

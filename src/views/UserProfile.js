@@ -51,7 +51,8 @@ class UserProfile extends Component {
       open: false,
       info_open: false,
       showStrongPasswordError: false,
-      strongPasswordError: ""
+      strongPasswordError: "",
+      isTop: true
 
     }
     this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
@@ -66,11 +67,14 @@ class UserProfile extends Component {
     this.onClickCancel = this.onClickCancel.bind(this)
     this.onClickSaveInModal = this.onClickSaveInModal.bind(this)
   }
-
-  componentWillMount() {
-    // this.props.UpdateTitle("Institue Registration");
+  componentDidUpdate(){
+    document.addEventListener('scroll', () => {
+      const isTop = window.scrollY < 1;
+      if (isTop !== this.state.isTop) {
+          this.setState({ isTop })
+      }
+  });
   }
-
   onChangeNewPassword(event) {
     console.log(event.target.value)
     var reg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -282,7 +286,7 @@ class UserProfile extends Component {
     return (
 
       <Container fluid className="main-content-container px-4">
-        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+        <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
         </Alert>
         <Row noGutters className="page-header py-4">

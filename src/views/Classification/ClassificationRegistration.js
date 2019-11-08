@@ -61,7 +61,8 @@ class ClassificationRegistration extends Component {
             alertShow: false,
             alertMessage: "",
             loading: false,
-            certificateImageURL: ''
+            certificateImageURL: '',
+            isTop : true
         }
         this.onRegisterClick = this.onRegisterClick.bind(this)
         this.dismiss = this.dismiss.bind(this)
@@ -201,6 +202,14 @@ class ClassificationRegistration extends Component {
 
     }
 
+    componentDidUpdate(){
+        document.addEventListener('scroll', () => {
+          const isTop = window.scrollY < 1;
+          if (isTop !== this.state.isTop) {
+              this.setState({ isTop })
+          }
+      });
+      }
 
     async onRegisterClick() {
         console.log("#################################################3")
@@ -431,11 +440,11 @@ class ClassificationRegistration extends Component {
                 {(this.props.userData.isVerified) ? (
                     null
                 ) : (
-                        <Alert className="mb-0" open={true} theme="danger">
+                        <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%"})} open={true} theme="danger">
                             <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
                     )}
-                <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+                <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" })} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
                     <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
                 </Alert>
                 <div className='sweet-loading' style={{ margin: "25% 50%" }}>

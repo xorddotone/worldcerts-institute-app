@@ -61,7 +61,8 @@ class ManageInstitutes extends Component {
       registeredInstitute:[],
       alertMessage: "",
       alertShow: false,
-      theme: ""
+      theme: "",
+      isTop : true
     }
     this.onClickClose = this.onClickClose.bind(this)
     this.dismiss = this.dismiss.bind(this)
@@ -90,6 +91,14 @@ class ManageInstitutes extends Component {
       })
   }
 
+  componentDidUpdate(){
+    document.addEventListener('scroll', () => {
+      const isTop = window.scrollY < 1;
+      if (isTop !== this.state.isTop) {
+          this.setState({ isTop })
+      }
+  });
+  }
   async onClickClose(name,id){
     let tempArr=[]
     for(let i=0;i<this.state.registeredInstitute.length;i++){
@@ -164,13 +173,13 @@ class ManageInstitutes extends Component {
       {(this.props.userData.isVerified)?(
         null
         ):(
-          <Alert className="mb-0" open={true} theme="danger">
+          <Alert className="mb-0"style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={true} theme="danger">
           <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
         </Alert>
       )}
 
 <div>
-<Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
+<Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open = {this.state.alertShow} theme = {this.state.theme}  dismissible={this.dismiss}>
          <i className="fas fa-exclamation mx-2"></i>{this.state.alertMessage}
       </Alert>  
            <Row noGutters className="page-header py-4">

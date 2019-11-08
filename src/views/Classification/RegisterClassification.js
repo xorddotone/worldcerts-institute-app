@@ -401,7 +401,7 @@ class RegisterClassification extends Component {
                   
                     (this.props.classificationFields[key].value !== true)
                     ?
-                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" , position: 'absolute'}}></div>)
+                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" ,width: "400px", position: 'absolute'}}></div>)
                     :
                     (<div><img src = {qrCode} style = {{top: (this.props.classificationFields[key].top - 7) + "%" , right: (Math.abs(this.props.classificationFields[key].left) - 18) + "%" , position: 'absolute'}} width = '15%'/></div>)
 

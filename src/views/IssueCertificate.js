@@ -30,6 +30,7 @@ import ReactFileReader from 'react-file-reader';
 import MaterialTable from 'material-table'
 import certificate from '../images/certificate.png'
 import { generateQrCodes } from '../utils/functions'
+import { Link } from 'react-router-dom'
 
 
 
@@ -104,6 +105,7 @@ class IssueCertificate extends Component {
       classificationErrorShow: false,
       classificationErrorMessage: "",
       loading: false,
+      isTop: true,
       cert: [
         {
           _id: 1222333,
@@ -170,6 +172,7 @@ class IssueCertificate extends Component {
   }
   componentDidMount() {
     // console.log(this.props.userData)
+    
     let temp;
     let that = this;
     // axios.get(Routes.CLASSIFICATION +this.props.userData._id)
@@ -569,6 +572,14 @@ if(!checkFlag){
   dismiss() {
     this.setState({ alertShow: false });
   }
+  componentDidUpdate(){
+    document.addEventListener('scroll', () => {
+      const isTop = window.scrollY < 1;
+      if (isTop !== this.state.isTop) {
+          this.setState({ isTop })
+      }
+  });
+  }
   render() {
     //   if(this.state.data){
     //   this.getColumns()
@@ -577,9 +588,18 @@ if(!checkFlag){
 
     return (
       <Container fluid className="main-content-container px-4">
-        <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+         {(this.props.userData.isVerified)?(
+        null
+        ):(
+          <Alert className="mb-0"style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={true} theme="danger">
+          <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
+        </Alert>
+      )}
+
+        <Alert  className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" , transition: "2s"})} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
         </Alert>
+        
         <Row noGutters className="page-header py-4">
           <PageTitle title="Issue Certificate" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
           {/* subtitle="Registration" */}
@@ -717,7 +737,7 @@ const mapStateToProps = (state) => {
   return {
     // Title: state.pageTitle,
     selectedInstituteName: state.user_reducer.selectedInstituteName,
-    // userData:state.user_reducer.user
+    userData:state.user_reducer.user
 
   }
 }

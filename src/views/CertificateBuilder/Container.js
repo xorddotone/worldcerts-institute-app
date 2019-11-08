@@ -92,13 +92,13 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempField = JSON.parse(JSON.stringify(fields))
     for (let i = 0; i < tempField.length - 1; i++) {
       let tops = convertPxToPercentage(imageHeight, tempField[i].top +60)
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
+      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 335)
       tempField[i].left = lefts
       tempField[i].top = tops
     }
 
     let tops = convertPxToPercentage(imageHeight, top +60)
-    let lefts = convertPxToPercentage(imageWidth, left)
+    let lefts = convertPxToPercentage(imageWidth, left + 335)
     tempField[id].left = lefts
     tempField[id].top = tops
     console.log("tempFields ==> ", tempField)
@@ -166,7 +166,7 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
       let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
-      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 100)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 335)
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -213,7 +213,7 @@ const Container = ({ hideSourceOnDrag }) => {
 
     for (let i = 0; i < tempFields.length; i++) {
       let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 60)
-      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 100)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 335)
       tempFields[i].left = lefts
       tempFields[i].top = tops
     }
@@ -253,7 +253,8 @@ const Container = ({ hideSourceOnDrag }) => {
         return (
           (qrIndex == idx )?
             (
-            <Box
+            <div>
+             <Box
               key={idx}
               id={idx}
               left={left}
@@ -261,12 +262,12 @@ const Container = ({ hideSourceOnDrag }) => {
               value ={fields}
               hideSourceOnDrag={hideSourceOnDrag}
             >
-              <Row>
-          {/* <Resizable
+              
+           {/* <Resizable
            style={Qrstyle}
            defaultSize={{
-             width: 250,
-             height: 250
+             width: 200,
+             height: 200
            }}
               // style={Qrstyle}
               // size={{ width: qrWidth, height: qrHeight }}
@@ -276,22 +277,23 @@ const Container = ({ hideSourceOnDrag }) => {
               //     setqrHeight(qrHeight + d.height)
               
               // }}
-            > */}
-      <Col md = "10">
+            >  */}
+      
 
-      <img src = {qrExample} width = "40%" /> 
-      </Col>
+      <img width = "40%" src = {qrExample} /> 
+      
       {/* </Resizable> */}
-      <Col md = "2">
-      <button onClick = {() => handleRemove(idx)}>
+    
+      <span onClick = {() => handleRemove(idx)}>
       X
-      </button>
-      </Col>   
-      </Row>
+      </span>
+    
             </Box> 
+      </div>
             ):
             (<div key={`${field}-${idx}`}>
             {console.log(field, idx)}
+            
             <Box
               key={idx}
               id={idx}
@@ -344,13 +346,14 @@ const Container = ({ hideSourceOnDrag }) => {
   // value = {fields[idx].value}
 /> 
 </Col>
-  <Col md = "2">
-<button onClick = {() => handleRemove(idx)}>
+  <Col md = "1" style = {{alignSelf: "flex-end"}}>
+<span onClick = {() => handleRemove(idx)}>
     X
-</button>
+</span>
 </Col>
 </Row>
             </Box>
+
           </div>)       
         );
       })

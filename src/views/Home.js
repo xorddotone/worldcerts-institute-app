@@ -117,7 +117,8 @@ class Home extends Component {
       ],
       alertMessage: "",
       alertShow: false,
-      theme: ""
+      theme: "",
+      isTop: true
       // pagetitle: Strings.WORLDCERTS
     }
   }
@@ -132,6 +133,14 @@ class Home extends Component {
     // this.props.UpdateTitle(pagetitle);
   }
 
+  componentDidUpdate(){
+    document.addEventListener('scroll', () => {
+      const isTop = window.scrollY <=50;
+      if (isTop !== this.state.isTop) {
+          this.setState({ isTop })
+      }
+  });
+  }
   // onBtnClick() {
   //   // this.props.history.push("/freelancers-regsitration")
   //   // this.props.history.push("/freelancers-regsitration")
@@ -140,9 +149,13 @@ class Home extends Component {
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-        <Alert className="mb-0" open={this.state.alertShow} theme="danger">
+        <Row>
+          <Col sm = "12" lg = "12" md = "12">
+        <Alert  className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' , width: "100%"})} open={this.state.alertShow} theme="danger">
           <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
         </Alert>
+        </Col>
+        </Row>
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
           <PageTitle title="Stats Overview" subtitle="Home" className="text-sm-left mb-3" />
