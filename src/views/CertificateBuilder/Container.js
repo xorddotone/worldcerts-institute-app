@@ -12,6 +12,7 @@ import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import qrExample from '../../images/qrcode.png'
 import { Resizable } from "re-resizable";
+import ReactFileReader from 'react-file-reader';
 
 import {
 
@@ -232,6 +233,16 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log(ev.target.value)
     setActiveFontDecoration(ev.target.value)
   }
+  function handleFiles(file) {
+    console.log(file[0])
+    dispatch({ type: 'UPLOADED_IMAGE', payload: file[0] })
+
+    // this.setState({
+    //     certificate: URL.createObjectURL(file[0])
+    //   })
+    //   document.getElementById("uploadButton").hidden = true;
+    // this.props.IMAGE(file[0])
+  }
 
   return (
     <Card >
@@ -249,6 +260,14 @@ const Container = ({ hideSourceOnDrag }) => {
       </div>
       </Col>
 <Col md = "3">
+<ReactFileReader
+              handleFiles={handleFiles} fileTypes={['.png', '.jpg', '.jpeg']} 
+              >
+
+              <button style = {{marginTop: "3em"}} size="sm" className="mb-2 mr-1 worldcerts-button"
+
+              >Change Certificate</button>
+            </ReactFileReader>
 {Object.keys(fields).map((field, idx) => {
         const { left, top, title } = fields[idx]
         console.log(fields[idx].value)
