@@ -34,7 +34,7 @@ const INITIAL_STATE = {
     registerClassificationInstituteName: "",
     registerClassificationName: "",
     registerClassificationCategory: "",
-    registerClassificationDuration: null,
+    registerClassificationDuration: "",
     registerClassificationDurationValidity: "",
     classificationFields: {},
     classificationCombineFields: [],

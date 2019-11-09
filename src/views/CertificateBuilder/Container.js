@@ -81,6 +81,8 @@ const Container = ({ hideSourceOnDrag }) => {
   const moveBox = (id, left, top) => {
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
+    console.log("imageHeight ==>" , imageHeight)
+    console.log("imageWidth ==>" , imageWidth)
 
     setFields(
       update(fields, {
@@ -280,7 +282,7 @@ const Container = ({ hideSourceOnDrag }) => {
             >  */}
       
 
-      <img width = "40%" src = {qrExample} /> 
+      <img width = "100%" src = {qrExample} /> 
       
       {/* </Resizable> */}
     

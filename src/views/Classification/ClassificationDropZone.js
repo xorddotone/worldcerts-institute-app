@@ -9,6 +9,7 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert,
   Form,
   FormGroup,
   FormInput,
@@ -30,7 +31,10 @@ class ClassificationDropzone extends Component {
     super(props);
     this.state = {
       hightlight: true,
-      certificate : ''
+      certificate : '',
+      alertShow: false,
+      theme : "",
+      alertMessage : ""
 
     };
     this.fileInputRef = React.createRef();
@@ -135,27 +139,54 @@ class ClassificationDropzone extends Component {
     return array;
   }
 
-  handleFileChoosen(files) {
+  async handleFileChoosen(files) {
     let that = this
     console.log(files)
-    this.setState({
-        certificate: URL.createObjectURL(files)
-      })
-      document.getElementById("uploadButton").hidden = true;
-    this.props.IMAGE(files)
-  }
+    // let temp = URL.createObjectURL(files)
+    // console.log("temp.naturalWidht ==>",temp.naturalWidth )
+    // console.log("temp.naturalHeight ==>",temp.naturalHeight )
+    var img = document.createElement("img");
+
+    img.src = URL.createObjectURL( files );
+
+    img.onload = await function() {
+        var width = img.naturalWidth,
+          height = img.naturalHeight;
+
+        URL.revokeObjectURL( img.src );
+
+        console.log("temp.naturalWidht ==>",width )
+        console.log("temp.naturalHeight ==>",height )  
+        
+        if(width > 1000 & height > 1000){
+          console.log("IN IFFFF")
+          that.props.IMAGE(files)
+          that.setState({
+            certificate: URL.createObjectURL(files),
+            alertShow : false,
+          })
+            document.getElementById("uploadButton").hidden = true;
+        }
+        else{
+          console.log("IN Elsee")
+
+          that.setState({
+              alertShow : true,
+              theme: "danger",
+              alertMessage: "Certificate width and height must be greater than 1000px"
+          })
+        }
+      }
+    }
 
 
   render() {
     return (
       
       <Container fluid className="main-content-container px-4">
-      {/* <Alert className="mb-0" open={true} theme="danger">
-        <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to = "account_activation" style = {{color:"white" , fontWeight: "bold"}}>click here</Link> to verify it.
-      </Alert>
-       <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} dismissible={this.dismiss}>
+       <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} >
        <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-    </Alert> */}
+    </Alert>
       <Row>
         <Col lg="12">
 
@@ -172,7 +203,7 @@ class ClassificationDropzone extends Component {
          <div id = "uploadButton">
           <div style={{ margin: "0em 4em 01em 4em" }}>
 
-            <h4 style={{ fontSize: "20px", marginTop: "1em", textAlign: "center" }}>Upload Certificate</h4>
+            {/* <h4 style={{ fontSize: "20px", marginTop: "1em", textAlign: "center" }}>Upload Certificate</h4> */}
 
             <div style={{ marginBottom: "1em", textAlign: "center" }}>
               <div
@@ -184,7 +215,7 @@ class ClassificationDropzone extends Component {
 
                 style={{ cursor: this.props.disabled ? "default" : "pointer" }}
               >
-                    <div style={{ textAlign: "center" , border :"1px dashed grey" , background: "transparent",padding: "4em 0em"}} onClick={this.openFileDialog}>
+                    <div style={{ textAlign: "center" , border :"1px dashed grey" , background: "transparent",padding: "9em 0em"}} onClick={this.openFileDialog}>
                       <input
                         ref={this.fileInputRef}
                         className="FileInput"

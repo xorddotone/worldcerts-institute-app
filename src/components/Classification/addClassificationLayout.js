@@ -142,6 +142,7 @@ export default function CustomizedSteppers() {
   const [activeStep, setActiveStep] = React.useState(0);
   const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
   const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
+  const durationValidity = useSelector(state => state.dashboard_reducer.registerClassificationDurationValidity)
   const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
   const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
   const userData = useSelector(state => state.user_reducer.user)
@@ -168,7 +169,7 @@ export default function CustomizedSteppers() {
     }
     switch (activeStep) {
       case 0: 
-      if(organizationName == "Select Organization" || classificationCategory == "" || classificationName == "" ){
+      if(organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose"){
        return(
         setAlertOpen(true),
         setALertMessage("Fill the required Fields before Proceeding to next Step")

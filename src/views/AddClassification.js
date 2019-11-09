@@ -33,11 +33,11 @@ import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
-import { EditClassification, EditClassificationState, ClassificationCategory,QRVisibility,ClassificationCombineFields, ClassificationInstituteName, ClassificationDuration, ClassificationDurationValidity, ClassificationName } from "../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationDuration, ClassificationDurationValidity, ClassificationName } from "../redux/actions/dashboard-action"
 import { Link } from 'react-router-dom'
 
 const duration = [
-  "Choose", "year", "months", "days"
+  "Choose", "Life Time", "year", "months", "days"
 ]
 class InstituteRegistration extends Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class InstituteRegistration extends Component {
       instituteName: '',
       category: '',
       classification: this.props.editClassificationData.classification,
-      duration: null,
+      duration: "",
       durationTemp: "",
       durationValidity: '',
       ErrorStatus: false,
@@ -62,15 +62,16 @@ class InstituteRegistration extends Component {
       alertMessage: "",
       loading: false,
       QRVisible: this.props.qrVisibility,
+      durationValidityDisabled: true
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
     this.classificationChangeHandler = this.classificationChangeHandler.bind(this)
     this.durationChangeHandler = this.durationChangeHandler.bind(this)
     this.timedurationChangeHandler = this.timedurationChangeHandler.bind(this)
-    this.onClickOptions = this.onClickOptions.bind(this)
-    this.dismiss = this.dismiss.bind(this)
-    this.onRegisterClick = this.onRegisterClick.bind(this)
+    // this.onClickOptions = this.onClickOptions.bind(this)
+    // this.dismiss = this.dismiss.bind(this)
+    // this.onRegisterClick = this.onRegisterClick.bind(this)
     this.QrVisibility = this.QrVisibility.bind(this)
   }
 
@@ -80,6 +81,17 @@ class InstituteRegistration extends Component {
     let temp;
     let temp2;
     let that = this;
+    if(this.props.classificationDurationValidity == "Life Time" || this.props.classificationDurationValidity == "Choose" || this.props.classificationDurationValidity == ""){
+      console.log("IN duration disabled")  
+      this.setState({
+          durationValidityDisabled:true
+        })
+    }
+    else{
+      this.setState({
+        durationValidityDisabled:false
+      })
+    }
     axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
       .then(function (response) {
         // handle success
@@ -130,13 +142,13 @@ class InstituteRegistration extends Component {
       })
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     document.addEventListener('scroll', () => {
       const isTop = window.scrollY < 1;
       if (isTop !== this.state.isTop) {
-          this.setState({ isTop })
+        this.setState({ isTop })
       }
-  });
+    });
   }
 
   instituteNameChangeHandler(ev) {
@@ -149,11 +161,6 @@ class InstituteRegistration extends Component {
   }
 
   durationChangeHandler(ev) {
-    // console.log(ev.target.value)
-    // if(this.state.duration){
-
-    //   console.log(this.state.duration.toString())
-    // }
 
     var reg = new RegExp('^\\d+$');
     var reg1 = new RegExp('[A-Za-z]+');
@@ -192,9 +199,20 @@ class InstituteRegistration extends Component {
 
   timedurationChangeHandler(ev) {
     console.log(ev.target.value)
-    this.setState({
-      durationValidity: ev.target.value
-    })
+    if (ev.target.value == "Life Time" || ev.target.value == "Choose") {
+      this.setState({
+        durationValidity: ev.target.value,
+        durationValidityDisabled: true
+      })
+      this.props.ClassificationDuration()
+    }
+    else {
+      this.setState({
+        durationValidity: ev.target.value,
+        durationValidityDisabled: false
+      })
+    }
+
     this.props.ClassificationDurationValidity(ev.target.value)
 
   }
@@ -205,237 +223,237 @@ class InstituteRegistration extends Component {
     })
   }
 
-  onRegisterClick() {
-    console.log("#################################################3")
-    console.log(typeof (this.state.duration))
-    console.log(this.state.selectedInstituteId)
-    this.setState({
-      loading: true
-    })
-    console.log(this.props.selectedInstituteName)
-    if (this.props.selectedInstituteName.name == "Select Organization") {
-      console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+  // onRegisterClick() {
+  //   console.log("#################################################3")
+  //   console.log(typeof (this.state.duration))
+  //   console.log(this.state.selectedInstituteId)
+  //   this.setState({
+  //     loading: true
+  //   })
+  //   console.log(this.props.selectedInstituteName)
+  //   if (this.props.selectedInstituteName.name == "Select Organization") {
+  //     console.log("innnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
 
-      this.setState({
-        alertShow: true,
-        alertMessage: "Select Institute",
-        theme: "danger",
-        loading: false
+  //     this.setState({
+  //       alertShow: true,
+  //       alertMessage: "Select Institute",
+  //       theme: "danger",
+  //       loading: false
 
-      })
-      // alert("up")
-      // this.setState({
-      //   loading:false
-      // })
-    }
-    else {
-      let that = this;
-      console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
-      if (that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
+  //     })
+  //     // alert("up")
+  //     // this.setState({
+  //     //   loading:false
+  //     // })
+  //   }
+  //   else {
+  //     let that = this;
+  //     console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
+  //     if (that.state.category == "" || that.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || that.state.durationValidity == "Choose") {
 
-        that.setState({
-          alertMessage: Strings.ALL_FIELDS_REQUIRED,
-          alertShow: true,
-          theme: "info",
-          loading: false
-        })
-        alert("stop")
-      }
-      else {
-        let timeDuration = ""
-        if (that.state.durationValidity == "year") {
-          timeDuration = that.state.duration * 31536000
-        }
-        else if (that.state.durationValidity == "months") {
-          timeDuration = that.state.duration * 2592000
-
-
-        }
-        else if (that.state.durationValidity == "days") {
-        }
-        timeDuration = that.state.duration * 86400
-
-        console.log(timeDuration)
-        let obj = {
-          instituteName: that.props.selectedInstituteName.name,
-          category: that.state.category,
-          classification: that.state.classification,
-          durationValidity: timeDuration,
-          // country: this.state.country,
-          // postalCode: this.state.postalCode
-        }
-        console.log(obj)
-        console.log(that.state.selectedInstituteId)
-        axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-          .then(function (response) {
-
-            // console.log(response.data.data.result);
-            that.setState({
-              loading: false
-            })
-            alert("Classification has been added")
-            that.props.history.push('/manageClassification')
-
-          })
-          .catch(function (error) {
-            console.log(error);
-            console.log(error.response)
-            console.log(error.response.data.responseMessage)
-            if (error.response.data.responseCode == Response.BAD_REQUEST) {
-              that.setState({
-                alertShow: true,
-                alertMessage: error.response.data.responseMessage,
-                theme: "danger",
-                loading: false
-              })
-            }
-            // that.setState({
-            //   loading:false
-            // })
-          });
-      }
-    }
-    // this.setState({
-    //   loading:false
-    // })
-  }
-  dismiss() {
-    this.setState({ alertShow: false });
-  }
-
-  toggle(which) {
-    const newState = { ...this.state };
-    newState[which] = !this.state[which];
-    this.setState(newState);
-  }
-  onClickOptionss(ev) {
-    console.log(ev)
-  }
-  onCancelClick() {
-    let obj = {
-      category: '',
-      classification: '',
-      durationValidity: null,
-      instituteName: '',
-      _id: ''
-    }
-    this.props.EditClassification(obj)
-    this.props.EditClassificationState(false)
-    this.props.history.push("/manageClassification")
-  }
-  onSaveClick() {
-    this.setState({
-      loading: true
-    })
-    let that = this;
-    console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
-    if (that.state.category == "" || this.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || this.state.durationValidity == "Choose") {
-      that.setState({
-        alertMessage: Strings.ALL_FIELDS_REQUIRED,
-        alertShow: true,
-        theme: "danger",
-        loading: false
-      })
-    }
-    else {
-      let timeDuration = ""
-      if (that.state.durationValidity == "year") {
-        timeDuration = that.state.duration * 31536000
-      }
-      else if (that.state.durationValidity == "months") {
-        timeDuration = that.state.duration * 2592000
+  //       that.setState({
+  //         alertMessage: Strings.ALL_FIELDS_REQUIRED,
+  //         alertShow: true,
+  //         theme: "info",
+  //         loading: false
+  //       })
+  //       alert("stop")
+  //     }
+  //     else {
+  //       let timeDuration = ""
+  //       if (that.state.durationValidity == "year") {
+  //         timeDuration = that.state.duration * 31536000
+  //       }
+  //       else if (that.state.durationValidity == "months") {
+  //         timeDuration = that.state.duration * 2592000
 
 
-      }
-      else if (that.state.durationValidity == "days") {
-      }
-      timeDuration = that.state.duration * 86400
-      console.log(that.props.selectedInstituteName.id)
-      console.log(timeDuration)
-      let obj = {
-        instituteName: that.props.selectedInstituteName.name,
-        instituteId: that.props.selectedInstituteName.id,
-        category: that.state.category,
-        classification: that.state.classification,
-        durationValidity: timeDuration,
-        // country: this.state.country,
-        // postalCode: this.state.postalCode
-      }
-      console.log(obj)
-      console.log(that.state.selectedInstituteId)
-      axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
-        .then(function (response) {
+  //       }
+  //       else if (that.state.durationValidity == "days") {
+  //       }
+  //       timeDuration = that.state.duration * 86400
 
-          // console.log(response.data.data.result);
-          that.setState({
-            loading: false
-          })
-          alert("Classification has been Updated")
-          that.props.history.push('/manageClassification')
+  //       console.log(timeDuration)
+  //       let obj = {
+  //         instituteName: that.props.selectedInstituteName.name,
+  //         category: that.state.category,
+  //         classification: that.state.classification,
+  //         durationValidity: timeDuration,
+  //         // country: this.state.country,
+  //         // postalCode: this.state.postalCode
+  //       }
+  //       console.log(obj)
+  //       console.log(that.state.selectedInstituteId)
+  //       axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+  //         .then(function (response) {
 
-        })
-        .catch(function (error) {
-          console.log(error);
-          console.log(error.response);
+  //           // console.log(response.data.data.result);
+  //           that.setState({
+  //             loading: false
+  //           })
+  //           alert("Classification has been added")
+  //           that.props.history.push('/manageClassification')
 
-          if (error.response == undefined) {
-            that.setState({
-              alertMessage: "Network Error",
-              alertShow: true,
-              theme: "danger",
-              loading: false
-            })
-          }
-          else if (error.response.data.responseCode == Response.BAD_REQUEST) {
-            that.setState({
-              alertMessage: error.response.data.responseMessage,
-              alertShow: true,
-              theme: "danger",
-              loading: false
-            })
-          }
-          else {
-            that.setState({
-              alertMessage: error.response.data.responseMessage,
-              alertShow: true,
-              theme: "danger",
-              loading: false
-            })
-          }
-        });
-    }
-  }
+  //         })
+  //         .catch(function (error) {
+  //           console.log(error);
+  //           console.log(error.response)
+  //           console.log(error.response.data.responseMessage)
+  //           if (error.response.data.responseCode == Response.BAD_REQUEST) {
+  //             that.setState({
+  //               alertShow: true,
+  //               alertMessage: error.response.data.responseMessage,
+  //               theme: "danger",
+  //               loading: false
+  //             })
+  //           }
+  //           // that.setState({
+  //           //   loading:false
+  //           // })
+  //         });
+  //     }
+  //   }
+  //   // this.setState({
+  //   //   loading:false
+  //   // })
+  // }
+  // dismiss() {
+  //   this.setState({ alertShow: false });
+  // }
+
+  // toggle(which) {
+  //   const newState = { ...this.state };
+  //   newState[which] = !this.state[which];
+  //   this.setState(newState);
+  // }
+  // onClickOptionss(ev) {
+  //   console.log(ev)
+  // }
+  // onCancelClick() {
+  //   let obj = {
+  //     category: '',
+  //     classification: '',
+  //     durationValidity: null,
+  //     instituteName: '',
+  //     _id: ''
+  //   }
+  //   this.props.EditClassification(obj)
+  //   this.props.EditClassificationState(false)
+  //   this.props.history.push("/manageClassification")
+  // }
+  // onSaveClick() {
+  //   this.setState({
+  //     loading: true
+  //   })
+  //   let that = this;
+  //   console.log(that.state.instituteName + " " + that.state.category + " " + that.state.classification + " " + that.state.duration + " " + that.state.durationValidity)
+  //   if (that.state.category == "" || this.state.category == "Choose" || that.state.classification == "" || that.state.duration == "" || that.state.durationValidity == "" || this.state.durationValidity == "Choose") {
+  //     that.setState({
+  //       alertMessage: Strings.ALL_FIELDS_REQUIRED,
+  //       alertShow: true,
+  //       theme: "danger",
+  //       loading: false
+  //     })
+  //   }
+  //   else {
+  //     let timeDuration = ""
+  //     if (that.state.durationValidity == "year") {
+  //       timeDuration = that.state.duration * 31536000
+  //     }
+  //     else if (that.state.durationValidity == "months") {
+  //       timeDuration = that.state.duration * 2592000
+
+
+  //     }
+  //     else if (that.state.durationValidity == "days") {
+  //     }
+  //     timeDuration = that.state.duration * 86400
+  //     console.log(that.props.selectedInstituteName.id)
+  //     console.log(timeDuration)
+  //     let obj = {
+  //       instituteName: that.props.selectedInstituteName.name,
+  //       instituteId: that.props.selectedInstituteName.id,
+  //       category: that.state.category,
+  //       classification: that.state.classification,
+  //       durationValidity: timeDuration,
+  //       // country: this.state.country,
+  //       // postalCode: this.state.postalCode
+  //     }
+  //     console.log(obj)
+  //     console.log(that.state.selectedInstituteId)
+  //     axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
+  //       .then(function (response) {
+
+  //         // console.log(response.data.data.result);
+  //         that.setState({
+  //           loading: false
+  //         })
+  //         alert("Classification has been Updated")
+  //         that.props.history.push('/manageClassification')
+
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //         console.log(error.response);
+
+  //         if (error.response == undefined) {
+  //           that.setState({
+  //             alertMessage: "Network Error",
+  //             alertShow: true,
+  //             theme: "danger",
+  //             loading: false
+  //           })
+  //         }
+  //         else if (error.response.data.responseCode == Response.BAD_REQUEST) {
+  //           that.setState({
+  //             alertMessage: error.response.data.responseMessage,
+  //             alertShow: true,
+  //             theme: "danger",
+  //             loading: false
+  //           })
+  //         }
+  //         else {
+  //           that.setState({
+  //             alertMessage: error.response.data.responseMessage,
+  //             alertShow: true,
+  //             theme: "danger",
+  //             loading: false
+  //           })
+  //         }
+  //       });
+  //   }
+  // }
   clickEnter(event) {
     console.log(event.key)
 
-    if (event.key == "Enter") {
-      if (this.props.editClassificationState) {
-        this.onSaveClick()
-      }
-      else {
+    // if (event.key == "Enter") {
+    //   if (this.props.editClassificationState) {
+    //     this.onSaveClick()
+    //   }
+    //   else {
 
-        this.onRegisterClick()
-      }
-    }
+    //     this.onRegisterClick()
+    //   }
+    // }
   }
 
-  handleFieldsChange(i, event) {
-    let values = [...this.state.classificationDynamicFields];
-    values[i] = event.target.value;
-    console.log(values)
-    this.setState({ classificationDynamicFields: values });
+  // handleFieldsChange(i, event) {
+  //   let values = [...this.state.classificationDynamicFields];
+  //   values[i] = event.target.value;
+  //   console.log(values)
+  //   this.setState({ classificationDynamicFields: values });
+  // }
+  componentWillUnmount() {
+    console.log(this.state.classificationConstantFields)
+    console.log(this.state.classificationDynamicFields)
+    let a = [...this.state.classificationConstantFields]
+    a.push(...this.state.classificationDynamicFields)
+    console.log(a)
+    this.props.ClassificationCombineFields(a)
   }
-componentWillUnmount(){
-  console.log(this.state.classificationConstantFields)
-  console.log(this.state.classificationDynamicFields)
-  let a = [...this.state.classificationConstantFields]
-  a.push(...this.state.classificationDynamicFields)
-  console.log(a)
-  this.props.ClassificationCombineFields(a)
-}
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, ''] }))
-  
+
   }
 
   removeClick(i) {
@@ -448,7 +466,7 @@ componentWillUnmount(){
   //   console.log(choice)
   //   if(choice == "Yes"){
 
-    
+
   //   this.setState({
   //     QRVisible: choice
   //   });
@@ -460,18 +478,20 @@ componentWillUnmount(){
   //   });
   //   this.props.QRVisible(false)
   // }
-  
+
   // }
 
   QrVisibility(e) {
     let temp = this.state.QRVisible
-    this.setState({QRVisible : !temp})
+    this.setState({ QRVisible: !temp })
+    this.props.QRVisible(!temp)
   }
 
   render() {
     console.log(this.state.classificationDynamicFields)
     console.log(this.state.QRVisible)
-
+    console.log(this.state.durationTemp)
+    console.log(this.props.classificationDurationValidity)
     return (
       <Container fluid className="main-content-container px-4">
         {/* {(this.props.userData.isVerified) ? (
@@ -508,30 +528,13 @@ componentWillUnmount(){
                               disabled
                               value={this.props.selectedInstituteName.name}
                             />
-                            {/* <FormSelect onChange={this.instituteNameChangeHandler}>
-                              {console.log(this.state.registeredInstitute)}
-                              {
-                                  this.state.registeredInstitute.map((category) => {
-                                  return (
-                                    // console.log(category)
-
-                                      <option  onClick={(category)=>this.onClickOptions(category._id)} >{category.companyName}</option>
-                                  )
-                                })
-                              }
-                            </FormSelect> */}
                           </Col>
                           <Col md="6" className="form-group">
                             <label>Category</label>
-
                             <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder="Category" value={this.props.classificationCategory}   >
-                              {/* <option>category</option> */}
-                              {/* {console.log(this.state.classificationCategory)} */}
-
                               {
                                 this.state.classificationCategory.map((category) => {
                                   return (
-                                    // console.log(category.categoryName)
                                     <option >{category.categoryName}</option>
 
                                   )
@@ -541,7 +544,6 @@ componentWillUnmount(){
                           </Col>
                         </Row>
                         <Row >
-
                           <Col md="6" className="form-group">
                             <label >Classification</label>
                             <FormInput
@@ -553,21 +555,20 @@ componentWillUnmount(){
                             />
                           </Col>
                           <Col md="6" className="form-group">
-                            <label >Duration</label>
-
+                            <label >Duration Validity</label>
                             <InputGroup className="mb-3">
-                              <FormInput 
-                              value={this.props.classificationDuration} 
-                              onChange={this.durationChangeHandler} 
-                              onKeyPress={this.clickEnter.bind(this)} 
-                              placeholder = "Duration"
+                              <FormInput
+                                value={this.props.classificationDuration}
+                                onChange={this.durationChangeHandler}
+                                onKeyPress={this.clickEnter.bind(this)}
+                                placeholder="Duration"
+                                disabled = {this.state.durationValidityDisabled}
                               />
                               <FormSelect value={this.props.classificationDurationValidity} type="append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                                 {
                                   duration.map((duration) => {
                                     return (
                                       <option>{duration}</option>
-
                                     )
                                   })
                                 }
@@ -576,16 +577,13 @@ componentWillUnmount(){
                           </Col>
                         </Row>
                         {/* <Row >
-
-                          <Col md="12" className="form-group"> */}
+                         <Col md="12" className="form-group"> */}
                         <label >Classification Fields</label>
                         <div>
                           <Row>
-
                             {
-
                               this.state.classificationConstantFields.map((el, i) =>
-                                <Col md="3" style={{marginBottom: "10px" }}>
+                                <Col md="3" style={{ marginBottom: "10px" }}>
                                   <span key={i} >
                                     <FormInput
                                       type="text"
@@ -596,30 +594,27 @@ componentWillUnmount(){
                                 </Col>
                               )
                             }
-
-
                             {
-
                               this.state.classificationDynamicFields.map((el, i) =>
-                                <Col md="3" style={{marginBottom: "5px" }}>
+                                <Col md="3" style={{ marginBottom: "5px" }}>
                                   <span key={i} style={{ width: "165px" }}>
-                                    <span style={{ display: "flex" ,border: "1px solid #e1e5eb" , borderRadius: ".25rem" }}>
+                                    <span style={{ display: "flex", border: "1px solid #e1e5eb", borderRadius: ".25rem" }}>
                                       <FormInput
-                                        style = {{border: "none"}}
+                                        style={{ border: "none" }}
                                         type="text"
                                         value={el || ''}
-                                        placeholder = "Certificate Field"
+                                        placeholder="Certificate Field"
                                         onChange={this.handleFieldsChange.bind(this, i)}
                                       />
-                                      <span  style = {{marginRight: "6px" , fontSize: "12px" , cursor: 'pointer' , color: "rgba(73, 80, 87, 0.7)"}} onClick={this.removeClick.bind(this, i)} >x</span>
+                                      <span style={{ marginRight: "6px", fontSize: "12px", cursor: 'pointer', color: "rgba(73, 80, 87, 0.7)" }} onClick={this.removeClick.bind(this, i)} >x</span>
                                     </span>
                                   </span>
                                 </Col>
                               )
                             }
-                            <Col md = "3" style = {{marginTop: "10px"}}>
-                        <span  style = {{ fontSize: "14px" , color: 'gray', cursor: 'pointer'}} onClick={this.addClick.bind(this)} >+ add Certificate Fields</span>
-                        </Col>
+                            <Col md="3" style={{ marginTop: "10px" }}>
+                              <span style={{ fontSize: "14px", color: 'gray', cursor: 'pointer' }} onClick={this.addClick.bind(this)} >+ add Certificate Fields</span>
+                            </Col>
                           </Row>
                         </div>
                         {/* </Col>
@@ -627,13 +622,13 @@ componentWillUnmount(){
                         <Row>
                           <Col md="6" className="form-group">
                             <div>
-                          <FormCheckbox
-                          checked={this.state.QRVisible}
-                          onChange={e => this.QrVisibility(e)}
-                        >
-                            QR Code
-                            </FormCheckbox>                         
-                          </div>
+                              <FormCheckbox
+                                checked={this.state.QRVisible}
+                                onChange={e => this.QrVisibility(e)}
+                              >
+                                QR Code
+                            </FormCheckbox>
+                            </div>
                           </Col>
                         </Row>
                         {/* <Col md="3" className="form-group">
@@ -801,7 +796,7 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     editClassificationState: state.dashboard_reducer.editClassificationState,
     editClassificationData: state.dashboard_reducer.editClassificationData,
-    qrVisibility : state.dashboard_reducer.qrVisibility,
+    qrVisibility: state.dashboard_reducer.qrVisibility,
     classificationCertificate: state.dashboard_reducer.image,
     classificationCategory: state.dashboard_reducer.registerClassificationCategory,
     classificationName: state.dashboard_reducer.registerClassificationName,
@@ -834,7 +829,7 @@ const mapDispatchToProps = (dispatch) => {
     ClassificationName: (data) => {
       dispatch(ClassificationName(data))
     },
-    QRVisible : (choice) => {
+    QRVisible: (choice) => {
       dispatch(QRVisibility(choice))
     },
     ClassificationCombineFields: (fields) => {
