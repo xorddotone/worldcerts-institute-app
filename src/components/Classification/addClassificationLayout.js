@@ -152,12 +152,12 @@ export default function CustomizedSteppers() {
 
 
   useEffect(() => {
-    console.log("this.asd,aldkadkoasjd")
+    // console.log("this.asd,aldkadkoasjd")
     document.addEventListener('scroll', () => {
-      console.log(window.scrollY)
+      // console.log(window.scrollY)
       const istempTop = window.scrollY < 1;
       if (istempTop !== isTop) {
-          console.log(isTop)
+          // console.log(isTop)
           setTop(istempTop)
       }
   } );} )

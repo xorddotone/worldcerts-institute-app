@@ -92,6 +92,8 @@ const Container = ({ hideSourceOnDrag }) => {
         },
       }),
     )
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: fields })
+
     let tempField = JSON.parse(JSON.stringify(fields))
     for (let i = 0; i < tempField.length - 1; i++) {
       let tops = convertPxToPercentage(imageHeight, tempField[i].top +60)
@@ -122,20 +124,19 @@ const Container = ({ hideSourceOnDrag }) => {
       setFontSize(fontSizes)
     }
 
-    
-
+    let top = 0
+    console.log(classificationFields)
     console.log(classificationFields.length)
     const tempEditorState = [...editorState]
-    let top = 0 
     for(let i = 0;i<classificationFields.length;i++){
         top = top + 80
        console.log("top ==> ", top)
-      fields.push({top: top , left:-150 , htmlStringCode:classificationFields[i],value: classificationFields[i], editorValue: classificationFields[i]})
+      fields.push({top: top , left: classificationFields[i].left , htmlStringCode:classificationFields[i].htmlStringCode,value: classificationFields[i].value, editorValue: classificationFields[i].editorValue})
         tempEditorState.push(EditorState.createEmpty())
     setEditorState(tempEditorState)
     }
     if(qrVisibility){
-      fields.push({top: top + 80, left:-150 , htmlStringCode : qrVisibility, value : qrVisibility})
+      fields.push({top: top + 150, left:0 , htmlStringCode : qrVisibility, value : qrVisibility})
       console.log("fields ==> ",fields)      
       console.log("fields length ==> ",fields.length)
       setQrIndex(fields.length - 1 )
@@ -161,6 +162,8 @@ const Container = ({ hideSourceOnDrag }) => {
     setEditorState(tempEditorState)
    console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
     const values = [...fields];
+    values[i].editorValue = editorStateValue
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
     values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
     values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     setFields(values);
@@ -208,6 +211,8 @@ const Container = ({ hideSourceOnDrag }) => {
     }
   }
     console.log("values after set ==> ", values)
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
+
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(values))
@@ -222,6 +227,8 @@ const Container = ({ hideSourceOnDrag }) => {
     }
     console.log("tempFields => ", tempFields)
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
+
+    
 
   }
 
@@ -266,6 +273,7 @@ const Container = ({ hideSourceOnDrag }) => {
       {console.log("FontSize",fontSizes)}
       {console.log("activeFontSize",activeFontSize)}
       {console.log("activeFoneDec",activeFontDecoration)}
+      {console.log("classificationFields" , classificationFields)}
       {console.log("fields",fields)}
       {console.log("editorState",editorState)}
       {console.log("image ==> " , image)}
@@ -280,9 +288,9 @@ const Container = ({ hideSourceOnDrag }) => {
               handleFiles={handleFiles} fileTypes={['.png', '.jpg', '.jpeg']} 
               >
 
-              <button style = {{marginTop: "3em"}} size="sm" className="mb-2 mr-1 worldcerts-button"
+              <span style = {{marginTop: "8em" , color: "blue", textDecoration: "underline" , cursor: "pointer"}} size="sm" className="mb-2 mr-1"
 
-              >Change Certificate</button>
+              >Change Certificate</span>
             </ReactFileReader>
 {Object.keys(fields).map((field, idx) => {
         const { left, top, title } = fields[idx]
@@ -316,15 +324,17 @@ const Container = ({ hideSourceOnDrag }) => {
               // }}
             >  */}
       
-
-      <img width = "100%" src = {qrExample} /> 
-      
+<Row>
+  <Col md = "10">
+      <img width = "inherit" src = {qrExample} /> 
+      </Col>
       {/* </Resizable> */}
-    
+    <Col md = "2" style = {{alignSelf: "flex-end"}}>
       <span onClick = {() => handleRemove(idx)}>
       X
       </span>
-    
+      </Col>
+      </Row>
             </Box> 
       </div>
             ):

@@ -40,30 +40,30 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children }) => {
     return <div ref={drag} />
   }
   return (
-      <Resizable
-           style={{...Qrstyle , left,top}}
-          //  defaultSize={{
-          //    width: 400,
-          //    height: 100,
+      // <Resizable
+      //      style={{...Qrstyle , left,top}}
+      //     //  defaultSize={{
+      //     //    width: 400,
+      //     //    height: 100,
              
-          //  }}
-          //     style={Qrstyle}
-              size={{ width: qrWidth, height: qrHeight }}
-              onResizeStop={(e, direction, ref, d) => {
-                  if((qrWidth + d.width) > 300){
-                  setqrWidth(qrWidth + d.width)
-                  }
-                  else{
-                    setqrWidth(300)
-                  }
-                  // setqrHeight(qrHeight + d.height)
+      //     //  }}
+      //     //     style={Qrstyle}
+      //         size={{ width: qrWidth, height: qrHeight }}
+      //         onResizeStop={(e, direction, ref, d) => {
+      //             if((qrWidth + d.width) > 300){
+      //             setqrWidth(qrWidth + d.width)
+      //             }
+      //             else{
+      //               setqrWidth(300)
+      //             }
+      //             // setqrHeight(qrHeight + d.height)
               
-              }}
-            >  
-    <div ref={drag} style={style}>
+      //         }}
+      //       >  
+    <div ref={drag} style={{...style, left,top}}>
       {children}
     </div>
-    </Resizable>
+    // {/* </Resizable> */}
   )
 }
 export default Box
