@@ -235,13 +235,29 @@ const Container = ({ hideSourceOnDrag }) => {
   }
   function handleFiles(file) {
     console.log(file[0])
-    dispatch({ type: 'UPLOADED_IMAGE', payload: file[0] })
-
-    // this.setState({
-    //     certificate: URL.createObjectURL(file[0])
-    //   })
-    //   document.getElementById("uploadButton").hidden = true;
-    // this.props.IMAGE(file[0])
+    
+    var img = document.createElement("img");
+    
+    img.src = URL.createObjectURL( file[0] );
+    
+    img.onload =  function() {
+        var width = img.naturalWidth,
+          height = img.naturalHeight;
+          
+          URL.revokeObjectURL( img.src );
+          
+          console.log("temp.naturalWidht ==>",width )
+          console.log("temp.naturalHeight ==>",height )  
+          
+          if(width > 1000 & height > 1000){
+            console.log("IN IFFFF")
+            dispatch({ type: 'UPLOADED_IMAGE', payload: file[0] })
+        }
+        else{
+          console.log("IN Elsee")
+          alert("errorrrrrr")
+        }
+      }
   }
 
   return (
