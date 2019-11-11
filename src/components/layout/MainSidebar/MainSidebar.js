@@ -6,7 +6,7 @@ import { Store } from "../../../flux";
 import SidebarSearch from './SidebarSearch'
 import SidebarMainNavbar from "./SidebarMainNavbar";
 import SidebarNavItems from "./SidebarNavItems";
-import SidebarInstitute from "./SidebarInstitute";
+// import SidebarInstitute from "./SidebarInstitute";
 
 
 class MainSidebar extends React.Component {

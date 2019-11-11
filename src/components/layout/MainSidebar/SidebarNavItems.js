@@ -31,16 +31,7 @@ class SidebarNavItems extends React.Component {
           to: "/home",
           htmlBefore: ' <i class="material-icons">home</i>',
         },
-          // {
-          //   title: "Activate Your Account",
-          //   to: "/account_activation",
-          //   htmlBefore: ' <i class="material-icons">done</i>',
-          // },
-        //   {
-        //   title: "Manage Organization",
-        //   to: "/manage_organization",
-        //   htmlBefore: '<i class="material-icons">home</i>',
-        // },
+          
         {
           title: "Certificate Classification",
           to: "/manageClassification",
@@ -69,11 +60,7 @@ class SidebarNavItems extends React.Component {
           to: "/account_activation",
           htmlBefore: ' <i class="material-icons">done</i>',
         },
-        // {
-        //   title: "Manage Organization",
-        //   to: "/manage_organization",
-        //   htmlBefore: '<i class="material-icons">home</i>',
-        // },
+       
         {
           title: "Certificate Classification",
           to: "/manageClassification",
@@ -89,11 +76,7 @@ class SidebarNavItems extends React.Component {
           to: "/settings",
           htmlBefore: ' <i class="material-icons">brightness_5</i>',
         },
-        // {
-        //   title: "User Profile",
-        //   to: "",
-        //   htmlBefore: ' <i class="material-icons">&#xE7FD</i>',
-        // },
+        
       ],
 
       switched: this.props.toggleSwitchState,
@@ -121,16 +104,7 @@ class SidebarNavItems extends React.Component {
         switched: !prevState.switched
       };
     });
-    // if(temp){
-    //   this.setState({
-    //     chainName:'Main Net'
-    //   })
-    // }
-    // else{
-    //   this.setState({
-    //     chainName:'Test Net'
-    //   })
-    // }
+    
   }
 
   componentDidMount() {
@@ -153,9 +127,7 @@ class SidebarNavItems extends React.Component {
         // handle error
         console.log(error);
       })
-      // this.setState({
-      //   Institutes:this.props.institutesList
-      // })
+      
   }
 
 
@@ -168,8 +140,7 @@ class SidebarNavItems extends React.Component {
   }
 
   onClickInstitute(names) {
-    console.log(names)
-    console.log(names._id, names.companyName, "vallllllllllllll")
+    
     this.setState({
       name: names.companyName
     })
@@ -189,9 +160,7 @@ class SidebarNavItems extends React.Component {
   }
 
   render() {
-    console.log(this.state.switched)
-    console.log(this.props.toggleSwitchState)
-    console.log(this.props.institutesLists)
+    
     // const { Item } = this.state;
     return (
       // <div className="nav-wrapper d-inline-block item-icon-wrapper">
