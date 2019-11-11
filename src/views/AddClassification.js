@@ -131,8 +131,14 @@ class InstituteRegistration extends Component {
         // handle success
         console.log(response);
         console.log(response.data.result)
+        let temp = response.data.result
+        let classificationConstants = []
+        for(var i = 0; i<temp.length;i++){
+            classificationConstants.push({top : 0 , left : 0 , htmlStringCode: "",value : temp[i],editorValue : temp[i]})
+        }
+        console.log("classificationConstants ==>",classificationConstants)
         that.setState({
-          classificationConstantFields: response.data.result
+          classificationConstantFields: classificationConstants
         })
 
       })
@@ -437,12 +443,12 @@ class InstituteRegistration extends Component {
     // }
   }
 
-  // handleFieldsChange(i, event) {
-  //   let values = [...this.state.classificationDynamicFields];
-  //   values[i] = event.target.value;
-  //   console.log(values)
-  //   this.setState({ classificationDynamicFields: values });
-  // }
+  handleFieldsChange(i, event) {
+    let values = [...this.state.classificationDynamicFields];
+    values[i] = {top:0,left:0,htmlStringCode:event.target.value,value:event.target.value , editorValue : event.target.value};
+    console.log(values)
+    this.setState({ classificationDynamicFields: values });
+  }
   componentWillUnmount() {
     console.log(this.state.classificationConstantFields)
     console.log(this.state.classificationDynamicFields)
@@ -452,7 +458,7 @@ class InstituteRegistration extends Component {
     this.props.ClassificationCombineFields(a)
   }
   addClick() {
-    this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, ''] }))
+    this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, {top: 0, left : 0 , htmlString : '', value : ''}] }))
 
   }
 
@@ -492,6 +498,8 @@ class InstituteRegistration extends Component {
     console.log(this.state.QRVisible)
     console.log(this.state.durationTemp)
     console.log(this.props.classificationDurationValidity)
+    console.log(this.state.classificationConstantFields)
+
     return (
       <Container fluid className="main-content-container px-4">
         {/* {(this.props.userData.isVerified) ? (
@@ -583,11 +591,12 @@ class InstituteRegistration extends Component {
                           <Row>
                             {
                               this.state.classificationConstantFields.map((el, i) =>
-                                <Col md="3" style={{ marginBottom: "10px" }}>
+                              <Col md="3" style={{ marginBottom: "10px" }}>
+                              {console.log(el)}
                                   <span key={i} >
                                     <FormInput
                                       type="text"
-                                      value={el}
+                                      value={el.value}
                                       disabled
                                     />
                                   </span>
@@ -602,7 +611,7 @@ class InstituteRegistration extends Component {
                                       <FormInput
                                         style={{ border: "none" }}
                                         type="text"
-                                        value={el || ''}
+                                        value={el.value || ''}
                                         placeholder="Certificate Field"
                                         onChange={this.handleFieldsChange.bind(this, i)}
                                       />
