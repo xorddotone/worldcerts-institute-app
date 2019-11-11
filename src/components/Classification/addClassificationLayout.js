@@ -101,7 +101,7 @@ ColorlibStepIcon.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: '98%',
-    // margin: "1em"
+    margin: "1em"
     // height: '50%'
   },
   button: {

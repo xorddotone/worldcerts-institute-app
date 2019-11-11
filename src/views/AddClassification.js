@@ -134,7 +134,7 @@ class InstituteRegistration extends Component {
         let temp = response.data.result
         let classificationConstants = []
         for(var i = 0; i<temp.length;i++){
-            classificationConstants.push({top : 0 , left : 0 , htmlStringCode: temp[i],value : temp[i],editorValue : temp[i]})
+            classificationConstants.push({top : 0 , left : 0 , htmlStringCode: "",value : temp[i],editorValue : temp[i]})
         }
         console.log("classificationConstants ==>",classificationConstants)
         that.setState({

@@ -17,7 +17,24 @@
 .public-DraftStyleDefault-ltr{
     border: 1px solid !important
 }
-
+/* toolbar styling */
+.rdw-dropdown-wrapper{
+    height : 20px !important
+}
+.rdw-inline-dropdown{
+    width: 35px !important;
+    /* margin: 0px !important */
+}
+.rdw-dropdown-wrapper{
+    margin: 0px !important
+}
+.rdw-fontfamily-dropdown{
+    width: 80px !important
+}
+.rdw-editor-toolbar{
+    margin-bottom: 0px !important;
+    font-size: 10px
+}
 /* Alert Styling */
 
 .nothing-added-yet{

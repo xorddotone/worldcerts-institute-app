@@ -9,25 +9,30 @@ import {
 } from "shards-react";
 const style = {
   position: 'absolute',
-  // border: '1px dashed gray',
   backgroundColor: 'transparent',
-  width: "100%",
-  padding: '',
+  width: "inherit",
   cursor: 'move',
 }
-const Qrstyle = {
+const qrStyle = {
+  position: 'absolute',
+  backgroundColor: 'transparent',
+  width: 300,
+  cursor: 'move',
+}
+const boxResizeStyle = {
   display: "flex",
+  position : 'absolute',
   alignItems: "center",
   justifyContent: "center",
   border: "solid 1px #ddd",
   background: "transparent"
 };
-const Box = ({ id, left, top, value, hideSourceOnDrag, children }) => {
+const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   // console.log({ id, left, top,value, hideSourceOnDrag, children })
   console.log(value[id].value)
   let val = value[id].value;
-  const [qrWidth, setqrWidth] = useState(400)
-  const [qrHeight, setqrHeight] = useState(100)
+  const [boxResizeWidth, setboxResizeWidth] = useState(270)
+  const [boxResizeHeight, setboxResizeHeight] = useState(65)
   const [{ isDragging }, drag] = useDrag({
 
     item: { id, left, top, type: ItemTypes.BOX, val },
@@ -39,31 +44,50 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children }) => {
   if (isDragging && hideSourceOnDrag) {
     return <div ref={drag} />
   }
-  return (
-      // <Resizable
-      //      style={{...Qrstyle , left,top}}
-      //     //  defaultSize={{
-      //     //    width: 400,
-      //     //    height: 100,
-             
-      //     //  }}
-      //     //     style={Qrstyle}
-      //         size={{ width: qrWidth, height: qrHeight }}
-      //         onResizeStop={(e, direction, ref, d) => {
-      //             if((qrWidth + d.width) > 300){
-      //             setqrWidth(qrWidth + d.width)
-      //             }
-      //             else{
-      //               setqrWidth(300)
-      //             }
-      //             // setqrHeight(qrHeight + d.height)
-              
-      //         }}
-      //       >  
-    <div ref={drag} style={{...style, left,top}}>
+  if(isImage) {
+    return (
+      // <div style = {{position: 'relative', width : 'inherit'}}>
+      <div ref={drag} style={{...qrStyle,left,top}}>
+      {console.log(isDragging)}
       {children}
     </div>
-    // {/* </Resizable> */}
+    // </div>
+    )
+  }
+  return (
+      <Resizable
+           style={{...boxResizeStyle , left,top}}
+          //  defaultSize={{
+          //    width: 400,
+          //    height: 100,
+             
+          //  }}
+          //     style={Qrstyle}
+              size={{ width: boxResizeWidth, height: boxResizeHeight }}
+              onResizeStop={(e, direction, ref, d) => {
+                  if((boxResizeWidth + d.width) > 270){
+                  setboxResizeWidth(boxResizeWidth + d.width)
+                  }
+                  else{
+                    setboxResizeWidth(270)
+                  }
+                  console.log(boxResizeWidth + d.width)
+                  console.log("boxResizeWidth", boxResizeWidth)
+                  console.log("d.width", d.width)
+                  console.log("boxResizeHeight" , boxResizeHeight)
+                  console.log("d.height",d.height)
+                  // console.log("height",document.getElementById("text").clientHeight)
+
+                  // setboxResizeHeight(boxResizeHeight + d.height)
+              
+              }}
+            >  
+    <div id = "text" ref={drag} style={style}>
+    {console.log(isDragging)}
+
+      {children}
+    </div>
+   </Resizable>
   )
 }
 export default Box

@@ -376,7 +376,7 @@ class RegisterClassification extends Component {
                                 disabled />)
                             :
                                 ( <FormInput
-                                value={this.props.classificationDuration + " " +  this.props.classificationDurationValidity}
+                                value={(this.props.classificationDuration == "" || this.props.classificationDuration == undefined) ? ( this.props.classificationDurationValidity) : (this.props.classificationDuration + " " +  this.props.classificationDurationValidity) }
                                 disabled />) }
                              
 
@@ -401,9 +401,11 @@ class RegisterClassification extends Component {
                   
                     (this.props.classificationFields[key].value !== true)
                     ?
-                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" ,width: "400px", position: 'absolute'}}></div>)
+                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" ,width: "300px", position: 'absolute'}}></div>)
                     :
-                    (<div><img src = {qrCode} style = {{top: (this.props.classificationFields[key].top - 7) + "%" , right: (Math.abs(this.props.classificationFields[key].left) - 18) + "%" , position: 'absolute'}} width = '15%'/></div>)
+                    (<div>
+                      {console.log(this.props.classificationFields[key].height)}
+                      <img src = {qrCode} style = {{top: (this.props.classificationFields[key].top) + "%" , right: (Math.abs(this.props.classificationFields[key].left)) + "%" , position: 'absolute' , height :this.props.classificationFields[key].height + "px"}}/></div>)
 
                   
                   )
