@@ -163,7 +163,7 @@ class ManageClassifications extends Component {
       console.log(data)
       this.props.EditClassification(data);
       this.props.EditClassificationState(true);
-      this.props.history.push("/addClassification");
+      // this.props.history.push("/addClassification");
     }
     onAddClick(){
       console.log("in add")
