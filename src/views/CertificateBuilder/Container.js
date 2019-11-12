@@ -4,7 +4,6 @@ import ItemTypes from './ItemTypes'
 import Box from './Box'
 import update from 'immutability-helper'
 import { useDispatch, useSelector } from "react-redux";
-import FontPicker from "font-picker-react";
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';

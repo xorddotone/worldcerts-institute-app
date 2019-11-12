@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from 'react-dnd'
 import ItemTypes from './ItemTypes'
-import FontPicker from "font-picker-react";
 import { Resizable } from "re-resizable";
 import {
   FormSelect,

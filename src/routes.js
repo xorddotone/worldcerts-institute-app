@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 // Layout Types
 import { DefaultLayout } from "./layouts";
 import  AuthLayout  from "./layouts/AuthLayout";
-import VerifierLayout from "./layouts/VerifierLayout"
+// import VerifierLayout from "./layouts/VerifierLayout"
 
 // Route Views
 import Register from "./views/Register";
@@ -22,6 +22,8 @@ import Home from "./views/Home";
 import AccountActivation from './views/accountActivation'
 import VerifyApp from './views/verifierApp'
 
+
+//Routes when user is verified and logged in
 export const routes1= [
   {
     path: "/",
@@ -79,12 +81,12 @@ export const routes1= [
     layout: DefaultLayout,
     component: IssueCertificate
   },
-  {
-    exact:true,
-    path: "/Certificate",
-    layout: VerifierLayout,
-    component: SingleCertificate
-  },
+  // {
+  //   exact:true,
+  //   path: "/Certificate",
+  //   layout: VerifierLayout,
+  //   component: SingleCertificate
+  // },
   {
 
     path: "/verifierApp",
@@ -122,7 +124,7 @@ export const routes1= [
 
 
 
-
+//Routes if user is not Logged in
 
 export const routes2= [
   {
@@ -203,12 +205,6 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  // {
-  //   exact:true,
-  //   path: "/Certificate",
-  //   layout: DefaultLayout,
-  //   component: SingleCertificate
-  // },
   {
 
     path: "/verifierApp",
@@ -233,7 +229,7 @@ export const routes2= [
 
 
 
-
+//Routes if user is logged in  but  not verified
 export const routes3= [
   {
     path: "/",
@@ -297,12 +293,12 @@ export const routes3= [
     layout: DefaultLayout,
     component: SingleCertificate
   },
-  {
+  // {
 
-    path: "/verifierApp",
-    layout: VerifierLayout,
-    component: VerifyApp
-  },
+  //   path: "/verifierApp",
+  //   layout: VerifierLayout,
+  //   component: VerifyApp
+  // },
   {
     path: "/account_activation",
     layout: DefaultLayout,

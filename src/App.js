@@ -7,7 +7,8 @@ import history from './config/history'
 // import routes from "./routes";
 import * as routes from "./routes";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
+
+import "./css/shards-dashboards.1.1.0.min.css";
 import { connect } from 'react-redux';
 import * as Strings from './constants/strings'
 import Register from './views/Register';

@@ -25,8 +25,6 @@ import * as Routes from '../constants/apiRoutes'
 import loader from "../images/loader.gif"
 import CSVReader from 'react-csv-reader'
 import ReactFileReader from 'react-file-reader';
-// import ReactTable from "react-table";
-// import "react-table/react-table.css";
 import MaterialTable from 'material-table'
 import certificate from '../images/certificate.png'
 import { generateQrCodes } from '../utils/functions'

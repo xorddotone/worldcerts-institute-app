@@ -32,7 +32,6 @@ import loader from '../images/loader.gif'
 import { useDropzone } from 'react-dropzone'
 // import Dropzone from 'react-dropzone'
 import Dropzone from "./Dropzone";
-import { DropzoneArea } from 'material-ui-dropzone'
 var reader;
 
 

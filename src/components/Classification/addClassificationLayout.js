@@ -13,7 +13,6 @@ import StepConnector from '@material-ui/core/StepConnector';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddClassification from '../../views/AddClassification';
-import UploadCertificate from '../../views/UploadCertificate'
 import RegisterClassification from '../../views/Classification/RegisterClassification';
 import ClassificationRegistration from '../../views/Classification/ClassificationRegistration';
 import { useDispatch, useSelector } from "react-redux";
@@ -192,20 +191,7 @@ export default function CustomizedSteppers() {
     
       case 2:
           return setActiveStep(prevActiveStep => prevActiveStep + 1);  
-
     }
-    // console.log(activeStep)
-    // switch (activeStep){
-    //   case 0: 
-    //   console.log("zero")
-    //   return setActiveStep(prevActiveStep => prevActiveStep + 1);
-    //   case 1: 
-    //    console.log("one")
-    //    return setActiveStep(prevActiveStep => prevActiveStep + 1);
-    //    case 0: 
-    //    return setActiveStep(prevActiveStep => prevActiveStep + 1);
-    //    console.log("two")
-    // }
   };
 
   const handleBack = () => {
