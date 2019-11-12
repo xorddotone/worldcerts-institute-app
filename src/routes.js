@@ -20,7 +20,6 @@ import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
 import Home from "./views/Home";
 import AccountActivation from './views/accountActivation'
-import VerifyApp from './views/verifierApp'
 
 
 //Routes when user is verified and logged in
@@ -87,12 +86,6 @@ export const routes1= [
   //   layout: VerifierLayout,
   //   component: SingleCertificate
   // },
-  {
-
-    path: "/verifierApp",
-    layout: AuthLayout,
-    component: VerifyApp
-  },
   {
     path: "/account_activation",
     layout: DefaultLayout,
@@ -205,17 +198,7 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
 
-    path: "/verifierApp",
-    layout: AuthLayout,
-    component: VerifyApp
-  },
-  // {
-  //   // path: "/userProfile",
-  //   layout: AuthLayout,
-  //   component: () => <Redirect to="/signin" />
-  // },
 ];
 
 
