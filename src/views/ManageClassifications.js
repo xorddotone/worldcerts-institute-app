@@ -23,8 +23,8 @@ import '../css/style.css'
 import { EditClassification,
    EditClassificationState ,
     ClassificationCategory,
-  ClassificationDuration,
-ClassificationDurationValidity,
+  ClassificationDurationTime,
+ClassificationDurationSpan,
 ClassificationName,
 Image } from "../redux/actions/dashboard-action"
 const axios = require('axios');
@@ -138,6 +138,7 @@ class ManageClassifications extends Component {
           console.log(response);
           temp=response.data.result
           console.log(temp)
+          delete temp.durationValidity
           that.setState({
             registeredClassifications:temp
           })
@@ -162,7 +163,7 @@ class ManageClassifications extends Component {
       console.log(data)
       this.props.EditClassification(data);
       this.props.EditClassificationState(true);
-      this.props.history.push("/addClassification");
+      // this.props.history.push("/addClassification");
     }
     onAddClick(){
       console.log("in add")
@@ -188,8 +189,8 @@ class ManageClassifications extends Component {
         _id:""
     }
     this.props.ClassificationCategory("")
-      this.props.ClassificationDuration(null)
-      this.props.ClassificationDurationValidity("")
+      this.props.ClassificationDurationTime(null)
+      this.props.ClassificationDurationSpan("")
       this.props.ClassificationName("")
       this.props.IMAGE({name: ""})
       this.props.EditClassification(obj)
@@ -298,17 +299,17 @@ class ManageClassifications extends Component {
                       </a>
                       <div className="d-flex flex-column justify-content-center ml-3">
                         <span className="card-post__author-name">
-                        {classification.durationValidity}
+                        {classification.durationValidity.durationTime + " " + classification.durationValidity.durationSpan} 
                          </span>
                         {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
                       </div>
                     </div>
-                    {/* <div className="my-auto ml-auto">
+                    <div className="my-auto ml-auto">
                       <span size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button" onClick={()=>this.onEditClick(classification)}>
-                        {/* <i className="far fa-bookmark mr-1" />  
+                        {/* <i className="far fa-bookmark mr-1" />   */}
                         EDIT
                       </span>
-                    </div> */}
+                    </div>
 
 
 
@@ -350,11 +351,11 @@ const mapDispatchToProps = (dispatch) => {
     ClassificationCategory: (data) => {
       dispatch(ClassificationCategory(data))
     },
-    ClassificationDuration: (data) => {
-      dispatch(ClassificationDuration(data))
+    ClassificationDurationTime: (data) => {
+      dispatch(ClassificationDurationTime(data))
     },
-    ClassificationDurationValidity: (data) => {
-      dispatch(ClassificationDurationValidity(data))
+    ClassificationDurationSpan: (data) => {
+      dispatch(ClassificationDurationSpan(data))
     },
     ClassificationName: (data) => {
       dispatch(ClassificationName(data))

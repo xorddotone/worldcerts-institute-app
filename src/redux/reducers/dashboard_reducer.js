@@ -8,11 +8,12 @@ import {
     CLASSIFICATION_INSTITUTE_NAME,
     CLASSIFICATION_CATEGORY,
     CLASSIFICATION_NAME,
-    CLASSIFICATION_DURATION,
-    CLASSIFICATION_DURATION_VALIDITY,
+    CLASSIFICATION_DURATION_TIME,
+    CLASSIFICATION_DURATION_SPAN,
     CLASSIFICATION_FIELDS,
     CLASSIFICATION_COMBINE_FIELDS,
-    CLASSIFICATION_QR
+    CLASSIFICATION_QR,
+    CLASSIFICATION_TOTAL_FIELDS
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -34,10 +35,11 @@ const INITIAL_STATE = {
     registerClassificationInstituteName: "",
     registerClassificationName: "",
     registerClassificationCategory: "",
-    registerClassificationDuration: "",
-    registerClassificationDurationValidity: "",
+    registerClassificationDurationTime: "",
+    registerClassificationDurationSpan: "",
     classificationFields: {},
     classificationCombineFields: [],
+    classificationTotalFields: [],
     qrVisibility: true
 }
 
@@ -88,15 +90,15 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 registerClassificationName: action.payload
             })
-        case CLASSIFICATION_DURATION:
+        case CLASSIFICATION_DURATION_TIME:
             return ({
                 ...state,
-                registerClassificationDuration: action.payload
+                registerClassificationDurationTime: action.payload
             })
-            case CLASSIFICATION_DURATION_VALIDITY:
+            case CLASSIFICATION_DURATION_SPAN:
             return ({
                 ...state,
-                registerClassificationDurationValidity: action.payload
+                registerClassificationDurationSpan: action.payload
             })
             case CLASSIFICATION_FIELDS:
             return ({
@@ -107,6 +109,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 classificationCombineFields: action.payload
+            })
+            case CLASSIFICATION_TOTAL_FIELDS:
+            return ({
+                ...state,
+                classificationTotalFields: action.payload
             })
             case CLASSIFICATION_QR:
             return ({

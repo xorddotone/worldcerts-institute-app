@@ -8,11 +8,12 @@ export const UPLOADED_IMAGE = "UPLOADED_IMAGE"
 export const CLASSIFICATION_INSTITUTE_NAME = "CLASSIFICATION_INSTITUTE_NAME"
 export const CLASSIFICATION_CATEGORY = "CLASSIFICATION_CATEGORY"
 export const CLASSIFICATION_NAME = "CLASSIFICATION_NAME"
-export const CLASSIFICATION_DURATION = "CLASSIFICATION_DURATION"
-export const CLASSIFICATION_DURATION_VALIDITY = "CLASSIFICATION_DURATION_VALIDITY"
+export const CLASSIFICATION_DURATION_TIME = "CLASSIFICATION_DURATION_TIME"
+export const CLASSIFICATION_DURATION_SPAN = "CLASSIFICATION_DURATION_SPAN"
 export const CLASSIFICATION_FIELDS = "CLASSIFICATION_FIELDS"
 export const CLASSIFICATION_COMBINE_FIELDS = "CLASSIFICATION_COMBINE_FIELDS"
 export const CLASSIFICATION_QR = "CLASSIFICATION_QR"
+export const CLASSIFICATION_TOTAL_FIELDS = "CLASSIFICATION_TOTAL_FIELDS"
 
 
 export function TOGGLE(toggle_switch) {
@@ -64,14 +65,14 @@ export function ClassificationName(classificationName){
   return { type: CLASSIFICATION_NAME , payload: classificationName}
 }
 
-export function ClassificationDuration(duration){
-  console.log(duration)
-  return { type: CLASSIFICATION_DURATION , payload: duration}
+export function ClassificationDurationTime(durationTime){
+  console.log(durationTime)
+  return { type: CLASSIFICATION_DURATION_TIME , payload: durationTime}
 }
 
-export function ClassificationDurationValidity(durationValidity){
-  console.log(durationValidity)
-  return { type: CLASSIFICATION_DURATION_VALIDITY , payload: durationValidity}
+export function ClassificationDurationSpan(durationSpan){
+  console.log(durationSpan)
+  return { type: CLASSIFICATION_DURATION_SPAN , payload: durationSpan}
 }
 
 export function ClassificationFields(fields){
@@ -87,4 +88,10 @@ export function ClassificationCombineFields(fields){
 export function QRVisibility(visible){
   console.log(visible)
   return { type: CLASSIFICATION_QR , payload: visible}
+}
+
+
+export function ClassificationTotalFields(fields){
+  console.log(fields)
+  return { type: CLASSIFICATION_TOTAL_FIELDS , payload: fields}
 }

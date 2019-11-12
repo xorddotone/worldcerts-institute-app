@@ -33,7 +33,7 @@ import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
-import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationDuration, ClassificationDurationValidity, ClassificationName } from "../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationTotalFields,ClassificationDurationTime, ClassificationDurationSpan, ClassificationName } from "../redux/actions/dashboard-action"
 import { Link } from 'react-router-dom'
 
 const duration = [
@@ -78,10 +78,11 @@ class InstituteRegistration extends Component {
 
   componentDidMount() {
     console.log(this.props.userData)
+    console.log(this.props.editClassificationData)
     let temp;
     let temp2;
     let that = this;
-    if(this.props.classificationDurationValidity == "Life Time" || this.props.classificationDurationValidity == "Choose" || this.props.classificationDurationValidity == ""){
+    if(this.props.classificationDurationSpan == "Life Time" || this.props.classificationDurationSpan == "Choose" || this.props.classificationDurationSpan == ""){
       console.log("IN duration disabled")  
       this.setState({
           durationValidityDisabled:true
@@ -146,6 +147,12 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
+      if(this.props.editClassificationState){
+        this.props.ClassificationCategory(this.props.editClassificationData.category)
+        this.props.ClassificationName(this.props.editClassificationData.classification)
+        this.props.ClassificationDurationTime(this.props.editClassificationData.durationValidity.durationTime)
+        this.props.ClassificationDurationSpan(this.props.editClassificationData.durationValidity.durationSpan)        
+      }
   }
 
   componentDidUpdate() {
@@ -180,7 +187,7 @@ class InstituteRegistration extends Component {
         duration: ev.target.value
       })
 
-      this.props.ClassificationDuration(ev.target.value)
+      this.props.ClassificationDurationTime(ev.target.value)
     }
     else {
       console.log("else")
@@ -210,7 +217,7 @@ class InstituteRegistration extends Component {
         durationValidity: ev.target.value,
         durationValidityDisabled: true
       })
-      this.props.ClassificationDuration()
+      // this.props.ClassificationDurationSpan(ev.target.value)
     }
     else {
       this.setState({
@@ -219,7 +226,7 @@ class InstituteRegistration extends Component {
       })
     }
 
-    this.props.ClassificationDurationValidity(ev.target.value)
+    this.props.ClassificationDurationSpan(ev.target.value)
 
   }
   onClickOptions(ev) {
@@ -456,6 +463,7 @@ class InstituteRegistration extends Component {
     a.push(...this.state.classificationDynamicFields)
     console.log(a)
     this.props.ClassificationCombineFields(a)
+    this.props.ClassificationTotalFields(a)
   }
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, {top: 0, left : 0 , htmlString : '', value : ''}] }))
@@ -497,8 +505,9 @@ class InstituteRegistration extends Component {
     console.log(this.state.classificationDynamicFields)
     console.log(this.state.QRVisible)
     console.log(this.state.durationTemp)
-    console.log(this.props.classificationDurationValidity)
+    console.log(this.props.classificationDurationTime)
     console.log(this.state.classificationConstantFields)
+    console.log("edit class",this.props.editClassificationData)
 
     return (
       <Container fluid className="main-content-container px-4">
@@ -534,12 +543,21 @@ class InstituteRegistration extends Component {
                               // onChange={this.classificationChangeHandler}
                               placeholder="Organization Name"
                               disabled
-                              value={this.props.selectedInstituteName.name}
+                              value={(this.props.editClassificationState)?
+                                (this.props.editClassificationData.instituteName):
+                                (this.props.selectedInstituteName.name)}
                             />
                           </Col>
                           <Col md="6" className="form-group">
                             <label>Category</label>
-                            <FormSelect onChange={this.categoryChangeHandler} onKeyPress={this.clickEnter.bind(this)} placeholder="Category" value={this.props.classificationCategory}   >
+                            <FormSelect
+                             onChange={this.categoryChangeHandler} 
+                             onKeyPress={this.clickEnter.bind(this)}
+                              placeholder="Category"
+                             value={(this.props.editClassificationState)?
+                                (this.props.editClassificationData.category):
+                                (this.props.classificationCategory)}   
+                                >
                               {
                                 this.state.classificationCategory.map((category) => {
                                   return (
@@ -558,21 +576,22 @@ class InstituteRegistration extends Component {
                               onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.classificationChangeHandler}
                               placeholder="Classification"
-                              // value={this.state.classification}
-                              value={this.props.classificationName}
+                              value={(this.props.editClassificationState)?
+                                (this.props.editClassificationData.classification):
+                                (this.props.classificationName)}
                             />
                           </Col>
                           <Col md="6" className="form-group">
                             <label >Duration Validity</label>
                             <InputGroup className="mb-3">
                               <FormInput
-                                value={this.props.classificationDuration}
+                                value={this.props.classificationDurationTime}
                                 onChange={this.durationChangeHandler}
                                 onKeyPress={this.clickEnter.bind(this)}
                                 placeholder="Duration"
                                 disabled = {this.state.durationValidityDisabled}
                               />
-                              <FormSelect value={this.props.classificationDurationValidity} type="append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
+                              <FormSelect value={this.props.classificationDurationSpan} type="append" onKeyPress={this.clickEnter.bind(this)} onChange={this.timedurationChangeHandler}>
                                 {
                                   duration.map((duration) => {
                                     return (
@@ -615,7 +634,7 @@ class InstituteRegistration extends Component {
                                         placeholder="Certificate Field"
                                         onChange={this.handleFieldsChange.bind(this, i)}
                                       />
-                                      <span style={{ marginRight: "6px", fontSize: "12px", cursor: 'pointer', color: "rgba(73, 80, 87, 0.7)" }} onClick={this.removeClick.bind(this, i)} >x</span>
+                                      <span style={{ marginRight: "6px", fontSize: "18px", cursor: 'pointer', color: "rgba(73, 80, 87, 0.7)", alignSelf : 'center' }} onClick={this.removeClick.bind(this, i)} >x</span>
                                     </span>
                                   </span>
                                 </Col>
@@ -809,8 +828,8 @@ const mapStateToProps = (state) => {
     classificationCertificate: state.dashboard_reducer.image,
     classificationCategory: state.dashboard_reducer.registerClassificationCategory,
     classificationName: state.dashboard_reducer.registerClassificationName,
-    classificationDuration: state.dashboard_reducer.registerClassificationDuration,
-    classificationDurationValidity: state.dashboard_reducer.registerClassificationDurationValidity,
+    classificationDurationTime: state.dashboard_reducer.registerClassificationDurationTime,
+    classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
 
   }
 }
@@ -829,11 +848,11 @@ const mapDispatchToProps = (dispatch) => {
     ClassificationInstituteName: (data) => {
       dispatch(ClassificationInstituteName(data))
     },
-    ClassificationDuration: (data) => {
-      dispatch(ClassificationDuration(data))
+    ClassificationDurationTime: (data) => {
+      dispatch(ClassificationDurationTime(data))
     },
-    ClassificationDurationValidity: (data) => {
-      dispatch(ClassificationDurationValidity(data))
+    ClassificationDurationSpan: (data) => {
+      dispatch(ClassificationDurationSpan(data))
     },
     ClassificationName: (data) => {
       dispatch(ClassificationName(data))
@@ -843,9 +862,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     ClassificationCombineFields: (fields) => {
       dispatch(ClassificationCombineFields(fields))
-    }
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    },
+    ClassificationTotalFields : (fields) => {
+    dispatch(ClassificationTotalFields(fields))
   }
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InstituteRegistration);

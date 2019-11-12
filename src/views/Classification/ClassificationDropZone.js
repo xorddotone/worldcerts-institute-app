@@ -31,7 +31,8 @@ class ClassificationDropzone extends Component {
     super(props);
     this.state = {
       hightlight: true,
-      certificate : '',
+      // certificate : this.props.editClassificationData.certificateImage.certificateImageUrl,
+      certificate: '',
       alertShow: false,
       theme : "",
       alertMessage : ""
@@ -55,9 +56,14 @@ class ClassificationDropzone extends Component {
           certificate: URL.createObjectURL(this.props.imageFile)
         })
       }
-        else{
-          console.log("in else")
-        }
+        else if(this.props.editClassificationState){
+          
+          this.setState({
+            certificate: this.props.editClassificationData.certificateImage.certificateImageUrl
+          })      
+        document.getElementById("uploadButton").hidden = true;
+
+          }
       }
 
   openFileDialog() {

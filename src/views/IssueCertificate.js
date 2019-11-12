@@ -375,6 +375,7 @@ if(!checkFlag){
     issuer,
     recipient: temp
   }
+  console.log(" object ==> " , obj)
   console.log(this.props.selectedInstituteName.id)
   axios.post(Routes.ISSUE_CERTIFICATE, obj).then(response => {
     console.log(response)
@@ -445,6 +446,15 @@ if(!checkFlag){
         })
       }
       else {
+        this.setState({
+          loading: false,
+          theme: "danger",
+          alertShow: true,
+          alertMessage: err.response.data.responseMessage,
+          data: [],
+          fileName: ""
+
+        })
         console.log("**** err" + err.response.data.responseMessage)
       }
 
@@ -552,17 +562,24 @@ if(!checkFlag){
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
     console.log(this.state.registeredClassifications[ev.target.value].certificateImageUrl)
-    console.log(this.state.registeredClassifications.combineFields)
+    console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields)
     this.setState({
       alertShow: false,
       selectedClassification: this.state.registeredClassifications[ev.target.value],
       certificateImage: this.state.registeredClassifications[ev.target.value].certificateImage.certificateImageUrl,
       classificationFields: this.state.registeredClassifications.combineFields
     })
+    let tempClassificationsColoumn = []
+    console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields)
+    for(let i = 0 ; i < this.state.registeredClassifications[ev.target.value].totalCertificateFields.length ; i++){
+      console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields.value)  
+      tempClassificationsColoumn.push(this.state.registeredClassifications[ev.target.value].totalCertificateFields[i].value)
+    }
+    console.log("tempClassificationsColoumn  =>" , tempClassificationsColoumn)
     console.log(this.state.registeredClassifications[ev.target.value].combineFields)
     if (ev.target.value != 0) {
 
-      this.getColumnsFromClassification(this.state.registeredClassifications[ev.target.value].combineFields)
+      this.getColumnsFromClassification(tempClassificationsColoumn)
     }
     // this.setState({category: this.state.registeredClassifications[e.target.value].obj})
     // this.setState({

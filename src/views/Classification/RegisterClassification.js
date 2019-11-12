@@ -75,8 +75,8 @@ class RegisterClassification extends Component {
 
   async onRegisterClick() {
     console.log("#################################################3")
-    console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDuration, this.props.classificationDurationValidity)
-    console.log(typeof (this.props.classificationDuration))
+    console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDurationTime, this.props.classificationDurationSpan)
+    console.log(typeof (this.props.classificationDurationTime))
     console.log(this.props.classificationCertificate)
     console.log(this.props.classificationFields)
     let imageURL = ''
@@ -114,16 +114,16 @@ class RegisterClassification extends Component {
       }
       else {
         let timeDuration = ""
-        if (that.props.classificationDurationValidity == "year") {
-          timeDuration = that.props.classificationDuration * 31536000
+        if (that.props.classificationDurationSpan == "year") {
+          timeDuration = that.props.classificationDurationTime * 31536000
         }
-        else if (that.props.classificationDurationValidity == "months") {
-          timeDuration = that.props.classificationDuration * 2592000
+        else if (that.props.classificationDurationSpan == "months") {
+          timeDuration = that.props.classificationDurationTime * 2592000
         }
-        else if (that.props.classificationDurationValidity == "days") {
-          timeDuration = that.props.classificationDuration * 86400
+        else if (that.props.classificationDurationSpan == "days") {
+          timeDuration = that.props.classificationDurationTime * 86400
         }
-        else if(that.props.classificationDurationValidity == "" ||that.props.classificationDurationValidity == "Choose" ){
+        else if(that.props.classificationDurationSpan == "" ||that.props.classificationDurationSpan == "Choose" ){
           timeDuration = 0
         }
 
@@ -369,14 +369,14 @@ class RegisterClassification extends Component {
                             <label >Duration</label>
 
                             <InputGroup className="mb-3">
-                           {(this.props.classificationDuration == "" && this.props.classificationDurationValidity == "Choose")?
+                           {(this.props.classificationDurationTime == "" && this.props.classificationDurationSpan == "Choose")?
                            ( 
                            <FormInput
                                 value="none"
                                 disabled />)
                             :
                                 ( <FormInput
-                                value={(this.props.classificationDuration == "" || this.props.classificationDuration == undefined) ? ( this.props.classificationDurationValidity) : (this.props.classificationDuration + " " +  this.props.classificationDurationValidity) }
+                                value={(this.props.classificationDurationTime == "" || this.props.classificationDurationTime == undefined) ? ( this.props.classificationDurationSpan) : (this.props.classificationDurationTime + " " +  this.props.classificationDurationSpan) }
                                 disabled />) }
                              
 
@@ -463,8 +463,8 @@ const mapStateToProps = (state) => {
     editClassificationData: state.dashboard_reducer.editClassificationData,
     classificationCategory: state.dashboard_reducer.registerClassificationCategory,
     classificationName: state.dashboard_reducer.registerClassificationName,
-    classificationDuration: state.dashboard_reducer.registerClassificationDuration,
-    classificationDurationValidity: state.dashboard_reducer.registerClassificationDurationValidity,
+    classificationDurationTime: state.dashboard_reducer.registerClassificationDurationTime,
+    classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
     classificationFields: state.dashboard_reducer.classificationFields,

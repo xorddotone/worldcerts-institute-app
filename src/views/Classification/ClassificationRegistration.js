@@ -71,10 +71,11 @@ class ClassificationRegistration extends Component {
     async componentDidMount() {
 
         console.log("#################################################3")
-        console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDuration, this.props.classificationDurationValidity)
-        console.log(typeof (this.props.classificationDuration))
+        console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDurationTime, this.props.classificationDurationSpan)
+        console.log(typeof (this.props.classificationDurationTime))
         console.log(Object.keys(this.props.classificationFields))
         console.log(this.props.classificationFields)
+        console.log(this.props.classificationCombineFields)
         let imageURL = ''
         let certificatePublicId = ''
         // console.log(this.state.selectedInstituteId)
@@ -112,19 +113,20 @@ class ClassificationRegistration extends Component {
             }
             else {
                 let timeDuration = ""
-                if (that.props.classificationDurationValidity == "year") {
-                    timeDuration = parseInt(that.props.classificationDuration,10) * 31536000
+                if (that.props.classificationDurationSpan == "year") {
+                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 31536000
                 }
-                else if (that.props.classificationDurationValidity == "months") {
-                    timeDuration = parseInt(that.props.classificationDuration,10) * 2592000
+                else if (that.props.classificationDurationSpan == "months") {
+                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 2592000
 
 
                 }
-                else if (that.props.classificationDurationValidity == "days") {
-                    timeDuration = parseInt(that.props.classificationDuration,10) * 86400
+                else if (that.props.classificationDurationSpan == "days") {
+                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 86400
                 }
-                else if(that.props.classificationDurationValidity == "" ||that.props.classificationDurationValidity == "Choose" ){
+                else if(that.props.classificationDurationSpan == "Life Time"){
                     timeDuration = 0
+                    // that.props.classificationDurationTime("none")
                   }
 
                 console.log(timeDuration)
@@ -158,12 +160,19 @@ class ClassificationRegistration extends Component {
                     instituteName: that.props.selectedInstituteName.name,
                     category: that.props.classificationCategory,
                     classification: that.props.classificationName,
-                    durationValidity: timeDuration,
+                    durationValidity: {
+                        durationSpan : that.props.classificationDurationSpan,
+                        durationTime : that.props.classificationDurationTime,
+                        durationExpiry : timeDuration
+                    },
+                    combineCertificateFields : that.props.classificationCombineFields,
+                    totalCertificateFields : that.props.classificationTotalFields,
                     dynamicCertificateFields: temp,
                     certificateImage : {
                     certificateImageUrl: imageURL,
-                    certificateImageID : certificatePublicId
+                    certificateImageID : certificatePublicId,
                     },
+                    
 
                     // country: this.state.country,
                     // postalCode: this.state.postalCode
@@ -213,8 +222,8 @@ class ClassificationRegistration extends Component {
 
     async onRegisterClick() {
         console.log("#################################################3")
-        console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDuration, this.props.classificationDurationValidity)
-        console.log(typeof (this.props.classificationDuration))
+        console.log(this.props.classificationName, this.props.classificationCategory, this.props.classificationDurationTime, this.props.classificationDurationSpan)
+        console.log(typeof (this.props.classificationDurationTime))
         console.log(this.props.classificationCertificate)
         console.log(this.props.classificationFields)
         let imageURL = ''
@@ -241,7 +250,7 @@ class ClassificationRegistration extends Component {
         else {
             let that = this;
             // console.log(that.state.instituteName + " " + that.state.category +  " " + that.state.classification + " " +that.state.duration  + " " +  that.state.durationValidity )
-            if (that.props.classificationCategory == "" || that.props.classificationCategory == "Choose" || that.props.classificationName == "" || that.props.classificationDuration == "" || that.props.classificationDurationValidity == "" || that.props.classificationDurationValidity == "Choose") {
+            if (that.props.classificationCategory == "" || that.props.classificationCategory == "Choose" || that.props.classificationName == "" || that.props.classificationDurationTime == "" || that.props.classificationDurationSpan == "" || that.props.classificationDurationSpan == "Choose") {
 
                 that.setState({
                     alertMessage: Strings.ALL_FIELDS_REQUIRED,
@@ -253,17 +262,17 @@ class ClassificationRegistration extends Component {
             }
             else {
                 let timeDuration = ""
-                if (that.props.classificationDurationValidity == "year") {
-                    timeDuration = that.props.classificationDuration * 31536000
+                if (that.props.classificationDurationSpan == "year") {
+                    timeDuration = that.props.classificationDurationTime * 31536000
                 }
-                else if (that.props.classificationDurationValidity == "months") {
-                    timeDuration = that.props.classificationDuration * 2592000
+                else if (that.props.classificationDurationSpan == "months") {
+                    timeDuration = that.props.classificationDurationTime * 2592000
 
 
                 }
-                else if (that.props.classificationDurationValidity == "days") {
+                else if (that.props.classificationDurationSpan == "days") {
+                    timeDuration = that.props.classificationDurationTime * 86400
                 }
-                timeDuration = that.props.classificationDuration * 86400
 
                 console.log(timeDuration)
                 let imageFile = this.props.classificationCertificate
@@ -469,11 +478,13 @@ const mapStateToProps = (state) => {
         editClassificationData: state.dashboard_reducer.editClassificationData,
         classificationCategory: state.dashboard_reducer.registerClassificationCategory,
         classificationName: state.dashboard_reducer.registerClassificationName,
-        classificationDuration: state.dashboard_reducer.registerClassificationDuration,
-        classificationDurationValidity: state.dashboard_reducer.registerClassificationDurationValidity,
+        classificationDurationTime: state.dashboard_reducer.registerClassificationDurationTime,
+        classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
         selectedInstituteName: state.user_reducer.selectedInstituteName,
         classificationCertificate: state.dashboard_reducer.image,
         classificationFields: state.dashboard_reducer.classificationFields,
+        classificationCombineFields: state.dashboard_reducer.classificationCombineFields,
+        classificationTotalFields : state.dashboard_reducer.classificationTotalFields
 
 
 

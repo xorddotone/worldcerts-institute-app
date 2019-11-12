@@ -142,7 +142,7 @@ export default function CustomizedSteppers() {
   const [activeStep, setActiveStep] = React.useState(0);
   const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
   const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
-  const durationValidity = useSelector(state => state.dashboard_reducer.registerClassificationDurationValidity)
+  const durationValidity = useSelector(state => state.dashboard_reducer.registerClassificationDurationSpan)
   const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
   const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
   const userData = useSelector(state => state.user_reducer.user)
