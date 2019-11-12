@@ -52,6 +52,7 @@ const Container = ({ hideSourceOnDrag }) => {
   const image = useSelector(state => state.dashboard_reducer.image)
   const [fields, setFields] = useState([]);
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  const [editClassificationState,setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
   const [fontSizes, setFontSize] = useState([]);
   const [activeFontSize, setActiveFontSize] = useState(6)
@@ -310,10 +311,10 @@ const Container = ({ hideSourceOnDrag }) => {
 
       console.log("temp.naturalWidht ==>", width)
       console.log("temp.naturalHeight ==>", height)
-
       if (width > 1000 & height > 1000) {
         console.log("IN IFFFF")
         dispatch({ type: 'UPLOADED_IMAGE', payload: file[0] })
+        setEditClassificationState(false)
       }
       else {
         console.log("IN Elsee")
@@ -353,7 +354,7 @@ const Container = ({ hideSourceOnDrag }) => {
         <Row>
           <Col md="9">
             <div style={{ width: "100%" }}>
-              <img id="DnDImage" src={URL.createObjectURL(image)} style={{ maxWidth: "100%" }} />
+              <img id="DnDImage" src={(editClassificationState)? (image) : URL.createObjectURL(image)} style={{ maxWidth: "100%" }} />
             </div>
           </Col>
           <Col md="3">

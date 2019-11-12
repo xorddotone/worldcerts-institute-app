@@ -74,11 +74,12 @@ class InstituteRegistration extends Component {
     // this.onRegisterClick = this.onRegisterClick.bind(this)
     this.QrVisibility = this.QrVisibility.bind(this)
   }
-
-
-  componentDidMount() {
+  
+  
+  async componentDidMount() {
     console.log(this.props.userData)
     console.log(this.props.editClassificationData)
+    let classificationConstants = []
     let temp;
     let temp2;
     let that = this;
@@ -93,7 +94,7 @@ class InstituteRegistration extends Component {
         durationValidityDisabled:false
       })
     }
-    axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
+   await axios.get(Routes.GET_REGISTERED_INSTITUTES + this.props.userData._id)
       .then(function (response) {
         // handle success
         console.log(response);
@@ -110,7 +111,7 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
-    axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
+   await axios.get(Routes.GET_CLASSIFICATION_CATEGORIES)
       .then(function (response) {
         // handle success
         console.log(response);
@@ -127,13 +128,12 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
-    axios.get(Routes.GET_CLASSIFICATION_FIELDS)
+   await axios.get(Routes.GET_CLASSIFICATION_FIELDS)
       .then(function (response) {
         // handle success
         console.log(response);
         console.log(response.data.result)
         let temp = response.data.result
-        let classificationConstants = []
         for(var i = 0; i<temp.length;i++){
             classificationConstants.push({top : 0 , left : 0 , htmlStringCode: "",value : temp[i],editorValue : temp[i]})
         }
@@ -151,7 +151,26 @@ class InstituteRegistration extends Component {
         this.props.ClassificationCategory(this.props.editClassificationData.category)
         this.props.ClassificationName(this.props.editClassificationData.classification)
         this.props.ClassificationDurationTime(this.props.editClassificationData.durationValidity.durationTime)
-        this.props.ClassificationDurationSpan(this.props.editClassificationData.durationValidity.durationSpan)        
+        this.props.ClassificationDurationSpan(this.props.editClassificationData.durationValidity.durationSpan) 
+        console.log("totalCertificateFields" , this.props.editClassificationData.totalCertificateFields)
+        // let totalCertificateFields = [...this.state.classificationDynamicFields]
+        // totalCertificateFields.push( this.props.editClassificationData.totalCertificateFields)
+        let tempDynamicClassification = []
+        console.log(classificationConstants)
+        for(let i = 0 ; i <this.props.editClassificationData.totalCertificateFields.length ; i++){
+          
+          let found = classificationConstants.some(el => 
+            el.value == this.props.editClassificationData.totalCertificateFields[i].value 
+          )
+          console.log("found ==> "  , found)
+          if(!found){
+            tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
+          }
+        }
+        this.setState({
+          classificationDynamicFields : tempDynamicClassification
+        })
+
       }
   }
 

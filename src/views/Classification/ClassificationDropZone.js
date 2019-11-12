@@ -57,10 +57,12 @@ class ClassificationDropzone extends Component {
         })
       }
         else if(this.props.editClassificationState){
-          
+          console.log("in else if")
+          console.log("CERTIFICATE URL", this.props.editClassificationData.certificateImage.certificateImageUrl)
           this.setState({
             certificate: this.props.editClassificationData.certificateImage.certificateImageUrl
           })      
+          this.props.IMAGE(this.props.editClassificationData.certificateImage.certificateImageUrl)
         document.getElementById("uploadButton").hidden = true;
 
           }
