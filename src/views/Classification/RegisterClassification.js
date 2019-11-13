@@ -33,7 +33,7 @@ import * as Routes from '../../constants/apiRoutes'
 import loader from '../../images/loader.gif'
 import { EditClassification, EditClassificationState } from "../../redux/actions/dashboard-action"
 import { Link, withRouter } from 'react-router-dom'
-import qrCode from '../../images/qrcode.png'
+import qrCode from '../../images/worldCertsQr.png'
 
 const duration = [
   "Choose", "year", "months", "days"
@@ -394,7 +394,7 @@ class RegisterClassification extends Component {
             </Card>
             {( this.props.classificationCertificate.name == "" ) ?  (null) :( 
            <div style={{ backgroundSize: 'cover' , position:'relative'}}>
-           <img src = {URL.createObjectURL(this.props.classificationCertificate)} width = "100%"/>
+           <img src = {(this.props.editClassificationState)?(this.props.editClassificationData.certificateImage.certificateImageUrl):(URL.createObjectURL(this.props.classificationCertificate))} width = "100%"/>
             {
               Object.keys(this.props.classificationFields).map(key => { 
                 return(

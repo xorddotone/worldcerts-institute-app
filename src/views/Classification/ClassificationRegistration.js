@@ -130,22 +130,29 @@ class ClassificationRegistration extends Component {
                   }
 
                 console.log(timeDuration)
-                let imageFile = this.props.classificationCertificate
-                console.log(imageFile)
-                var formData = new FormData()
-                formData.append('file', imageFile)
-                formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
-                await axios.post(Routes.CLOUDINARY_API + "/upload", formData)
-                    .then(function (res) {
-                        console.log(res)
-                        console.log(res.data.public_id)
-                        console.log(res.data.secure_url)
-                        imageURL = res.data.secure_url
-                        certificatePublicId = res.data.public_id
-                    })
-                    .catch(function (err) {
-                        console.log("err", err)
-                    })
+                if(!this.props.editClassificationState && this.props.classificationImageFile.name !== ""){
+                    let imageFile = this.props.classificationCertificate
+                    console.log(imageFile)
+                    var formData = new FormData()
+                    formData.append('file', imageFile)
+                    formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+                    await axios.post(Routes.CLOUDINARY_API + "/upload", formData)
+                        .then(function (res) {
+                            console.log(res)
+                            console.log(res.data.public_id)
+                            console.log(res.data.secure_url)
+                            imageURL = res.data.secure_url
+                            certificatePublicId = res.data.public_id
+                        })
+                        .catch(function (err) {
+                            console.log("err", err)
+                        })
+                    
+                }
+                else{
+                    imageURL = this.props.editClassificationData.certificateImage.certificateImageUrl
+                    certificatePublicId = this.props.editClassificationData.certificateImage.certifcateImageID
+                }
                 let temp = that.props.classificationFields
                 for(let i= 0 ; i < temp.length ; i++){
                       let str =  temp[i].htmlStringCode
@@ -154,6 +161,7 @@ class ClassificationRegistration extends Component {
                       delete temp[i].editorValue
                       }
                 }
+                console.log("temp ===> ", temp)
                 this.props.ClassificationFields(temp)
 
                 let obj = {
@@ -179,33 +187,80 @@ class ClassificationRegistration extends Component {
                 }
                 console.log(obj)
                   console.log(that.state.selectedInstituteId)
-                axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-                    .then(function (response) {
+                  if(!this.props.editClassificationState){
 
+                      axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+                          .then(function (response) {
+      
+                              // console.log(response.data.data.result);
+                              that.setState({
+                                  loading: true
+                              })
+                              alert("Classification has been added")
+                              that.props.history.push('/manageClassification')
+      
+                          })
+                          .catch(function (error) {
+                              console.log(error);
+                              console.log(error.response)
+                              console.log(error.response.data.responseMessage)
+                              if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                                  that.setState({
+                                      alertShow: true,
+                                      alertMessage: error.response.data.responseMessage,
+                                      theme: "danger",
+                                      loading: false
+                                  })
+                              }
+                              // that.setState({
+                              //   loading:false
+                              // })
+                          });
+                  }
+                  else {
+                      obj.instituteId = that.props.selectedInstituteName.id
+                      console.log("obj ==> ", obj)
+                    axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
+                    .then(function (response) {
+    
                         // console.log(response.data.data.result);
                         that.setState({
-                            loading: true
+                            loading: false
                         })
-                        alert("Classification has been added")
+                        alert("Classification has been Updated")
                         that.props.history.push('/manageClassification')
-
+    
                     })
                     .catch(function (error) {
                         console.log(error);
-                        console.log(error.response)
-                        console.log(error.response.data.responseMessage)
-                        if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                        console.log(error.response);
+    
+                        if (error.response == undefined) {
                             that.setState({
+                                alertMessage: "Network Error",
                                 alertShow: true,
-                                alertMessage: error.response.data.responseMessage,
                                 theme: "danger",
                                 loading: false
                             })
                         }
-                        // that.setState({
-                        //   loading:false
-                        // })
+                        else if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                            that.setState({
+                                alertMessage: error.response.data.responseMessage,
+                                alertShow: true,
+                                theme: "danger",
+                                loading: false
+                            })
+                        }
+                        else {
+                            that.setState({
+                                alertMessage: error.response.data.responseMessage,
+                                alertShow: true,
+                                theme: "danger",
+                                loading: false
+                            })
+                        }
                     });
+                  }
             }
         }
 
@@ -484,8 +539,8 @@ const mapStateToProps = (state) => {
         classificationCertificate: state.dashboard_reducer.image,
         classificationFields: state.dashboard_reducer.classificationFields,
         classificationCombineFields: state.dashboard_reducer.classificationCombineFields,
-        classificationTotalFields : state.dashboard_reducer.classificationTotalFields
-
+        classificationTotalFields : state.dashboard_reducer.classificationTotalFields,
+        classificationImageFile : state.dashboard_reducer.image
 
 
 

@@ -163,7 +163,7 @@ class ManageClassifications extends Component {
       console.log(data)
       this.props.EditClassification(data);
       this.props.EditClassificationState(true);
-      // this.props.history.push("/addClassification");
+      this.props.history.push("/addClassification");
     }
     onAddClick(){
       console.log("in add")
@@ -299,7 +299,7 @@ class ManageClassifications extends Component {
                       </a>
                       <div className="d-flex flex-column justify-content-center ml-3">
                         <span className="card-post__author-name">
-                        {classification.durationValidity.durationTime + " " + classification.durationValidity.durationSpan} 
+                        {(classification.durationValidity.durationTime == null)?(null):(classification.durationValidity.durationTime) + " " + classification.durationValidity.durationSpan} 
                          </span>
                         {/* <small className="text-muted">{institute.companyContactNumber}</small> */}
                       </div>

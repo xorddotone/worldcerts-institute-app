@@ -9,7 +9,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
-import qrExample from '../../images/qrcode.png'
+import qrExample from '../../images/worldCertsQr.png'
 import { Resizable } from "re-resizable";
 import ReactFileReader from 'react-file-reader';
 
@@ -392,11 +392,11 @@ const Container = ({ hideSourceOnDrag }) => {
                             <div style={{textAlign:'center'}}><img width="inherit" height = {qrHeight} src={qrExample} /></div>
                           </Col>
                           {/* </Resizable> */}
-                          <Col md="1" >
+                          {/* <Col md="1" >
                             <span style = {{background :  "grey" , padding: "1px 3px" ,color: "white"}} onClick={() => handleRemove(idx)}>
                               x
                            </span>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Box>
                     

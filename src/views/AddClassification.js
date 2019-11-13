@@ -162,14 +162,28 @@ class InstituteRegistration extends Component {
           let found = classificationConstants.some(el => 
             el.value == this.props.editClassificationData.totalCertificateFields[i].value 
           )
-          console.log("found ==> "  , found)
           if(!found){
             tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
           }
         }
+        // for(let i = 0 ; i < this.props.editClassificationData.totalCertificateFields.length ; i ++ ){
+        //   if(this.props.editClassificationData.totalCertificateFields[i].value)
+        // }
+        console.log(this.props.editClassificationData.totalCertificateFields)
+        console.log(tempDynamicClassification)
+       let temp =  this.props.editClassificationData.totalCertificateFields.map( obj => 
+        this.props.editClassificationData.combineCertificateFields.find(dynamicFieldsObj => 
+            dynamicFieldsObj.value === obj.value 
+          ) || obj
+          )
+          console.log(temp)
+          
+        
         this.setState({
           classificationDynamicFields : tempDynamicClassification
         })
+        this.props.ClassificationCombineFields(temp)
+        this.props.ClassificationTotalFields(temp)
 
       }
   }
@@ -478,11 +492,14 @@ class InstituteRegistration extends Component {
   componentWillUnmount() {
     console.log(this.state.classificationConstantFields)
     console.log(this.state.classificationDynamicFields)
-    let a = [...this.state.classificationConstantFields]
-    a.push(...this.state.classificationDynamicFields)
-    console.log(a)
-    this.props.ClassificationCombineFields(a)
-    this.props.ClassificationTotalFields(a)
+    if(!this.props.editClassificationState){
+
+      let a = [...this.state.classificationConstantFields]
+      a.push(...this.state.classificationDynamicFields)
+      console.log(a)
+      this.props.ClassificationCombineFields(a)
+      this.props.ClassificationTotalFields(a)
+    }
   }
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, {top: 0, left : 0 , htmlString : '', value : ''}] }))
@@ -562,9 +579,10 @@ class InstituteRegistration extends Component {
                               // onChange={this.classificationChangeHandler}
                               placeholder="Organization Name"
                               disabled
-                              value={(this.props.editClassificationState)?
-                                (this.props.editClassificationData.instituteName):
-                                (this.props.selectedInstituteName.name)}
+                              // value={(this.props.editClassificationState)?
+                              //   (this.props.editClassificationData.instituteName):
+                              //   (this.props.selectedInstituteName.name)}
+                              value = {this.props.selectedInstituteName.name}
                             />
                           </Col>
                           <Col md="6" className="form-group">
@@ -573,9 +591,10 @@ class InstituteRegistration extends Component {
                              onChange={this.categoryChangeHandler} 
                              onKeyPress={this.clickEnter.bind(this)}
                               placeholder="Category"
-                             value={(this.props.editClassificationState)?
-                                (this.props.editClassificationData.category):
-                                (this.props.classificationCategory)}   
+                            //  value={(this.props.editClassificationState)?
+                            //     (this.props.editClassificationData.category):
+                            //     (this.props.classificationCategory)}  
+                            value = {this.props.classificationCategory} 
                                 >
                               {
                                 this.state.classificationCategory.map((category) => {
@@ -595,9 +614,10 @@ class InstituteRegistration extends Component {
                               onKeyPress={this.clickEnter.bind(this)}
                               onChange={this.classificationChangeHandler}
                               placeholder="Classification"
-                              value={(this.props.editClassificationState)?
-                                (this.props.editClassificationData.classification):
-                                (this.props.classificationName)}
+                              // value={(this.props.editClassificationState)?
+                              //   (this.props.editClassificationData.classification):
+                              //   (this.props.classificationName)}
+                              value = {this.props.classificationName}
                             />
                           </Col>
                           <Col md="6" className="form-group">

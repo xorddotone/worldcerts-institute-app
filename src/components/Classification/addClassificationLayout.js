@@ -133,7 +133,7 @@ function getStepContent(step) {
   }
 }
 
-export default function CustomizedSteppers() {
+export default function withRouterCustomizedSteppers(props) {
   const classes = useStyles(); 
   const [isTop , setTop] = React.useState(true)
   const [alertMessage,setALertMessage] = React.useState("")
@@ -145,6 +145,8 @@ export default function CustomizedSteppers() {
   const classificationName = useSelector(state => state.dashboard_reducer.registerClassificationName)
   const classificationCertificate = useSelector(state => state.dashboard_reducer.image.name)
   const userData = useSelector(state => state.user_reducer.user)
+  const dynamicClassificationFields = useSelector(state => state.dashboard_reducer.classificationFields)
+  const editClassificationState = useSelector(state => state.dashboard_reducer.editClassificationState)
 
 
   const steps = getSteps();
@@ -190,8 +192,18 @@ export default function CustomizedSteppers() {
       }
     
       case 2:
+        if(Object.keys(dynamicClassificationFields).length == 0){
+          return (
+         
+            setAlertOpen(true),
+            setALertMessage("Fields must be placed on the certificate")
+           
+            )
+        }
+        else {
           return setActiveStep(prevActiveStep => prevActiveStep + 1);  
     }
+  }
   };
 
   const handleBack = () => {
@@ -203,6 +215,9 @@ export default function CustomizedSteppers() {
   const handleReset = () => {
     setActiveStep(0);
   };
+  const handleCancel = () => {
+    props.history.push('/manageClassification')
+  }
 
   return (
     <div>
@@ -229,19 +244,25 @@ export default function CustomizedSteppers() {
           <div>
             <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
             {activeStep === steps.length ? (null) : (
-            <div>
+              <div>
+                {
+                  (editClassificationState)? (<Button onClick={handleCancel} className={classes.button}>
+                    Cancel
+                  </Button>) : (null)
+                }
+            <span style = {{float : "right"}}>
               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                 Back
               </Button>
-              
               <Button
                 variant="contained"
                 style = {{backgroundImage:'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))' , color: 'white', fontWeight: 'bold'}}
                 onClick={handleNext}
                 className={classes.button}
               >
-                {activeStep === steps.length - 1 ? 'Register' : 'Next'}
+                {activeStep === steps.length - 1 ? ( (editClassificationState) ? ('Update') : ('Register')) : 'Next'}
               </Button>
+            </span>
             </div>
             )
             }
