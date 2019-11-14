@@ -225,11 +225,11 @@ export default function withRouterCustomizedSteppers(props) {
       {(userData.isVerified) ? (
           null
         ) : (
-            <Alert className="mb-0" style = {(isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "84%", maxWidth: "100%"})} open={true} theme="danger">
+            <Alert className="mb-0" open={true} theme="danger">
               <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
           )}
-    <Alert className="mb-0" style = {(isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "84%", maxWidth: "100%"})} open = {open} theme = "danger" dismissible={() => dismiss()} >
+    <Alert className="mb-0"  open = {open} theme = "danger" dismissible={() => dismiss()} >
          <i className="fas fa-exclamation mx-2"></i>{alertMessage}
       </Alert> 
      <div className={classes.root}>
