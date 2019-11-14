@@ -104,12 +104,12 @@ export const routes1= [
     layout: DefaultLayout,
     component: Home
   },
-  {
+  // {
 
-    path: "/organization_certificates",
-    layout: DefaultLayout,
-    component: OrganizationCertificates
-  },
+  //   path: "/organization_certificates",
+  //   layout: DefaultLayout,
+  //   component: OrganizationCertificates
+  // },
   // {
   //   // path: "/userProfile",
   //   layout: DefaultLayout,
@@ -205,12 +205,12 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
-  {
+  // {
 
-    path: "/organization_certificates",
-    layout: DefaultLayout,
-    component: () => <Redirect to="/signin" />
-  },
+  //   path: "/organization_certificates",
+  //   layout: DefaultLayout,
+  //   component: () => <Redirect to="/signin" />
+  // },
 
 ];
 
@@ -291,12 +291,12 @@ export const routes3= [
     layout: DefaultLayout,
     component: Home
   },
-  {
+  // {
 
-    path: "/organization_certificates",
-    layout: DefaultLayout,
-    component: OrganizationCertificates
-  },
+  //   path: "/organization_certificates",
+  //   layout: DefaultLayout,
+  //   component: OrganizationCertificates
+  // },
   
   
 ];

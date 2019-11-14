@@ -1,7 +1,7 @@
 //SERVERS URL
-// export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
+export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
 // export const SERVER_URL = "http://localhost:4000/"
-export const SERVER_URL = "http://192.168.0.119:4001/"
+// export const SERVER_URL = "http://192.168.0.119:4001/"
 // export const SERVER_URL = "http://192.168.43.194:4000/"
 // export const SERVER_URL = "https://worldcert-server.herokuapp.com/"
 
@@ -23,6 +23,9 @@ export const UPDATE_USER_PASSWORD = SERVER_URL + "userPassword/"
 export const GET_PARTICIPANT_DATA = SERVER_URL + "participation/"
 export const RESEND_EMAIL = SERVER_URL + "sendVerificationCode/"
 export const GET_CLASSIFICATION_FIELDS = SERVER_URL + "constantClassificationFields/"
+export const GET_ALL_CERTIFICATES = SERVER_URL + "certificate/"
+
+
 
 
 
