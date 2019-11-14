@@ -107,7 +107,7 @@ class OrganizationCertificates extends Component {
       axios.get(Routes.CLASSIFICATION + this.props.selectedInstituteName.id)
         .then(function (response) {
           // handle success
-          let obj = { classification: "Choose" }
+          let obj = { classification: "All" }
           console.log(response);
           temp = response.data.result
           console.log(temp)
@@ -293,9 +293,18 @@ class OrganizationCertificates extends Component {
           </Row>
         </Card>
         <MaterialTable
-          title="Recievers List"
+          title="Certificates List"
           columns={this.state.columns}
           data={this.state.data}
+          actions={[
+            {
+              icon: 'more_horiz',
+              tooltip: 'options',
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1
+          }}
         />
 
       </Container>

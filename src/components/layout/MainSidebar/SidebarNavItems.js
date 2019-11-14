@@ -44,6 +44,11 @@ class SidebarNavItems extends React.Component {
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
+          title: "Organization Certificates",
+          to: "/organization_certificates",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
           title: "Settings",
           to: "/settings",
           htmlBefore: ' <i class="material-icons">brightness_5</i>',
@@ -71,6 +76,11 @@ class SidebarNavItems extends React.Component {
         {
           title: "Issue Certificate",
           to: "/issueCertificate",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
+          title: "Organization Certificates",
+          to: "/organization_certificates",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {

@@ -424,7 +424,7 @@ class AddClassification extends Component {
 
 
                         </Row>
-                        {/* <Row form style={{ marginTop: "15px" }}>
+                        <Row form style={{ marginTop: "15px" }}>
        
                         <label>Organization Documents</label>
 
@@ -466,7 +466,7 @@ class AddClassification extends Component {
 
               </div>
             </div>
-     </Row> */}
+     </Row>
                         <hr />
 
                         {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button"
