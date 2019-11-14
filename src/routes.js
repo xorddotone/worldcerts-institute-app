@@ -20,6 +20,7 @@ import SingleCertificate from "./views/SingleCertificate";
 import Settings from "./views/settings";
 import Home from "./views/Home";
 import AccountActivation from './views/accountActivation'
+import OrganizationCertificates from "./views/OrganizationCertificates";
 
 
 //Routes when user is verified and logged in
@@ -102,6 +103,12 @@ export const routes1= [
     path: "/home",
     layout: DefaultLayout,
     component: Home
+  },
+  {
+
+    path: "/organization_certificates",
+    layout: DefaultLayout,
+    component: OrganizationCertificates
   },
   // {
   //   // path: "/userProfile",
@@ -198,18 +205,14 @@ export const routes2= [
     layout: DefaultLayout,
     component: () => <Redirect to="/signin" />
   },
+  {
+
+    path: "/organization_certificates",
+    layout: DefaultLayout,
+    component: () => <Redirect to="/signin" />
+  },
 
 ];
-
-
-
-
-
-
-
-
-
-
 
 
 //Routes if user is logged in  but  not verified
@@ -220,11 +223,6 @@ export const routes3= [
     layout: AuthLayout,
     component: () => <Redirect to="/signin" />
   },
-  // {
-  //   path: "/manage_organization",
-  //   layout: DefaultLayout,
-  //   component: ManageInstitutes
-  // },
   {
     path: "/organization_registration",
     layout: DefaultLayout,
@@ -276,12 +274,6 @@ export const routes3= [
     layout: DefaultLayout,
     component: SingleCertificate
   },
-  // {
-
-  //   path: "/verifierApp",
-  //   layout: VerifierLayout,
-  //   component: VerifyApp
-  // },
   {
     path: "/account_activation",
     layout: DefaultLayout,
@@ -299,11 +291,13 @@ export const routes3= [
     layout: DefaultLayout,
     component: Home
   },
-  // {
-  //   // path: "/userProfile",
-  //   layout: DefaultLayout,
-  //   component: () => <Redirect to="/home" />
-  // },
+  {
+
+    path: "/organization_certificates",
+    layout: DefaultLayout,
+    component: OrganizationCertificates
+  },
+  
   
 ];
 

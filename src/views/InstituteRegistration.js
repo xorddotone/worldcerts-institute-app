@@ -27,6 +27,9 @@ import Select from 'react-select'
 import countryList from 'react-select-country-list'
 import ReactPhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/dist/style.css'
+import upload from '../images/upload.svg'
+
+var reader;
 
 
 class AddClassification extends Component {
@@ -57,6 +60,14 @@ class AddClassification extends Component {
     this.countryChangeHandler = this.countryChangeHandler.bind(this)
     this.postalcodeChangeHandler = this.postalcodeChangeHandler.bind(this)
     this.dismiss = this.dismiss.bind(this)
+    this.openFileDialog = this.openFileDialog.bind(this);
+    this.onFilesAdded = this.onFilesAdded.bind(this);
+    this.onDragOver = this.onDragOver.bind(this);
+    this.onDragLeave = this.onDragLeave.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.handleFileChoosen = this.handleFileChoosen.bind(this)
+    this.fileInputRef = React.createRef();
+
   }
 
   componentWillMount() {
@@ -235,6 +246,97 @@ class AddClassification extends Component {
     }
   }
 
+  openFileDialog() {
+    if (this.props.disabled) return;
+
+    this.fileInputRef.current.click();
+  }
+
+  onFilesAdded(evt) {
+    console.log(evt)
+    this.handleFileChoosen(evt.target.files[0])
+    if (this.props.disabled) return;
+
+    const files = evt.target.files;
+    if (this.props.onFilesAdded) {
+      const array = this.fileListToArray(files);
+      // this.props.onFilesAdded(array);
+    }
+    console.log(files)
+  }
+
+  onDragOver(evt) {
+    // evt.preventDefault();
+    window.addEventListener("dragover",function(e){
+      e = e || evt;
+      e.preventDefault();
+    },false);
+    if (this.props.disabled) return;
+
+    this.setState({ hightlight: true });
+  }
+
+  onDragLeave() {
+
+    this.setState({ hightlight: false });
+  }
+
+  onDrop(event) {
+    console.log(event)
+    // event.preventDefault();
+    window.addEventListener("drop",function(e){
+      e = e || event;
+      e.preventDefault();
+    },false);
+    console.log(event.dataTransfer.getData("image/jpeg"))
+    console.log(event, event.dataTransfer)
+    console.log(event.dataTransfer)
+    console.log(event.dataTransfer.files)
+    if (this.props.disabled) return;
+    console.log(event.dataTransfer)
+
+      if (event.dataTransfer.files[0] == undefined) {
+        alert("invalid file uploaded")
+      }
+      else {
+
+        if (event.dataTransfer.files[0].type == "application/json") {
+
+          // console.log("json file")
+          const files = event.dataTransfer.files;
+          
+            const array = this.handleFileChoosen(files[0]);
+            console.log(array)
+          this.setState({ hightlight: false });
+        }
+        else {
+          alert("invalid file uploaded")
+        }
+      }
+    
+
+
+  }
+
+  fileListToArray(list) {
+    const array = [];
+    for (var i = 0; i < list.length; i++) {
+      array.push(list.item(i));
+    }
+    return array;
+  }
+
+  handleFileChoosen(files) {
+    let that = this
+    console.log(files)
+    reader = new FileReader();
+    reader.onloadend = function (e) {
+      let content = reader.result
+      console.log(content)
+    }
+    reader.readAsText(files)
+  }
+
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -322,6 +424,49 @@ class AddClassification extends Component {
 
 
                         </Row>
+                        <Row form style={{ marginTop: "15px" }}>
+       
+                        <label>Organization Documents</label>
+
+
+            <div style={{  border: '1px dashed #d0c5c5', padding: "2em" ,textAlign: "center" , width: "100%"}}>
+              <div
+                className={`Dropzone ${this.state.hightlight ? "Highlight" : ""}`}
+                onDragOver={this.onDragOver}
+                onDragLeave={this.onDragLeave}
+                onDrop={this.onDrop}
+
+                style={{ cursor: this.props.disabled ? "default" : "pointer" }}
+              >
+                
+                <Row style={{ padding: "0 4px" }}>
+                  <Col md="12">
+                    <div style={{ textAlign: 'center' }} onClick={this.openFileDialog}>
+                      <input
+                        ref={this.fileInputRef}
+                        className="FileInput"
+                        type="file"
+                        accept="image/jpg,image/png,image/jpeg,application/pdf"
+                        multiple
+                        onChange={e => { this.handleFileChoosen(e.target.files[0]) }}
+                        onChange={this.onFilesAdded}
+                      />
+
+                      <img
+                        alt="upload"
+                        className="Icon"
+                        src={upload}
+                      />
+
+                      <span style={{ fontSize: "13px", color: "grey" }}> Drag n drop your Documents in the form of images or PDF, or click to select files</span>
+                    </div>
+                  </Col>
+                
+                </Row>
+
+              </div>
+            </div>
+     </Row>
                         <hr />
 
                         {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button"
@@ -332,6 +477,7 @@ class AddClassification extends Component {
                   </Row>
                 </ListGroupItem>
               </ListGroup>
+             
             </Card>
           </Col>
         </Row>

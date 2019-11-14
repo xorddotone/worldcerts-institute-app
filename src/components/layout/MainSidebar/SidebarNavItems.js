@@ -37,9 +37,15 @@ class SidebarNavItems extends React.Component {
           to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
+      
         {
           title: "Issue Certificate",
           to: "/issueCertificate",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
+          title: "Organization Certificates",
+          to: "/organization_certificates",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
@@ -66,9 +72,15 @@ class SidebarNavItems extends React.Component {
           to: "/manageClassification",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
+       
         {
           title: "Issue Certificate",
           to: "/issueCertificate",
+          htmlBefore: ' <i class="material-icons">ballot</i>',
+        },
+        {
+          title: "Organization Certificates",
+          to: "/organization_certificates",
           htmlBefore: ' <i class="material-icons">ballot</i>',
         },
         {
