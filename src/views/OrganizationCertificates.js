@@ -51,12 +51,15 @@ class OrganizationCertificates extends Component {
       data: [],
       registeredClassifications: [],
       revokeStatus : false,
-      activeStatus : false
+      activeStatus : false,
+      selectedClassificationID: null
 
     }
     this.dismiss = this.dismiss.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
-    this.statusMarked = this.statusMarked.bind(this)
+    this.activeStatusMarked = this.activeStatusMarked.bind(this)
+    this.revokeStatusMarked = this.revokeStatusMarked.bind(this)
+
 
 
   }
@@ -70,7 +73,9 @@ class OrganizationCertificates extends Component {
       console.log(this.props.selectedInstituteName.id)
       let obj = {
         id: this.props.selectedInstituteName.id,
-        classificationId: null
+        classificationId: null,
+      isRevoked : null
+
       }
       axios.post(Routes.GET_ALL_CERTIFICATES, obj)
         .then(response => {
@@ -144,6 +149,7 @@ class OrganizationCertificates extends Component {
         this.setState({ isTop })
       }
     });
+  
   }
   categoryChangeHandler(ev) {
     let temp;
@@ -151,9 +157,13 @@ class OrganizationCertificates extends Component {
     let data = []
     console.log(ev.target.value)
     console.log(this.state.registeredClassifications[ev.target.value])
+    this.setState({
+      selectedClassificationID : this.state.registeredClassifications[ev.target.value]._id
+    })
     let obj = {
       id: this.props.selectedInstituteName.id,
-      classificationId: this.state.registeredClassifications[ev.target.value]._id
+      classificationId: this.state.registeredClassifications[ev.target.value]._id,
+      revokedStatus : null
     }
     axios.post(Routes.GET_ALL_CERTIFICATES, obj)
       .then(response => {
@@ -211,10 +221,128 @@ class OrganizationCertificates extends Component {
     this.setState({ alertShow: false });
   }
 
-  statusMarked(e, status) {
-    const newState = {};
-    newState[status] = !this.state[status];
-    this.setState({ ...this.state, ...newState });
+  // statusMarked(e, status) {
+  //   const newState = {};
+  //   console.log(status)
+  //   newState[status] = !this.state[status];
+  //   console.log(this.state[status])
+  //   console.log(newState)
+  //   console.log(newState[status])
+  //   this.setState({ ...this.state, ...newState });
+  // }
+
+  activeStatusMarked(){
+    let temp = this.state.activeStatus
+    let that = this;
+    let data = []
+    this.setState({
+      activeStatus : !temp
+    })
+    let tempStatus = null
+    if(!temp == true && this.state.revokeStatus== false){
+      tempStatus = false
+    }
+    else if(this.state.revokeStatus == true && !temp == false){
+      tempStatus = true
+    }
+    else if(!temp == true && this.state.revokeStatus == true){
+      tempStatus = null
+    }
+    let obj = {
+      id: this.props.selectedInstituteName.id,
+      classificationId: this.state.selectedClassificationID,
+      revokedStatus : tempStatus
+    }
+    console.log("obj ==> ", obj)
+    axios.post(Routes.GET_ALL_CERTIFICATES, obj)
+      .then(response => {
+        console.log(response)
+        console.log("all certificates ", response.data.result)
+        let responseData = response.data.result
+        console.log(responseData.length)
+        for (let i = 0; i < responseData.length; i++) {
+          console.log(responseData[i])
+          // data[i].studentName = responseData[i].
+          let active = ""
+          if (responseData[i].isRevoked) {
+            active = "revoked"
+          }
+          else {
+            active = "active"
+          }
+          data.push({
+            studentName: responseData[i].participant.name,
+            email: responseData[i].participant.email,
+            classificationName: responseData[i].classification.classification,
+            category: responseData[i].classification.category,
+            status: active
+          })
+
+        }
+        that.setState({
+          data
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  revokeStatusMarked(){
+    let temp = this.state.revokeStatus
+    let that = this;
+    let data = []
+    this.setState({
+      revokeStatus : !temp
+    })
+    let tempStatus = null
+    if(!temp == true && this.state.activeStatus== false){
+      tempStatus = true
+    }
+    else if(this.state.activeStatus == true && !temp == false){
+      tempStatus = false
+    }
+    else if(!temp == true && this.state.activeStatus == true){
+      tempStatus = null
+    }
+    let obj = {
+      id: this.props.selectedInstituteName.id,
+      classificationId: this.state.selectedClassificationID,
+      revokedStatus : tempStatus
+    }
+    console.log("obj ==> ", obj)
+
+    axios.post(Routes.GET_ALL_CERTIFICATES, obj)
+      .then(response => {
+        console.log(response)
+        console.log("all certificates ", response.data.result)
+        let responseData = response.data.result
+        console.log(responseData.length)
+        for (let i = 0; i < responseData.length; i++) {
+          console.log(responseData[i])
+          // data[i].studentName = responseData[i].
+          let active = ""
+          if (responseData[i].isRevoked) {
+            active = "revoked"
+          }
+          else {
+            active = "active"
+          }
+          data.push({
+            studentName: responseData[i].participant.name,
+            email: responseData[i].participant.email,
+            classificationName: responseData[i].classification.classification,
+            category: responseData[i].classification.category,
+            status: active
+          })
+
+        }
+        that.setState({
+          data
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
   render() {
     return (
@@ -236,18 +364,18 @@ class OrganizationCertificates extends Component {
         </Row>
         {console.log(this.state.columns)}
         {console.log(this.state.data)}
-        <Card className="mb-4">
+        <div className="mb-4">
           <Row >
 
-            <Col md="12" style={{ padding: "2em" }}>
+            <Col md="12">
               <label style={{ fontSize: "20px", color: "grey" }}>
                 Filter By:
             </label>
-              <ListGroup style={{ padding: "2em" }}>
+              <ListGroup>
 
                 <Row>
-                  <Col md="3">
-                    <label>
+                  <Col md="3" sm = "3" lg = "3">
+                    <label style = {{fontWeight: "bold"}}>
                       Classification Name
                  </label>
                     <FormSelect placeholder="Category" onChange={this.categoryChangeHandler} >
@@ -266,32 +394,34 @@ class OrganizationCertificates extends Component {
                     </FormSelect>
 
                   </Col>
-                  <Col md="3">
-                  <label>
+                  <Col md="6" sm = "6" lg = "6">
+                  <label style = {{fontWeight: "bold"}}>
                       Status
                  </label>
+                 <div>
                     <FormCheckbox
+                      inline
                       checked={this.state.activeStatus}
-                      onChange={e => this.statusMarked(e , "activeStatus")}
+                      onChange={e => this.activeStatusMarked(e)}
                     >
                       Active Certificates
                             </FormCheckbox>
                     <FormCheckbox
+                      inline
                       checked={this.state.revokeStatus}
-                      onChange={e => this.statusMarked(e , "revokeStatus")}
+                      onChange={e => this.revokeStatusMarked(e )}
                     >
                       Revoked Certificates
                             </FormCheckbox>
+                            </div>
                   </Col>
-                  <Col md="3">
-                  </Col>
-                  <Col md="3">
-                  </Col>
+
+                                
                 </Row>
               </ListGroup>
             </Col>
           </Row>
-        </Card>
+        </div>
         <MaterialTable
           title="Certificates List"
           columns={this.state.columns}
