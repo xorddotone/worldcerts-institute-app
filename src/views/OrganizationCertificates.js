@@ -12,6 +12,10 @@ import {
   FormInput,
   FormSelect,
   FormCheckbox,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   FormTextarea,
   Button
 } from "shards-react";
@@ -50,16 +54,20 @@ class OrganizationCertificates extends Component {
       ],
       data: [],
       registeredClassifications: [],
-      revokeStatus : false,
-      activeStatus : false,
-      selectedClassificationID: null
+      revokeStatus: false,
+      activeStatus: false,
+      selectedClassificationID: null,
+      open: [],
+      allCertificates: [],
+      revokeDisabled: [],
+      activeDisabled: []
 
     }
     this.dismiss = this.dismiss.bind(this)
     this.categoryChangeHandler = this.categoryChangeHandler.bind(this)
     this.activeStatusMarked = this.activeStatusMarked.bind(this)
     this.revokeStatusMarked = this.revokeStatusMarked.bind(this)
-
+    this.mapDataToTable = this.mapDataToTable.bind(this)
 
 
   }
@@ -68,46 +76,12 @@ class OrganizationCertificates extends Component {
     let temp;
     let that = this;
     let data = []
+    let dropDownOpen = []
+    let activeDisable = []
+    let revokeDisable =[]
     if (this.props.selectedInstituteName.name != "Select Organization") {
       console.log("inside if")
-      console.log(this.props.selectedInstituteName.id)
-      let obj = {
-        id: this.props.selectedInstituteName.id,
-        classificationId: null,
-      isRevoked : null
-
-      }
-      axios.post(Routes.GET_ALL_CERTIFICATES, obj)
-        .then(response => {
-          console.log("all certificates ", response.data.result)
-          let responseData = response.data.result
-          console.log(responseData.length)
-          for (let i = 0; i < responseData.length; i++) {
-            console.log(responseData[i])
-            // data[i].studentName = responseData[i].
-            let active = ""
-            if (responseData[i].isRevoked) {
-              active = "revoked"
-            }
-            else {
-              active = "active"
-            }
-            data.push({
-              studentName: responseData[i].participant.name,
-              email: responseData[i].participant.email,
-              classificationName: responseData[i].classification.classification,
-              category: responseData[i].classification.category,
-              status: active
-            })
-
-          }
-          that.setState({
-            data
-          })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.mapDataToTable(null, null)
 
       axios.get(Routes.CLASSIFICATION + this.props.selectedInstituteName.id)
         .then(function (response) {
@@ -149,126 +123,54 @@ class OrganizationCertificates extends Component {
         this.setState({ isTop })
       }
     });
-  
+
   }
   categoryChangeHandler(ev) {
-    let temp;
-    let that = this;
-    let data = []
-    console.log(ev.target.value)
-    console.log(this.state.registeredClassifications[ev.target.value])
     this.setState({
-      selectedClassificationID : this.state.registeredClassifications[ev.target.value]._id
+      selectedClassificationID: this.state.registeredClassifications[ev.target.value]._id
     })
-    let obj = {
-      id: this.props.selectedInstituteName.id,
-      classificationId: this.state.registeredClassifications[ev.target.value]._id,
-      revokedStatus : null
-    }
-    axios.post(Routes.GET_ALL_CERTIFICATES, obj)
-      .then(response => {
-        console.log("all certificates ", response.data.result)
-        let responseData = response.data.result
-        console.log(responseData.length)
-        for (let i = 0; i < responseData.length; i++) {
-          console.log(responseData[i])
-          // data[i].studentName = responseData[i].
-          let active = ""
-          if (responseData[i].isRevoked) {
-            active = "revoked"
-          }
-          else {
-            active = "active"
-          }
-          data.push({
-            studentName: responseData[i].participant.name,
-            email: responseData[i].participant.email,
-            classificationName: responseData[i].classification.classification,
-            category: responseData[i].classification.category,
-            status: active
-          })
-
-        }
-        that.setState({
-          data
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    // console.log(this.state.registeredClassifications[ev.target.value].certificateImageUrl)
-    // console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields)
-    // this.setState({
-    //   alertShow: false,
-    //   selectedClassification: this.state.registeredClassifications[ev.target.value],
-    //   certificateImage: this.state.registeredClassifications[ev.target.value].certificateImage.certificateImageUrl,
-    //   classificationFields: this.state.registeredClassifications.combineFields
-    // })
-    // let tempClassificationsColoumn = []
-    // console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields)
-    // for(let i = 0 ; i < this.state.registeredClassifications[ev.target.value].totalCertificateFields.length ; i++){
-    //   console.log(this.state.registeredClassifications[ev.target.value].totalCertificateFields.value)  
-    //   tempClassificationsColoumn.push(this.state.registeredClassifications[ev.target.value].totalCertificateFields[i].value)
-    // }
-    // console.log("tempClassificationsColoumn  =>" , tempClassificationsColoumn)
-    // console.log(this.state.registeredClassifications[ev.target.value].combineFields)
-    // if (ev.target.value != 0) {
-
-    //   this.getColumnsFromClassification(tempClassificationsColoumn)
-    // }
+    this.mapDataToTable(this.state.registeredClassifications[ev.target.value]._id, null)
   }
   dismiss() {
     this.setState({ alertShow: false });
   }
 
-  // statusMarked(e, status) {
-  //   const newState = {};
-  //   console.log(status)
-  //   newState[status] = !this.state[status];
-  //   console.log(this.state[status])
-  //   console.log(newState)
-  //   console.log(newState[status])
-  //   this.setState({ ...this.state, ...newState });
-  // }
-
-  activeStatusMarked(){
-    let temp = this.state.activeStatus
+  mapDataToTable(classificationID, tempStatus) {
     let that = this;
     let data = []
-    this.setState({
-      activeStatus : !temp
-    })
-    let tempStatus = null
-    if(!temp == true && this.state.revokeStatus== false){
-      tempStatus = false
-    }
-    else if(this.state.revokeStatus == true && !temp == false){
-      tempStatus = true
-    }
-    else if(!temp == true && this.state.revokeStatus == true){
-      tempStatus = null
-    }
+    let activeDisable = []
+    let dropDownOpen = []
+    let revokeDisable = []
     let obj = {
       id: this.props.selectedInstituteName.id,
-      classificationId: this.state.selectedClassificationID,
-      revokedStatus : tempStatus
+      classificationId: classificationID,
+      revokedStatus: tempStatus
     }
     console.log("obj ==> ", obj)
     axios.post(Routes.GET_ALL_CERTIFICATES, obj)
       .then(response => {
         console.log(response)
         console.log("all certificates ", response.data.result)
+
         let responseData = response.data.result
         console.log(responseData.length)
+        this.setState({
+          allCertificates: response.data.result
+        })
         for (let i = 0; i < responseData.length; i++) {
           console.log(responseData[i])
           // data[i].studentName = responseData[i].
           let active = ""
           if (responseData[i].isRevoked) {
             active = "revoked"
+            activeDisable.push(false)
+            revokeDisable.push(true)
+
           }
           else {
             active = "active"
+            activeDisable.push(true)
+            revokeDisable.push(false)
           }
           data.push({
             studentName: responseData[i].participant.name,
@@ -277,74 +179,123 @@ class OrganizationCertificates extends Component {
             category: responseData[i].classification.category,
             status: active
           })
+          dropDownOpen.push(false)
 
         }
         that.setState({
-          data
+          data,
+          open: dropDownOpen,
+          activeDisabled: activeDisable,
+          revokeDisabled: revokeDisable
         })
       })
       .catch(err => {
         console.log(err)
       })
   }
-  revokeStatusMarked(){
-    let temp = this.state.revokeStatus
-    let that = this;
-    let data = []
+
+  activeStatusMarked() {
+    let temp = this.state.activeStatus
     this.setState({
-      revokeStatus : !temp
+      activeStatus: !temp
     })
     let tempStatus = null
-    if(!temp == true && this.state.activeStatus== false){
-      tempStatus = true
-    }
-    else if(this.state.activeStatus == true && !temp == false){
+    if (!temp == true && this.state.revokeStatus == false) {
       tempStatus = false
     }
-    else if(!temp == true && this.state.activeStatus == true){
+    else if (this.state.revokeStatus == true && !temp == false) {
+      tempStatus = true
+    }
+    else if (!temp == true && this.state.revokeStatus == true) {
       tempStatus = null
     }
-    let obj = {
-      id: this.props.selectedInstituteName.id,
-      classificationId: this.state.selectedClassificationID,
-      revokedStatus : tempStatus
+
+    this.mapDataToTable(this.state.selectedClassificationID, tempStatus)
+
+  }
+  revokeStatusMarked() {
+    let temp = this.state.revokeStatus
+
+    this.setState({
+      revokeStatus: !temp
+    })
+    let tempStatus = null
+    if (!temp == true && this.state.activeStatus == false) {
+      tempStatus = true
     }
-    console.log("obj ==> ", obj)
+    else if (this.state.activeStatus == true && !temp == false) {
+      tempStatus = false
+    }
+    else if (!temp == true && this.state.activeStatus == true) {
+      tempStatus = null
+    }
 
-    axios.post(Routes.GET_ALL_CERTIFICATES, obj)
-      .then(response => {
-        console.log(response)
-        console.log("all certificates ", response.data.result)
-        let responseData = response.data.result
-        console.log(responseData.length)
-        for (let i = 0; i < responseData.length; i++) {
-          console.log(responseData[i])
-          // data[i].studentName = responseData[i].
-          let active = ""
-          if (responseData[i].isRevoked) {
-            active = "revoked"
-          }
-          else {
-            active = "active"
-          }
-          data.push({
-            studentName: responseData[i].participant.name,
-            email: responseData[i].participant.email,
-            classificationName: responseData[i].classification.classification,
-            category: responseData[i].classification.category,
-            status: active
-          })
+    this.mapDataToTable(this.state.selectedClassificationID, tempStatus)
 
-        }
-        that.setState({
-          data
-        })
-      })
+  }
+
+  onRevokeClick(id) {
+    let obj = {
+      revokeStatus: true
+    }
+
+    console.log(this.state.allCertificates[id]._id)
+    axios.put(Routes.REVOKE_CERTIFICATES + this.state.allCertificates[id]._id, obj).then(response => {
+      console.log(response.data.result)
+      let tempStatus = null
+    if (this.state.revokeStatus == true && this.state.activeStatus == false) {
+      tempStatus = true
+    }
+    else if (this.state.activeStatus == true && this.state.revokeStatus == false) {
+      tempStatus = false
+    }
+    else if (this.state.revokeStatus == true && this.state.activeStatus == true) {
+      tempStatus = null
+    }
+    else if (this.state.revokeStatus == false && this.state.activeStatus == false) {
+      tempStatus = null
+    }
+
+    this.mapDataToTable(this.state.selectedClassificationID, tempStatus)
+    })
       .catch(err => {
         console.log(err)
+        console.log(err.response.data.result)
+      })
+  }
+
+  onEnactClick(id) {
+    let obj = {
+      revokeStatus: false
+    }
+    console.log(this.state.allCertificates[id]._id)
+    axios.put(Routes.ENACT_CERTIFICATES + this.state.allCertificates[id]._id, obj).then(response => {
+      console.log(response.data.result)
+      let tempStatus = null
+      if (this.state.revokeStatus == true && this.state.activeStatus == false) {
+        tempStatus = true
+      }
+      else if (this.state.activeStatus == true && this.state.revokeStatus == false) {
+        tempStatus = false
+      }
+      else if (this.state.revokeStatus == true && this.state.activeStatus == true) {
+        tempStatus = null
+      }
+      else if (this.state.revokeStatus == false && this.state.activeStatus == false) {
+        tempStatus = null
+      }  
+  
+      this.mapDataToTable(this.state.selectedClassificationID, tempStatus)
+    })
+      .catch(err => {
+        console.log(err)
+        console.log(err.response.data.result)
       })
   }
   render() {
+    console.log(this.state.revokeDisabled)
+    console.log(this.state.activeDisabled)
+
     return (
       <Container fluid className="main-content-container px-4">
         {(this.props.userData.isVerified) ? (
@@ -374,8 +325,8 @@ class OrganizationCertificates extends Component {
               <ListGroup>
 
                 <Row>
-                  <Col md="3" sm = "3" lg = "3">
-                    <label style = {{fontWeight: "bold"}}>
+                  <Col md="3" sm="3" lg="3">
+                    <label style={{ fontWeight: "bold" }}>
                       Classification Name
                  </label>
                     <FormSelect placeholder="Category" onChange={this.categoryChangeHandler} >
@@ -394,29 +345,29 @@ class OrganizationCertificates extends Component {
                     </FormSelect>
 
                   </Col>
-                  <Col md="6" sm = "6" lg = "6">
-                  <label style = {{fontWeight: "bold"}}>
+                  <Col md="6" sm="6" lg="6">
+                    <label style={{ fontWeight: "bold" }}>
                       Status
                  </label>
-                 <div>
-                    <FormCheckbox
-                      inline
-                      checked={this.state.activeStatus}
-                      onChange={e => this.activeStatusMarked(e)}
-                    >
-                      Active Certificates
+                    <div>
+                      <FormCheckbox
+                        inline
+                        checked={this.state.activeStatus}
+                        onChange={e => this.activeStatusMarked(e)}
+                      >
+                        Active Certificates
                             </FormCheckbox>
-                    <FormCheckbox
-                      inline
-                      checked={this.state.revokeStatus}
-                      onChange={e => this.revokeStatusMarked(e )}
-                    >
-                      Revoked Certificates
+                      <FormCheckbox
+                        inline
+                        checked={this.state.revokeStatus}
+                        onChange={e => this.revokeStatusMarked(e)}
+                      >
+                        Revoked Certificates
                             </FormCheckbox>
-                            </div>
+                    </div>
                   </Col>
 
-                                
+
                 </Row>
               </ListGroup>
             </Col>
@@ -428,12 +379,39 @@ class OrganizationCertificates extends Component {
           data={this.state.data}
           actions={[
             {
-              icon: 'more_horiz',
               tooltip: 'options',
+              icon: 'more_horiz',
+              onClick: (event, rowData) => {
+                console.log("onActionClick", rowData)
+                let temp = [...this.state.open]
+                temp[rowData.tableData.id] = !temp[rowData.tableData.id]
+                this.setState({
+                  open: temp
+                });
+              }
             }
           ]}
+
+          onRowClick={(event, rowData) => {
+            console.log("onRowClick", rowData)
+
+          }}
+          components={{
+            Action: props => (
+              <Dropdown open={this.state.open[props.data.tableData.id]} toggle={(event, rowData) => {
+                props.action.onClick(event, props.data)
+              }}>
+                <DropdownToggle style={{ backgroundColor: 'transparent', border: 'none' }} ><i className="material-icons">{'more_horiz'}</i></DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem disabled={this.state.revokeDisabled[props.data.tableData.id]} onClick={() => this.onRevokeClick(props.data.tableData.id)}>Revoke</DropdownItem>
+                  <DropdownItem disabled={this.state.activeDisabled[props.data.tableData.id]} onClick={() => this.onEnactClick(props.data.tableData.id)}>Enact</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            ),
+          }}
           options={{
-            actionsColumnIndex: -1
+            actionsColumnIndex: -1,
+            showTextRowsSelected: true
           }}
         />
 

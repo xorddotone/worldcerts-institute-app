@@ -24,6 +24,10 @@ export const GET_PARTICIPANT_DATA = SERVER_URL + "participation/"
 export const RESEND_EMAIL = SERVER_URL + "sendVerificationCode/"
 export const GET_CLASSIFICATION_FIELDS = SERVER_URL + "constantClassificationFields/"
 export const GET_ALL_CERTIFICATES = SERVER_URL + "certificate/"
+export const REVOKE_CERTIFICATES = SERVER_URL + "certificate/revoke/"
+export const ENACT_CERTIFICATES = SERVER_URL + "certificate/enact/"
+
+
 
 
 
