@@ -31,7 +31,7 @@ import * as Response from '../../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../../constants/apiRoutes'
 import loader from '../../images/loader.gif'
-import { EditClassification, EditClassificationState ,ClassificationFields} from "../../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationFields } from "../../redux/actions/dashboard-action"
 import { Link, withRouter } from 'react-router-dom'
 import PropagateLoader from 'react-spinners/PropagateLoader';
 
@@ -62,7 +62,7 @@ class ClassificationRegistration extends Component {
             alertMessage: "",
             loading: false,
             certificateImageURL: '',
-            isTop : true
+            isTop: true
         }
         this.onRegisterClick = this.onRegisterClick.bind(this)
         this.dismiss = this.dismiss.bind(this)
@@ -114,23 +114,23 @@ class ClassificationRegistration extends Component {
             else {
                 let timeDuration = ""
                 if (that.props.classificationDurationSpan == "year") {
-                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 31536000
+                    timeDuration = parseInt(that.props.classificationDurationTime, 10) * 31536000
                 }
                 else if (that.props.classificationDurationSpan == "months") {
-                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 2592000
+                    timeDuration = parseInt(that.props.classificationDurationTime, 10) * 2592000
 
 
                 }
                 else if (that.props.classificationDurationSpan == "days") {
-                    timeDuration = parseInt(that.props.classificationDurationTime,10) * 86400
+                    timeDuration = parseInt(that.props.classificationDurationTime, 10) * 86400
                 }
-                else if(that.props.classificationDurationSpan == "Life Time"){
+                else if (that.props.classificationDurationSpan == "Life Time") {
                     timeDuration = 0
                     // that.props.classificationDurationTime("none")
-                  }
+                }
 
                 console.log(timeDuration)
-                if(!this.props.editClassificationState && this.props.classificationImageFile.name !== ""){
+                if (!this.props.editClassificationState && this.props.classificationImageFile.name !== "") {
                     let imageFile = this.props.classificationCertificate
                     console.log(imageFile)
                     var formData = new FormData()
@@ -147,19 +147,19 @@ class ClassificationRegistration extends Component {
                         .catch(function (err) {
                             console.log("err", err)
                         })
-                    
+
                 }
-                else{
+                else {
                     imageURL = this.props.editClassificationData.certificateImage.certificateImageUrl
                     certificatePublicId = this.props.editClassificationData.certificateImage.certifcateImageID
                 }
                 let temp = that.props.classificationFields
-                for(let i= 0 ; i < temp.length ; i++){
-                      let str =  temp[i].htmlStringCode
-                      if(temp[i].editorValue){
-                      temp[i].htmlStringCode = str.replace(temp[i].editorValue , temp[i].value)
-                      delete temp[i].editorValue
-                      }
+                for (let i = 0; i < temp.length; i++) {
+                    let str = temp[i].htmlStringCode
+                    if (temp[i].editorValue) {
+                        temp[i].htmlStringCode = str.replace(temp[i].editorValue, temp[i].value)
+                        delete temp[i].editorValue
+                    }
                 }
                 console.log("temp ===> ", temp)
                 this.props.ClassificationFields(temp)
@@ -169,111 +169,111 @@ class ClassificationRegistration extends Component {
                     category: that.props.classificationCategory,
                     classification: that.props.classificationName,
                     durationValidity: {
-                        durationSpan : that.props.classificationDurationSpan,
-                        durationTime : that.props.classificationDurationTime,
-                        durationExpiry : timeDuration
+                        durationSpan: that.props.classificationDurationSpan,
+                        durationTime: that.props.classificationDurationTime,
+                        durationExpiry: timeDuration
                     },
-                    combineCertificateFields : that.props.classificationCombineFields,
-                    totalCertificateFields : that.props.classificationTotalFields,
+                    combineCertificateFields: that.props.classificationCombineFields,
+                    totalCertificateFields: that.props.classificationTotalFields,
                     dynamicCertificateFields: temp,
-                    certificateImage : {
-                    certificateImageUrl: imageURL,
-                    certificateImageID : certificatePublicId,
+                    certificateImage: {
+                        certificateImageUrl: imageURL,
+                        certificateImageID: certificatePublicId,
                     },
-                    
+
 
                     // country: this.state.country,
                     // postalCode: this.state.postalCode
                 }
                 console.log(obj)
-                  console.log(that.state.selectedInstituteId)
-                  if(!this.props.editClassificationState){
+                console.log(that.state.selectedInstituteId)
+                if (!this.props.editClassificationState) {
 
-                      axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
-                          .then(function (response) {
-      
-                              // console.log(response.data.data.result);
-                              that.setState({
-                                  loading: true
-                              })
-                              alert("Classification has been added")
-                              that.props.history.push('/manageClassification')
-      
-                          })
-                          .catch(function (error) {
-                              console.log(error);
-                              console.log(error.response)
-                              console.log(error.response.data.responseMessage)
-                              if (error.response.data.responseCode == Response.BAD_REQUEST) {
-                                  that.setState({
-                                      alertShow: true,
-                                      alertMessage: error.response.data.responseMessage,
-                                      theme: "danger",
-                                      loading: false
-                                  })
-                              }
-                              // that.setState({
-                              //   loading:false
-                              // })
-                          });
-                  }
-                  else {
-                      obj.instituteId = that.props.selectedInstituteName.id
-                      console.log("obj ==> ", obj)
-                    axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
-                    .then(function (response) {
-    
-                        // console.log(response.data.data.result);
-                        that.setState({
-                            loading: false
+                    axios.post(Routes.CLASSIFICATION + that.props.selectedInstituteName.id, obj)
+                        .then(function (response) {
+
+                            // console.log(response.data.data.result);
+                            that.setState({
+                                loading: true
+                            })
+                            alert("Classification has been added")
+                            that.props.history.push('/manageClassification')
+
                         })
-                        alert("Classification has been Updated")
-                        that.props.history.push('/manageClassification')
-    
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        console.log(error.response);
-    
-                        if (error.response == undefined) {
+                        .catch(function (error) {
+                            console.log(error);
+                            console.log(error.response)
+                            console.log(error.response.data.responseMessage)
+                            if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                                that.setState({
+                                    alertShow: true,
+                                    alertMessage: error.response.data.responseMessage,
+                                    theme: "danger",
+                                    loading: false
+                                })
+                            }
+                            // that.setState({
+                            //   loading:false
+                            // })
+                        });
+                }
+                else {
+                    obj.instituteId = that.props.selectedInstituteName.id
+                    console.log("obj ==> ", obj)
+                    axios.put(Routes.EDIT_CLASSIFICATION + that.props.editClassificationData._id, obj)
+                        .then(function (response) {
+
+                            // console.log(response.data.data.result);
                             that.setState({
-                                alertMessage: "Network Error",
-                                alertShow: true,
-                                theme: "danger",
                                 loading: false
                             })
-                        }
-                        else if (error.response.data.responseCode == Response.BAD_REQUEST) {
-                            that.setState({
-                                alertMessage: error.response.data.responseMessage,
-                                alertShow: true,
-                                theme: "danger",
-                                loading: false
-                            })
-                        }
-                        else {
-                            that.setState({
-                                alertMessage: error.response.data.responseMessage,
-                                alertShow: true,
-                                theme: "danger",
-                                loading: false
-                            })
-                        }
-                    });
-                  }
+                            alert("Classification has been Updated")
+                            that.props.history.push('/manageClassification')
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            console.log(error.response);
+
+                            if (error.response == undefined) {
+                                that.setState({
+                                    alertMessage: "Network Error",
+                                    alertShow: true,
+                                    theme: "danger",
+                                    loading: false
+                                })
+                            }
+                            else if (error.response.data.responseCode == Response.BAD_REQUEST) {
+                                that.setState({
+                                    alertMessage: error.response.data.responseMessage,
+                                    alertShow: true,
+                                    theme: "danger",
+                                    loading: false
+                                })
+                            }
+                            else {
+                                that.setState({
+                                    alertMessage: error.response.data.responseMessage,
+                                    alertShow: true,
+                                    theme: "danger",
+                                    loading: false
+                                })
+                            }
+                        });
+                }
             }
         }
 
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         document.addEventListener('scroll', () => {
-          const isTop = window.scrollY < 1;
-          if (isTop !== this.state.isTop) {
-              this.setState({ isTop })
-          }
-      });
-      }
+            const isTop = window.scrollY < 1;
+            if (isTop !== this.state.isTop) {
+                this.setState({ isTop })
+            }
+        });
+    }
 
     async onRegisterClick() {
         console.log("#################################################3")
@@ -501,16 +501,16 @@ class ClassificationRegistration extends Component {
     render() {
         return (
             <Container fluid className="main-content-container px-4">
-                {(this.props.userData.isVerified) ? (
+                {/* {(this.props.userData.isVerified) ? (
                     null
                 ) : (
-                        <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%"})} open={true} theme="danger">
-                            <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
-        </Alert>
-                    )}
-                <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" })} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
-                    <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-                </Alert>
+                                        <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%"})} open={true} theme="danger">
+                                            <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
+                        </Alert>
+                                    )}
+                                <Alert className="mb-0" style = {(this.state.isTop)?(null):({position: 'fixed' , zIndex: '100' ,minWidth: "80%", maxWidth: "84%" })} open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
+                                    <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+                                </Alert> */}
                 <div className='sweet-loading' style={{ margin: "25% 50%" }}>
                     <PropagateLoader
                         //   css={override}
@@ -539,8 +539,8 @@ const mapStateToProps = (state) => {
         classificationCertificate: state.dashboard_reducer.image,
         classificationFields: state.dashboard_reducer.classificationFields,
         classificationCombineFields: state.dashboard_reducer.classificationCombineFields,
-        classificationTotalFields : state.dashboard_reducer.classificationTotalFields,
-        classificationImageFile : state.dashboard_reducer.image
+        classificationTotalFields: state.dashboard_reducer.classificationTotalFields,
+        classificationImageFile: state.dashboard_reducer.image
 
 
 
@@ -556,7 +556,7 @@ const mapDispatchToProps = (dispatch) => {
         EditClassificationState: (data) => {
             dispatch(EditClassificationState(data))
         },
-        ClassificationFields : (data) => {
+        ClassificationFields: (data) => {
             dispatch(ClassificationFields(data))
         },
         // UpdateTitle: (title) => dispatch(pageTitle(title))

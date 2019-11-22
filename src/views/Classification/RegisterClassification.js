@@ -123,7 +123,7 @@ class RegisterClassification extends Component {
         else if (that.props.classificationDurationSpan == "days") {
           timeDuration = that.props.classificationDurationTime * 86400
         }
-        else if(that.props.classificationDurationSpan == "" ||that.props.classificationDurationSpan == "Choose" ){
+        else if (that.props.classificationDurationSpan == "" || that.props.classificationDurationSpan == "Choose") {
           timeDuration = 0
         }
 
@@ -308,16 +308,16 @@ class RegisterClassification extends Component {
     }
   }
   createMarkup(key) {
-    return {__html: this.props.classificationFields[key].htmlStringCode};
+    return { __html: this.props.classificationFields[key].htmlStringCode };
   }
-  
+
   render() {
     console.log(this.props.classificationCertificate)
     console.log(this.props.classificationFields)
     return (
 
       <Container fluid className="main-content-container px-4">
-        {(this.props.userData.isVerified) ? (
+        {/* {(this.props.userData.isVerified) ? (
           null
         ) : (
             <Alert className="mb-0" open={true} theme="danger">
@@ -326,7 +326,7 @@ class RegisterClassification extends Component {
           )}
         <Alert className="mb-0" open={this.state.alertShow} theme={this.state.theme} dismissible={this.dismiss}>
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-        </Alert>
+        </Alert> */}
         <Row>
           <Col lg="11">
             <Card small className="mb-4">
@@ -369,22 +369,22 @@ class RegisterClassification extends Component {
                             <label >Duration</label>
 
                             <InputGroup className="mb-3">
-                           {(this.props.classificationDurationTime == "" && this.props.classificationDurationSpan == "Choose")?
-                           ( 
-                           <FormInput
-                                value="none"
-                                disabled />)
-                            :
-                                ( <FormInput
-                                value={(this.props.classificationDurationTime == "" || this.props.classificationDurationTime == undefined) ? ( this.props.classificationDurationSpan) : (this.props.classificationDurationTime + " " +  this.props.classificationDurationSpan) }
-                                disabled />) }
-                             
+                              {(this.props.classificationDurationTime == "" && this.props.classificationDurationSpan == "Choose") ?
+                                (
+                                  <FormInput
+                                    value="none"
+                                    disabled />)
+                                :
+                                (<FormInput
+                                  value={(this.props.classificationDurationTime == "" || this.props.classificationDurationTime == undefined) ? (this.props.classificationDurationSpan) : (this.props.classificationDurationTime + " " + this.props.classificationDurationSpan)}
+                                  disabled />)}
+
 
                             </InputGroup>
                           </Col>
 
                         </Row>
-                
+
 
                       </Form>
                     </Col>
@@ -392,33 +392,33 @@ class RegisterClassification extends Component {
                 </ListGroupItem>
               </ListGroup>
             </Card>
-            {( this.props.classificationCertificate.name == "" ) ?  (null) :( 
-           <div style={{ backgroundSize: 'cover' , position:'relative'}}>
-           <img src = {(this.props.editClassificationState)?(this.props.editClassificationData.certificateImage.certificateImageUrl):(URL.createObjectURL(this.props.classificationCertificate))} width = "100%"/>
-            {
-              Object.keys(this.props.classificationFields).map(key => { 
-                return(
-                  
-                    (this.props.classificationFields[key].value !== true)
-                    ?
-                    (<div dangerouslySetInnerHTML={ this.createMarkup(key)} style = {{top: this.props.classificationFields[key].top + "%" , right: Math.abs(this.props.classificationFields[key].left) + "%" ,width: "300px", position: 'absolute'}}></div>)
-                    :
-                    (<div>
-                      {console.log(this.props.classificationFields[key].height)}
-                      <img src = {qrCode} style = {{top: (this.props.classificationFields[key].top) + "%" , right: (Math.abs(this.props.classificationFields[key].left)) + "%" , position: 'absolute' , height :this.props.classificationFields[key].height + "px"}}/></div>)
+            {(this.props.classificationCertificate.name == "") ? (null) : (
+              <div style={{ backgroundSize: 'cover', position: 'relative' }}>
+                <img src={(this.props.editClassificationState) ? (this.props.editClassificationData.certificateImage.certificateImageUrl) : (URL.createObjectURL(this.props.classificationCertificate))} width="100%" />
+                {
+                  Object.keys(this.props.classificationFields).map(key => {
+                    return (
 
-                  
+                      (this.props.classificationFields[key].value !== true)
+                        ?
+                        (<div dangerouslySetInnerHTML={this.createMarkup(key)} style={{ top: this.props.classificationFields[key].top + "%", right: Math.abs(this.props.classificationFields[key].left) + "%", width: "300px", position: 'absolute' }}></div>)
+                        :
+                        (<div>
+                          {console.log(this.props.classificationFields[key].height)}
+                          <img src={qrCode} style={{ top: (this.props.classificationFields[key].top) + "%", right: (Math.abs(this.props.classificationFields[key].left)) + "%", position: 'absolute', height: this.props.classificationFields[key].height + "px" }} /></div>)
+
+
+                    )
+                  }
                   )
-              }
-              )
-            }
-            
-          </div>
-          )}
-           
+                }
+
+              </div>
+            )}
 
 
-{/* 
+
+            {/* 
             {(this.props.editClassificationState) ? (
               (this.state.loading) ? (<img src={loader} className="loader" />) : (
                 <div>
@@ -468,7 +468,7 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
     classificationFields: state.dashboard_reducer.classificationFields,
-  
+
 
 
 

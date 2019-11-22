@@ -34,8 +34,8 @@ class ClassificationDropzone extends Component {
       // certificate : this.props.editClassificationData.certificateImage.certificateImageUrl,
       certificate: '',
       alertShow: false,
-      theme : "",
-      alertMessage : ""
+      theme: "",
+      alertMessage: ""
 
     };
     this.fileInputRef = React.createRef();
@@ -46,27 +46,27 @@ class ClassificationDropzone extends Component {
     this.onDragLeave = this.onDragLeave.bind(this);
     this.onDrop = this.onDrop.bind(this);
   }
-    componentDidMount(){
-      console.log(this.props.imageFile)
-      if(this.props.imageFile.name != null && this.props.imageFile.name != undefined && this.props.imageFile.name != "" ){
-      console.log(this.props.imageFile.name)     
-        console.log("in if")
-        document.getElementById("uploadButton").hidden = true;
-        this.setState({
-          certificate: URL.createObjectURL(this.props.imageFile)
-        })
-      }
-        else if(this.props.editClassificationState){
-          console.log("in else if")
-          console.log("CERTIFICATE URL", this.props.editClassificationData.certificateImage.certificateImageUrl)
-          this.setState({
-            certificate: this.props.editClassificationData.certificateImage.certificateImageUrl
-          })      
-          this.props.IMAGE(this.props.editClassificationData.certificateImage.certificateImageUrl)
-        document.getElementById("uploadButton").hidden = true;
+  componentDidMount() {
+    console.log(this.props.imageFile)
+    if (this.props.imageFile.name != null && this.props.imageFile.name != undefined && this.props.imageFile.name != "") {
+      console.log(this.props.imageFile.name)
+      console.log("in if")
+      document.getElementById("uploadButton").hidden = true;
+      this.setState({
+        certificate: URL.createObjectURL(this.props.imageFile)
+      })
+    }
+    else if (this.props.editClassificationState) {
+      console.log("in else if")
+      console.log("CERTIFICATE URL", this.props.editClassificationData.certificateImage.certificateImageUrl)
+      this.setState({
+        certificate: this.props.editClassificationData.certificateImage.certificateImageUrl
+      })
+      this.props.IMAGE(this.props.editClassificationData.certificateImage.certificateImageUrl)
+      document.getElementById("uploadButton").hidden = true;
 
-          }
-      }
+    }
+  }
 
   openFileDialog() {
     if (this.props.disabled) return;
@@ -89,10 +89,10 @@ class ClassificationDropzone extends Component {
 
   onDragOver(evt) {
     // evt.preventDefault();
-    window.addEventListener("dragover",function(e){
+    window.addEventListener("dragover", function (e) {
       e = e || evt;
       e.preventDefault();
-    },false);
+    }, false);
     if (this.props.disabled) return;
 
     this.setState({ hightlight: true });
@@ -106,10 +106,10 @@ class ClassificationDropzone extends Component {
   onDrop(event) {
     console.log(event)
     // event.preventDefault();
-    window.addEventListener("drop",function(e){
+    window.addEventListener("drop", function (e) {
       e = e || event;
       e.preventDefault();
-    },false);
+    }, false);
     console.log(event.dataTransfer.getData("image/jpeg"))
     console.log(event, event.dataTransfer)
     console.log(event.dataTransfer)
@@ -117,23 +117,23 @@ class ClassificationDropzone extends Component {
     if (this.props.disabled) return;
     console.log(event.dataTransfer)
 
-      if (event.dataTransfer.files[0] == undefined) {
-          console.log("IN 1st If")
-        alert("invalid file uploaded")
+    if (event.dataTransfer.files[0] == undefined) {
+      console.log("IN 1st If")
+      alert("invalid file uploaded")
+    }
+    else {
+
+      if (event.dataTransfer.files[0].type == "image/jpg" || event.dataTransfer.files[0].type == "image/png" || event.dataTransfer.files[0].type == "image/jpeg") {
+
+        console.log("In If png spotted")
+        const files = event.dataTransfer.files;
+        this.handleFileChoosen(files[0]);
       }
       else {
+        console.log("IN 2nd If")
 
-        if (event.dataTransfer.files[0].type == "image/jpg" ||event.dataTransfer.files[0].type == "image/png" || event.dataTransfer.files[0].type == "image/jpeg") {
-
-          console.log("In If png spotted")
-          const files = event.dataTransfer.files;
-          this.handleFileChoosen(files[0]);
-        }
-        else {
-          console.log("IN 2nd If")
-
-          alert("invalid file uploaded")
-        }
+        alert("invalid file uploaded")
+      }
     }
 
 
@@ -155,50 +155,50 @@ class ClassificationDropzone extends Component {
     // console.log("temp.naturalHeight ==>",temp.naturalHeight )
     var img = document.createElement("img");
 
-    img.src = URL.createObjectURL( files );
+    img.src = URL.createObjectURL(files);
 
-    img.onload = await function() {
-        var width = img.naturalWidth,
-          height = img.naturalHeight;
+    img.onload = await function () {
+      var width = img.naturalWidth,
+        height = img.naturalHeight;
 
-        URL.revokeObjectURL( img.src );
+      URL.revokeObjectURL(img.src);
 
-        console.log("temp.naturalWidht ==>",width )
-        console.log("temp.naturalHeight ==>",height )  
-        
-        if(width > 1000 & height > 1000){
-          console.log("IN IFFFF")
-          that.props.IMAGE(files)
-          that.setState({
-            certificate: URL.createObjectURL(files),
-            alertShow : false,
-          })
-            document.getElementById("uploadButton").hidden = true;
-        }
-        else{
-          console.log("IN Elsee")
+      console.log("temp.naturalWidht ==>", width)
+      console.log("temp.naturalHeight ==>", height)
 
-          that.setState({
-              alertShow : true,
-              theme: "danger",
-              alertMessage: "Certificate width and height must be greater than 1000px"
-          })
-        }
+      if (width > 1000 & height > 1000) {
+        console.log("IN IFFFF")
+        that.props.IMAGE(files)
+        that.setState({
+          certificate: URL.createObjectURL(files),
+          alertShow: false,
+        })
+        document.getElementById("uploadButton").hidden = true;
+      }
+      else {
+        console.log("IN Elsee")
+
+        that.setState({
+          alertShow: true,
+          theme: "danger",
+          alertMessage: "Certificate width and height must be greater than 1000px"
+        })
       }
     }
+  }
 
 
   render() {
     return (
-      
-      <Container fluid className="main-content-container px-4">
-       <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} >
-       <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
-    </Alert>
-      <Row>
-        <Col lg="12">
 
-{/* <div id = "uploadButton" style = {{textAlign: 'center' , verticalAlign: 'center', border: '1px dashed',padding: "15%"}}>
+      <Container fluid className="main-content-container px-4">
+        {/* <Alert className="mb-0" open = {this.state.alertShow} theme = {this.state.theme} >
+       <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
+    </Alert> */}
+        <Row>
+          <Col lg="12">
+
+            {/* <div id = "uploadButton" style = {{textAlign: 'center' , verticalAlign: 'center', border: '1px dashed',padding: "15%"}}>
           <ReactFileReader
             handleFiles={this.handleFiles.bind(this)} fileTypes={['.png', '.jpg', '.jpeg']} 
             >
@@ -208,22 +208,22 @@ class ClassificationDropzone extends Component {
             >Upload Certificate</button>
           </ReactFileReader>
           </div> */}
-         <div id = "uploadButton">
-          <div style={{ margin: "0em 4em 01em 4em" }}>
+            <div id="uploadButton">
+              <div style={{ margin: "0em 4em 01em 4em" }}>
 
-            {/* <h4 style={{ fontSize: "20px", marginTop: "1em", textAlign: "center" }}>Upload Certificate</h4> */}
+                {/* <h4 style={{ fontSize: "20px", marginTop: "1em", textAlign: "center" }}>Upload Certificate</h4> */}
 
-            <div style={{ marginBottom: "1em", textAlign: "center" }}>
-              <div
-                className={`Dropzone ${this.state.hightlight ? "Highlight" : ""}`}
-                onDragOver={this.onDragOver}
-                onDragLeave={this.onDragLeave}
-                onDrop={this.onDrop}
-                style = {{background: "transparent"}}
+                <div style={{ marginBottom: "1em", textAlign: "center" }}>
+                  <div
+                    className={`Dropzone ${this.state.hightlight ? "Highlight" : ""}`}
+                    onDragOver={this.onDragOver}
+                    onDragLeave={this.onDragLeave}
+                    onDrop={this.onDrop}
+                    style={{ background: "transparent" }}
 
-                style={{ cursor: this.props.disabled ? "default" : "pointer" }}
-              >
-                    <div style={{ textAlign: "center" , border :"1px dashed grey" , background: "transparent",padding: "9em 0em"}} onClick={this.openFileDialog}>
+                    style={{ cursor: this.props.disabled ? "default" : "pointer" }}
+                  >
+                    <div style={{ textAlign: "center", border: "1px dashed grey", background: "transparent", padding: "9em 0em" }} onClick={this.openFileDialog}>
                       <input
                         ref={this.fileInputRef}
                         className="FileInput"
@@ -244,22 +244,22 @@ class ClassificationDropzone extends Component {
 
                       <span style={{ fontSize: "13px", color: "grey" }}> Drag n drop your Certificate, or click to select file</span>
                     </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-      </div>
-        </Col>
-      {console.log(this.props.imageFile)}
-      {console.log(this.props.imageFile)}
-      {console.log(this.state.certificate)}
-{(this.state.certificate == "")? (null): 
-(<DndProvider backend={HTML5Backend}>
-{console.log("in the container")}
-          <Example />
-        </DndProvider>)}
-        
-      </Row>
-    </Container>
+          </Col>
+          {console.log(this.props.imageFile)}
+          {console.log(this.props.imageFile)}
+          {console.log(this.state.certificate)}
+          {(this.state.certificate == "") ? (null) :
+            (<DndProvider backend={HTML5Backend}>
+              {console.log("in the container")}
+              <Example />
+            </DndProvider>)}
+
+        </Row>
+      </Container>
 
     );
   }
@@ -274,21 +274,21 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     editClassificationState: state.dashboard_reducer.editClassificationState,
     editClassificationData: state.dashboard_reducer.editClassificationData,
-    imageFile : state.dashboard_reducer.image
+    imageFile: state.dashboard_reducer.image
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     EditClassification: (data) => {
-        dispatch(EditClassification(data))
-      },
-      EditClassificationState: (data) => {
-        dispatch(EditClassificationState(data))
-      },
-      IMAGE: (imageFile) => {
-        dispatch(Image(imageFile))
-      },
+      dispatch(EditClassification(data))
+    },
+    EditClassificationState: (data) => {
+      dispatch(EditClassificationState(data))
+    },
+    IMAGE: (imageFile) => {
+      dispatch(Image(imageFile))
+    },
   }
 }
 

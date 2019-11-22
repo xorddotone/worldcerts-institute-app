@@ -113,31 +113,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Add Classification Details', 'Create Certificate ', 'Complete the Process'];
+  return ['Certificate Details', 'Create Certificate ', 'View & Add Certificate'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
       return (
-          <AddClassification/>
+        <AddClassification />
       );
     case 1:
-      return <ClassificationDropZone/>;
+      return <ClassificationDropZone />;
     case 2:
-      return <RegisterClassification/>;
-      case 3:
-        return <ClassificationRegistration/>
+      return <RegisterClassification />;
+    case 3:
+      return <ClassificationRegistration />
     default:
       return 'Unknown step';
   }
 }
 
 export default function withRouterCustomizedSteppers(props) {
-  const classes = useStyles(); 
-  const [isTop , setTop] = React.useState(true)
-  const [alertMessage,setALertMessage] = React.useState("")
-  const [open , setAlertOpen] = React.useState(false)
+  const classes = useStyles();
+  const [isTop, setTop] = React.useState(true)
+  const [alertMessage, setALertMessage] = React.useState("")
+  const [open, setAlertOpen] = React.useState(false)
   const [activeStep, setActiveStep] = React.useState(0);
   const organizationName = useSelector(state => state.user_reducer.selectedInstituteName.name)
   const classificationCategory = useSelector(state => state.dashboard_reducer.registerClassificationCategory)
@@ -158,58 +158,60 @@ export default function withRouterCustomizedSteppers(props) {
       // console.log(window.scrollY)
       const istempTop = window.scrollY < 1;
       if (istempTop !== isTop) {
-          // console.log(isTop)
-          setTop(istempTop)
+        // console.log(isTop)
+        setTop(istempTop)
       }
-  } );} )
+    });
+  })
 
   const handleNext = () => {
     console.log(activeStep)
-    if(open){
-    setAlertOpen(false)
+    if (open) {
+      setAlertOpen(false)
     }
     switch (activeStep) {
-      case 0: 
-      if(organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose"){
-       return(
-        setAlertOpen(true),
-        setALertMessage("Fill the required Fields before Proceeding to next Step")
-       )
-      }
-      else{
-        return setActiveStep(prevActiveStep => prevActiveStep + 1);    
-      }
-      case 1: 
-      if(classificationCertificate == ""){
-       return (
-         
-        setAlertOpen(true),
-        setALertMessage("upload the certificate before Proceeding to next Step")
-       
-        ) }
-      else{
-        return setActiveStep(prevActiveStep => prevActiveStep + 1);  
-      }
-    
-      case 2:
-        if(Object.keys(dynamicClassificationFields).length == 0){
+      case 0:
+        if (organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose") {
           return (
-         
             setAlertOpen(true),
-            setALertMessage("Fields must be placed on the certificate")
-           
-            )
+            setALertMessage("Fill the required Fields before Proceeding to next Step")
+          )
         }
         else {
-          return setActiveStep(prevActiveStep => prevActiveStep + 1);  
+          return setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
+      case 1:
+        if (classificationCertificate == "") {
+          return (
+
+            setAlertOpen(true),
+            setALertMessage("upload the certificate before Proceeding to next Step")
+
+          )
+        }
+        else {
+          return setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
+
+      case 2:
+        if (Object.keys(dynamicClassificationFields).length == 0) {
+          return (
+
+            setAlertOpen(true),
+            setALertMessage("Fields must be placed on the certificate")
+
+          )
+        }
+        else {
+          return setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
     }
-  }
   };
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
- const dismiss = () => {
+  const dismiss = () => {
     setAlertOpen(false)
   };
   const handleReset = () => {
@@ -221,55 +223,55 @@ export default function withRouterCustomizedSteppers(props) {
 
   return (
     <div>
-    {console.log(userData)}
+      {console.log(userData)}
       {(userData.isVerified) ? (
-          null
-        ) : (
-            <Alert className="mb-0" open={true} theme="danger">
-              <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
+        null
+      ) : (
+          <Alert className="mb-0" open={true} theme="danger">
+            <i className="fas fa-exclamation mx-2"></i> Your account is not verified. Please <Link to="account_activation" style={{ color: "white", fontWeight: "bold" }}>click here</Link> to verify it.
         </Alert>
-          )}
-    <Alert className="mb-0"  open = {open} theme = "danger" dismissible={() => dismiss()} >
-         <i className="fas fa-exclamation mx-2"></i>{alertMessage}
-      </Alert> 
-     <div className={classes.root}>
-     <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div>
+        )}
+      <Alert className="mb-0" open={open} theme="danger" dismissible={() => dismiss()} >
+        <i className="fas fa-exclamation mx-2"></i>{alertMessage}
+      </Alert>
+      <div className={classes.root}>
+        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
           <div>
             <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
             {activeStep === steps.length ? (null) : (
               <div>
                 {
-                  (editClassificationState)? (<Button onClick={handleCancel} className={classes.button}>
+                  (editClassificationState) ? (<Button onClick={handleCancel} className={classes.button}>
                     Cancel
                   </Button>) : (null)
                 }
-            <span style = {{float : "right"}}>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Back
+                <span style={{ float: "right" }}>
+                  <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                    Back
               </Button>
-              <Button
-                variant="contained"
-                style = {{backgroundImage:'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))' , color: 'white', fontWeight: 'bold'}}
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? ( (editClassificationState) ? ('Update') : ('Register')) : 'Next'}
-              </Button>
-            </span>
-            </div>
+                  <Button
+                    variant="contained"
+                    style={{ backgroundImage: 'linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))', color: 'white', fontWeight: 'bold' }}
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? ((editClassificationState) ? ('Update') : ('Register')) : 'Next'}
+                  </Button>
+                </span>
+              </div>
             )
             }
           </div>
-        
+
+        </div>
       </div>
-    </div>
     </div>
   );
 }
