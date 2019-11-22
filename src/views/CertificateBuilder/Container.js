@@ -12,7 +12,7 @@ import htmlToDraft from 'html-to-draftjs';
 import qrExample from '../../images/worldCertsQr.png'
 import { Resizable } from "re-resizable";
 import ReactFileReader from 'react-file-reader';
-
+import "../../css/style.css"
 import {
 
   FormSelect,
@@ -52,7 +52,7 @@ const Container = ({ hideSourceOnDrag }) => {
   const image = useSelector(state => state.dashboard_reducer.image)
   const [fields, setFields] = useState([]);
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
-  const [editClassificationState,setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
+  const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
   const [fontSizes, setFontSize] = useState([]);
   const [activeFontSize, setActiveFontSize] = useState(6)
@@ -61,7 +61,7 @@ const Container = ({ hideSourceOnDrag }) => {
   const [qrIndex, setQrIndex] = useState()
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
-  const [height , setHeight] = useState(200)
+  const [height, setHeight] = useState(200)
   const [qrWidth, setqrWidth] = useState(200)
   const [qrHeight, setQrHeight] = useState(80)
 
@@ -97,33 +97,33 @@ const Container = ({ hideSourceOnDrag }) => {
 
     let tempField = JSON.parse(JSON.stringify(fields))
     for (let i = 0; i < tempField.length - 1; i++) {
-      if(tempField[i].value !== true){
-      let tops = convertPxToPercentage(imageHeight, tempField[i].top + 40 )
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
-      tempField[i].left = lefts
-      tempField[i].top = tops
+      if (tempField[i].value !== true) {
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top + 40)
+        let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
+        tempField[i].left = lefts
+        tempField[i].top = tops
+      }
+      else {
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top + 40)
+        let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
+        tempField[i].left = lefts
+        tempField[i].top = tops
+      }
     }
-    else{
-      let tops = convertPxToPercentage(imageHeight, tempField[i].top + 40 )
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
-      tempField[i].left = lefts
-      tempField[i].top = tops
+    if (tempField[id].value == true) {
+      let tops = convertPxToPercentage(imageHeight, top + 40)
+      let lefts = convertPxToPercentage(imageWidth, left + 115)
+      tempField[id].left = lefts
+      tempField[id].top = tops
+      console.log("tempFields ==> ", tempField)
     }
-  }
-  if(tempField[id].value == true){
-    let tops = convertPxToPercentage(imageHeight, top + 40 )
-    let lefts = convertPxToPercentage(imageWidth, left + 115)
-    tempField[id].left = lefts
-    tempField[id].top = tops
-    console.log("tempFields ==> ", tempField)
-  }
-  else{
-    let tops = convertPxToPercentage(imageHeight, top + 40 )
-    let lefts = convertPxToPercentage(imageWidth, left + 250)
-    tempField[id].left = lefts
-    tempField[id].top = tops
-    console.log("tempFields ==> ", tempField)
-  }
+    else {
+      let tops = convertPxToPercentage(imageHeight, top + 40)
+      let lefts = convertPxToPercentage(imageWidth, left + 250)
+      tempField[id].left = lefts
+      tempField[id].top = tops
+      console.log("tempFields ==> ", tempField)
+    }
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
     // handleAdd()
   }
@@ -145,43 +145,43 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log(classificationFields.length)
     const tempEditorState = [...editorState]
     for (let i = 0; i < classificationFields.length; i++) {
-    if(classificationFields[i].htmlStringCode == ""){
-      top = top + 70
-      console.log("top ==> ", top)
-      fields.push({ top: top, left: -35, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
-      tempEditorState.push(EditorState.createEmpty())
-      setEditorState(tempEditorState)
-    }
-    else if( classificationFields[i].value !== true){
-      console.log("IN elseeeee")
-      fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
-      tempEditorState.push(EditorState.createEmpty())
-      setEditorState(tempEditorState)
-    }
-  }
-  console.log((classificationFields.length -1).value == true )
-      if(qrVisibility){
-
-        if((classificationFields.length -1).value == true ){
-         console.log("top ============>" , top)
-         fields.push({ top: (classificationFields.length -1).top, left: (classificationFields.length -1).left, value: qrVisibility , height: (classificationFields.length -1).height })
-         console.log("fields ==> ", fields)
-         console.log("fields length ==> ", fields.length)
-         setQrIndex(fields.length - 1)
-       }
-       else {
-         console.log("top uuuiuiui============>" , top)
-         fields.push({ top: top +70, left: -70, value: qrVisibility , height: qrHeight })
-         console.log("fields ==> ", fields)
-         console.log("fields length ==> ", fields.length)
-         setQrIndex(fields.length - 1)
-       }
-     
+      if (classificationFields[i].htmlStringCode == "") {
+        top = top + 70
+        console.log("top ==> ", top)
+        fields.push({ top: top, left: -35, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
+        tempEditorState.push(EditorState.createEmpty())
+        setEditorState(tempEditorState)
       }
+      else if (classificationFields[i].value !== true) {
+        console.log("IN elseeeee")
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
+        tempEditorState.push(EditorState.createEmpty())
+        setEditorState(tempEditorState)
+      }
+    }
+    console.log((classificationFields.length - 1).value == true)
+    if (qrVisibility) {
+
+      if ((classificationFields.length - 1).value == true) {
+        console.log("top ============>", top)
+        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height })
+        console.log("fields ==> ", fields)
+        console.log("fields length ==> ", fields.length)
+        setQrIndex(fields.length - 1)
+      }
+      else {
+        console.log("top uuuiuiui============>", top)
+        fields.push({ top: top + 70, left: -70, value: qrVisibility, height: qrHeight })
+        console.log("fields ==> ", fields)
+        console.log("fields length ==> ", fields.length)
+        setQrIndex(fields.length - 1)
+      }
+
+    }
     return () => {
       console.log(fields)
-    // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
-      
+      // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+
     }
   }, [])
 
@@ -211,14 +211,14 @@ const Container = ({ hideSourceOnDrag }) => {
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
 
-      if(tempFields[i].value !== true){
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40 )
+      if (tempFields[i].value !== true) {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
       }
-      else{
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40 )
+      else {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
         tempFields[i].left = lefts
         tempFields[i].top = tops
@@ -268,14 +268,14 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("values after parse ==> ", values)
 
     for (let i = 0; i < tempFields.length; i++) {
-      if(tempFields[i].value !== true){
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40 )
+      if (tempFields[i].value !== true) {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
       }
-      else{
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40 )
+      else {
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
         tempFields[i].left = lefts
         tempFields[i].top = tops
@@ -322,7 +322,7 @@ const Container = ({ hideSourceOnDrag }) => {
       }
     }
   }
-  function zoomPicIn(i){
+  function zoomPicIn(i) {
     setQrHeight(prev => prev + 20)
     const values = [...fields];
     let temp = values[i].height
@@ -330,16 +330,16 @@ const Container = ({ hideSourceOnDrag }) => {
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
     setFields(values);
   }
-  
-  function zoomPicOut(i){
+
+  function zoomPicOut(i) {
     setQrHeight(prev => prev - 20)
     const values = [...fields];
     let temp = values[i].height
-    values[i].height =  temp -20
+    values[i].height = temp - 20
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: values })
     setFields(values);
-    
+
   }
   return (
     <Card >
@@ -354,7 +354,7 @@ const Container = ({ hideSourceOnDrag }) => {
         <Row>
           <Col md="9">
             <div style={{ width: "100%" }}>
-              <img id="DnDImage" src={(editClassificationState)? (image) : URL.createObjectURL(image)} style={{ maxWidth: "100%" }} />
+              <img id="DnDImage" src={(editClassificationState) ? (image) : URL.createObjectURL(image)} style={{ maxWidth: "100%" }} />
             </div>
           </Col>
           <Col md="3">
@@ -362,44 +362,52 @@ const Container = ({ hideSourceOnDrag }) => {
               handleFiles={handleFiles} fileTypes={['.png', '.jpg', '.jpeg']}
             >
 
-              <span style={{ marginTop: "8em", color: "blue", textDecoration: "underline", cursor: "pointer" }} size="sm" className="mb-2 mr-1"
+              <span style={{ marginTop: 15 }} size="sm" className="mb-2 mr-1 worldcerts-button"
 
-              >Change Certificate</span>
+              >Change Background Image</span>
             </ReactFileReader>
+            <div>
+              <button style={{ marginTop: 15 }} className="worldcerts-button" >Add Text</button>
+            </div>
+            <div>
+              <button style={{ marginTop: 15 }} className="worldcerts-button" >Add Image</button>
+            </div>
             {Object.keys(fields).map((field, idx) => {
               const { left, top, title } = fields[idx]
               console.log(fields[idx].value)
               return (
                 (qrIndex == idx) ?
                   (
-                    
-                      
-                      <Box
-                        key={idx}
-                        id={idx}
-                        left={left}
-                        top={top}
-                        value={fields}
-                        hideSourceOnDrag={hideSourceOnDrag}
-                        isImage = {true}
-                      >
-                      
-                        <Row>
-                          <Col md="5">
-                          <div style = {{textAlign : 'center' , marginBottom: "1em"}}>  <span style = {{ borderRadius : "1em" ,padding: "0px 10px", background:  "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))" , color : "white" , marginRight: "1em"}} onClick={() =>zoomPicOut(idx)}>-</span>
-        <span style = {{     background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))",
-           borderRadius : "1em" ,padding: "0px 10px" , color : "white"}} onClick={() =>zoomPicIn(idx)}>+</span></div>
-                            <div style={{textAlign:'center'}}><img width="inherit" height = {qrHeight} src={qrExample} /></div>
-                          </Col>
-                          {/* </Resizable> */}
-                          {/* <Col md="1" >
+
+
+                    <Box
+                      key={idx}
+                      id={idx}
+                      left={left}
+                      top={top}
+                      value={fields}
+                      hideSourceOnDrag={hideSourceOnDrag}
+                      isImage={true}
+                    >
+
+                      <Row>
+                        <Col md="5">
+                          <div style={{ textAlign: 'center', marginBottom: "1em" }}>  <span style={{ borderRadius: "1em", padding: "0px 10px", background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))", color: "white", marginRight: "1em" }} onClick={() => zoomPicOut(idx)}>-</span>
+                            <span style={{
+                              background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))",
+                              borderRadius: "1em", padding: "0px 10px", color: "white"
+                            }} onClick={() => zoomPicIn(idx)}>+</span></div>
+                          <div style={{ textAlign: 'center' }}><img width="inherit" height={qrHeight} src={qrExample} /></div>
+                        </Col>
+                        {/* </Resizable> */}
+                        {/* <Col md="1" >
                             <span style = {{background :  "grey" , padding: "1px 3px" ,color: "white"}} onClick={() => handleRemove(idx)}>
                               x
                            </span>
                           </Col> */}
-                        </Row>
-                      </Box>
-                    
+                      </Row>
+                    </Box>
+
                   ) :
                   (
 
@@ -455,15 +463,15 @@ const Container = ({ hideSourceOnDrag }) => {
                           // value = {fields[idx].value}
                           />
                         </Col>
-                        <Col md = "1" style = {{alignSelf : 'flex-end'}}>
-                          <span  onClick={() => handleRemove(idx)}>
+                        <Col md="1" style={{ alignSelf: 'flex-end' }}>
+                          <span onClick={() => handleRemove(idx)}>
                             X
 </span>
-</Col>
+                        </Col>
                       </Row>
                     </Box>
 
-                 )
+                  )
               );
             })
             }
