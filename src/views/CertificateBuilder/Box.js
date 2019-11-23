@@ -31,7 +31,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   console.log(value[id].value)
   let val = value[id].value;
   const [boxResizeWidth, setboxResizeWidth] = useState(270)
-  const [boxResizeHeight, setboxResizeHeight] = useState("auto")
+  const [boxResizeHeight, setboxResizeHeight] = useState(25)
   const [{ isDragging }, drag] = useDrag({
 
     item: { id, left, top, type: ItemTypes.BOX, val },
@@ -41,7 +41,9 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     }),
   })
   if (isDragging && hideSourceOnDrag) {
-    return <div ref={drag} />
+    let style = {...style}
+    style.position = "absolute"
+    return <div ref={drag} style = {{style}}/>
   }
   if(isImage) {
     return (

@@ -272,7 +272,7 @@ class InstituteRegistration extends Component {
 
   handleFieldsChange(i, event) {
     let values = [...this.state.classificationDynamicFields];
-    values[i] = { top: 0, left: 0, htmlStringCode: event.target.value, value: event.target.value, editorValue: event.target.value };
+    values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value };
     console.log(values)
     this.setState({ classificationDynamicFields: values });
   }

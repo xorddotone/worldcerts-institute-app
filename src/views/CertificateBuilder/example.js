@@ -24,8 +24,6 @@ export default function DragAroundNaive() {
   ])
 
   const setActiveStyle = (id) => {
-    console.log(id)
-    console.log(fields[id])
     setActiveID(id)
     setActiveObject(fields[id])
   }
@@ -41,15 +39,15 @@ export default function DragAroundNaive() {
     let left = document.getElementById("DnDImage").clientWidth;
     setTop(4)
     setLeft(left - 20)   
-    let top = 0
+    let top = 210
     console.log(classificationFields)
     console.log(classificationFields.length)
     const tempEditorState = [...editorState]
     for (let i = 0; i < classificationFields.length; i++) {
       if (classificationFields[i].htmlStringCode == "") {
-        top = top + 70
+        top = top + 50
         console.log("top ==> ", top)
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
+        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
         // dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
@@ -105,6 +103,7 @@ export default function DragAroundNaive() {
       setQrIndex = {setQrIndexes}
       fields = {fields}
       classificationFields = {classificationFields}
+      editorState = {editorState}
        />
       {console.log("In the example")}
       {/* <p>
