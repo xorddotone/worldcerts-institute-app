@@ -46,27 +46,27 @@ const styles = {
   height: "100%",
   position: 'relative',
 }
-const Container = ({ hideSourceOnDrag }) => {
+const Container = ({ hideSourceOnDrag,setArrayFields,setActiveStyle ,qrHeight,qrIndex, fields ,editorState , setEditorState , classificationFields , setQrIndex}) => {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 920, title: 'Drag me around' },
     b: { top: 60, left: 920, title: 'Drag me too' },
   })
   const dispatch = useDispatch()
   const image = useSelector(state => state.dashboard_reducer.image)
-  const [fields, setFields] = useState([]);
+  // const [fields, setFields] = useState([]);
   const [dropDownFields , setDropDownFields] = useState([])
   const [selectField, setSelectFields] = useState();
-  const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  // const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
   const [demoDataDisabled, setDemoDataDisabled] = useState(true)
-  const [editorState, setEditorState] = useState([])
-  const [qrIndex, setQrIndex] = useState()
+  // const [editorState, setEditorState] = useState([])
+  // const [qrIndex, setQrIndex] = useState()
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const [inputState, setInputState] = useState()
-  const [qrHeight, setQrHeight] = useState(80)
+  // const [qrHeight, setQrHeight] = useState(80)
   const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
-
+  const [styleState , setStyleState] = useState()
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop(item, monitor) {
@@ -85,7 +85,7 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("imageHeight ==>", imageHeight)
     console.log("imageWidth ==>", imageWidth)
 
-    setFields(
+    setArrayFields(
       update(fields, {
         [id]: {
           $merge: { left, top },
@@ -128,55 +128,56 @@ const Container = ({ hideSourceOnDrag }) => {
   }
 
 
-  useEffect(() => {
-    let left = document.getElementById("DnDImage").clientWidth;
-    setTop(4)
-    setLeft(left - 20)   
-    let top = 0
-    console.log(classificationFields)
-    console.log(classificationFields.length)
-    const tempEditorState = [...editorState]
-    for (let i = 0; i < classificationFields.length; i++) {
-      if (classificationFields[i].htmlStringCode == "") {
-        top = top + 70
-        console.log("top ==> ", top)
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
-        dropDownFields.push({value : classificationFields[i].value , id : i })
-        tempEditorState.push(EditorState.createEmpty())
-        setEditorState(tempEditorState)
-      }
-      else if (classificationFields[i].value !== true) {
-        console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue , style : classificationFields[i].style })
-        tempEditorState.push(EditorState.createEmpty())
-        setEditorState(tempEditorState)
-      }
-    }
-    console.log((classificationFields.length - 1).value == true)
-    if (qrVisibility) {
+  // useEffect(() => {
+  //   let left = document.getElementById("DnDImage").clientWidth;
+  //   setTop(4)
+  //   setLeft(left - 20)   
+  //   let top = 0
+  //   console.log(classificationFields)
+  //   console.log(classificationFields.length)
+  //   const tempEditorState = [...editorState]
+  //   for (let i = 0; i < classificationFields.length; i++) {
+  //     if (classificationFields[i].htmlStringCode == "") {
+  //       top = top + 70
+  //       console.log("top ==> ", top)
+  //       fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
+  //       dropDownFields.push({value : classificationFields[i].value , id : i })
+  //       tempEditorState.push(EditorState.createEmpty())
+  //       setEditorState(tempEditorState)
+  //     }
+  //     else if (classificationFields[i].value !== true) {
+  //       console.log("IN elseeeee")
+  //       fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue , style : classificationFields[i].style })
+  //       tempEditorState.push(EditorState.createEmpty())
+  //       setEditorState(tempEditorState)
+  //     }
+  //   }
+  //   console.log((classificationFields.length - 1).value == true)
+  //   if (qrVisibility) {
 
-      if ((classificationFields.length - 1).value == true) {
-        console.log("top ============>", top)
-        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height })
-        console.log("fields ==> ", fields)
-        console.log("fields length ==> ", fields.length)
-        setQrIndex(fields.length - 1)
-      }
-      else {
-        console.log("top uuuiuiui============>", top)
-        fields.push({ top: top + 70, left: -70, value: qrVisibility, height: qrHeight })
-        console.log("fields ==> ", fields)
-        console.log("fields length ==> ", fields.length)
-        setQrIndex(fields.length - 1)
-      }
+  //     if ((classificationFields.length - 1).value == true) {
+  //       console.log("top ============>", top)
+  //       fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height })
+  //       console.log("fields ==> ", fields)
+  //       console.log("fields length ==> ", fields.length)
+  //       setQrIndex(fields.length - 1)
+  //     }
+  //     else {
+  //       console.log("top uuuiuiui============>", top)
+  //       fields.push({ top: top + 70, left: -70, value: qrVisibility, height: qrHeight })
+  //       console.log("fields ==> ", fields)
+  //       console.log("fields length ==> ", fields.length)
+  //       setQrIndex(fields.length - 1)
+  //     }
 
-    }
-    return () => {
-      console.log(fields)
-      // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+  //   }
+  //   setArrayFields(fields)
+  //   return () => {
+  //     console.log(fields)
+  //     // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
 
-    }
-  }, [])
+  //   }
+  // }, [])
 
   function convertPxToPercentage(image, box) {
     console.log("In percentage")
@@ -239,7 +240,7 @@ const Container = ({ hideSourceOnDrag }) => {
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
     values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
     values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
-    setFields(values);
+    setArrayFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(values))
@@ -285,7 +286,7 @@ const Container = ({ hideSourceOnDrag }) => {
     values.splice(i, 1);
     console.log("values after splice ==> ", values)
     setEditorState(tempEditorstate)
-    setFields(values);
+    setArrayFields(values);
     console.log(values)
     if (i !== qrIndex && values.length !== 0) {
       if (values[values.length - 1].value == true) {
@@ -401,7 +402,13 @@ const Container = ({ hideSourceOnDrag }) => {
 
   }
 
-  function onFieldSelect(){
+  function onFieldSelect(id){
+    console.log(fields[id])
+    setActiveStyle(id)
+    
+    // let value = [...fields]
+
+    // values[id].style = {}
     
   }
   return (
@@ -616,7 +623,7 @@ const Container = ({ hideSourceOnDrag }) => {
                           // value = {fields[idx].value}
                           /> */}
                           <div id = "paragraphTag">
-                              <p onClick = {() => onFieldSelect} style = {{margin : "0px"}}>{fields[idx].value}</p>
+                              <p onClick = {() => onFieldSelect(idx)} style = {{...fields[idx].style,margin : "0px"}}>{fields[idx].value}</p>
                           </div>
                         {/* </Col> */}
                         {/* <Col md="1" style={{ alignSelf: 'flex-end' }}>
