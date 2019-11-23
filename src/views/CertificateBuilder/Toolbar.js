@@ -4,28 +4,36 @@ import { ChromePicker } from "react-color"
 import { Container, Row, Col, Button } from "shards-react"
 import italic from "../../images/italic-text.svg"
 
-const TextTransfrom = () => {
-    // const styles = props.state ? {boxShadow:"inset 1px 1px 3px 0px rgba(0,0,0,0.5)"} : {}
+const TextTransfrom = (props) => {
+    const boldStyle = props.activeObject && props.activeObject.bold ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
+    const italicStyle = props.activeObject && props.activeObject.italic ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
+    const underlineStyle = props.activeObject && props.activeObject.underline ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
+    console.log('text transform ==>', props)
+
     return (
         <>
-            <button style={{ padding: "3px 6px", border: "2px solid lightgrey", fontWeight: "bold", backgroundColor: "white", marginRight: 5 }} >
+            <button onClick={() => props.applyStyles({ fontWeight: "bold" })}
+                style={{ ...boldStyle, padding: "3px 6px", border: "2px solid lightgrey", fontWeight: "bold", backgroundColor: "white", marginRight: 5 }}
+            >
                 <span style={{ display: "inline-block", height: 20, width: 20 }} >B</span>
             </button>
-            <button style={{ padding: "3px 6px", border: "2px solid lightgrey", fontStyle: "italic", backgroundColor: "white", marginRight: 5 }} >
+            <button onClick={() => props.applyStyles({ fontStyle: "italic" })}
+                style={{ ...italicStyle, padding: "3px 6px", border: "2px solid lightgrey", fontStyle: "italic", backgroundColor: "white", marginRight: 5 }} >
                 <img style={{ display: "inline-block" }} src={italic} height="13px" width="20px" />
             </button>
-            <button style={{ padding: "3px 6px", border: "2px solid lightgrey", backgroundColor: "white" }} >
+            <button onClick={() => props.applyStyles({ textDecoration: 'underline' })}
+                style={{ ...underlineStyle, padding: "3px 6px", border: "2px solid lightgrey", backgroundColor: "white" }} >
                 <span style={{ display: "inline-block", textDecoration: 'underline', height: 20, width: 20 }} >U</span>
             </button>
         </>
     )
 }
 
-const FontFamily = () => {
+const FontFamily = (props) => {
     const fonts = ['Arial', 'Courier New', 'Times New Roman', 'Georgia', 'Impact', 'Comic Sans MS', 'Trebuchet MS', 'Helvetica', 'Arial-black', 'Garamond', 'Verdana', 'Bookman Old Style', 'Palatino', 'Times', 'Courier']
     return (
         <>
-            <select style={{ padding: 8, backgroundColor: "white" }} >
+            <select onChange={(e) => props.setFont(e)} style={{ padding: 8, backgroundColor: "white" }} >
                 {
                     fonts.map(item => {
                         return <option value={item} >{item}</option>
@@ -36,7 +44,7 @@ const FontFamily = () => {
     )
 }
 
-const FontSize = () => {
+const FontSize = (props) => {
     const sizes = [];
     let i = 4;
 
@@ -49,7 +57,7 @@ const FontSize = () => {
 
     return (
         <>
-            <select style={{ padding: 8, backgroundColor: "white" }} >
+            <select onChange={(e) => props.setSize(e)} style={{ padding: 8, backgroundColor: "white" }} >
                 {
                     sizes.map(item => {
                         return <option value={item} >{item}</option>
@@ -61,8 +69,8 @@ const FontSize = () => {
 }
 
 
-const Alignment = () => {
-    return <ButtonGroup alignment="center" />
+const Alignment = (props) => {
+    return <ButtonGroup alignment={props.activeObject && props.activeObject.align} setAlignment={props.setAlignment} />
 }
 
 const ColorPicker = (props) => {
@@ -98,7 +106,7 @@ const ColorPicker = (props) => {
     )
 }
 
-const Toolbar = () => {
+const Toolbar = (props) => {
 
     const [isPickerOpen, setIsPickerOpen] = useState(false)
     const [color, setColor] = useState("black")
@@ -106,12 +114,26 @@ const Toolbar = () => {
     const handleChangePicker = (color) => {
         console.log('color ==>', color)
         setColor(color.hex)
+        props.applyStyles({ color: color.hex })
     }
 
     const handleClickPicker = () => {
         setIsPickerOpen(!isPickerOpen)
     }
 
+    const setFont = (e) => {
+        console.log('font ==>', e.target.value)
+        props.applyStyles({ fontFamily: e.target.value })
+    }
+
+    const setSize = (e) => {
+        console.log('size ==>', e)
+        props.applyStyles({ fontSize: `${e.target.value}px` })
+    }
+
+    const setAlignment = (align) => {
+        props.applyStyles({ textAlign: align })
+    }
 
     const pickerProps = {
         color,
@@ -124,19 +146,19 @@ const Toolbar = () => {
             <Container style={{ backgroundColor: 'white', padding: 10, boxShadow: '1px 1px 3px 0px rgba(0,0,0,0.5)', borderRadius: 5, marginBottom: 20, alignItems: 'center', }} >
                 <Row>
                     <Col lg="2" style={{ paddingTop: 14, }} >
-                        <TextTransfrom />
+                        <TextTransfrom {...props} />
                     </Col>
                     <Col lg="2" style={{ paddingTop: 14, }} >
-                        <FontFamily />
+                        <FontFamily {...props} setFont={setFont} />
                     </Col>
                     <Col lg="1" style={{ paddingTop: 14, }} >
-                        <FontSize />
+                        <FontSize {...props} setSize={setSize} />
                     </Col>
                     <Col lg="2" style={{ paddingTop: 11, }} >
-                        <Alignment />
+                        <Alignment {...props} setAlignment={setAlignment} />
                     </Col>
                     <Col lg="3" style={{ paddingTop: 14, }} >
-                        <ColorPicker {...pickerProps} />
+                        <ColorPicker {...pickerProps} {...props} />
                     </Col>
                 </Row>
             </Container>
