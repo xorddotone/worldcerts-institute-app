@@ -465,7 +465,7 @@ class InstituteRegistration extends Component {
                         </div>
 
                         <Row>
-                          <Col md="3" className="form-group">
+                          <Col md="12" className="form-group" style={{ marginTop: 10 }} >
                             <div>
                               <FormCheckbox
                                 toggle small
@@ -474,6 +474,9 @@ class InstituteRegistration extends Component {
                               >
                                 QR Code
                             </FormCheckbox>
+                            </div>
+                            <div>
+                              Display QR code on certificate (for quick verification) – Yes/No
                             </div>
                           </Col>
                         </Row>
