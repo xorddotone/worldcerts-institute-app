@@ -1,4 +1,4 @@
-import React, { useState, useCallback ,useEffect} from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import Container from './Container'
 import Toolbar from "./Toolbar"
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,8 @@ import { EditorState, convertToRaw } from 'draft-js';
 
 export default function DragAroundNaive() {
   const [hideSourceOnDrag, setHideSourceOnDrag] = useState(true)
-  const [activeID , setActiveID] = useState({})
-  const [fields,setFields] = useState([])
+  const [activeID, setActiveID] = useState({})
+  const [fields, setFields] = useState([])
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
@@ -15,7 +15,7 @@ export default function DragAroundNaive() {
   const [editorState, setEditorState] = useState([])
   const [qrHeight, setQrHeight] = useState(80)
   const [qrIndex, setQrIndex] = useState()
-  const [activeObject , setActiveObject] = useState()
+  const [activeObject, setActiveObject] = useState()
 
   // const [dropDownFields , setDropDownFields] = useState([])
 
@@ -31,16 +31,57 @@ export default function DragAroundNaive() {
   }
 
   const setEditorStates = (data) => {
-      setEditorState(data)
+    setEditorState(data)
   }
   const setQrIndexes = (data) => {
     setQrIndex(data)
-}
+  }
+
+  const applyStyles = (data) => {
+    console.log('style ==>', data)
+    const temp = { ...fields }
+    let keys = Object.keys(data)
+    console.log('key ==>', keys)
+    if (keys[0] === "fontWeight" && !temp[activeID].bold) {
+      temp[activeID].style = { ...temp[activeID].style, ...data }
+      temp[activeID].bold = true;
+    }
+    else if (keys[0] === "fontWeight" && temp[activeID].bold) {
+      delete temp[activeID].style[keys[0]];
+      temp[activeID].bold = false;
+    }
+    else if (keys[0] === "fontStyle" && !temp[activeID].italic) {
+      temp[activeID].style = { ...temp[activeID].style, ...data }
+      temp[activeID].italic = true;
+    }
+    else if (keys[0] === "fontStyle" && temp[activeID].italic) {
+      delete temp[activeID].style[keys[0]];
+      temp[activeID].italic = false;
+    }
+    else if (keys[0] === "textDecoration" && !temp[activeID].underline) {
+      temp[activeID].style = { ...temp[activeID].style, ...data }
+      temp[activeID].underline = true;
+    }
+    else if (keys[0] === "textDecoration" && temp[activeID].underline) {
+      delete temp[activeID].style[keys[0]];
+      temp[activeID].underline = false;
+    }
+    else if (keys[0] === "textAlign") {
+      const value = Object.values(data)
+      temp[activeID].style = { ...temp[activeID].style, ...data }
+      temp[activeID].align = value[0];
+    }
+    else {
+      temp[activeID].style = { ...temp[activeID].style, ...data }
+    }
+    console.log('active ==>', temp[activeID])
+    setFields(temp)
+  }
 
   useEffect(() => {
     let left = document.getElementById("DnDImage").clientWidth;
     setTop(4)
-    setLeft(left - 20)   
+    setLeft(left - 20)
     let top = 0
     console.log(classificationFields)
     console.log(classificationFields.length)
@@ -49,14 +90,14 @@ export default function DragAroundNaive() {
       if (classificationFields[i].htmlStringCode == "") {
         top = top + 70
         console.log("top ==> ", top)
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: {}, bold: false, italic: false, underline: false, align: "left" })
         // dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
       else if (classificationFields[i].value !== true) {
         console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue , style : classificationFields[i].style })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
@@ -90,22 +131,22 @@ export default function DragAroundNaive() {
 
   return (
     <div style={{ width: "100%" }}>
-      <Toolbar 
-      activeID={activeID}
-      activeObject = {activeObject}
-
+      <Toolbar
+        activeID={activeID}
+        activeObject={activeObject}
+        applyStyles={applyStyles}
       />
-      <Container  
-      hideSourceOnDrag={true} 
-      setArrayFields={setFields} 
-      setActiveStyle={setActiveStyle}
-      setEditorState = {setEditorStates}
-      qrHeight = {qrHeight}
-      qrIndex = {qrIndex}
-      setQrIndex = {setQrIndexes}
-      fields = {fields}
-      classificationFields = {classificationFields}
-       />
+      <Container
+        hideSourceOnDrag={true}
+        setArrayFields={setFields}
+        setActiveStyle={setActiveStyle}
+        setEditorState={setEditorStates}
+        qrHeight={qrHeight}
+        qrIndex={qrIndex}
+        setQrIndex={setQrIndexes}
+        fields={fields}
+        classificationFields={classificationFields}
+      />
       {console.log("In the example")}
       {/* <p>
         <label htmlFor="hideSourceOnDrag">

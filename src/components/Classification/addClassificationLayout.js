@@ -21,6 +21,9 @@ import { Link } from 'react-router-dom'
 import {
   Alert,
 } from "shards-react";
+import addcetificate from "../../images/pen.svg"
+import certificatedetails from "../../images/browser.svg"
+
 
 const ColorlibConnector = withStyles({
   alternativeLabel: {
@@ -74,8 +77,8 @@ function ColorlibStepIcon(props) {
   const { active, completed } = props;
 
   const icons = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
+    1: <img src={certificatedetails} height="20px" width="20px" style={{ filter: "invert(1)" }} />,
+    2: <img src={addcetificate} height="20px" width="20px" style={{ filter: "invert(1)" }} />,
     3: <VideoLabelIcon />,
   };
 
