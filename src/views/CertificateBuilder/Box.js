@@ -15,7 +15,7 @@ const style = {
 const qrStyle = {
   position: 'absolute',
   backgroundColor: 'transparent',
-  width: 300,
+  width: "auto",
   cursor: 'move',
 }
 const boxResizeStyle = {
@@ -31,7 +31,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   console.log(value[id].value)
   let val = value[id].value;
   const [boxResizeWidth, setboxResizeWidth] = useState(270)
-  const [boxResizeHeight, setboxResizeHeight] = useState(65)
+  const [boxResizeHeight, setboxResizeHeight] = useState("auto")
   const [{ isDragging }, drag] = useDrag({
 
     item: { id, left, top, type: ItemTypes.BOX, val },

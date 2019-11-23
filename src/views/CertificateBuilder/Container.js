@@ -18,8 +18,11 @@ import {
   FormSelect,
   FormCheckbox,
   Card,
+  FormInput,
   Row,
+  InputGroup,
   Col,
+  Button
 } from "shards-react";
 
 const Checkbox = ({ type = "checkbox", name, checked = false, onChange }) => {
@@ -51,22 +54,18 @@ const Container = ({ hideSourceOnDrag }) => {
   const dispatch = useDispatch()
   const image = useSelector(state => state.dashboard_reducer.image)
   const [fields, setFields] = useState([]);
+  const [dropDownFields , setDropDownFields] = useState([])
+  const [selectField, setSelectFields] = useState();
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
-  const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
-  const [fontSizes, setFontSize] = useState([]);
-  const [activeFontSize, setActiveFontSize] = useState(6)
-  const [activeFontDecoration, setActiveFontDecoration] = useState(6)
+  const [demoDataDisabled, setDemoDataDisabled] = useState(true)
   const [editorState, setEditorState] = useState([])
   const [qrIndex, setQrIndex] = useState()
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
-  const [height, setHeight] = useState(200)
-  const [qrWidth, setqrWidth] = useState(200)
+  const [inputState, setInputState] = useState()
   const [qrHeight, setQrHeight] = useState(80)
-
-  const [activeFontFamily, setActiveFontFamily] = useState("Open Sans")
-
+  const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
 
   const [, drop] = useDrop({
     accept: ItemTypes.BOX,
@@ -131,15 +130,8 @@ const Container = ({ hideSourceOnDrag }) => {
 
   useEffect(() => {
     let left = document.getElementById("DnDImage").clientWidth;
-    console.log(typeof (left))
     setTop(4)
-    setLeft(left - 20)
-    fontSizes[0] = 6
-    setFontSize(fontSizes)
-    for (let i = 1; i < 25; i++) {
-      fontSizes[i] = fontSizes[i - 1] + 2
-      setFontSize(fontSizes)
-    }
+    setLeft(left - 20)   
     let top = 0
     console.log(classificationFields)
     console.log(classificationFields.length)
@@ -148,13 +140,14 @@ const Container = ({ hideSourceOnDrag }) => {
       if (classificationFields[i].htmlStringCode == "") {
         top = top + 70
         console.log("top ==> ", top)
-        fields.push({ top: top, left: -35, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
+        dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
       else if (classificationFields[i].value !== true) {
         console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue , style : classificationFields[i].style })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
@@ -193,14 +186,55 @@ const Container = ({ hideSourceOnDrag }) => {
     console.log("percentage => ", percentage)
     return percentage
   }
-  function handleChange(i, editorStateValue) {
+  function handleChange(i,editorStateValue) {
+    // console.log(event.target.value) ********
+    // setInputState(event.target.value) ********
+    // var para = document.createElement("p"); ********
+    // console.log(para) ********
+    // var node = document.createTextNode(event.target.value); ********
+    // console.log(node) ********
+    // var htmlCode = para.appendChild(node); ********
+    // console.log("htmlCode => ", htmlCode) ********
+
+    // const values = selectField;
+    // values.editorValue = event.target.value
+    // values.htmlStringCode = htmlCode
+    // dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
+    // setSelectFields(values); ************
+    // let imageHeight = document.getElementById("DnDImage").clientHeight
+    // let imageWidth = document.getElementById("DnDImage").clientWidth
+    // let tempFields = JSON.parse(JSON.stringify(values))
+    // for (let i = 0; i < tempFields.length; i++) {
+
+    //   if (tempFields[i].value !== true) {
+    //     let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+    //     let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
+    //     tempFields[i].left = lefts
+    //     tempFields[i].top = tops
+    //   }
+    //   else {
+    //     let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+    //     let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
+    //     tempFields[i].left = lefts
+    //     tempFields[i].top = tops
+    //   }
+    // }
+    // console.log("tempFields ==> ", tempFields)
+    // dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
+
+    // *******************
+    const values = [...fields];
+    values[i].editorValue = editorStateValue
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
+    values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
+    values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     console.log(editorStateValue)
     console.log(editorStateValue.getCurrentContent().getPlainText())
     const tempEditorState = [...editorState]
     tempEditorState[i] = editorStateValue
     setEditorState(tempEditorState)
     console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
-    const values = [...fields];
+    // const values = [...fields];
     values[i].editorValue = editorStateValue
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
     values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
@@ -228,17 +262,17 @@ const Container = ({ hideSourceOnDrag }) => {
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
   }
 
-  function handleAdd() {
-    const tempEditorState = [...editorState]
-    tempEditorState.push(EditorState.createEmpty())
-    setEditorState(tempEditorState)
-    const values = [...fields];
-    console.log("boxTop==>", boxTop, "boxLeft==>", boxLeft)
-    values.push({ top: boxTop, left: boxLeft, htmlStringCode: EditorState.createEmpty(), value: EditorState.createEmpty() });
-    console.log(values)
-    setFields(values);
+  // function handleAdd() {
+  //   const tempEditorState = [...editorState]
+  //   tempEditorState.push(EditorState.createEmpty())
+  //   setEditorState(tempEditorState)
+  //   const values = [...fields];
+  //   console.log("boxTop==>", boxTop, "boxLeft==>", boxLeft)
+  //   values.push({ top: boxTop, left: boxLeft, htmlStringCode: EditorState.createEmpty(), value: EditorState.createEmpty() });
+  //   console.log(values)
+  //   setFields(values);
 
-  }
+  // }
 
   function handleRemove(i) {
     console.log("fields before ==> ", fields)
@@ -288,14 +322,14 @@ const Container = ({ hideSourceOnDrag }) => {
 
   }
 
-  function fontSizeChangeHandler(ev) {
-    console.log(ev.target.value)
-    setActiveFontSize(ev.target.value)
-  }
-  function fontDecorationChangeHandler(ev) {
-    console.log(ev.target.value)
-    setActiveFontDecoration(ev.target.value)
-  }
+  // function fontSizeChangeHandler(ev) {
+  //   console.log(ev.target.value)
+  //   setActiveFontSize(ev.target.value)
+  // }
+  // function fontDecorationChangeHandler(ev) {
+  //   console.log(ev.target.value)
+  //   setActiveFontDecoration(ev.target.value)
+  // }
   function handleFiles(file) {
     console.log(file[0])
 
@@ -322,35 +356,65 @@ const Container = ({ hideSourceOnDrag }) => {
       }
     }
   }
-  function zoomPicIn(i) {
-    setQrHeight(prev => prev + 20)
-    const values = [...fields];
-    let temp = values[i].height
-    values[i].height = 20 + temp
-    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
-    setFields(values);
+  function generateField(selectedField){
+    console.log(inputState)
+    console.log(selectedField)
+    var element = document.getElementById("paragraphTag");
+    element.appendChild(selectedField.htmlStringCode);
+  }
+  // function zoomPicIn(i) {
+  //   setQrHeight(prev => prev + 20)
+  //   const values = [...fields];
+  //   let temp = values[i].height
+  //   values[i].height = 20 + temp
+  //   dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
+  //   setFields(values);
+  // }
+
+  // function zoomPicOut(i) {
+  //   setQrHeight(prev => prev - 20)
+  //   const values = [...fields];
+  //   let temp = values[i].height
+  //   values[i].height = temp - 20
+  //   dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
+  //   dispatch({ type: 'CLASSIFICATION_FIELDS', payload: values })
+  //   setFields(values);
+
+  // }
+
+  function categoryChangeHandler(ev) {
+
+    console.log(ev.target.value)
+    let temp = {}
+    let found = fields.some(el => {
+      // console.log(el)
+      if (el.value == ev.target.value) {
+        console.log(el)
+        temp = { top: el.top, left: el.left, htmlStringCode: el.htmlStringCode, value: el.value, editorValue: el.editorValue }
+      }
+      // if(found)
+    })
+    setDemoDataDisabled(false)
+    setSelectFields(temp)
+    // console.log(found)
+    // selectField.push({ top: top, left: -35, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue })
+
   }
 
-  function zoomPicOut(i) {
-    setQrHeight(prev => prev - 20)
-    const values = [...fields];
-    let temp = values[i].height
-    values[i].height = temp - 20
-    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
-    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: values })
-    setFields(values);
-
+  function onFieldSelect(){
+    
   }
   return (
     <Card >
       <div id="DnDContainer" ref={drop} style={styles}>
-        {console.log("FontSize", fontSizes)}
-        {console.log("activeFontSize", activeFontSize)}
-        {console.log("activeFoneDec", activeFontDecoration)}
+        {/* {console.log("FontSize", fontSizes)} */}
+        {/* {console.log("activeFontSize", activeFontSize)} */}
+        {/* {console.log("activeFoneDec", activeFontDecoration)} */}
+        {console.log("selectField ==> ", selectField)}      
         {console.log("classificationFields", classificationFields)}
         {console.log("fields", fields)}
-        {console.log("editorState", editorState)}
-        {console.log("image ==> ", image)}
+        {/* {console.log("editorState", editorState)} */}
+        {/* {console.log("image ==> ", image)} */}
         <Row>
           <Col md="9">
             <div style={{ width: "100%" }}>
@@ -358,20 +422,109 @@ const Container = ({ hideSourceOnDrag }) => {
             </div>
           </Col>
           <Col md="3">
-            <ReactFileReader
-              handleFiles={handleFiles} fileTypes={['.png', '.jpg', '.jpeg']}
-            >
+            <div style={{ margin: "15px", padding: "10px", border: "2px solid #0000002b" }}>
+              <div style={{ textAlign: 'center' }}>
 
-              <span style={{ marginTop: 15 }} size="sm" className="mb-2 mr-1 worldcerts-button"
+                <ReactFileReader
+                  handleFiles={handleFiles} fileTypes={['.png', '.jpg', '.jpeg']}
 
-              >Change Background Image</span>
-            </ReactFileReader>
-            <div>
-              <button style={{ marginTop: 15 }} className="worldcerts-button" >Add Text</button>
+
+                >
+
+                  <button size="sm" style={{ width: "100%" }} className="mb-2 mr-1 worldcerts-button"
+
+                  >Change Background Image</button>
+                </ReactFileReader>
+              </div>
+              <div style={{ textAlign: 'center', display: "inline-flex" }}>
+                <Row>
+                  <Col md="12">
+                    <InputGroup className="mb-10">
+                      <FormInput
+                        placeholder="Add Text"
+                        disabled={demoDataDisabled}
+                      // value={(selectField)? (selectField.value) : (null)}
+
+                      />
+
+
+                      <button type="append" className="worldcerts-button" >Add Text</button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+                {/* <Row>
+
+<Col md="12" className="form-group">
+
+  <InputGroup className="mb-10">
+    <FormInput
+      type="text"
+      placeholder="Certificate Url"
+      onChange={this.onTxtBoxChange}
+    />
+    <span type="append" onClick={this.onVerifyClick} className="worldcerts-button verifierAppButton" style={{ border: "none", borderRadius: "0rem" }}>  Verify</span>
+
+  </InputGroup>
+</Col>
+</Row> */}
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <button style={{ marginTop: "15px", width: "100%" }} className="worldcerts-button" >Add Image</button>
+              </div>
             </div>
-            <div>
-              <button style={{ marginTop: 15 }} className="worldcerts-button" >Add Image</button>
+            <div style={{ margin: "15px", padding: "10px", border: "2px solid #0000002b" }}>
+              <FormSelect
+                onChange={categoryChangeHandler}
+                // onKeyPress={this.clickEnter.bind(this)}
+                placeholder="Category"
+              // value={this.props.classificationCategory}
+              >
+                {
+                  Object.keys(dropDownFields).map((field, idx) => {
+                    return (
+                      (fields[idx].value !== true) ? (
+                        <option >{fields[idx].value}</option>)
+                        : (null)
+
+                    )
+                  })
+                }
+              </FormSelect>
+
+              <div style={{ marginTop: "15px" }}>
+
+                <FormInput
+                  placeholder="Demo Data"
+                  disabled={demoDataDisabled}
+                  onChange={(e) => handleChange(e)}
+                  value={inputState}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div style={{ marginTop: "15px" }}>
+                {console.log(selectField)}
+                <button className="worldcerts-button" style={{ width: "100%" }} onClick = {() => generateField(selectField)} > Generate Field</button>
+              </div>
             </div>
+           {/* {(selectField)? (<div style={{ margin: "15px", padding: "10px", border: "2px solid #0000002b" }}>
+              <div >
+ <Box
+                      key={0}
+                      id={0}
+                      left={selectField.left}
+                      top={selectField.top}
+                      value={fields}
+                      hideSourceOnDrag={hideSourceOnDrag}
+                      isImage={true}
+                    >
+
+                     
+                          <div id="paragraphTag" style={{ textAlign: 'center' }}></div>
+                       
+                       
+                    </Box>
+              </div>
+            </div>): (null)}  */}
             {Object.keys(fields).map((field, idx) => {
               const { left, top, title } = fields[idx]
               console.log(fields[idx].value)
@@ -392,19 +545,19 @@ const Container = ({ hideSourceOnDrag }) => {
 
                       <Row>
                         <Col md="5">
-                          <div style={{ textAlign: 'center', marginBottom: "1em" }}>  <span style={{ borderRadius: "1em", padding: "0px 10px", background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))", color: "white", marginRight: "1em" }} onClick={() => zoomPicOut(idx)}>-</span>
+                          {/* <div style={{ textAlign: 'center', marginBottom: "1em" }}>  <span style={{ borderRadius: "1em", padding: "0px 10px", background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))", color: "white", marginRight: "1em" }} onClick={() => zoomPicOut(idx)}>-</span>
                             <span style={{
                               background: "linear-gradient(to left, rgb(4, 221, 138), rgb(18, 178, 165))",
                               borderRadius: "1em", padding: "0px 10px", color: "white"
-                            }} onClick={() => zoomPicIn(idx)}>+</span></div>
+                            }} onClick={() => zoomPicIn(idx)}>+</span></div> */}
                           <div style={{ textAlign: 'center' }}><img width="inherit" height={qrHeight} src={qrExample} /></div>
                         </Col>
                         {/* </Resizable> */}
-                        {/* <Col md="1" >
+            <Col md="1" >
                             <span style = {{background :  "grey" , padding: "1px 3px" ,color: "white"}} onClick={() => handleRemove(idx)}>
                               x
                            </span>
-                          </Col> */}
+                          </Col> 
                       </Row>
                     </Box>
 
@@ -419,9 +572,9 @@ const Container = ({ hideSourceOnDrag }) => {
                       value={fields}
                       hideSourceOnDrag={hideSourceOnDrag}
                     >
-                      <Row>
-                        <Col md="10">
-                          <Editor
+                      {/* <Row> */}
+                        {/* <Col md="10"> */}
+                          {/* <Editor
                             wrapperClassName="wrapper-class"
                             editorClassName="editor-class"
                             toolbarClassName="toolbar-class"
@@ -461,14 +614,17 @@ const Container = ({ hideSourceOnDrag }) => {
                             onEditorStateChange={e => handleChange(idx, e)}
                             placeholder={fields[idx].value}
                           // value = {fields[idx].value}
-                          />
-                        </Col>
-                        <Col md="1" style={{ alignSelf: 'flex-end' }}>
-                          <span onClick={() => handleRemove(idx)}>
+                          /> */}
+                          <div id = "paragraphTag">
+                              <p onClick = {() => onFieldSelect} style = {{margin : "0px"}}>{fields[idx].value}</p>
+                          </div>
+                        {/* </Col> */}
+                        {/* <Col md="1" style={{ alignSelf: 'flex-end' }}>
+                          {/* <span onClick={() => handleRemove(idx)}>
                             X
-</span>
-                        </Col>
-                      </Row>
+</span> 
+                        </Col> */}
+                      {/* </Row> */}
                     </Box>
 
                   )
