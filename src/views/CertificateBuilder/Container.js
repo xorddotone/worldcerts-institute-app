@@ -409,7 +409,14 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
   const onImageChange = () => {
     const localImages = [...selectedImages]
-    localImages.push(imageRef.current.files[0])
+    const obj = {
+      file: imageRef.current.files[0],
+      url: URL.createObjectURL(imageRef.current.files[0]),
+      top: 100,
+      left: -500,
+      type: "IMAGE"
+    }
+    localImages.push(obj)
     console.log('images ==>', localImages)
     imageRef.current.value = ""
     setSelectedImages(localImages)
@@ -592,7 +599,27 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
               })
             }
+            {
+              Object.keys(selectedImages).map((field, idx) => {
+                const { left, top, title } = selectedImages[idx]
+                return (
 
+                  <Box
+                    key={idx}
+                    id={idx}
+                    left={left}
+                    top={top}
+                    value={selectedImages}
+                    hideSourceOnDrag={hideSourceOnDrag}
+                  >
+
+                    <img src={selectedImages[idx].url} height="200px" width="200px" />
+                  </Box>
+
+                )
+
+              })
+            }
 
             {
               Object.keys(fields).map((field, idx) => {
