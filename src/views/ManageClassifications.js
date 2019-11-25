@@ -244,7 +244,8 @@ class ManageClassifications extends Component {
             <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
           </Alert>
           <Row noGutters className="page-header py-4">
-            <PageTitle title="Certificate Template" md="10" className="ml-sm-auto mr-sm-auto cursor-default" />
+            {/* <PageTitle title="Certificate Template" md="10" className="ml-sm-auto mr-sm-auto cursor-default" /> */}
+            <PageTitle title="Certificate Template" md="10" className="mr-sm-auto cursor-default" />           
             {/* subtitle="Registration" */}
             {/* <Link to="/addClassification">   */}
             <span onClick={this.onAddClick} size="sm" className="mb-2 mr-1 d-flex justify-content-end worldcerts-button">

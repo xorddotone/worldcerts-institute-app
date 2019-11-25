@@ -38,7 +38,7 @@ import { Link } from 'react-router-dom'
 import { Checkbox } from "@material-ui/core"
 
 const duration = [
-  "No Expiry", "year", "months", "days"
+  "No Expiry", "Year", "Months", "Days"
 ]
 class InstituteRegistration extends Component {
   constructor(props) {
@@ -81,7 +81,7 @@ class InstituteRegistration extends Component {
     let temp;
     let temp2;
     let that = this;
-    if (this.props.classificationDurationSpan == "Life Time" || this.props.classificationDurationSpan == "Choose" || this.props.classificationDurationSpan == "") {
+    if (this.props.classificationDurationSpan == "No Expiry" || this.props.classificationDurationSpan == "Choose" || this.props.classificationDurationSpan == "") {
       console.log("IN duration disabled")
       this.setState({
         durationValidityDisabled: true
@@ -215,9 +215,13 @@ class InstituteRegistration extends Component {
         durationTemp: ev.target.value,
         duration: ev.target.value
       })
-
-      this.props.ClassificationDurationTime(ev.target.value)
-    }
+    //   if(this.state.durationValidity == "No Expiry"){
+    //   this.props.ClassificationDurationTime("")
+    //   }
+    //   else{
+    //   this.props.ClassificationDurationTime(ev.target.value)
+    // }
+  }
     else {
       console.log("else")
     }
@@ -241,9 +245,10 @@ class InstituteRegistration extends Component {
 
   timedurationChangeHandler(ev) {
     console.log(ev.target.value)
-    if (ev.target.value == "Life Time" || ev.target.value == "Choose") {
+    if (ev.target.value == "No Expiry" || ev.target.value == "Choose") {
       this.setState({
         durationValidity: ev.target.value,
+        duration : "",
         durationValidityDisabled: true
       })
     }
@@ -253,8 +258,8 @@ class InstituteRegistration extends Component {
         durationValidityDisabled: false
       })
     }
-
     this.props.ClassificationDurationSpan(ev.target.value)
+
 
   }
   onClickOptions(ev) {
@@ -347,7 +352,7 @@ class InstituteRegistration extends Component {
           {/* subtitle="Registration" */}
         </Row>
         <Row>
-          <Col lg="11">
+          <Col lg="12">
             <Card small className="mb-4">
               <ListGroup flush>
                 <ListGroupItem className="p-3">
@@ -464,22 +469,21 @@ class InstituteRegistration extends Component {
                           </Row>
                         </div>
 
-                        <Row>
-                          <Col md="12" className="form-group" style={{ marginTop: 10 }} >
-                            <div>
+                        {/* <Row>
+                          <Col md="12" className="form-group" style={{ marginTop: 10 }} >*/}
+                            <div> 
                               <FormCheckbox
                                 toggle small
                                 checked={this.state.QRVisible}
                                 onChange={e => this.QrVisibility(e)}
                               >
-                                QR Code
+                                Display QR code on certificate (for quick verification)
                             </FormCheckbox>
                             </div>
-                            <div>
-                              Display QR code on certificate (for quick verification) – Yes/No
-                            </div>
-                          </Col>
-                        </Row>
+                            {/* <div>
+                              – Yes/No
+                            </div> */}
+                          
                       </Form>
                     </Col>
                   </Row>

@@ -16,16 +16,31 @@ export default function DragAroundNaive() {
   const [qrHeight, setQrHeight] = useState(80)
   const [qrIndex, setQrIndex] = useState()
   const [activeObject, setActiveObject] = useState()
-
+  const [constantText , setConstantText] = useState()
+  const [constantTextFields , setConstantTextFields] = useState([])
+  
   // const [dropDownFields , setDropDownFields] = useState([])
 
   const toggle = useCallback(() => setHideSourceOnDrag(!hideSourceOnDrag), [
     hideSourceOnDrag,
   ])
 
-  const setActiveStyle = (id) => {
+  const setActiveStyle = (id,type) => {
     setActiveID(id)
-    setActiveObject(fields[id])
+    if(type == "ConstantField"){
+      console.log("in constant")
+
+      setActiveObject(constantTextFields[id])
+
+    }
+    else if(type == "Dynamic Fields"){
+      console.log("in dynamic")
+      setActiveObject(fields[id])
+    }
+  }
+
+  const setConstantFields = (fields) => {
+    setConstantTextFields(fields)
   }
 
   const setEditorStates = (data) => {
@@ -34,12 +49,30 @@ export default function DragAroundNaive() {
   const setQrIndexes = (data) => {
     setQrIndex(data)
   }
+  const setConstantFieldText = (data) => {
+    setConstantText(data)
+  }
 
   const applyStyles = (data) => {
+    console.log("IN apply")
     console.log('style ==>', data)
-    const temp = { ...fields }
+    console.log(activeObject)
+    console.log(activeObject)
+    var temp =[]
+    if(activeObject.type === "ConstantField"){
+      temp =  [...constantTextFields]
+      console.log("IN constant temp")
+    }
+    else if(activeObject.type === "Dynamic Fields"){
+      console.log("fields  =>" , fields)
+      temp =  [...fields]
+      console.log("IN dynamic temp")
+
+    }
     let keys = Object.keys(data)
     console.log('key ==>', keys)
+    console.log("temp[activeID]" , temp[activeID])
+
     if (keys[0] === "fontWeight" && !temp[activeID].bold) {
       temp[activeID].style = { ...temp[activeID].style, ...data }
       temp[activeID].bold = true;
@@ -66,6 +99,7 @@ export default function DragAroundNaive() {
     }
     else if (keys[0] === "textAlign") {
       const value = Object.values(data)
+      console.log(temp[activeID])
       temp[activeID].style = { ...temp[activeID].style, ...data }
       temp[activeID].align = value[0];
     }
@@ -73,7 +107,14 @@ export default function DragAroundNaive() {
       temp[activeID].style = { ...temp[activeID].style, ...data }
     }
     console.log('active ==>', temp[activeID])
-    setFields(temp)
+    if(activeObject.type = "ConstantField"){
+      setConstantTextFields(temp)
+
+    }
+    else if(activeObject.type = "Dynamic Fields"){
+
+      setFields(temp)
+    }
   }
 
   useEffect(() => {
@@ -88,14 +129,14 @@ export default function DragAroundNaive() {
       if (classificationFields[i].htmlStringCode == "") {
         top = top + 50
         console.log("top ==> ", top)
-        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
+        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} ,bold : false , italic : false , underline : false , type : "Dynamic Fields" })
         // dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
       else if (classificationFields[i].value !== true) {
         console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align , type : classificationFields[i].type })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
@@ -129,6 +170,7 @@ export default function DragAroundNaive() {
 
   return (
     <div style={{ width: "100%" }}>
+      {console.log("activeObject" , activeObject)}
       <Toolbar
         activeID={activeID}
         activeObject={activeObject}
@@ -145,6 +187,10 @@ export default function DragAroundNaive() {
       fields = {fields}
       classificationFields = {classificationFields}
       editorState = {editorState}
+      setConstantText = {setConstantFieldText}
+      constantText  = {constantText}
+      setConstantTextFields = {setConstantFields}
+      constantTextFields = {constantTextFields}
        />
       {console.log("In the example")}
       {/* <p>

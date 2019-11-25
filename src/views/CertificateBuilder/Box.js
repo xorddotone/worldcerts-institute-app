@@ -30,11 +30,12 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   // console.log({ id, left, top,value, hideSourceOnDrag, children })
   console.log(value[id].value)
   let val = value[id].value;
+  let fieldType = value[id].type
   const [boxResizeWidth, setboxResizeWidth] = useState(270)
   const [boxResizeHeight, setboxResizeHeight] = useState(25)
   const [{ isDragging }, drag] = useDrag({
 
-    item: { id, left, top, type: ItemTypes.BOX, val },
+    item: { id, left, top, type: ItemTypes.BOX, val , fieldType },
 
     collect: monitor => ({
       isDragging: monitor.isDragging(),
