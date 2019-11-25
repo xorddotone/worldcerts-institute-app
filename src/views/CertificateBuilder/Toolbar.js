@@ -5,6 +5,7 @@ import { Container, Row, Col, Button } from "shards-react"
 import italic from "../../images/italic-text.svg"
 
 const TextTransfrom = (props) => {
+    console.log(props)
     const boldStyle = props.activeObject && props.activeObject.bold ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
     const italicStyle = props.activeObject && props.activeObject.italic ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
     const underlineStyle = props.activeObject && props.activeObject.underline ? { boxShadow: "inset 1px 1px 3px 0px rgba(0,0,0,0.5)" } : {}
@@ -12,7 +13,12 @@ const TextTransfrom = (props) => {
 
     return (
         <>
-            <button onClick={() => props.applyStyles({ fontWeight: "bold" })}
+        {console.log(props.activeObject)}
+            <button onClick={() => {
+                console.log("IN props",props)
+                props.applyStyles({ fontWeight: "bold" })
+        }
+            }
                 style={{ ...boldStyle, padding: "3px 6px", border: "2px solid lightgrey", fontWeight: "bold", backgroundColor: "white", marginRight: 5 }}
             >
                 <span style={{ display: "inline-block", height: 20, width: 20 }} >B</span>

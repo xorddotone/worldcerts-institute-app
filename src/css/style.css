@@ -242,3 +242,21 @@ div[id^="font-picker"] {
 }
 @media (max-width: 600px) {
 }
+
+
+/* CheckBox Styling */
+.MuiCheckbox-colorSecondary.Mui-checked {
+color : #17c671 !important;
+}
+.MuiCheckbox-colorSecondary.Mui-disabled {
+color : rgba(0, 0, 0, 0.26) !important;
+}
+.MuiCheckbox-colorSecondary.Mui-checked:hover{
+  background-color : transparent !important;
+}
+.MuiIconButton-root:hover { 
+  background-color : transparent !important;
+}
+/* .ml-sm-auto, .mx-sm-auto{
+  margin-left: 0 !important;
+} */
