@@ -27,13 +27,13 @@ export default function DragAroundNaive() {
 
   const setActiveStyle = (id,type) => {
     setActiveID(id)
-    if(type == "ConstantField"){
+    if(type === "ConstantField"){
       console.log("in constant")
 
       setActiveObject(constantTextFields[id])
 
     }
-    else if(type == "Dynamic Fields"){
+    else if(type === "Dynamic Fields"){
       console.log("in dynamic")
       setActiveObject(fields[id])
     }
@@ -59,11 +59,11 @@ export default function DragAroundNaive() {
     console.log(activeObject)
     console.log(activeObject)
     var temp =[]
-    if(activeObject.type === "ConstantField"){
+    if(activeObject.type == "ConstantField"){
       temp =  [...constantTextFields]
       console.log("IN constant temp")
     }
-    else if(activeObject.type === "Dynamic Fields"){
+    else if(activeObject.type == "Dynamic Fields"){
       console.log("fields  =>" , fields)
       temp =  [...fields]
       console.log("IN dynamic temp")
@@ -107,11 +107,12 @@ export default function DragAroundNaive() {
       temp[activeID].style = { ...temp[activeID].style, ...data }
     }
     console.log('active ==>', temp[activeID])
-    if(activeObject.type = "ConstantField"){
+    if(activeObject.type == "ConstantField"){
+      console.log(temp)
       setConstantTextFields(temp)
 
     }
-    else if(activeObject.type = "Dynamic Fields"){
+    else if(activeObject.type == "Dynamic Fields"){
 
       setFields(temp)
     }
@@ -163,6 +164,7 @@ export default function DragAroundNaive() {
     setFields(fields)
     return () => {
       console.log(fields)
+      console.log(constantTextFields)
       // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
 
     }

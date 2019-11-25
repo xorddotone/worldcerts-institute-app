@@ -137,7 +137,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       tempField[id].top = tops
       console.log("tempFields ==> ", tempField)
     }
-    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
+    // dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
     // handleAdd()
   }
 
@@ -192,6 +192,11 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
   //   }
   // }, [])
+  useEffect(()=>{
+    return() =>{
+      console.log("constantTextFields ========>" , constantTextFields)
+    }
+  },[])
   function onConstantFieldChange(ev) {
     console.log(ev.target.value)
     setConstantText(ev.target.value)
