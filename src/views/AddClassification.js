@@ -74,6 +74,17 @@ class InstituteRegistration extends Component {
   }
 
 
+  static getDerivedStateFromProps(props, state) {
+    console.log("class ===>", props.classificationCombineFields)
+    if (props.classificationCombineFields && props.classificationCombineFields.length !== state.classificationConstantFields.length) {
+      return {
+        classificationConstantFields: props.ClassificationCombineFields,
+        classificationDynamicFields: props.ClassificationCombineFields
+      }
+    }
+    return {}
+  }
+
   async componentDidMount() {
     console.log(this.props.userData)
     console.log(this.props.editClassificationData)
@@ -251,6 +262,7 @@ class InstituteRegistration extends Component {
         duration : "",
         durationValidityDisabled: true
       })
+      this.props.ClassificationDurationTime("0")
     }
     else {
       this.setState({
@@ -427,9 +439,9 @@ class InstituteRegistration extends Component {
                             {
                               this.state.classificationConstantFields.map((el, i) =>
                                 <Col md="3" style={{ marginBottom: "10px" }}>
-                                  {console.log(el)}
+                                  {console.log("is checked ==>", this.state.classificationConstantFields[i].checked)}
                                   <div>
-                                    {el.value === "name" ? <Checkbox checked disabled /> : <Checkbox onChange={() => this.constantCheckboxs(i)} />}
+                                    {el.value === "name" ? <Checkbox checked disabled /> : <Checkbox checked={this.state.classificationConstantFields[i].checked} onChange={() => this.constantCheckboxs(i)} />}
                                     <span key={i} style={{ width: "calc(100% - 42px)", display: "inline-block" }} >
                                       <FormInput
                                         type="text"

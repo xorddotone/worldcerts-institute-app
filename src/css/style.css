@@ -143,14 +143,14 @@
     to left,
     rgb(4, 221, 138),
     rgb(18, 178, 165)
-  );
+  ) !important;
 }
 .worldcerts-button:hover {
   background-image: linear-gradient(
     to right,
     rgb(4, 221, 138),
     rgb(18, 178, 165)
-  );
+  ) !important;
 }
 
 .react-tel-input input[type="text"],
