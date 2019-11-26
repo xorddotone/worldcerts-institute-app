@@ -79,8 +79,9 @@ class Login extends Component {
       this.setState({
         loader:true
       })
+      let userEmail=this.state.email.trim();
       let user = {
-        email: this.state.email,
+        email: userEmail,
         password: this.state.password,
       }
       axios.post(Routes.LOGIN_USER, user).then(response => {

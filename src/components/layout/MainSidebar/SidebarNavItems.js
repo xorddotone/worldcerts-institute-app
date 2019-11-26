@@ -179,7 +179,7 @@ class SidebarNavItems extends React.Component {
         alt="Shards Dashboard"
       /> */}
               <i style={{ marginLeft: '5%' }} className="material-icons">{"storefront"}</i>
-              <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name}</span>
+              <span className=" d-md-inline-block cursor-pointer">{this.props.selectedInstituteName.name.slice(0,20)}</span>
             </DropdownToggle>
             <Collapse tag={DropdownMenu} right small open={this.state.visible}>
 
@@ -200,7 +200,7 @@ class SidebarNavItems extends React.Component {
                 <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
                 Create New Account
-        </DropdownItem>
+        </DropdownItem> 
             </Collapse>
           </NavItem>
           {

@@ -161,9 +161,10 @@ if(reg.test(event.target.value)){
         this.setState({
           loader: true
         })
+        let userEmail=this.state.email.trim();
         let user = {
           name: this.state.userName,
-          email: this.state.email,
+          email: userEmail,
           password: this.state.password,
           // confirmPassword: this.state.confirmPassword
         }

@@ -255,7 +255,7 @@ export default function withRouterCustomizedSteppers(props) {
                     Cancel
                   </Button>) : (null)
                 }
-                <span style={{ float: "right" , marginRight : "15px" }}>
+                <span style={{ float: "right" , marginRight : "15px",marginBottom:"15px" }}>
                   <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                     Back
               </Button>

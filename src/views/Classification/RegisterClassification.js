@@ -328,7 +328,7 @@ class RegisterClassification extends Component {
           <i className="fas fa-exclamation mx-2"></i> {this.state.alertMessage}
         </Alert> */}
         <Row>
-          <Col lg="11">
+          <Col lg="12">
             <Card small className="mb-4">
               {/* <CardHeader className="border-bottom">
         </CardHeader> */}
