@@ -200,7 +200,7 @@ class ManageClassifications extends Component {
         instituteName: "",
         _id: ""
       }
-      this.props.ClassificationCategory("")
+      this.props.ClassificationCategory("Choose")
       this.props.ClassificationDurationTime(null)
       this.props.ClassificationDurationSpan("")
       this.props.ClassificationName("")
