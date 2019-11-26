@@ -17,6 +17,7 @@ export const CLASSIFICATION_TOTAL_FIELDS = "CLASSIFICATION_TOTAL_FIELDS"
 export const CERTIFICATE_TEXT_FIELDS_PX = "CERTIFICATE_TEXT_FIELDS_PX"
 export const CERTIFICATE_TEXT_FIELDS_PERCENTAGE = "CERTIFICATE_TEXT_FIELDS_PERCENTAGE"
 export const CLASSIFICATION_FIELDS_PREVIEW = "CLASSIFICATION_FIELDS_PREVIEW"
+export const QR_WIDTH = "QR_WIDTH"
 export const CERTIFICATE_ALL_FIELDS="CERTIFICATE_ALL_FIELDS"
 export const CERTIFICATE_FIELDS_FLAG="CERTIFICATE_FIELDS_FlAG"
 
@@ -122,5 +123,10 @@ export function CertificateAllFields(fields){
 export function CertificateFieldsFlag(flag){
   console.log(flag)
   return { type: CERTIFICATE_FIELDS_FLAG , payload: flag}
+}
+
+export function QRWidth(width){
+  return { type: QR_WIDTH , payload: width}
+
 }
 

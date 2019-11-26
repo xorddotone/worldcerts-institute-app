@@ -17,6 +17,7 @@ import {
     CERTIFICATE_TEXT_FIELDS_PERCENTAGE,
     CERTIFICATE_TEXT_FIELDS_PX,
     CLASSIFICATION_FIELDS_PREVIEW,
+    QR_WIDTH,
     CERTIFICATE_ALL_FIELDS,
     CERTIFICATE_FIELDS_FLAG,
 
@@ -51,6 +52,8 @@ const INITIAL_STATE = {
     certificateTextFieldsPercentage: [],
     certificateTextFieldsPX: [],
     certificatePreviewFields : [],
+    qrWidth : {},
+
     certificateAllFields:[],
     certificateFieldsFlag:{
         isEmpty:false,
@@ -151,6 +154,11 @@ export default (state = INITIAL_STATE, action) => {
                     ...state,
                     certificatePreviewFields: action.payload
                 })
+                case QR_WIDTH:
+                    return ({
+                        ...state,
+                        qrWidth: action.payload
+                    })
             case CERTIFICATE_ALL_FIELDS:
                 return ({
                         ...state,

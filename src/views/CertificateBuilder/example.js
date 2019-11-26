@@ -21,6 +21,8 @@ export default function DragAroundNaive() {
   const [constantText, setConstantText] = useState()
   const [constantTextFields, setConstantTextFields] = useState([])
   const dispatch = useDispatch()
+  
+  const qrWidth = useSelector(state => state.dashboard_reducer.qrWidth)
 
   // const [dropDownFields , setDropDownFields] = useState([])
 
@@ -157,7 +159,7 @@ export default function DragAroundNaive() {
           tempFields[i].top = tops
         }
         else {
-          let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+          let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
           let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
           tempFields[i].left = lefts
           tempFields[i].top = tops
@@ -204,7 +206,7 @@ export default function DragAroundNaive() {
       }
       else {
         console.log("top uuuiuiui============>", top)
-        fields.push({ top: top + 50, left: 0, value: qrVisibility, height: qrHeight, type: "Dynamic Fields" })
+        fields.push({ top: top + 50, left: 0, value: qrVisibility, type : "Dynamic Fields"})
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
@@ -217,16 +219,36 @@ export default function DragAroundNaive() {
 
   }, [])
 
-  useEffect(() => {
-    return () => {
-      console.log("fieldssss", fields)
-      console.log("constatnnnt text", constantTextFields)
-      console.log(classificationDynamicFieldsPercentage)
-      console.log(classificationTextFieldsPercentage)
-      let combineFields = [...classificationDynamicFieldsPercentage, ...classificationTextFieldsPercentage]
-      console.log(combineFields)
-      dispatch({ type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
-      // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+
+  useEffect(()=>{
+
+console.log("in qr width use effect")
+console.log(qrWidth)
+    let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPercentage))
+for (let i = 0; i < tempFields.length; i++) {
+  
+  if (tempFields[i].value == true) {
+
+    
+    tempFields[i].width = qrWidth.width
+    tempFields[i].height = qrWidth.height
+  }
+}
+dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
+}, [qrWidth])
+
+
+useEffect(()=>{
+  return () => {
+    // console.log("fieldssss" , fields)
+    // console.log("constatnnnt text" , constantTextFields)
+    // console.log(classificationDynamicFieldsPercentage)
+    // console.log(classificationTextFieldsPercentage)
+console.log("in qr width use effect" , qrWidth)
+    let combineFields = [...classificationDynamicFieldsPercentage ,...classificationTextFieldsPercentage]
+  console.log(combineFields)
+    dispatch({type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
+    // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
 
     }
   })

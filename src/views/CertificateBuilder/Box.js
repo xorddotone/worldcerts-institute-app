@@ -16,8 +16,6 @@ const style = {
 }
 const qrStyle = {
   position: 'absolute',
-  width : "auto",
-  height : "auto",
   backgroundColor: 'transparent',
   cursor: 'move',
 }
@@ -34,10 +32,11 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   console.log(value[id].value)
   let val = value[id].value;
   let fieldType = value[id].type
-  const [boxResizeWidth, setboxResizeWidth] = useState(270)
+  const [boxResizeWidth, setboxResizeWidth] = useState(100)
   const [boxResizeHeight, setboxResizeHeight] = useState(25)
   const [width , setQrWidth] = useState(100)
   const [height , setQrHeight] = useState(100)
+  const dispatch = useDispatch()
 
   const [{ isDragging }, drag] = useDrag({
     item: { id, left, top, type: ItemTypes.BOX, val , fieldType },
@@ -51,6 +50,12 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     // this.setState({width: size.width, height: size.height});
     console.log(size.width)
     console.log(size.height)
+    let obj = {
+      width : size.width,
+      height : size.height
+
+    }
+    dispatch({ type: 'QR_WIDTH', payload: obj  })
     setQrWidth(size.width)
     setQrHeight(size.height)
   };
@@ -61,29 +66,8 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   }
   if(isImage) {
     return (
-    //   <div ref={drag} style={{...qrStyle,left,top}}>
-    //   {console.log(isDragging)}
-    //   {children}
-    // </div>
-    // style={{...qrStyle , left,top }}
-  //   <div className="layoutRoot">
-  //   <QRResizeable style={{...qrStyle , left,top }} 
-  //   lockAspectRatio={true} 
-  //   className="box" 
-  //   height={height} 
-  //   width={width} 
-  //   onResize={onResize} 
-  //   resizeHandles={['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's']}
-  //   >
-  //     <div ref={drag} style={style}>
-  //     {console.log(isDragging)}
-  //     {children}
-  //   </div>   
-  // </QRResizeable>
-  // </div>
 
-  <div className="layoutRoot" style= {{...qrStyle , left,top}}>
-    <div ref={drag} style={{ ...style , width: width + 'px', height: height + 'px'}} >
+  <div className="layoutRoot"style= {{qrStyle}} >
   <QRResizeable   
     lockAspectRatio={true} 
     className="box" 
@@ -91,10 +75,12 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     width={width} 
     onResize={onResize} 
     resizeHandles={['sw', 'se', 'nw', 'ne']}>
+                <div  style={{ ...style , width: width + 'px', height: height + 'px' ,  left,top}} >
+      <div ref={drag}>
      {children}
-           
-          </QRResizeable>
+     </div>
             </div>
+          </QRResizeable>
           </div>
     )
   }
@@ -103,11 +89,11 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
            style={{...boxResizeStyle , left,top}}
               size={{ width: boxResizeWidth, height: boxResizeHeight }}
               onResizeStop={(e, direction, ref, d) => {
-                  if((boxResizeWidth + d.width) > 270){
+                if((boxResizeWidth + d.width) < 100){
+                  setboxResizeWidth(100)
+                }
+                else{
                   setboxResizeWidth(boxResizeWidth + d.width)
-                  }
-                  else{
-                    setboxResizeWidth(270)
                   }
                   console.log(boxResizeWidth + d.width)
                   console.log("boxResizeWidth", boxResizeWidth)
