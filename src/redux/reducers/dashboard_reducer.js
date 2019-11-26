@@ -52,7 +52,10 @@ const INITIAL_STATE = {
     certificateTextFieldsPX: [],
     certificatePreviewFields : [],
     certificateAllFields:[],
-    certificateFieldsFlag:{}
+    certificateFieldsFlag:{
+        isEmpty:false,
+        duplicate:false
+    }
 
 }
 
