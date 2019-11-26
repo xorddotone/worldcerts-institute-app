@@ -343,9 +343,31 @@ class InstituteRegistration extends Component {
   }
 
   removeClick(i) {
+    let { isLastDynamicFieldEmpty: isEmpty } = this.state;
     let values = [...this.state.classificationDynamicFields];
     values.splice(i, 1);
     this.setState({ classificationDynamicFields: values });
+
+
+    const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
+    // this.props.CertificateAllFields(combinedFileds)
+    
+    console.log(values)
+    for(var key in values){
+
+      if (values[i].editorValue.trim() === "") {
+        isEmpty = true
+      }
+      else {
+        isEmpty = false 
+      }
+    }
+    let obj={
+      isEmpty,
+      duplicate:this.props.certificateFieldsFlag
+    }
+    this.props.CertificateFieldsFlag(obj)
+
   }
 
 
@@ -563,7 +585,7 @@ const mapStateToProps = (state) => {
     classificationName: state.dashboard_reducer.registerClassificationName,
     classificationDurationTime: state.dashboard_reducer.registerClassificationDurationTime,
     classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
-
+    certificateFieldsFlag :state.dashboard_reducer.certificateFieldsFlag 
   }
 }
 
