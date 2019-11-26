@@ -200,7 +200,7 @@ class SidebarNavItems extends React.Component {
                 <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
                 Create New Account
-        </DropdownItem>
+        </DropdownItem> 
             </Collapse>
           </NavItem>
           {

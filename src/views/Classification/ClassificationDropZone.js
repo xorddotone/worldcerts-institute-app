@@ -209,7 +209,7 @@ class ClassificationDropzone extends Component {
           </ReactFileReader>
           </div> */}
             <div id="uploadButton">
-              <div style={{ margin: "0em 4em 01em 4em" }}>
+              <div style={{ margin: "0em 0em 02em 0em" }}>
 
                 {/* <h4 style={{ fontSize: "20px", marginTop: "1em", textAlign: "center" }}>Upload Certificate</h4> */}
 

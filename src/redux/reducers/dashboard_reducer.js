@@ -40,7 +40,7 @@ const INITIAL_STATE = {
     registerClassificationCategory: "",
     registerClassificationDurationTime: "",
     registerClassificationDurationSpan: "",
-    classificationFields: {},
+    classificationFields: [],
     classificationCombineFields: [],
     classificationTotalFields: [],
     qrVisibility: true,
