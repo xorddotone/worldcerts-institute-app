@@ -359,7 +359,7 @@ class ManageClassifications extends Component {
                     </div>
                     <div style={{ position: "relative", height: "20%", width: "100%", textAlign: "center" }} >
                       <p style={{ fontWeight: "bold", marginBottom: "0.75rem" }} >{`${classification.classification}`} Template</p>
-                      <p style={{ fontSize: 10, marginBottom: "0.75rem" }} >{`${classification.durationValidity.durationTime}`} Year(s) Validity</p>
+                      <p style={{ fontSize: 10, marginBottom: "0.75rem" }} >{`${classification.durationValidity.durationTime}`}  {`${classification.durationValidity.durationSpan}`}  Validity</p>
                       <i style={{ position: "absolute", bottom: 20, right: 10, cursor: "pointer" }} class="far fa-edit" onClick={() => this.onEditClick(classification)} ></i>
                     </div>
                   </div>
