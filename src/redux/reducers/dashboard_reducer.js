@@ -16,7 +16,8 @@ import {
     CLASSIFICATION_TOTAL_FIELDS,
     CERTIFICATE_TEXT_FIELDS_PERCENTAGE,
     CERTIFICATE_TEXT_FIELDS_PX,
-    CLASSIFICATION_FIELDS_PREVIEW
+    CLASSIFICATION_FIELDS_PREVIEW,
+    QR_WIDTH
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -46,7 +47,9 @@ const INITIAL_STATE = {
     qrVisibility: true,
     certificateTextFieldsPercentage: [],
     certificateTextFieldsPX: [],
-    certificatePreviewFields : []
+    certificatePreviewFields : [],
+    qrWidth : {}
+
 
 }
 
@@ -142,6 +145,11 @@ export default (state = INITIAL_STATE, action) => {
                     ...state,
                     certificatePreviewFields: action.payload
                 })
+                case QR_WIDTH:
+                    return ({
+                        ...state,
+                        qrWidth: action.payload
+                    })
         default:
             return state
     }

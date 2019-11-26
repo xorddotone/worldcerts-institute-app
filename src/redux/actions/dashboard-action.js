@@ -17,7 +17,7 @@ export const CLASSIFICATION_TOTAL_FIELDS = "CLASSIFICATION_TOTAL_FIELDS"
 export const CERTIFICATE_TEXT_FIELDS_PX = "CERTIFICATE_TEXT_FIELDS_PX"
 export const CERTIFICATE_TEXT_FIELDS_PERCENTAGE = "CERTIFICATE_TEXT_FIELDS_PERCENTAGE"
 export const CLASSIFICATION_FIELDS_PREVIEW = "CLASSIFICATION_FIELDS_PREVIEW"
-
+export const QR_WIDTH = "QR_WIDTH"
 export function TOGGLE(toggle_switch) {
     console.log(toggle_switch)
   return { type: TOGGLE_SWITCH, payload : toggle_switch }    
@@ -111,5 +111,10 @@ export function ClassificationConstantInPercentage(fields){
 export function ClassificationPreviewFields(fields){
   console.log(fields)
   return { type: CERTIFICATE_TEXT_FIELDS_PERCENTAGE , payload: fields}
+}
+
+export function QRWidth(width){
+  return { type: QR_WIDTH , payload: width}
+
 }
 
