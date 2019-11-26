@@ -13,11 +13,11 @@ const TextTransfrom = (props) => {
 
     return (
         <>
-        {console.log(props.activeObject)}
+            {console.log(props.activeObject)}
             <button onClick={() => {
-                console.log("IN props",props)
+                console.log("IN props", props)
                 props.applyStyles({ fontWeight: "bold" })
-        }
+            }
             }
                 style={{ ...boldStyle, padding: "3px 6px", border: "2px solid lightgrey", fontWeight: "bold", backgroundColor: "white", marginRight: 5 }}
             >
@@ -141,6 +141,16 @@ const Toolbar = (props) => {
         props.applyStyles({ textAlign: align })
     }
 
+    const overlayStyle = {
+        height: "100%",
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        zIndex: 1000,
+        left: 0,
+        cursor: 'not-allowed'
+    }
+
     const pickerProps = {
         color,
         isPickerOpen,
@@ -149,7 +159,8 @@ const Toolbar = (props) => {
     }
     return (
         <>
-            <Container style={{ backgroundColor: 'white', padding: 10, boxShadow: '1px 1px 3px 0px rgba(0,0,0,0.5)', borderRadius: 5, marginBottom: 20, alignItems: 'center', }} >
+            <Container style={{ backgroundColor: 'white', padding: "10px 10px 0px 10px", boxShadow: '1px 1px 3px 0px rgba(0,0,0,0.5)', borderRadius: 5, marginBottom: 20, alignItems: 'center', position: "relative" }} >
+                {!props.activeObject && <div style={overlayStyle} ></div>}
                 <Row>
                     <Col lg="2" style={{ paddingTop: 14, }} >
                         <TextTransfrom {...props} />
