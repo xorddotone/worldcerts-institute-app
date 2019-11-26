@@ -46,7 +46,7 @@ const styles = {
   height: "100%",
   position: 'relative',
 }
-const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields , convertPxToPercentage }) => {
+const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields, convertPxToPercentage }) => {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 920, title: 'Drag me around' },
     b: { top: 60, left: 920, title: 'Drag me too' },
@@ -101,20 +101,20 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     }
     for (let i = 0; i < tempField.length - 1; i++) {
       if (tempField[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempField[i].top )
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
         tempField[i].left = lefts
         tempField[i].top = tops
       }
       else {
-        let tops = convertPxToPercentage(imageHeight, tempField[i].top )
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
         tempField[i].left = lefts
         tempField[i].top = tops
       }
     }
     if (tempField[id].value == true) {
-      let tops = convertPxToPercentage(imageHeight, top )
+      let tops = convertPxToPercentage(imageHeight, top)
       let lefts = convertPxToPercentage(imageWidth, left + 115)
       tempField[id].left = lefts
       tempField[id].top = tops
@@ -129,10 +129,10 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     }
 
     if (fieldType == "Dynamic Fields") {
-          dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
+      dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
     }
     else if (fieldType == "ConstantField") {
-         dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })  
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })
     }
   }
 
@@ -142,7 +142,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
   }
 
   function handleChange(i, editorStateValue) {
-   
+
     const values = [...fields];
     values[i].editorValue = editorStateValue.target.value
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
@@ -159,7 +159,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     for (let i = 0; i < tempFields.length; i++) {
 
       if (tempFields[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
@@ -177,18 +177,18 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
   function addConstantTextHandler(constantText) {
     const tempConstantFields = [...constantTextFields]
-    tempConstantFields.push({ top: 200, left: -500, htmlStringCode: constantText, value: constantText, style: {}, bold: false, italic: false, underline: false, type: "ConstantField" })
+    tempConstantFields.push({ top: 200, left: -500, htmlStringCode: constantText, value: constantText, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "ConstantField" })
     console.log(tempConstantFields)
     dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempConstantFields })
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(tempConstantFields))
     for (let i = 0; i < tempFields.length; i++) {
-      
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
-        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left+250)
-        tempFields[i].left = lefts
-        tempFields[i].top = tops
+
+      let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
+      tempFields[i].left = lefts
+      tempFields[i].top = tops
     }
     console.log("tempFields ==> ", tempFields)
 
@@ -199,7 +199,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
   function handleRemove(i) {
     console.log("fields before ==> ", constantTextFields)
-    console.log("IDDDD" , i)
+    console.log("IDDDD", i)
     const values = [...constantTextFields];
     const tempEditorstate = [...editorState]
     console.log("fields before ==> ", constantTextFields)
@@ -217,11 +217,11 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(values))
     for (let i = 0; i < tempFields.length; i++) {
-      
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
-        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left+250)
-        tempFields[i].left = lefts
-        tempFields[i].top = tops
+
+      let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
+      tempFields[i].left = lefts
+      tempFields[i].top = tops
     }
     console.log("tempFields =====================================================> ", tempFields)
 
@@ -347,19 +347,19 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                   >
 
                     <div id="paragraphTag">
-                    <Row>
-                      <Col md = "9">
-                      <label
-                        onClick={() => onFieldSelect(idx, constantTextFields[idx])}
-                        style={{ ...constantTextFields[idx].style, width: "100%", height: "100%" }}>{constantTextFields[idx].value}
-                        </label>
+                      <Row>
+                        <Col md="9">
+                          <label
+                            onClick={() => onFieldSelect(idx, constantTextFields[idx])}
+                            style={{ ...constantTextFields[idx].style, width: "100%", height: "100%" }}>{constantTextFields[idx].value}
+                          </label>
                         </Col>
-                        <Col md="3" style = {{alignSelf : "center"}} >
-                            <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>
-                              x
+                        <Col md="3" style={{ alignSelf: "center" }} >
+                          <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>
+                            x
                          </span>
-                          </Col>
-                          </Row>
+                        </Col>
+                      </Row>
                     </div>
                   </Box>
 
@@ -408,15 +408,15 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                         isImage={true}
                       >
 
-                        
-                            <div style={{ textAlign: 'center' }}><img  style = {{width: "100%" , height : "100%"}} src={qrExample} /></div>
-                          {/* <Col md="1" >
+
+                        <div style={{ textAlign: 'center' }}><img style={{ width: "100%", height: "100%" }} src={qrExample} /></div>
+                        {/* <Col md="1" >
                             <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>
                               x
                          </span>
                           </Col> */}
                       </Box>
-                     
+
                     ) :
                     (
 
@@ -435,7 +435,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                           value={fields[idx].htmlStringCode}
                           onChange={e => handleChange(idx, e)}
                         />
-                     
+
                       </Box>
 
                     )
