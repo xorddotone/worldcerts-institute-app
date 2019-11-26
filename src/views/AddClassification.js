@@ -58,6 +58,8 @@ class InstituteRegistration extends Component {
       classificationCategory: [],
       classificationConstantFields: [],
       classificationDynamicFields: [],
+      isLastDynamicFieldEmpty: false,
+      isDuplicateFields: false,
       selectedInstituteId: "",
       alertShow: false,
       alertMessage: "",
@@ -214,25 +216,25 @@ class InstituteRegistration extends Component {
   }
 
   durationChangeHandler(ev) {
-
+    console.log('ee ==>', ev.target.value)
     var reg = new RegExp('^\\d+$');
-    var reg1 = new RegExp('[A-Za-z]+');
-    console.log(reg1.test(ev.target.value))
+    // var reg1 = new RegExp('[A-Za-z]+');
+    // console.log(reg1.test(ev.target.value))
     console.log(reg.test(ev.target.value))
-    if ((reg.test(ev.target.value) && reg1.test(ev.target.value) == false) || ev.target.value == "") {
+    if (reg.test(ev.target.value) || ev.target.value == "") {
       console.log("inside")
 
       this.setState({
         durationTemp: ev.target.value,
         duration: ev.target.value
       })
-    //   if(this.state.durationValidity == "No Expiry"){
-    //   this.props.ClassificationDurationTime("")
-    //   }
-    //   else{
-    //   this.props.ClassificationDurationTime(ev.target.value)
-    // }
-  }
+      if (this.state.durationValidity == "No Expiry") {
+        this.props.ClassificationDurationTime("")
+      }
+      else {
+        this.props.ClassificationDurationTime(ev.target.value)
+      }
+    }
     else {
       console.log("else")
     }
@@ -259,10 +261,10 @@ class InstituteRegistration extends Component {
     if (ev.target.value == "No Expiry" || ev.target.value == "Choose") {
       this.setState({
         durationValidity: ev.target.value,
-        duration : "",
+        duration: "",
         durationValidityDisabled: true
       })
-      this.props.ClassificationDurationTime("0")
+      this.props.ClassificationDurationTime("")
     }
     else {
       this.setState({
@@ -289,9 +291,26 @@ class InstituteRegistration extends Component {
 
   handleFieldsChange(i, event) {
     let values = [...this.state.classificationDynamicFields];
-    values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value };
+    const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
+    const contains = combinedFileds.some(item => item.value.toLowerCase() === event.target.value.toLowerCase())
+    let duplicate = false;
+    let { isLastDynamicFieldEmpty: isEmpty } = this.state;
+    if (contains) {
+      values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: { border: "1px solid red" } };
+      duplicate = true;
+    }
+    else {
+      values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: {} };
+      duplicate = false
+    }
     console.log(values)
-    this.setState({ classificationDynamicFields: values });
+    if (event.target.value.trim() === "") {
+      isEmpty = true
+    }
+    else {
+      isEmpty = false
+    }
+    this.setState({ classificationDynamicFields: values, isLastDynamicFieldEmpty: isEmpty, isDuplicateFields: duplicate });
   }
   componentWillUnmount() {
     console.log(this.state.classificationConstantFields)
@@ -308,7 +327,7 @@ class InstituteRegistration extends Component {
     }
   }
   addClick() {
-    this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, { top: 0, left: 0, htmlString: '', value: '', checked: false }] }))
+    this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, { top: 0, left: 0, htmlString: '', value: '', checked: false }], isLastDynamicFieldEmpty: true }))
 
   }
 
@@ -340,6 +359,15 @@ class InstituteRegistration extends Component {
 
 
   render() {
+    const overlayStyle = {
+      height: "100%",
+      width: "100%",
+      position: "absolute",
+      top: 0,
+      zIndex: 1000,
+      left: 0,
+      cursor: 'not-allowed'
+    }
     console.log(this.state.classificationDynamicFields)
     console.log(this.state.QRVisible)
     console.log(this.state.durationTemp)
@@ -462,7 +490,7 @@ class InstituteRegistration extends Component {
                                     <Checkbox onChange={() => this.dynamicCheckboxs(i)} />
                                     <span style={{ display: "inline-flex", width: "calc(100% - 42px)", border: "1px solid #e1e5eb", borderRadius: ".25rem" }}>
                                       <FormInput
-                                        style={{ border: "none" }}
+                                        style={{ border: "none", ...el.style }}
                                         type="text"
                                         value={el.value || ''}
                                         placeholder="Certificate Field"
@@ -476,6 +504,7 @@ class InstituteRegistration extends Component {
                               )
                             }
                             <Col md="3" style={{ marginTop: "10px" }}>
+                              {(this.state.isLastDynamicFieldEmpty || this.state.isDuplicateFields) && <div style={overlayStyle} ></div>}
                               <span style={{ fontSize: "14px", color: 'gray', cursor: 'pointer' }} onClick={this.addClick.bind(this)} >+ Add Custom Data Fields</span>
                             </Col>
                           </Row>
@@ -483,19 +512,19 @@ class InstituteRegistration extends Component {
 
                         {/* <Row>
                           <Col md="12" className="form-group" style={{ marginTop: 10 }} >*/}
-                            <div> 
-                              <FormCheckbox
-                                toggle small
-                                checked={this.state.QRVisible}
-                                onChange={e => this.QrVisibility(e)}
-                              >
-                                Display QR code on certificate (for quick verification)
+                        <div>
+                          <FormCheckbox
+                            toggle small
+                            checked={this.state.QRVisible}
+                            onChange={e => this.QrVisibility(e)}
+                          >
+                            Display QR code on certificate (for quick verification)
                             </FormCheckbox>
-                            </div>
-                            {/* <div>
+                        </div>
+                        {/* <div>
                               – Yes/No
                             </div> */}
-                          
+
                       </Form>
                     </Col>
                   </Row>
