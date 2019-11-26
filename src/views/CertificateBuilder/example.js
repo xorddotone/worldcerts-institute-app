@@ -9,6 +9,8 @@ export default function DragAroundNaive() {
   const [activeID, setActiveID] = useState({})
   const [fields, setFields] = useState([])
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  const classificationTextFieldsPercentage = useSelector(state => state.dashboard_reducer.certificateTextFieldsPercentage)
+  const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
@@ -18,6 +20,7 @@ export default function DragAroundNaive() {
   const [activeObject, setActiveObject] = useState()
   const [constantText , setConstantText] = useState()
   const [constantTextFields , setConstantTextFields] = useState([])
+  const dispatch = useDispatch()
   
   // const [dropDownFields , setDropDownFields] = useState([])
 
@@ -51,6 +54,15 @@ export default function DragAroundNaive() {
   }
   const setConstantFieldText = (data) => {
     setConstantText(data)
+  }
+
+  function convertPxToPercentage(image, box) {
+    console.log("In percentage")
+    console.log("box => ", box)
+    console.log("image => ", image)
+    let percentage = (box / image) * 100
+    console.log("percentage => ", percentage)
+    return percentage
   }
 
   const applyStyles = (data) => {
@@ -107,14 +119,52 @@ export default function DragAroundNaive() {
       temp[activeID].style = { ...temp[activeID].style, ...data }
     }
     console.log('active ==>', temp[activeID])
+    let imageHeight = document.getElementById("DnDImage").clientHeight
+    let imageWidth = document.getElementById("DnDImage").clientWidth
+    let tempFields = JSON.parse(JSON.stringify(temp))
     if(activeObject.type == "ConstantField"){
       console.log(temp)
+      console.log("afterrrrrrrrrr styling ==>" , temp)
+    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: temp })      
       setConstantTextFields(temp)
+      
+      for (let i = 0; i < tempFields.length; i++) {
+      
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
+        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
+        tempFields[i].left = lefts
+        tempFields[i].top = tops
+    }
+    console.log("tempFields ==> ", tempFields)
+
+    // Here i will dispatch the temp Fields in percentage
+    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempFields })
+    // setConstantTextFields(tempConstantFields)
 
     }
     else if(activeObject.type == "Dynamic Fields"){
-
+      console.log("afterrrrrrrrrr styling ==>" , temp)
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: temp })
       setFields(temp)
+
+     
+      for (let i = 0; i < tempFields.length; i++) {
+  
+        if (tempFields[i].value !== true) {
+          let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
+          let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
+          tempFields[i].left = lefts
+          tempFields[i].top = tops
+        }
+        else {
+          let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+          let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
+          tempFields[i].left = lefts
+          tempFields[i].top = tops
+        }
+      }
+      console.log("tempFields ==> ", tempFields)
+      dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
     }
   }
 
@@ -161,18 +211,29 @@ export default function DragAroundNaive() {
       }
 
     }
-    setFields(fields)
-    return () => {
-      console.log(fields)
-      console.log(constantTextFields)
-      // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+    // console.log(constantTextFields)
 
-    }
+    setFields(fields)
+    
   }, [])
 
+useEffect(()=>{
+  return () => {
+    console.log("fieldssss" , fields)
+    console.log("constatnnnt text" , constantTextFields)
+    console.log(classificationDynamicFieldsPercentage)
+    console.log(classificationTextFieldsPercentage)
+    let combineFields = [...classificationDynamicFieldsPercentage , ...classificationTextFieldsPercentage]
+  console.log(combineFields)
+    dispatch({type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
+    // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+
+  }
+})
   return (
     <div style={{ width: "100%" }}>
       {console.log("activeObject" , activeObject)}
+      {console.log("fields ==> " , fields )}
       <Toolbar
         activeID={activeID}
         activeObject={activeObject}
@@ -187,12 +248,13 @@ export default function DragAroundNaive() {
       qrIndex = {qrIndex}
       setQrIndex = {setQrIndexes}
       fields = {fields}
-      classificationFields = {classificationFields}
+      // classificationFields = {classificationFields}
       editorState = {editorState}
       setConstantText = {setConstantFieldText}
       constantText  = {constantText}
       setConstantTextFields = {setConstantFields}
       constantTextFields = {constantTextFields}
+      convertPxToPercentage = {convertPxToPercentage}
        />
       {console.log("In the example")}
       {/* <p>

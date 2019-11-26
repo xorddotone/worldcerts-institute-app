@@ -46,7 +46,7 @@ const styles = {
   height: "100%",
   position: 'relative',
 }
-const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState, classificationFields, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields }) => {
+const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields , convertPxToPercentage }) => {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 920, title: 'Drag me around' },
     b: { top: 60, left: 920, title: 'Drag me too' },
@@ -107,12 +107,15 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
           },
         }),
       )
-      // dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: fields })
+    // Here i will dispatch the constantTextFields in the px 
+
+
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: constantTextFields })
       tempField = JSON.parse(JSON.stringify(constantTextFields))
     }
     for (let i = 0; i < tempField.length - 1; i++) {
       if (tempField[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempField[i].top + 40)
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top )
         let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
         tempField[i].left = lefts
         tempField[i].top = tops
@@ -132,122 +135,45 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       console.log("tempFields ==> ", tempField)
     }
     else {
-      let tops = convertPxToPercentage(imageHeight, top + 40)
+      let tops = convertPxToPercentage(imageHeight, top)
       let lefts = convertPxToPercentage(imageWidth, left + 250)
       tempField[id].left = lefts
       tempField[id].top = tops
       console.log("tempFields ==> ", tempField)
     }
-    // dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
-    // handleAdd()
+
+    if (fieldType == "Dynamic Fields") {
+      
+          dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
+
+    }
+    else if (fieldType == "ConstantField") {
+     
+    // Here i will dispatch the constantTextFields in the percentage
+    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })
+
+    
+    
+    }
+    
   }
 
 
-  // useEffect(() => {
-  //   let left = document.getElementById("DnDImage").clientWidth;
-  //   setTop(4)
-  //   setLeft(left - 20)   
-  //   let top = 0
-  //   console.log(classificationFields)
-  //   console.log(classificationFields.length)
-  //   const tempEditorState = [...editorState]
-  //   for (let i = 0; i < classificationFields.length; i++) {
-  //     if (classificationFields[i].htmlStringCode == "") {
-  //       top = top + 70
-  //       console.log("top ==> ", top)
-  //       fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} })
-  //       dropDownFields.push({value : classificationFields[i].value , id : i })
-  //       tempEditorState.push(EditorState.createEmpty())
-  //       setEditorState(tempEditorState)
-  //     }
-  //     else if (classificationFields[i].value !== true) {
-  //       console.log("IN elseeeee")
-  //       fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue , style : classificationFields[i].style })
-  //       tempEditorState.push(EditorState.createEmpty())
-  //       setEditorState(tempEditorState)
-  //     }
-  //   }
-  //   console.log((classificationFields.length - 1).value == true)
-  //   if (qrVisibility) {
-
-  //     if ((classificationFields.length - 1).value == true) {
-  //       console.log("top ============>", top)
-  //       fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height })
-  //       console.log("fields ==> ", fields)
-  //       console.log("fields length ==> ", fields.length)
-  //       setQrIndex(fields.length - 1)
-  //     }
-  //     else {
-  //       console.log("top uuuiuiui============>", top)
-  //       fields.push({ top: top + 70, left: -70, value: qrVisibility, height: qrHeight })
-  //       console.log("fields ==> ", fields)
-  //       console.log("fields length ==> ", fields.length)
-  //       setQrIndex(fields.length - 1)
-  //     }
-
-  //   }
-  //   setArrayFields(fields)
-  //   return () => {
-  //     console.log(fields)
-  //     // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
-
-  //   }
-  // }, [])
-  useEffect(()=>{
-    return() =>{
-      console.log("constantTextFields ========>" , constantTextFields)
-    }
-  },[])
   function onConstantFieldChange(ev) {
     console.log(ev.target.value)
     setConstantText(ev.target.value)
 
   }
-  function convertPxToPercentage(image, box) {
-    console.log("In percentage")
-    console.log("box => ", box)
-    console.log("image => ", image)
-    let percentage = (box / image) * 100
-    console.log("percentage => ", percentage)
-    return percentage
-  }
+  // function convertPxToPercentage(image, box) {
+  //   console.log("In percentage")
+  //   console.log("box => ", box)
+  //   console.log("image => ", image)
+  //   let percentage = (box / image) * 100
+  //   console.log("percentage => ", percentage)
+  //   return percentage
+  // }
   function handleChange(i, editorStateValue) {
-    // console.log(event.target.value) ********
-    // setInputState(event.target.value) ********
-    // var para = document.createElement("p"); ********
-    // console.log(para) ********
-    // var node = document.createTextNode(event.target.value); ********
-    // console.log(node) ********
-    // var htmlCode = para.appendChild(node); ********
-    // console.log("htmlCode => ", htmlCode) ********
-
-    // const values = selectField;
-    // values.editorValue = event.target.value
-    // values.htmlStringCode = htmlCode
-    // dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
-    // setSelectFields(values); ************
-    // let imageHeight = document.getElementById("DnDImage").clientHeight
-    // let imageWidth = document.getElementById("DnDImage").clientWidth
-    // let tempFields = JSON.parse(JSON.stringify(values))
-    // for (let i = 0; i < tempFields.length; i++) {
-
-    //   if (tempFields[i].value !== true) {
-    //     let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
-    //     let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
-    //     tempFields[i].left = lefts
-    //     tempFields[i].top = tops
-    //   }
-    //   else {
-    //     let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
-    //     let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
-    //     tempFields[i].left = lefts
-    //     tempFields[i].top = tops
-    //   }
-    // }
-    // console.log("tempFields ==> ", tempFields)
-    // dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
-
-    // *******************
+   
     const values = [...fields];
     values[i].editorValue = editorStateValue.target.value
     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
@@ -257,12 +183,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     const tempEditorState = [...editorState]
     tempEditorState[i] = editorStateValue.target.value
     setEditorState(tempEditorState)
-    // console.log(draftToHtml(convertToRaw(editorStateValue.getCurrentContent())))
-    // const values = [...fields];
-    // values[i].editorValue = editorStateValue
-    // dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: values })
-    // values[i].editorValue = editorStateValue.getCurrentContent().getPlainText()
-    // values[i].htmlStringCode = draftToHtml(convertToRaw(editorStateValue.getCurrentContent()));
     setArrayFields(values);
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
@@ -270,13 +190,13 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     for (let i = 0; i < tempFields.length; i++) {
 
       if (tempFields[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
       }
       else {
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top +40)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 115)
         tempFields[i].left = lefts
         tempFields[i].top = tops
@@ -296,7 +216,27 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     // element.appendChild(htmlConstantText);
     const tempConstantFields = [...constantTextFields]
     tempConstantFields.push({ top: 200, left: -500, htmlStringCode: constantText, value: constantText, style: {}, bold: false, italic: false, underline: false, type: "ConstantField" })
+    console.log(tempConstantFields)
+
+    // Here i will dispatch the temp Fields in px
+    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempConstantFields })
+
+    let imageHeight = document.getElementById("DnDImage").clientHeight
+    let imageWidth = document.getElementById("DnDImage").clientWidth
+    let tempFields = JSON.parse(JSON.stringify(tempConstantFields))
+    for (let i = 0; i < tempFields.length; i++) {
+      
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+        let lefts = convertPxToPercentage(imageWidth, tempFields[i].left+250)
+        tempFields[i].left = lefts
+        tempFields[i].top = tops
+    }
+    console.log("tempFields ==> ", tempFields)
+
+    // Here i will dispatch the temp Fields in percentage
+    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempFields })
     setConstantTextFields(tempConstantFields)
+
   }
 
   function handleRemove(i) {
@@ -328,7 +268,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
     for (let i = 0; i < tempFields.length; i++) {
       if (tempFields[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top + 40)
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
@@ -462,7 +402,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
         {/* {console.log("activeFontSize", activeFontSize)} */}
         {/* {console.log("activeFoneDec", activeFontDecoration)} */}
         {console.log("selectField ==> ", selectField)}
-        {console.log("classificationFields", classificationFields)}
         {console.log("fields", fields)}
         {/* {console.log("editorState", editorState)} */}
         {/* {console.log("image ==> ", image)} */}

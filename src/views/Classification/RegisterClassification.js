@@ -401,7 +401,9 @@ class RegisterClassification extends Component {
 
                       (this.props.classificationFields[key].value !== true)
                         ?
-                        (<div dangerouslySetInnerHTML={this.createMarkup(key)} style={{ top: this.props.classificationFields[key].top + "%", right: Math.abs(this.props.classificationFields[key].left) + "%", width: "300px", position: 'absolute' }}></div>)
+                        (
+                        <div style={{ ...this.props.classificationFields[key].style , top: this.props.classificationFields[key].top + "%", right: Math.abs(this.props.classificationFields[key].left) + "%", width: "300px", position: 'absolute' }}>{this.props.classificationFields[key].htmlStringCode}</div>
+                        )
                         :
                         (<div>
                           {console.log(this.props.classificationFields[key].height)}
@@ -467,7 +469,7 @@ const mapStateToProps = (state) => {
     classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
-    classificationFields: state.dashboard_reducer.classificationFields,
+    classificationFields: state.dashboard_reducer.certificatePreviewFields,
 
 
 

@@ -14,7 +14,9 @@ export const CLASSIFICATION_FIELDS = "CLASSIFICATION_FIELDS"
 export const CLASSIFICATION_COMBINE_FIELDS = "CLASSIFICATION_COMBINE_FIELDS"
 export const CLASSIFICATION_QR = "CLASSIFICATION_QR"
 export const CLASSIFICATION_TOTAL_FIELDS = "CLASSIFICATION_TOTAL_FIELDS"
-
+export const CERTIFICATE_TEXT_FIELDS_PX = "CERTIFICATE_TEXT_FIELDS_PX"
+export const CERTIFICATE_TEXT_FIELDS_PERCENTAGE = "CERTIFICATE_TEXT_FIELDS_PERCENTAGE"
+export const CLASSIFICATION_FIELDS_PREVIEW = "CLASSIFICATION_FIELDS_PREVIEW"
 
 export function TOGGLE(toggle_switch) {
     console.log(toggle_switch)
@@ -95,3 +97,19 @@ export function ClassificationTotalFields(fields){
   console.log(fields)
   return { type: CLASSIFICATION_TOTAL_FIELDS , payload: fields}
 }
+
+export function CertificateConstantTextInPx(fields){
+  console.log(fields)
+  return { type: CERTIFICATE_TEXT_FIELDS_PX , payload: fields}
+}
+
+export function ClassificationConstantInPercentage(fields){
+  console.log(fields)
+  return { type: CERTIFICATE_TEXT_FIELDS_PERCENTAGE , payload: fields}
+}
+
+export function ClassificationPreviewFields(fields){
+  console.log(fields)
+  return { type: CERTIFICATE_TEXT_FIELDS_PERCENTAGE , payload: fields}
+}
+

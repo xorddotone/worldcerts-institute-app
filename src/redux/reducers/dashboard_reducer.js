@@ -13,7 +13,10 @@ import {
     CLASSIFICATION_FIELDS,
     CLASSIFICATION_COMBINE_FIELDS,
     CLASSIFICATION_QR,
-    CLASSIFICATION_TOTAL_FIELDS
+    CLASSIFICATION_TOTAL_FIELDS,
+    CERTIFICATE_TEXT_FIELDS_PERCENTAGE,
+    CERTIFICATE_TEXT_FIELDS_PX,
+    CLASSIFICATION_FIELDS_PREVIEW
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -40,7 +43,11 @@ const INITIAL_STATE = {
     classificationFields: {},
     classificationCombineFields: [],
     classificationTotalFields: [],
-    qrVisibility: true
+    qrVisibility: true,
+    certificateTextFieldsPercentage: [],
+    certificateTextFieldsPX: [],
+    certificatePreviewFields : []
+
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -120,6 +127,21 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 qrVisibility: action.payload
             })
+            case CERTIFICATE_TEXT_FIELDS_PERCENTAGE:
+            return ({
+                ...state,
+                certificateTextFieldsPercentage: action.payload
+            })
+            case CERTIFICATE_TEXT_FIELDS_PX:
+            return ({
+                ...state,
+                certificateTextFieldsPX: action.payload
+            })
+            case CLASSIFICATION_FIELDS_PREVIEW:
+                return ({
+                    ...state,
+                    certificatePreviewFields: action.payload
+                })
         default:
             return state
     }
