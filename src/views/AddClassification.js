@@ -335,7 +335,11 @@ class InstituteRegistration extends Component {
   }
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, { top: 0, left: 0, htmlString: '', value: '', checked: false }], isLastDynamicFieldEmpty: true }))
-
+    let obj={
+      isEmpty:true,
+      duplicate:false
+    }
+    this.props.CertificateFieldsFlag(obj)
   }
 
   removeClick(i) {
