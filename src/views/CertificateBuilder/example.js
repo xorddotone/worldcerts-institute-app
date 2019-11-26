@@ -15,7 +15,7 @@ export default function DragAroundNaive() {
   const [boxLeft, setLeft] = useState(0)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
   const [editorState, setEditorState] = useState([])
-  const [qrHeight, setQrHeight] = useState(80)
+  const [qrHeight, setQrHeight] = useState("inherit")
   const [qrIndex, setQrIndex] = useState()
   const [activeObject, setActiveObject] = useState()
   const [constantText , setConstantText] = useState()
@@ -197,14 +197,14 @@ export default function DragAroundNaive() {
 
       if ((classificationFields.length - 1).value == true) {
         console.log("top ============>", top)
-        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height })
+        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height  , type : (classificationFields.length - 1).type })
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
       }
       else {
         console.log("top uuuiuiui============>", top)
-        fields.push({ top: top + 70, left: -70, value: qrVisibility, height: qrHeight })
+        fields.push({ top: top + 50, left: 0, value: qrVisibility, height: qrHeight , type : "Dynamic Fields"})
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
@@ -223,7 +223,7 @@ useEffect(()=>{
     console.log("constatnnnt text" , constantTextFields)
     console.log(classificationDynamicFieldsPercentage)
     console.log(classificationTextFieldsPercentage)
-    let combineFields = [...classificationDynamicFieldsPercentage , ...classificationTextFieldsPercentage]
+    let combineFields = [...classificationDynamicFieldsPercentage ,...classificationTextFieldsPercentage]
   console.log(combineFields)
     dispatch({type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
     // dispatch({ type: 'CLASSIFICATION_QR', payload: false })

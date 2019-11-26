@@ -486,8 +486,8 @@ class InstituteRegistration extends Component {
                             <div> 
                               <FormCheckbox
                                 toggle small
-                                checked={this.state.QRVisible}
                                 onChange={e => this.QrVisibility(e)}
+                                checked={this.state.QRVisible}
                               >
                                 Display QR code on certificate (for quick verification)
                             </FormCheckbox>
