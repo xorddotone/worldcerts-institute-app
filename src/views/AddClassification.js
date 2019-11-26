@@ -33,7 +33,7 @@ import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
-import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationTotalFields, ClassificationDurationTime, ClassificationDurationSpan, ClassificationName } from "../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationTotalFields, ClassificationDurationTime, ClassificationDurationSpan, ClassificationName,CertificateAllFields,CertificateFieldsFlag } from "../redux/actions/dashboard-action"
 import { Link } from 'react-router-dom'
 import { Checkbox } from "@material-ui/core"
 
@@ -292,6 +292,8 @@ class InstituteRegistration extends Component {
   handleFieldsChange(i, event) {
     let values = [...this.state.classificationDynamicFields];
     const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
+    this.props.CertificateAllFields(combinedFileds)
+    
     const contains = combinedFileds.some(item => item.value.toLowerCase() === event.target.value.toLowerCase())
     let duplicate = false;
     let { isLastDynamicFieldEmpty: isEmpty } = this.state;
@@ -308,8 +310,13 @@ class InstituteRegistration extends Component {
       isEmpty = true
     }
     else {
-      isEmpty = false
+      isEmpty = false 
     }
+    let obj={
+      isEmpty,
+      duplicate
+    }
+    this.props.CertificateFieldsFlag(obj)
     this.setState({ classificationDynamicFields: values, isLastDynamicFieldEmpty: isEmpty, isDuplicateFields: duplicate });
   }
   componentWillUnmount() {
@@ -587,7 +594,14 @@ const mapDispatchToProps = (dispatch) => {
     },
     ClassificationTotalFields: (fields) => {
       dispatch(ClassificationTotalFields(fields))
+    },
+    CertificateAllFields: (fields) => {
+      dispatch(CertificateAllFields(fields))
+    },
+    CertificateFieldsFlag: (fields) => {
+      dispatch(CertificateFieldsFlag(fields))
     }
+    
   }
 }
 

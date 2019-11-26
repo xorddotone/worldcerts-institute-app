@@ -18,24 +18,27 @@ export default function DragAroundNaive() {
   const [qrHeight, setQrHeight] = useState("inherit")
   const [qrIndex, setQrIndex] = useState()
   const [activeObject, setActiveObject] = useState()
-  const [constantText , setConstantText] = useState()
-  const [constantTextFields , setConstantTextFields] = useState([])
+  const [constantText, setConstantText] = useState()
+  const [constantTextFields, setConstantTextFields] = useState([])
   const dispatch = useDispatch()
   
   const qrWidth = useSelector(state => state.dashboard_reducer.qrWidth)
+
+  // const [dropDownFields , setDropDownFields] = useState([])
+
   const toggle = useCallback(() => setHideSourceOnDrag(!hideSourceOnDrag), [
     hideSourceOnDrag,
   ])
 
-  const setActiveStyle = (id,type) => {
+  const setActiveStyle = (id, type) => {
     setActiveID(id)
-    if(type === "ConstantField"){
+    if (type === "ConstantField") {
       console.log("in constant")
 
       setActiveObject(constantTextFields[id])
 
     }
-    else if(type === "Dynamic Fields"){
+    else if (type === "Dynamic Fields") {
       console.log("in dynamic")
       setActiveObject(fields[id])
     }
@@ -69,20 +72,20 @@ export default function DragAroundNaive() {
     console.log('style ==>', data)
     console.log(activeObject)
     console.log(activeObject)
-    var temp =[]
-    if(activeObject.type == "ConstantField"){
-      temp =  [...constantTextFields]
+    var temp = []
+    if (activeObject.type == "ConstantField") {
+      temp = [...constantTextFields]
       console.log("IN constant temp")
     }
-    else if(activeObject.type == "Dynamic Fields"){
-      console.log("fields  =>" , fields)
-      temp =  [...fields]
+    else if (activeObject.type == "Dynamic Fields") {
+      console.log("fields  =>", fields)
+      temp = [...fields]
       console.log("IN dynamic temp")
 
     }
     let keys = Object.keys(data)
     console.log('key ==>', keys)
-    console.log("temp[activeID]" , temp[activeID])
+    console.log("temp[activeID]", temp[activeID])
 
     if (keys[0] === "fontWeight" && !temp[activeID].bold) {
       temp[activeID].style = { ...temp[activeID].style, ...data }
@@ -121,36 +124,36 @@ export default function DragAroundNaive() {
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(temp))
-    if(activeObject.type == "ConstantField"){
+    if (activeObject.type == "ConstantField") {
       console.log(temp)
-      console.log("afterrrrrrrrrr styling ==>" , temp)
-    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: temp })      
+      console.log("afterrrrrrrrrr styling ==>", temp)
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: temp })
       setConstantTextFields(temp)
-      
+
       for (let i = 0; i < tempFields.length; i++) {
-      
-        let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
+
+        let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
         let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
         tempFields[i].left = lefts
         tempFields[i].top = tops
-    }
-    console.log("tempFields ==> ", tempFields)
+      }
+      console.log("tempFields ==> ", tempFields)
 
-    // Here i will dispatch the temp Fields in percentage
-    dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempFields })
-    // setConstantTextFields(tempConstantFields)
+      // Here i will dispatch the temp Fields in percentage
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempFields })
+      // setConstantTextFields(tempConstantFields)
 
     }
-    else if(activeObject.type == "Dynamic Fields"){
-      console.log("afterrrrrrrrrr styling ==>" , temp)
-    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: temp })
+    else if (activeObject.type == "Dynamic Fields") {
+      console.log("afterrrrrrrrrr styling ==>", temp)
+      dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: temp })
       setFields(temp)
 
-     
+
       for (let i = 0; i < tempFields.length; i++) {
-  
+
         if (tempFields[i].value !== true) {
-          let tops = convertPxToPercentage(imageHeight, tempFields[i].top )
+          let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
           let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 250)
           tempFields[i].left = lefts
           tempFields[i].top = tops
@@ -170,7 +173,7 @@ export default function DragAroundNaive() {
   useEffect(() => {
     let left = document.getElementById("DnDImage").clientWidth;
     setTop(4)
-    setLeft(left - 20)   
+    setLeft(left - 20)
     let top = 210
     console.log(classificationFields)
     console.log(classificationFields.length)
@@ -179,14 +182,14 @@ export default function DragAroundNaive() {
       if (classificationFields[i].htmlStringCode == "") {
         top = top + 50
         console.log("top ==> ", top)
-        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue ,style : {} ,bold : false , italic : false , underline : false , type : "Dynamic Fields" })
+        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "Dynamic Fields" })
         // dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
       else if (classificationFields[i].value !== true) {
         console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align , type : classificationFields[i].type })
+        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align, type: classificationFields[i].type })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
@@ -196,7 +199,7 @@ export default function DragAroundNaive() {
 
       if ((classificationFields.length - 1).value == true) {
         console.log("top ============>", top)
-        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height  , type : (classificationFields.length - 1).type })
+        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height, type: (classificationFields.length - 1).type })
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
@@ -213,7 +216,7 @@ export default function DragAroundNaive() {
     // console.log(constantTextFields)
 
     setFields(fields)
-    
+
   }, [])
 
 
@@ -247,34 +250,34 @@ console.log("in qr width use effect" , qrWidth)
     dispatch({type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
     // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
 
-  }
-})
+    }
+  })
   return (
     <div style={{ width: "100%" }}>
-      {console.log("activeObject" , activeObject)}
-      {console.log("fields ==> " , fields )}
+      {console.log("activeObject", activeObject)}
+      {console.log("fields ==> ", fields)}
       <Toolbar
         activeID={activeID}
         activeObject={activeObject}
         applyStyles={applyStyles}
       />
-      <Container  
-      hideSourceOnDrag={true} 
-      setArrayFields={setFields} 
-      setActiveStyle={setActiveStyle}
-      setEditorState = {setEditorStates}
-      qrHeight = {qrHeight}
-      qrIndex = {qrIndex}
-      setQrIndex = {setQrIndexes}
-      fields = {fields}
-      // classificationFields = {classificationFields}
-      editorState = {editorState}
-      setConstantText = {setConstantFieldText}
-      constantText  = {constantText}
-      setConstantTextFields = {setConstantFields}
-      constantTextFields = {constantTextFields}
-      convertPxToPercentage = {convertPxToPercentage}
-       />
+      <Container
+        hideSourceOnDrag={true}
+        setArrayFields={setFields}
+        setActiveStyle={setActiveStyle}
+        setEditorState={setEditorStates}
+        qrHeight={qrHeight}
+        qrIndex={qrIndex}
+        setQrIndex={setQrIndexes}
+        fields={fields}
+        // classificationFields = {classificationFields}
+        editorState={editorState}
+        setConstantText={setConstantFieldText}
+        constantText={constantText}
+        setConstantTextFields={setConstantFields}
+        constantTextFields={constantTextFields}
+        convertPxToPercentage={convertPxToPercentage}
+      />
       {console.log("In the example")}
       {/* <p>
         <label htmlFor="hideSourceOnDrag">

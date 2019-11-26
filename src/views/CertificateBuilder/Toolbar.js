@@ -37,9 +37,11 @@ const TextTransfrom = (props) => {
 
 const FontFamily = (props) => {
     const fonts = ['Arial', 'Courier New', 'Times New Roman', 'Georgia', 'Impact', 'Comic Sans MS', 'Trebuchet MS', 'Helvetica', 'Arial-black', 'Garamond', 'Verdana', 'Bookman Old Style', 'Palatino', 'Times', 'Courier']
+    let selectedValue = props.activeObject && props.activeObject.style.fontFamily
+
     return (
         <>
-            <select onChange={(e) => props.setFont(e)} style={{ padding: 8, backgroundColor: "white" }} >
+            <select value={selectedValue} onChange={(e) => props.setFont(e)} style={{ padding: 8, backgroundColor: "white" }} >
                 {
                     fonts.map(item => {
                         return <option value={item} >{item}</option>
@@ -60,10 +62,10 @@ const FontSize = (props) => {
         sizes.push(i);
         i += 2;
     }
-
+    let selectedValue = props.activeObject && props.activeObject.style.fontSize
     return (
         <>
-            <select onChange={(e) => props.setSize(e)} style={{ padding: 8, backgroundColor: "white" }} >
+            <select onChange={(e) => props.setSize(e)} value={selectedValue} style={{ padding: 8, backgroundColor: "white" }} >
                 {
                     sizes.map(item => {
                         return <option value={item} >{item}</option>
@@ -92,19 +94,21 @@ const ColorPicker = (props) => {
         bottom: '0px',
         left: '0px',
     }
+    let selectedValue = props.activeObject && props.activeObject.style.color
+
     // const style = props.isPickerOpen ? { position: "absolute", bottom: 0 } : { display: 'none' }
     return (
         <>
             <button style={{ border: "2px solid lightgrey", padding: '5px 10px', backgroundColor: "white" }} onClick={() => props.handleClickPicker()} >
                 <div>
                     <div style={{ height: 18 }} >A</div>
-                    <div style={{ height: 5, width: 15, backgroundColor: props.color }} ></div>
+                    <div style={{ height: 5, width: 15, backgroundColor: selectedValue }} ></div>
                 </div>
             </button>
             {
                 props.isPickerOpen && <div style={popover}>
                     <div style={cover} onClick={() => props.handleClickPicker()} />
-                    <ChromePicker color={props.color} onChange={props.handleChangePicker} />
+                    <ChromePicker color={selectedValue} onChange={props.handleChangePicker} />
                 </div>
             }
             {/* {props.isPickerOpen && <ChromePicker styles={{ position: "absolute", bottom: 0 }} color={props.color} onChange={props.handleChangePicker} />} */}
@@ -115,11 +119,11 @@ const ColorPicker = (props) => {
 const Toolbar = (props) => {
 
     const [isPickerOpen, setIsPickerOpen] = useState(false)
-    const [color, setColor] = useState("black")
+    // const [color, setColor] = useState("black")
 
     const handleChangePicker = (color) => {
         console.log('color ==>', color)
-        setColor(color.hex)
+        // setColor(color.hex)
         props.applyStyles({ color: color.hex })
     }
 
@@ -134,7 +138,7 @@ const Toolbar = (props) => {
 
     const setSize = (e) => {
         console.log('size ==>', e)
-        props.applyStyles({ fontSize: `${e.target.value}px` })
+        props.applyStyles({ fontSize: Number(e.target.value) })
     }
 
     const setAlignment = (align) => {
@@ -152,33 +156,33 @@ const Toolbar = (props) => {
     }
 
     const pickerProps = {
-        color,
+        // color,
         isPickerOpen,
         handleChangePicker,
         handleClickPicker
     }
     return (
         <>
-            <Container style={{ backgroundColor: 'white', padding: "10px 10px 0px 10px", boxShadow: '1px 1px 3px 0px rgba(0,0,0,0.5)', borderRadius: 5, marginBottom: 20, alignItems: 'center', position: "relative" }} >
+            <div style={{ backgroundColor: 'white', padding: 10, boxShadow: '1px 1px 3px 0px rgba(0,0,0,0.5)', borderRadius: 5, marginBottom: 20, alignItems: 'center', position: "relative" }} >
                 {!props.activeObject && <div style={overlayStyle} ></div>}
-                <Row>
-                    <Col lg="2" style={{ paddingTop: 14, }} >
+                <div style={{ display: "flex", alignItems: 'center', flexWrap: "wrap" }} >
+                    <div style={{ display: "inline-block", marginRight: 20 }} >
                         <TextTransfrom {...props} />
-                    </Col>
-                    <Col lg="2" style={{ paddingTop: 14, }} >
+                    </div>
+                    <div style={{ display: "inline-block" }} >
                         <FontFamily {...props} setFont={setFont} />
-                    </Col>
-                    <Col lg="1" style={{ paddingTop: 14, }} >
+                    </div>
+                    <div style={{ display: "inline-block", marginRight: 20 }} >
                         <FontSize {...props} setSize={setSize} />
-                    </Col>
-                    <Col lg="2" style={{ paddingTop: 11, }} >
+                    </div>
+                    <div style={{ paddingTop: 5, height: 50, display: "inline-block", marginRight: 20 }} >
                         <Alignment {...props} setAlignment={setAlignment} />
-                    </Col>
-                    <Col lg="3" style={{ paddingTop: 14, }} >
+                    </div>
+                    <div style={{ display: "inline-block" }} >
                         <ColorPicker {...pickerProps} {...props} />
-                    </Col>
-                </Row>
-            </Container>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

@@ -17,7 +17,11 @@ import {
     CERTIFICATE_TEXT_FIELDS_PERCENTAGE,
     CERTIFICATE_TEXT_FIELDS_PX,
     CLASSIFICATION_FIELDS_PREVIEW,
-    QR_WIDTH
+    QR_WIDTH,
+    CERTIFICATE_ALL_FIELDS,
+    CERTIFICATE_FIELDS_FLAG,
+
+    
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -48,8 +52,13 @@ const INITIAL_STATE = {
     certificateTextFieldsPercentage: [],
     certificateTextFieldsPX: [],
     certificatePreviewFields : [],
-    qrWidth : {}
+    qrWidth : {},
 
+    certificateAllFields:[],
+    certificateFieldsFlag:{
+        isEmpty:false,
+        duplicate:false
+    }
 
 }
 
@@ -150,6 +159,16 @@ export default (state = INITIAL_STATE, action) => {
                         ...state,
                         qrWidth: action.payload
                     })
+            case CERTIFICATE_ALL_FIELDS:
+                return ({
+                        ...state,
+                        certificateAllFields: action.payload
+                    })
+            case CERTIFICATE_FIELDS_FLAG:
+                return ({
+                ...state,
+                certificateFieldsFlag: action.payload
+                })
         default:
             return state
     }

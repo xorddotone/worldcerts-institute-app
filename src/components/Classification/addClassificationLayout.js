@@ -120,6 +120,7 @@ function getSteps() {
 }
 
 function getStepContent(step) {
+  
   switch (step) {
     case 0:
       return (
@@ -150,7 +151,9 @@ export default function withRouterCustomizedSteppers(props) {
   const userData = useSelector(state => state.user_reducer.user)
   const dynamicClassificationFields = useSelector(state => state.dashboard_reducer.classificationFields)
   const editClassificationState = useSelector(state => state.dashboard_reducer.editClassificationState)
-
+  const  certificateAllFields = useSelector(state => state.dashboard_reducer.certificateAllFields )
+  const  certificateFieldsFlag = useSelector(state => state.dashboard_reducer.certificateFieldsFlag )
+  
 
   const steps = getSteps();
 
@@ -167,14 +170,20 @@ export default function withRouterCustomizedSteppers(props) {
     });
   })
 
+  
   const handleNext = () => {
+    console.log(certificateAllFields)
+    console.log(certificateFieldsFlag)
+    // const combinedFileds = [...classificationTotalFields, ...dynamicClassificationFields];
+
     console.log(activeStep)
     if (open) {
       setAlertOpen(false)
     }
     switch (activeStep) {
       case 0:
-        if (organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose") {
+        
+        if (organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose" || certificateFieldsFlag.isEmpty==true || certificateFieldsFlag.duplicate==true) {
           return (
             setAlertOpen(true),
             setALertMessage("Fill the required Fields before Proceeding to next Step")
@@ -226,6 +235,7 @@ export default function withRouterCustomizedSteppers(props) {
 
   return (
     <div>
+      <div style={{ padding: "0px 15px" }} >
       {console.log(userData)}
       {(userData.isVerified) ? (
         null
@@ -237,6 +247,7 @@ export default function withRouterCustomizedSteppers(props) {
       <Alert className="mb-0" open={open} theme="danger" dismissible={() => dismiss()} >
         <i className="fas fa-exclamation mx-2"></i>{alertMessage}
       </Alert>
+      </div>
       <div className={classes.root}>
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
           {steps.map(label => (
