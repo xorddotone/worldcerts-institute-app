@@ -11,6 +11,8 @@ export default function DragAroundNaive() {
   const classificationFields = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const classificationTextFieldsPercentage = useSelector(state => state.dashboard_reducer.certificateTextFieldsPercentage)
   const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
+  const classificationTextFieldPx =  useSelector(state => state.dashboard_reducer.certificateTextFieldsPX)
+  const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
@@ -21,7 +23,7 @@ export default function DragAroundNaive() {
   const [constantText, setConstantText] = useState()
   const [constantTextFields, setConstantTextFields] = useState([])
   const dispatch = useDispatch()
-  
+
   const qrWidth = useSelector(state => state.dashboard_reducer.qrWidth)
 
   // const [dropDownFields , setDropDownFields] = useState([])
@@ -197,58 +199,90 @@ export default function DragAroundNaive() {
     console.log((classificationFields.length - 1).value == true)
     if (qrVisibility) {
 
-      if ((classificationFields.length - 1).value == true) {
+      if (classificationFields[classificationFields.length - 1].value == true) {
         console.log("top ============>", top)
-        fields.push({ top: (classificationFields.length - 1).top, left: (classificationFields.length - 1).left, value: qrVisibility, height: (classificationFields.length - 1).height, type: (classificationFields.length - 1).type })
+        console.log(classificationFields[classificationFields.length-1])
+        fields.push({ top: classificationFields[classificationFields.length - 1].top, left: classificationFields[classificationFields.length - 1].left, value: classificationFields[classificationFields.length - 1].value, type: classificationFields[classificationFields.length - 1].type , height: classificationFields[classificationFields.length - 1].height})
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
       }
       else {
         console.log("top uuuiuiui============>", top)
-        fields.push({ top: top + 50, left: 0, value: qrVisibility, type : "Dynamic Fields"})
+        fields.push({ top: top + 50, left: 0, value: qrVisibility, type: "Dynamic Fields" , height : 100 })
         console.log("fields ==> ", fields)
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
       }
 
     }
-    // console.log(constantTextFields)
-
     setFields(fields)
-
+    for (let i = 0; i < classificationTextFieldPx.length; i++) {
+      if (classificationTextFieldPx[i].htmlStringCode == "") {
+    
+        classificationTextFieldPx.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationFields[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
+      
+      }
+    }
+    setConstantTextFields(classificationTextFieldPx)
   }, [])
 
 
-  useEffect(()=>{
+  // useEffect(() => {
 
-console.log("in qr width use effect")
-console.log(qrWidth)
-    let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPercentage))
-for (let i = 0; i < tempFields.length; i++) {
-  
-  if (tempFields[i].value == true) {
+  //   console.log("in qr width use effect")
+  //   console.log(qrWidth)
+  //   let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPercentage))
+  //   for (let i = 0; i < tempFields.length; i++) {
 
-    
-    tempFields[i].width = qrWidth.width
-    tempFields[i].height = qrWidth.height
-  }
-}
-dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
-}, [qrWidth])
+  //     if (tempFields[i].value == true) {
 
 
-useEffect(()=>{
-  return () => {
-    // console.log("fieldssss" , fields)
-    // console.log("constatnnnt text" , constantTextFields)
-    // console.log(classificationDynamicFieldsPercentage)
-    // console.log(classificationTextFieldsPercentage)
-console.log("in qr width use effect" , qrWidth)
-    let combineFields = [...classificationDynamicFieldsPercentage ,...classificationTextFieldsPercentage]
-  console.log(combineFields)
-    dispatch({type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFields })
-    // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
+  //       tempFields[i].width = qrWidth.width
+  //       tempFields[i].height = qrWidth.height
+  //     }
+  //   }
+  //   dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFields })
+  // }, [qrWidth])
+
+
+  useEffect(() => {
+    return () => {
+      // console.log("fieldssss" , fields)
+      // console.log("constatnnnt text" , constantTextFields)
+      // console.log(classificationDynamicFieldsPercentage)
+      // console.log(classificationTextFieldsPercentage)
+      console.log("in qr width use effect", qrWidth)
+      let combineFieldsPercentage = [...classificationDynamicFieldsPercentage, ...classificationTextFieldsPercentage]
+      console.log(fields)
+      console.log(constantTextFields)
+      console.log(classificationDynamicFieldsPx)
+      console.log(classificationTextFieldPx)
+      let combineFieldsPx = [...classificationDynamicFieldsPx , ...classificationTextFieldPx]
+      console.log(combineFieldsPercentage)
+      console.log(combineFieldsPx)
+      let b = combineFieldsPx.filter(item => item.left >=0 )
+    let value = JSON.parse(JSON.stringify(combineFieldsPercentage))
+      // let value = [...combineFieldsPercentage]
+      console.log(b)
+      for(let i = 0 ;i<combineFieldsPercentage.length;i++){
+        console.log("in forrrrr")
+        console.log(combineFieldsPercentage[i].value)
+        console.log(b)
+        let exist =  b.some(el => el.value === combineFieldsPercentage[i].value);
+        
+        console.log(exist)
+        if(exist){
+          combineFieldsPercentage.splice(i,1)
+        // value.pop(combineFieldsPercentage[i])
+          
+        }
+        console.log("values after splice ==> ", value)
+      }
+      console.log(value)
+      console.log(combineFieldsPercentage)
+      dispatch({ type: 'CLASSIFICATION_FIELDS_PREVIEW', payload: combineFieldsPercentage })
+      // dispatch({ type: 'CLASSIFICATION_QR', payload: false })
 
     }
   })

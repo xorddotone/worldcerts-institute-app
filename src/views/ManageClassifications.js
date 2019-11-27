@@ -31,6 +31,9 @@ import {
   ClassificationDurationTime,
   ClassificationDurationSpan,
   ClassificationName,
+  QRWidth,CertificateFieldsFlag,CertificateAllFields,ClassificationPreviewFields,
+  ClassificationConstantInPercentage,CertificateConstantTextInPx,
+  ClassificationTotalFields,QRVisibility,ClassificationCombineFields,ClassificationFields,
   Image
 } from "../redux/actions/dashboard-action"
 import certificate from "../images/cert_sample.jpg"
@@ -207,6 +210,16 @@ class ManageClassifications extends Component {
       this.props.IMAGE({ name: "" })
       this.props.EditClassification(obj)
       this.props.EditClassificationState(false)
+      this.props.CertificateAllFields([])
+      this.props.CertificateConstantTextInPx([])
+      this.props.CertificateFieldsFlag(false)
+      this.props.ClassificationCombineFields([])
+      this.props.ClassificationConstantInPercentage([])
+      this.props.ClassificationFields([])
+      this.props.ClassificationPreviewFields([])
+      this.props.ClassificationTotalFields([])
+      this.props.QRVisibility(false)
+      this.props.QRWidth()
       this.props.history.push("/addClassification")
     }
   }
@@ -408,9 +421,40 @@ const mapDispatchToProps = (dispatch) => {
     ClassificationName: (data) => {
       dispatch(ClassificationName(data))
     },
-    IMAGE: (imageFile) => {
-      dispatch(Image(imageFile))
+    IMAGE: (data) => {
+      dispatch(Image(data))
     },
+    ClassificationFields: (Fields) => {
+      dispatch(ClassificationFields(Fields))
+    },
+    ClassificationCombineFields: (CombineFields) => {
+      dispatch(ClassificationCombineFields(CombineFields))
+    },
+    QRVisibility: (data) => {
+      dispatch(QRVisibility(data))
+    },
+    ClassificationTotalFields: (data) => {
+      dispatch(ClassificationTotalFields(data))
+    },
+    CertificateConstantTextInPx: (data) => {
+      dispatch(CertificateConstantTextInPx(data))
+    },
+    ClassificationConstantInPercentage: (data) => {
+      dispatch(ClassificationConstantInPercentage(data))
+    },
+    ClassificationPreviewFields: (data) => {
+      dispatch(ClassificationPreviewFields(data))
+    },
+    CertificateAllFields: (data) => {
+      dispatch(CertificateAllFields(data))
+    },
+    CertificateFieldsFlag: (data) => {
+      dispatch(CertificateFieldsFlag(data))
+    },
+    QRWidth: (data) => {
+      dispatch(QRWidth(data))
+    },
+   
     // UpdateTitle: (title) => dispatch(pageTitle(title))
   }
 }

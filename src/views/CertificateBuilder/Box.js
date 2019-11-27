@@ -24,7 +24,7 @@ const boxResizeStyle = {
   position : 'absolute',
   alignItems: "center",
   justifyContent: "center",
-  border: "solid 1px #ddd",
+  // border: "solid 1px #ddd",
   background: "transparent"
 };
 const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
@@ -32,10 +32,13 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   console.log(value[id].value)
   let val = value[id].value;
   let fieldType = value[id].type
-  const [boxResizeWidth, setboxResizeWidth] = useState(100)
+  const [boxResizeWidth, setboxResizeWidth] = useState(225)
   const [boxResizeHeight, setboxResizeHeight] = useState(25)
   const [width , setQrWidth] = useState(100)
   const [height , setQrHeight] = useState(100)
+  const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
+
   const dispatch = useDispatch()
 
   const [{ isDragging }, drag] = useDrag({
@@ -55,6 +58,32 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
       height : size.height
 
     }
+    let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPx))
+    for (let i = 0; i < tempFields.length; i++) {
+
+      if (tempFields[i].value == true) {
+
+
+        tempFields[i].height = size.height
+        tempFields[i].width = size.width
+      }
+    }
+    console.log(tempFields)
+
+    let tempFieldsPercentage = JSON.parse(JSON.stringify(classificationDynamicFieldsPercentage))
+    for (let i = 0; i < tempFields.length; i++) {
+
+      if (tempFieldsPercentage[i].value == true) {
+
+
+        tempFieldsPercentage[i].height = size.height
+        tempFieldsPercentage[i].width = size.width
+      }
+    }
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: tempFields })
+    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFieldsPercentage })
+
+    console.log(val)
     dispatch({ type: 'QR_WIDTH', payload: obj  })
     setQrWidth(size.width)
     setQrHeight(size.height)
