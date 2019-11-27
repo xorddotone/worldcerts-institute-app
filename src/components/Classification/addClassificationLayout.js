@@ -175,14 +175,15 @@ export default function withRouterCustomizedSteppers(props) {
     console.log(certificateAllFields)
     console.log(certificateFieldsFlag)
     // const combinedFileds = [...classificationTotalFields, ...dynamicClassificationFields];
-
+    
     console.log(activeStep)
+    
     if (open) {
       setAlertOpen(false)
     }
     switch (activeStep) {
       case 0:
-        
+        console.log(classificationCategory)    
         if (organizationName == "Select Organization" || classificationCategory == "Choose" || classificationName == "" || durationValidity == "Choose" || certificateFieldsFlag.isEmpty==true || certificateFieldsFlag.duplicate==true) {
           return (
             setAlertOpen(true),

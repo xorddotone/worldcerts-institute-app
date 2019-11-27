@@ -33,7 +33,7 @@ import * as Response from '../constants/responseCodes'
 import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import loader from '../images/loader.gif'
-import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationTotalFields, ClassificationDurationTime, ClassificationDurationSpan, ClassificationName,CertificateAllFields,CertificateFieldsFlag } from "../redux/actions/dashboard-action"
+import { EditClassification, EditClassificationState, ClassificationCategory, QRVisibility, ClassificationCombineFields, ClassificationInstituteName, ClassificationTotalFields, ClassificationDurationTime, ClassificationDurationSpan, ClassificationName, CertificateAllFields, CertificateFieldsFlag } from "../redux/actions/dashboard-action"
 import { Link } from 'react-router-dom'
 import { Checkbox } from "@material-ui/core"
 
@@ -293,7 +293,7 @@ class InstituteRegistration extends Component {
     let values = [...this.state.classificationDynamicFields];
     const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
     this.props.CertificateAllFields(combinedFileds)
-    
+
     const contains = combinedFileds.some(item => item.value.toLowerCase() === event.target.value.toLowerCase())
     let duplicate = false;
     let { isLastDynamicFieldEmpty: isEmpty } = this.state;
@@ -310,9 +310,9 @@ class InstituteRegistration extends Component {
       isEmpty = true
     }
     else {
-      isEmpty = false 
+      isEmpty = false
     }
-    let obj={
+    let obj = {
       isEmpty,
       duplicate
     }
@@ -335,13 +335,39 @@ class InstituteRegistration extends Component {
   }
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, { top: 0, left: 0, htmlString: '', value: '', checked: false }], isLastDynamicFieldEmpty: true }))
-
+    let obj = {
+      isEmpty: true,
+      duplicate: false
+    }
+    this.props.CertificateFieldsFlag(obj)
   }
 
   removeClick(i) {
+    let { isLastDynamicFieldEmpty: isEmpty } = this.state;
     let values = [...this.state.classificationDynamicFields];
     values.splice(i, 1);
     this.setState({ classificationDynamicFields: values });
+
+
+    const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
+    // this.props.CertificateAllFields(combinedFileds)
+    
+    console.log(values)
+    for(var key in values){
+
+      if (values[i].editorValue.trim() === "") {
+        isEmpty = true
+      }
+      else {
+        isEmpty = false 
+      }
+    }
+    let obj={
+      isEmpty,
+      duplicate:this.props.certificateFieldsFlag
+    }
+    this.props.CertificateFieldsFlag(obj)
+
   }
 
 
@@ -510,9 +536,9 @@ class InstituteRegistration extends Component {
                                 </Col>
                               )
                             }
-                            <Col md="3" style={{ marginTop: "10px" }}>
+                            <Col md="3" style={{ marginTop: "10px", height: 41 }}>
                               {(this.state.isLastDynamicFieldEmpty || this.state.isDuplicateFields) && <div style={overlayStyle} ></div>}
-                              <span style={{ fontSize: "14px", color: 'gray', cursor: 'pointer' }} onClick={this.addClick.bind(this)} >+ Add Custom Data Fields</span>
+                              <span style={{ fontSize: "13px", color: 'gray', cursor: 'pointer' }} onClick={this.addClick.bind(this)} >+ Add Custom Data Fields</span>
                             </Col>
                           </Row>
                         </div>
@@ -559,7 +585,7 @@ const mapStateToProps = (state) => {
     classificationName: state.dashboard_reducer.registerClassificationName,
     classificationDurationTime: state.dashboard_reducer.registerClassificationDurationTime,
     classificationDurationSpan: state.dashboard_reducer.registerClassificationDurationSpan,
-
+    certificateFieldsFlag :state.dashboard_reducer.certificateFieldsFlag 
   }
 }
 
@@ -601,7 +627,7 @@ const mapDispatchToProps = (dispatch) => {
     CertificateFieldsFlag: (fields) => {
       dispatch(CertificateFieldsFlag(fields))
     }
-    
+
   }
 }
 

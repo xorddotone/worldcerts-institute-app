@@ -42,7 +42,7 @@ const INITIAL_STATE = {
     //  Classification attributes
     registerClassificationInstituteName: "",
     registerClassificationName: "",
-    registerClassificationCategory: "",
+    registerClassificationCategory: "Choose",
     registerClassificationDurationTime: "",
     registerClassificationDurationSpan: "",
     classificationFields: [],
