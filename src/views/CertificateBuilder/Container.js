@@ -158,7 +158,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       let tempFields = JSON.parse(JSON.stringify(constantTextFields))
      tempFields[id].left = left
      tempFields[id].top = top
-      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: constantTextFields })
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempFields })
       let tempField = JSON.parse(JSON.stringify(tempFields))
       console.log(tempField)
       console.log("tempField.value ********>>" , tempField[id].value )

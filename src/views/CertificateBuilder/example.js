@@ -198,8 +198,9 @@ export default function DragAroundNaive() {
     }
     console.log((classificationFields.length - 1).value == true)
     if (qrVisibility) {
-
-      if (classificationFields[classificationFields.length - 1].value == true) {
+        // console.log("classificationFields[classificationFields.length - 1].value ==> ", classificationFields[classificationFields.length - 1].value)
+    if (classificationFields[classificationFields.length - 1]) {
+      if (classificationFields[classificationFields.length - 1].value == true){
         console.log("top ============>", top)
         console.log(classificationFields[classificationFields.length-1])
         fields.push({ top: classificationFields[classificationFields.length - 1].top, left: classificationFields[classificationFields.length - 1].left, value: classificationFields[classificationFields.length - 1].value, type: classificationFields[classificationFields.length - 1].type , height: classificationFields[classificationFields.length - 1].height})
@@ -214,13 +215,16 @@ export default function DragAroundNaive() {
         console.log("fields length ==> ", fields.length)
         setQrIndex(fields.length - 1)
       }
+    }
+  
+  
 
     }
     setFields(fields)
     for (let i = 0; i < classificationTextFieldPx.length; i++) {
       if (classificationTextFieldPx[i].htmlStringCode == "") {
     
-        classificationTextFieldPx.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationFields[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
+        classificationTextFieldPx.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationTextFieldPx[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
       
       }
     }

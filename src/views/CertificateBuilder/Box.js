@@ -38,6 +38,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   const [height , setQrHeight] = useState(100)
   const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
+  // const classificationTextFieldPx =  useSelector(state => state.dashboard_reducer.certificateTextFieldsPX)
 
   const dispatch = useDispatch()
 
@@ -69,6 +70,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
       }
     }
     console.log(tempFields)
+    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: tempFields })
 
     let tempFieldsPercentage = JSON.parse(JSON.stringify(classificationDynamicFieldsPercentage))
     for (let i = 0; i < tempFields.length; i++) {
@@ -80,7 +82,6 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
         tempFieldsPercentage[i].width = size.width
       }
     }
-    dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: tempFields })
     dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFieldsPercentage })
 
     console.log(val)
@@ -88,6 +89,17 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     setQrWidth(size.width)
     setQrHeight(size.height)
   };
+  useEffect(()=>{
+    if(classificationDynamicFieldsPx.length !== 0 ){
+      for(let i = 0 ; i < classificationDynamicFieldsPx.length ; i++ ){
+        if(classificationDynamicFieldsPx[i].value == true){
+          setQrWidth(classificationDynamicFieldsPx[i].height)
+        setQrHeight(classificationDynamicFieldsPx[i].height)
+
+        }
+      }
+    }
+  },[])
   if (isDragging && hideSourceOnDrag) {
     let style = {...style}
     style.position = "absolute"
