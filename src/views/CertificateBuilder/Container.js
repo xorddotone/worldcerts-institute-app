@@ -159,7 +159,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
      tempFields[id].left = left
      tempFields[id].top = top
       dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: constantTextFields })
-<<<<<<< HEAD
       let tempField = JSON.parse(JSON.stringify(tempFields))
       console.log(tempField)
       console.log("tempField.value ********>>" , tempField[id].value )
@@ -184,27 +183,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                 let lefts = convertPxToPercentage(imageWidth, left + 115)
       console.log("tops",tops)
       console.log("lefts",lefts)
-=======
-      tempField = JSON.parse(JSON.stringify(constantTextFields))
-    }
-    for (let i = 0; i < tempField.length - 1; i++) {
-      if (tempField[i].value !== true) {
-        let tops = convertPxToPercentage(imageHeight, tempField[i].top)
-        let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
-        tempField[i].left = lefts
-        tempField[i].top = tops
-      }
-      else {
-        let tops = convertPxToPercentage(imageHeight, tempField[i].top)
-        let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
-        tempField[i].left = lefts
-        tempField[i].top = tops
-      }
-    }
-    if (tempField[id].value == true) {
-      let tops = convertPxToPercentage(imageHeight, top)
-      let lefts = convertPxToPercentage(imageWidth, left + 115)
->>>>>>> 2140c7633d099b3fcd6de36ed8fbfb0045ecb96a
       tempField[id].left = lefts
       tempField[id].top = tops
       console.log("tops",tops)
@@ -212,7 +190,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       console.log("tempFields ==> ", tempField)
     }
     else {
-<<<<<<< HEAD
         let tops = convertPxToPercentage(imageHeight, top)
         let lefts = convertPxToPercentage(imageWidth, left + 250)
       
@@ -227,21 +204,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
         
       }  
     
-=======
-      let tops = convertPxToPercentage(imageHeight, top)
-      let lefts = convertPxToPercentage(imageWidth, left + 250)
-      tempField[id].left = lefts
-      tempField[id].top = tops
-      console.log("tempFields ==> ", tempField)
-    }
-
-    if (fieldType == "Dynamic Fields") {
-      dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
-    }
-    else if (fieldType == "ConstantField") {
-      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })
-    }
->>>>>>> 2140c7633d099b3fcd6de36ed8fbfb0045ecb96a
   }
 
   function onConstantFieldChange(ev) {
@@ -517,15 +479,9 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                         isImage={true}
                       >
 
-<<<<<<< HEAD
                         
                             <div style={{  top: fields[idx].top , left: fields[idx].left , textAlign: 'center' , }}><img  style = {{width: "100%" , height : "100%"}} src={qrExample} /></div>
                           {/* <Col md="1" >
-=======
-
-                        <div style={{ textAlign: 'center' }}><img style={{ width: "100%", height: "100%" }} src={qrExample} /></div>
-                        {/* <Col md="1" >
->>>>>>> 2140c7633d099b3fcd6de36ed8fbfb0045ecb96a
                             <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>
                               x
                          </span>
