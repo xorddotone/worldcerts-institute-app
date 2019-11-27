@@ -77,7 +77,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     
     console.log("imageHeight ==>", imageHeight)
     console.log("imageWidth ==>", imageWidth)
-    console.log("fieldTYpe ", fieldType)
+    // console.log("fieldTYpe ", fieldType)
     if(fieldType == "Dynamic Fields") {
       setArrayFields(
         update(fields, {
