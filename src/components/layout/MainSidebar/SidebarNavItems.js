@@ -170,7 +170,7 @@ class SidebarNavItems extends React.Component {
       
     }
     this.props.SELECTED_INSTITUTE(obj)
-    this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
+    // this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
     // this.props.history.push("/manage_organization")
   }
   onClickAdd(ev) {

@@ -29,6 +29,7 @@ import ReactPhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/dist/style.css'
 import upload from '../images/upload.svg'
 import FileIcon, { defaultStyles } from 'react-file-icon';
+import { EDIT_INSTITUTE_FLAG_ACTION } from "../redux/actions/login-action"
 
 var reader;
 
@@ -37,13 +38,13 @@ class AddClassification extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      instituteName: '',
+      instituteName: this.props.selectedInstituteForEdit.name,
       buisnessRegistrationNum: "",
-      instituteAddress: '',
-      instituteWebsite: '',
-      instituteTelephone: '',
-      country: '',
-      postalCode: '',
+      instituteAddress: this.props.selectedInstituteForEdit.companyAddress,
+      instituteWebsite: this.props.selectedInstituteForEdit.url,
+      instituteTelephone: this.props.selectedInstituteForEdit.companyContactNumber,
+      country: this.props.selectedInstituteForEdit.country,
+      postalCode: this.props.selectedInstituteForEdit.postalCode,
       ErrorStatus: false,
       error: "",
       alertShow: false,
@@ -51,7 +52,7 @@ class AddClassification extends Component {
       theme: "",
       loader: false,
       options: countryList().getData(),
-      countryValue: null,
+      countryValue: this.props.selectedInstituteForEdit.country,
       organizationFiles: null
     }
     this.instituteNameChangeHandler = this.instituteNameChangeHandler.bind(this)
@@ -372,6 +373,14 @@ class AddClassification extends Component {
     )
   }
 
+  onCancelClick(){
+    this.props.history.push("/settings")
+    this.props.EDIT_INSTITUTE_FLAG_ACTION(false)
+  }
+  onSaveClick(){
+
+  }
+
 
 
   render() {
@@ -531,9 +540,25 @@ class AddClassification extends Component {
                         </Row>
                         <hr />
 
-                        {(this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button"
+                        {
+                          (this.props.editInstituteFlag)?
+                          (
+                            <span>
+                            <span size="sm" className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onCancelClick.bind(this)}
+                        >Cancel</span>
+                        <span size="sm" className="mb-2 mr-1 worldcerts-button"
+                          onClick={this.onSaveClick.bind(this)}
+                        >Save</span>
+                        </span>
+                          ):
+                          (
+                            (this.state.loader) ? (<img src={loader} className="loader" />) : (<span size="sm" className="mb-2 mr-1 worldcerts-button"
                           onClick={this.onRegisterClick.bind(this)}
-                        >Create</span>)}
+                        >Create</span>)
+                          )
+                        
+                        }
                       </Form>
                     </Col>
                   </Row>
@@ -552,15 +577,16 @@ const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state.pageTitle);
   return {
     Title: state.pageTitle,
-    userData: state.user_reducer.user
-    selectedInstituteForEdit: state.user_reducer.selectedInstituteForEdit
-
+    userData: state.user_reducer.user,
+    selectedInstituteForEdit: state.user_reducer.selectedInstituteForEdit,
+    editInstituteFlag:state.user_reducer.editInstituteFlag
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    EDIT_INSTITUTE_FLAG_ACTION: (dt) => 
+    dispatch(EDIT_INSTITUTE_FLAG_ACTION(dt))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddClassification);

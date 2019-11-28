@@ -2,6 +2,7 @@ export const SINGLE_USER_DATA='SINGLE_USER_DATA'
 export const LOGGED_IN="LOGGED_IN"
 export const SELECTED_INSTITUTE_NAME="SELECTED_INSTITUTE_NAME"
 export const SELECTED_INSTITUTE_EDIT="SELECTED_INSTITUTE_FOR_EDIT"
+export const EDIT_INSTITUTE_FLAG="EDIT_INSTITUTE_FLAG"
 
 export function USER_DATA(data) {
     // console.log(data)
@@ -18,4 +19,8 @@ return { type: SELECTED_INSTITUTE_NAME, payload : name }
 export function SELECTED_INSTITUTE_FOR_EDIT(name) {
   console.log(name)
 return { type: SELECTED_INSTITUTE_EDIT, payload : name }    
+}
+export function EDIT_INSTITUTE_FLAG_ACTION(name) {
+  console.log(name)
+return { type: EDIT_INSTITUTE_FLAG, payload : name }    
 }

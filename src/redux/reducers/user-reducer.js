@@ -1,4 +1,4 @@
-import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME,SELECTED_INSTITUTE_EDIT } from "../actions/login-action";
+import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME,SELECTED_INSTITUTE_EDIT,EDIT_INSTITUTE_FLAG } from "../actions/login-action";
 import { INSTITUTES_LIST } from "../actions/dashboard-action"
 
 const INITIAL_STATE = {
@@ -28,7 +28,8 @@ const INITIAL_STATE = {
         approvalStatus: "",
         companyAddress: "",
     },
-    institutesList: []
+    institutesList: [],
+    editInstituteFlag:false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -58,6 +59,11 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 institutesList: action.payload
             })
+            case EDIT_INSTITUTE_FLAG:
+                return ({
+                    ...state,
+                    editInstituteFlag: action.payload
+                })
         default:
             return state
     }

@@ -21,6 +21,8 @@ import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import CSVReader from 'react-csv-reader'
 import ReactFileReader from 'react-file-reader';
+import { EDIT_INSTITUTE_FLAG_ACTION,SELECTED_INSTITUTE_FOR_EDIT } from "../redux/actions/login-action"
+
 
 const csv = require('csv-parser')
 const fs = require('fs')
@@ -40,7 +42,22 @@ class Settings extends Component {
     // this.props.UpdateTitle("Institue Registration");
   }
   onInstituteProfileClick(){
-    
+    let obj = {
+      name: this.props.selectedInstitute.name,
+      id: this.props.selectedInstitute.id,
+      url: this.props.selectedInstitute.url,
+      email:this.props.selectedInstitute.email,
+      certificateStore: 0x000000000000000,
+      companyContactNumber:this.props.selectedInstitute.companyContactNumber,
+      country:this.props.selectedInstitute.country,
+      approvalStatus:this.props.selectedInstitute.approvalStatus,
+      companyAddress:this.props.selectedInstitute.companyAddress,
+      
+      
+    }
+    this.props.EDIT_INSTITUTE_FLAG_ACTION(true)
+    this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
+    this.props.history.push("/organization_registration")
   }
 
   
@@ -62,6 +79,7 @@ class Settings extends Component {
 const mapStateToProps = (state) => {
   console.log(Strings.REDUX, state);
   return {
+    selectedInstitute: state.user_reducer.selectedInstituteName,
     // Title: state.pageTitle,
     // userData:state.user_reducer.user
 
@@ -70,8 +88,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // UpdateTitle: (title) => dispatch(pageTitle(title))
+    EDIT_INSTITUTE_FLAG_ACTION: (dt) => 
+    dispatch(EDIT_INSTITUTE_FLAG_ACTION(dt)),
+    SELECTED_INSTITUTE_FOR_EDIT: (user) => {
+      dispatch(SELECTED_INSTITUTE_FOR_EDIT(user))
+    },
   }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
