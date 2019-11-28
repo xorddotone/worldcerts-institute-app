@@ -52,8 +52,6 @@ class Settings extends Component {
       country:this.props.selectedInstitute.country,
       approvalStatus:this.props.selectedInstitute.approvalStatus,
       companyAddress:this.props.selectedInstitute.companyAddress,
-      
-      
     }
     this.props.EDIT_INSTITUTE_FLAG_ACTION(true)
     this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
