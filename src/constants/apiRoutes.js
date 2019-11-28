@@ -1,9 +1,10 @@
 //SERVERS URL
 // export const SERVER_URL = "https://worldcerts-server.herokuapp.com/"
 // export const SERVER_URL = "http://localhost:4000/"
-export const SERVER_URL = "http://192.168.0.119:4001/"
+// export const SERVER_URL = "http://192.168.0.119:4001/"
 // export const SERVER_URL = "http://192.168.43.194:4000/"
 // export const SERVER_URL = "https://worldcert-server.herokuapp.com/"
+export const SERVER_URL = "https://worldcerts-dev-server.herokuapp.com/"
 
 
 //DATA FETCH AND WRITE ROUTES  

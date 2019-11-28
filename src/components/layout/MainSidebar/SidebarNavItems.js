@@ -13,7 +13,7 @@ import { TOGGLE  , InstituteList} from "../../../redux/actions/dashboard-action"
 // import Select from 'react-select';
 import * as Strings from '../../../constants/strings'
 import * as Routes from '../../../constants/apiRoutes'
-import { SELECTED_INSTITUTE } from "../../../redux/actions/login-action"
+import { SELECTED_INSTITUTE,SELECTED_INSTITUTE_FOR_EDIT } from "../../../redux/actions/login-action"
 import { Dispatcher, Constants } from "../../../flux";
 import { Link } from "react-router-dom";
 import add from '../../../images/addBlack.svg'
@@ -161,14 +161,38 @@ class SidebarNavItems extends React.Component {
       id: names._id,
       url: names.companyWebsite,
       email:"xyz@gmail.com",
-      certificateStore: 0x000000000000000      
+      certificateStore: 0x000000000000000,
+      companyContactNumber:names.companyContactNumber,
+      country:names.country,
+      approvalStatus:names.approvalStatus,
+      companyAddress:names.companyAddress,
+
+      
     }
     this.props.SELECTED_INSTITUTE(obj)
+    this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
     // this.props.history.push("/manage_organization")
   }
   onClickAdd(ev) {
     // ev.preventDefault()
     this.props.history.push("/organization_registration")
+  }
+  onCreateNewClick(){
+    let obj = {
+      name: "",
+      id: "",
+      url: "",
+      email:"",
+      certificateStore: "",
+      companyContactNumber:"",
+      country:"",
+      approvalStatus:"",
+      companyAddress:"",
+
+      
+    }
+    this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
+
   }
 
   render() {
@@ -209,9 +233,12 @@ class SidebarNavItems extends React.Component {
                 )}
               {/* onClick={this.onClickAdd.bind(this)} */}
               <DropdownItem to="/organization_registration" tag={Link}>
+                <span onClick={this.onCreateNewClick.bind(this)}>
+
                 <img src={add} style={{ color: 'black' }} alt="" height="17px" />
                 {/* <i className="material-icons">{"apartment"}</i>  */}
               Create New Account
+                </span>
         </DropdownItem>
             </Collapse>
           </NavItem>
@@ -303,6 +330,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     SELECTED_INSTITUTE: (user) => {
       dispatch(SELECTED_INSTITUTE(user))
+    },
+    SELECTED_INSTITUTE_FOR_EDIT: (user) => {
+      dispatch(SELECTED_INSTITUTE_FOR_EDIT(user))
     },
     institutesList: (institutes) => {
       dispatch(InstituteList(institutes))

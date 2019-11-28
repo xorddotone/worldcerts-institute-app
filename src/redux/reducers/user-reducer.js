@@ -1,5 +1,5 @@
-import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME} from "../actions/login-action";
-import {INSTITUTES_LIST } from "../actions/dashboard-action"
+import { SINGLE_USER_DATA, LOGGED_IN, SELECTED_INSTITUTE_NAME,SELECTED_INSTITUTE_EDIT } from "../actions/login-action";
+import { INSTITUTES_LIST } from "../actions/dashboard-action"
 
 const INITIAL_STATE = {
     email: '',
@@ -11,7 +11,22 @@ const INITIAL_STATE = {
         id: '',
         url: '',
         email: '',
-        certificateStore: ''
+        certificateStore: '',
+        companyContactNumber: "",
+        country: "",
+        approvalStatus: "",
+        companyAddress: "",
+    },
+    selectedInstituteForEdit: {
+        name: 'Select Organization',
+        id: '',
+        url: '',
+        email: '',
+        certificateStore: '',
+        companyContactNumber: "",
+        country: "",
+        approvalStatus: "",
+        companyAddress: "",
     },
     institutesList: []
 }
@@ -33,7 +48,12 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 selectedInstituteName: action.payload
             })
-        case INSTITUTES_LIST: 
+        case SELECTED_INSTITUTE_EDIT:
+            return ({
+                ...state,
+                selectedInstituteForEdit: action.payload
+            })
+        case INSTITUTES_LIST:
             return ({
                 ...state,
                 institutesList: action.payload

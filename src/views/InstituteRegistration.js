@@ -138,7 +138,7 @@ class AddClassification extends Component {
     //   instituteName: "UBIT",
     //   category: "Diploma",
     //   classification: "BSCS",
-    //   durationValidity: 63072000,
+    //   durationValidity: 63072000,onInstituteProfileClick
     //   // country: this.state.country,
     //   // postalCode: this.state.postalCode
     // }
@@ -553,6 +553,7 @@ const mapStateToProps = (state) => {
   return {
     Title: state.pageTitle,
     userData: state.user_reducer.user
+    selectedInstituteForEdit: state.user_reducer.selectedInstituteForEdit
 
   }
 }

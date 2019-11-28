@@ -33,11 +33,14 @@ class Settings extends Component {
     super(props);
     this.state = {
           }
-
+          this.onInstituteProfileClick=this.onInstituteProfileClick.bind(this)
   }
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
+  }
+  onInstituteProfileClick(){
+    
   }
 
   
@@ -47,7 +50,7 @@ class Settings extends Component {
   <Row noGutters className="page-header py-4">
         <PageTitle title="Settings"  md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
         <PageTitle  subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-        
+        <button onClick={this.onInstituteProfileClick}>profile</button>
         {/* subtitle="Registration" */}
       </Row>       
        
