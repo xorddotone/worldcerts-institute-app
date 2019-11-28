@@ -166,7 +166,7 @@ class SidebarNavItems extends React.Component {
       country:names.country,
       approvalStatus:names.approvalStatus,
       companyAddress:names.companyAddress,
-
+      postalCode:names.postalCode
       
     }
     this.props.SELECTED_INSTITUTE(obj)

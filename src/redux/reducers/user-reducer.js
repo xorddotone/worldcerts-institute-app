@@ -16,6 +16,7 @@ const INITIAL_STATE = {
         country: "",
         approvalStatus: "",
         companyAddress: "",
+        postalCode:''
     },
     selectedInstituteForEdit: {
         name: 'Select Organization',
@@ -27,6 +28,7 @@ const INITIAL_STATE = {
         country: "",
         approvalStatus: "",
         companyAddress: "",
+        postalCode:''
     },
     institutesList: [],
     editInstituteFlag:false

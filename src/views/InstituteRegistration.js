@@ -38,6 +38,7 @@ class AddClassification extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      instituteID:this.props.selectedInstituteForEdit.id,
       instituteName: this.props.selectedInstituteForEdit.name,
       buisnessRegistrationNum: "",
       instituteAddress: this.props.selectedInstituteForEdit.companyAddress,
@@ -379,6 +380,70 @@ class AddClassification extends Component {
   }
   onSaveClick(){
 
+    // let obj = {
+    //   companyName: that.state.instituteName,
+    //   companyAddress: that.state.instituteAddress,
+    //   companyWebsite: that.state.instituteWebsite,
+    //   companyContactNumber: that.state.instituteTelephone,
+    //   country: that.state.country,
+    //   postalCode: that.state.postalCode,
+    //   // organizationDocs: files
+    // }
+    // let that=this
+    // axios.put(Routes.REGISTER_INSTITUTE + this.state.instituteID, obj)
+    //       .then(function (response) {
+
+    //         console.log(response);
+    //         if (response.data.result == "registration number is too long") {
+    //           that.setState({
+    //             ErrorStatus: true,
+    //             error: Strings.REGISTRATION_NUMBER_LONG,
+    //             loader: false
+    //           })
+    //           console.log(response.data.result)
+    //         }
+    //         else {
+
+
+    //           console.log(response.data.result)
+
+    //           that.setState({
+    //             instituteName: '',
+    //             buisnessRegistrationNum: ' ',
+    //             instituteAddress: '',
+    //             instituteWebsite: '',
+    //             instituteTelephone: '',
+    //             country: '',
+    //             postalCode: ' ',
+    //             ErrorStatus: false,
+    //             loader: false
+    //           })
+    //           that.setState({ alertShow: true })
+
+    //           that.props.history.push("/home")
+    //         }
+    //       })
+    //       .catch(function (error) {
+
+    //         console.log(error.response);
+    //         if (error.response == undefined) {
+    //           that.setState({
+    //             alertShow: true, alertMessage: "Network Error", theme: "danger", loader: false
+    //           })
+    //         }
+    //         else if (error.response.data.responseCode == Response.BAD_REQUEST) {
+    //           that.setState({
+    //             alertShow: true, alertMessage: error.response.data.responseMessage, theme: "danger", loader: false
+
+    //           })
+    //         }
+    //         else {
+    //           that.setState({
+    //             alertShow: true, alertMessage: error.response.data.responseMessage, theme: "danger", loader: false
+
+    //           })
+    //         }
+    //       });
   }
 
 

@@ -6,6 +6,7 @@ import {
   ListGroupItem,
   Row,
   Col,
+  CardBody,
   Form,
   FormGroup,
   FormInput,
@@ -21,7 +22,7 @@ import axios from 'axios'
 import * as Routes from '../constants/apiRoutes'
 import CSVReader from 'react-csv-reader'
 import ReactFileReader from 'react-file-reader';
-import { EDIT_INSTITUTE_FLAG_ACTION,SELECTED_INSTITUTE_FOR_EDIT } from "../redux/actions/login-action"
+import { EDIT_INSTITUTE_FLAG_ACTION, SELECTED_INSTITUTE_FOR_EDIT } from "../redux/actions/login-action"
 
 
 const csv = require('csv-parser')
@@ -34,41 +35,54 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-          }
-          this.onInstituteProfileClick=this.onInstituteProfileClick.bind(this)
+    }
+    this.onInstituteProfileClick = this.onInstituteProfileClick.bind(this)
   }
 
   componentWillMount() {
     // this.props.UpdateTitle("Institue Registration");
   }
-  onInstituteProfileClick(){
+  onInstituteProfileClick() {
     let obj = {
       name: this.props.selectedInstitute.name,
       id: this.props.selectedInstitute.id,
       url: this.props.selectedInstitute.url,
-      email:this.props.selectedInstitute.email,
+      email: this.props.selectedInstitute.email,
       certificateStore: 0x000000000000000,
       companyContactNumber:this.props.selectedInstitute.companyContactNumber,
       country:this.props.selectedInstitute.country,
       approvalStatus:this.props.selectedInstitute.approvalStatus,
       companyAddress:this.props.selectedInstitute.companyAddress,
+      postalCode:this.props.selectedInstitute.postalCode,
     }
     this.props.EDIT_INSTITUTE_FLAG_ACTION(true)
     this.props.SELECTED_INSTITUTE_FOR_EDIT(obj)
     this.props.history.push("/organization_registration")
   }
 
-  
+
   render() {
     return (
       <Container fluid className="main-content-container px-4">
-  <Row noGutters className="page-header py-4">
-        <PageTitle title="Settings"  md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-        <PageTitle  subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
-        <button onClick={this.onInstituteProfileClick}>profile</button>
-        {/* subtitle="Registration" */}
-      </Row>       
-       
+        <Row noGutters className="page-header py-4">
+          <PageTitle title="Settings" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+          <PageTitle subtitle="Under Development" md="12" className="ml-sm-auto mr-sm-auto cursor-default" />
+
+          {/* subtitle="Registration" */}
+        </Row>
+        <Row>
+          <Col lg="4" >
+            <Card>
+              <CardBody>
+                <div>Business Legal Name</div>
+                <FormInput disabled />
+                <div>Business Address</div>
+                <FormInput disabled />
+                <button style={{ marginTop: 20 }} className="worldcerts-button" onClick={this.onInstituteProfileClick} >Edit your profile</button>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     )
   }
@@ -86,8 +100,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    EDIT_INSTITUTE_FLAG_ACTION: (dt) => 
-    dispatch(EDIT_INSTITUTE_FLAG_ACTION(dt)),
+    EDIT_INSTITUTE_FLAG_ACTION: (dt) =>
+      dispatch(EDIT_INSTITUTE_FLAG_ACTION(dt)),
     SELECTED_INSTITUTE_FOR_EDIT: (user) => {
       dispatch(SELECTED_INSTITUTE_FOR_EDIT(user))
     },
