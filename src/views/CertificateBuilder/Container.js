@@ -46,7 +46,7 @@ const styles = {
   height: "100%",
   position: 'relative',
 }
-const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields, convertPxToPercentage }) => {
+const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight, qrIndex, fields, editorState, setEditorState,selectedImages,setSelectedImages, setQrIndex, setConstantText, constantText, constantTextFields, setConstantTextFields, convertPxToPercentage }) => {
   const [boxes, setBoxes] = useState({
     a: { top: 20, left: 920, title: 'Drag me around' },
     b: { top: 60, left: 920, title: 'Drag me too' },
@@ -54,7 +54,6 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
   const dispatch = useDispatch()
   const image = useSelector(state => state.dashboard_reducer.image)
   const [selectField, setSelectFields] = useState();
-  const [selectedImages, setSelectedImages] = useState([])
   const [inputState, setInputState] = useState()
   const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
   const imageRef = React.useRef(null)
@@ -74,11 +73,11 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     console.log(id, left, top)
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
-    
+
     console.log("imageHeight ==>", imageHeight)
     console.log("imageWidth ==>", imageWidth)
     // console.log("fieldTYpe ", fieldType)
-    if(fieldType == "Dynamic Fields") {
+    if (fieldType == "Dynamic Fields") {
       setArrayFields(
         update(fields, {
           [id]: {
@@ -86,67 +85,32 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
           },
         }),
       )
-      console.log("Move fields in px =====>" , fields)
-     let tempFields = JSON.parse(JSON.stringify(fields))
-     tempFields[id].left = left
-     tempFields[id].top = top
-     dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: tempFields })
-     let tempField = JSON.parse(JSON.stringify(tempFields))
-    //  let tempField = tempFields
-     console.log(tempField)
-    console.log("tempField.value ********>>" , tempField[id].value )
-    for (let i = 0; i < tempField.length; i++) {
-    //   if (tempField[i].value !== true) {
-    //     let tops = convertPxToPercentage(imageHeight, tempField[i].top )
-    //     let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
-    //     tempField[i].left = lefts
-    //     tempField[i].top = tops
-    //   }
-    //   else {
-    //     let tops = convertPxToPercentage(imageHeight, tempField[i].top )
-    //     let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
-    //     tempField[i].left = lefts
-    //     tempField[i].top = tops
-    //   }
-    // console.log("tempField.value ********>>" , tempField[id].value )
-
-    // }
-    // if (tempField[id].value == true) {
-    //   let tops = convertPxToPercentage(imageHeight, top )
-    //   let lefts = convertPxToPercentage(imageWidth, left + 115)
-    //   console.log("tops",tops)
-    //   console.log("lefts",lefts)
-    //   tempField[id].left = lefts
-    //   tempField[id].top = tops
-    //   console.log("tops",tops)
-    //   console.log("lefts",lefts)
-    //   console.log("tempFields ==> ", tempField)
-    // }
-    // else {
-    //   let tops = convertPxToPercentage(imageHeight, top)
-    //   let lefts = convertPxToPercentage(imageWidth, left + 250)
-      
-
-    //   tempField[id].left = lefts
-    //   tempField[id].top = tops
-    //   console.log("tempFields ==> ", tempField)
-    // }
-    if (tempField[i].value !== true) {
-      let tops = convertPxToPercentage(imageHeight, tempField[i].top )
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
-      tempField[i].left = lefts
-      tempField[i].top = tops
+      console.log("Move fields in px =====>", fields)
+      let tempFields = JSON.parse(JSON.stringify(fields))
+      tempFields[id].left = left
+      tempFields[id].top = top
+      dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: tempFields })
+      let tempField = JSON.parse(JSON.stringify(tempFields))
+      //  let tempField = tempFields
+      console.log(tempField)
+      console.log("tempField.value ********>>", tempField[id].value)
+      for (let i = 0; i < tempField.length; i++) {
+        if (tempField[i].value !== true) {
+          let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+          let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
+          tempField[i].left = lefts
+          tempField[i].top = tops
+        }
+        else {
+          let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+          let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 115)
+          tempField[i].left = lefts
+          tempField[i].top = tops
+        }
+      }
+      dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
     }
-    else {
-      let tops = convertPxToPercentage(imageHeight, tempField[i].top)
-      let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 115)
-      tempField[i].left = lefts
-      tempField[i].top = tops
-    }
-  }
-    dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
-    }
-    else if(fieldType == "ConstantField") {
+    else if (fieldType == "ConstantField") {
       setConstantTextFields(
         update(constantTextFields, {
           [id]: {
@@ -154,56 +118,95 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
           },
         }),
       )
-      console.log("Move constantTextFields in px =====>" , constantTextFields)
+      console.log("Move constantTextFields in px =====>", constantTextFields)
       let tempFields = JSON.parse(JSON.stringify(constantTextFields))
-     tempFields[id].left = left
-     tempFields[id].top = top
+      tempFields[id].left = left
+      tempFields[id].top = top
       dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempFields })
       let tempField = JSON.parse(JSON.stringify(tempFields))
       console.log(tempField)
-      console.log("tempField.value ********>>" , tempField[id].value )
+      console.log("tempField.value ********>>", tempField[id].value)
       for (let i = 0; i < tempField.length - 1; i++) {
-          if (tempField[i].value !== true) {
-              let tops = convertPxToPercentage(imageHeight, tempField[i].top )
-              let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
-              tempField[i].left = lefts
-              tempField[i].top = tops
-            }
-            else {
-                let tops = convertPxToPercentage(imageHeight, tempField[i].top )
-                let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
-                tempField[i].left = lefts
-                tempField[i].top = tops
-              }
-            console.log("tempField.value ********>>" , tempField[id].value )
-            
-            }
-            if (tempField[id].value == true) {
-                let tops = convertPxToPercentage(imageHeight, top )
-                let lefts = convertPxToPercentage(imageWidth, left + 115)
-      console.log("tops",tops)
-      console.log("lefts",lefts)
-      tempField[id].left = lefts
-      tempField[id].top = tops
-      console.log("tops",tops)
-      console.log("lefts",lefts)
-      console.log("tempFields ==> ", tempField)
-    }
-    else {
+        if (tempField[i].value !== true) {
+          let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+          let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 250)
+          tempField[i].left = lefts
+          tempField[i].top = tops
+        }
+        else {
+          let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+          let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
+          tempField[i].left = lefts
+          tempField[i].top = tops
+        }
+        console.log("tempField.value ********>>", tempField[id].value)
+
+      }
+      if (tempField[id].value == true) {
+        let tops = convertPxToPercentage(imageHeight, top)
+        let lefts = convertPxToPercentage(imageWidth, left + 115)
+        console.log("tops", tops)
+        console.log("lefts", lefts)
+        tempField[id].left = lefts
+        tempField[id].top = tops
+        console.log("tops", tops)
+        console.log("lefts", lefts)
+        console.log("tempFields ==> ", tempField)
+      }
+      else {
         let tops = convertPxToPercentage(imageHeight, top)
         let lefts = convertPxToPercentage(imageWidth, left + 250)
-      
-      
+
+
         tempField[id].left = lefts
         tempField[id].top = tops
         console.log("tempFields ==> ", tempField)
       }
-      
-      
-      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })  
-        
-      }  
-    
+
+
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: tempField })
+
+    }
+    else if (fieldType == "IMAGE") {
+      setSelectedImages(
+        update(selectedImages, {
+          [id]: {
+            $merge: { left, top },
+          },
+        }),
+      )
+      console.log("Move selectedImage in px =====>", selectedImages)
+      let tempFields = JSON.parse(JSON.stringify(selectedImages))
+      tempFields[id].left = left
+      tempFields[id].top = top
+      // dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempFields })
+      let tempField = JSON.parse(JSON.stringify(tempFields))
+      console.log(tempField)
+      console.log("tempField.value ********>>", tempField[id].value)
+      for (let i = 0; i < tempField.length - 1; i++) {
+
+        let tops = convertPxToPercentage(imageHeight, tempField[i].top)
+        let lefts = convertPxToPercentage(imageWidth, tempField[i].left + 100)
+        tempField[i].left = lefts
+        tempField[i].top = tops
+
+      }
+    dispatch({ type: "IMAGES_ON_CERTIFICATE_IN_PERCENTAGE", payload: tempField })
+
+
+      let tops = convertPxToPercentage(imageHeight, top)
+      let lefts = convertPxToPercentage(imageWidth, left + 115)
+      console.log("tops", tops)
+      console.log("lefts", lefts)
+      tempField[id].left = lefts
+      tempField[id].top = tops
+      console.log("tops", tops)
+      console.log("lefts", lefts)
+      console.log("tempFields ==> ", tempField)
+      dispatch({ type: 'IMAGES_ON_CERTIFICATE_IN_PERCENTAGE', payload: tempField })
+
+    }
+
   }
 
   function onConstantFieldChange(ev) {
@@ -318,15 +321,20 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
       console.log("temp.naturalWidht ==>", width)
       console.log("temp.naturalHeight ==>", height)
-      if (width > 1000 & height > 1000) {
+      if (width > 500 & height > 500) {
         console.log("IN IFFFF")
         dispatch({ type: 'UPLOADED_IMAGE', payload: file[0] })
         setEditClassificationState(false)
       }
       else {
         console.log("IN Elsee")
-        alert("errorrrrrr")
-      }
+        alert("Certificate width and height must be greater than 500px")
+        // that.setState({
+        //   alertShow: true,
+        //   theme: "danger",
+        //   alertMessage: "Certificate width and height must be greater than 1000px"
+        // })    
+        }
     }
   }
 
@@ -348,6 +356,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     console.log('images ==>', localImages)
     imageRef.current.value = ""
     setSelectedImages(localImages)
+    dispatch({ type: "IMAGES_ON_CERTIFICATE", payload: localImages })
   }
 
 
@@ -360,6 +369,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
   return (
     <Card >
       <div id="DnDContainer" ref={drop} style={styles}>
+        {console.log(image)}
         <Row>
           <Col md="9">
             <div style={{ width: "100%" }}>
@@ -400,7 +410,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
               </div>
               <div style={{ textAlign: 'center' }}>
                 <input type="file" ref={imageRef} accept={['.png', '.jpg', '.jpeg']} onChange={() => onImageChange()} style={{ visibility: "hidden", height: 0, width: 0 }} />
-                <button disabled = {true} style={{ marginTop: "15px", width: "100%" }} onClick={() => onAddImageClick()} className="worldcerts-button" >Add Image</button>
+                <button disabled = { true } style={{ marginTop: "15px", width: "100%" }} onClick={() => onAddImageClick()} className="worldcerts-button" >Add Image</button>
               </div>
             </div>
             {
@@ -438,8 +448,9 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
 
               })
             }
+            {console.log(selectedImages)}
             {
-              Object.keys(selectedImages).map((field, idx) => {
+              Object.keys(selectedImages).map((fields, idx) => {
                 const { left, top, title } = selectedImages[idx]
                 return (
 
@@ -450,9 +461,11 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                     top={top}
                     value={selectedImages}
                     hideSourceOnDrag={hideSourceOnDrag}
+                    isImage={true}
                   >
-
-                    <img src={selectedImages[idx].url} height="100%" width="100%" />
+                    <div style={{ top: selectedImages[idx].top, left: selectedImages[idx].left, textAlign: 'center', }}>
+                      <img src={selectedImages[idx].url} height="100%" width="100%" />
+                    </div>
                   </Box>
 
                 )
@@ -479,9 +492,9 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                         isImage={true}
                       >
 
-                        
-                            <div style={{  top: fields[idx].top , left: fields[idx].left , textAlign: 'center' , }}><img  style = {{width: "100%" , height : "100%"}} src={qrExample} /></div>
-                          {/* <Col md="1" >
+
+                        <div style={{ top: fields[idx].top, left: fields[idx].left, textAlign: 'center', }}><img style={{ width: "100%", height: "100%" }} src={qrExample} /></div>
+                        {/* <Col md="1" >
                             <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>
                               x
                          </span>

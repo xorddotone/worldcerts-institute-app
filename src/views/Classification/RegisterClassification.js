@@ -414,6 +414,20 @@ class RegisterClassification extends Component {
                   }
                   )
                 }
+                       {
+                  Object.keys(this.props.imagesOnCertificate).map(key => {
+                    return (
+                    <div>
+                          {console.log(this.props.imagesOnCertificate[key].height)}
+                          <img src={this.props.imagesOnCertificate[key].url} style={{ top: (this.props.imagesOnCertificate[key].top) + "%", right: (Math.abs(this.props.imagesOnCertificate[key].left)) + "%", position: 'absolute', height: this.props.imagesOnCertificate[key].height + "px" }} />
+                          </div>
+                          )
+
+                  
+                  
+                  }
+            )
+                }
 
               </div>
             )}
@@ -470,7 +484,7 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
     classificationFields: state.dashboard_reducer.certificatePreviewFields,
-
+    imagesOnCertificate : state.dashboard_reducer.imagesOnCertificateInPercentage
 
 
 

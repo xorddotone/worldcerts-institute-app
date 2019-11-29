@@ -82,6 +82,7 @@ class ManageClassifications extends Component {
     this.onEditClick = this.onEditClick.bind(this)
     this.onAddClick = this.onAddClick.bind(this)
   }
+  
   componentDidUpdate() {
     document.addEventListener('scroll', () => {
       const isTop = window.scrollY < 1;
@@ -143,6 +144,23 @@ class ManageClassifications extends Component {
   // this.props.UpdateTitle("");
   componentDidMount() {
     console.log(this.props.userData)
+    this.props.ClassificationCategory("Choose")
+    this.props.ClassificationDurationTime(null)
+    this.props.ClassificationDurationSpan("")
+    this.props.ClassificationName("")
+    this.props.IMAGE({ name: "" })
+    this.props.EditClassification()
+    this.props.EditClassificationState()
+    this.props.CertificateAllFields([])
+    this.props.CertificateConstantTextInPx([])
+    this.props.CertificateFieldsFlag(false)
+    this.props.ClassificationCombineFields([])
+    this.props.ClassificationConstantInPercentage([])
+    this.props.ClassificationFields([])
+    this.props.ClassificationPreviewFields([])
+    this.props.ClassificationTotalFields([])
+    this.props.QRVisibility(false)
+    this.props.QRWidth()
     let temp;
     let that = this;
     if (this.props.selectedInstituteName.name != "Select Organization") {

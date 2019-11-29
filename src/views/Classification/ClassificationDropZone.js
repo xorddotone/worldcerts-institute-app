@@ -166,7 +166,7 @@ class ClassificationDropzone extends Component {
       console.log("temp.naturalWidht ==>", width)
       console.log("temp.naturalHeight ==>", height)
 
-      if (width > 1000 & height > 1000) {
+      if (width > 500 & height > 500) {
         console.log("IN IFFFF")
         that.props.IMAGE(files)
         that.setState({
@@ -181,7 +181,7 @@ class ClassificationDropzone extends Component {
         that.setState({
           alertShow: true,
           theme: "danger",
-          alertMessage: "Certificate width and height must be greater than 1000px"
+          alertMessage: "Certificate width and height must be greater than 500px"
         })
       }
     }

@@ -13,6 +13,8 @@ export default function DragAroundNaive() {
   const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
   const classificationTextFieldPx =  useSelector(state => state.dashboard_reducer.certificateTextFieldsPX)
   const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
+  const constantImagesPx = useSelector(state => state.dashboard_reducer.imagesOnCertificate)
+  const [selectedImages, setSelectedImages] = useState([])
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
@@ -48,6 +50,10 @@ export default function DragAroundNaive() {
 
   const setConstantFields = (fields) => {
     setConstantTextFields(fields)
+  }
+
+  const setConstantImages = (images) => {
+    setSelectedImages(images)
   }
 
   const setEditorStates = (data) => {
@@ -216,9 +222,6 @@ export default function DragAroundNaive() {
         setQrIndex(fields.length - 1)
       }
     }
-  
-  
-
     }
     setFields(fields)
     for (let i = 0; i < classificationTextFieldPx.length; i++) {
@@ -229,6 +232,12 @@ export default function DragAroundNaive() {
       }
     }
     setConstantTextFields(classificationTextFieldPx)
+    if(constantImagesPx){
+    for (let i = 0; i < constantImagesPx.length; i++) {
+      selectedImages.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationTextFieldPx[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
+    }
+    setSelectedImages(selectedImages)
+  }
   }, [])
 
 
@@ -308,7 +317,8 @@ export default function DragAroundNaive() {
         qrIndex={qrIndex}
         setQrIndex={setQrIndexes}
         fields={fields}
-        // classificationFields = {classificationFields}
+        selectedImages = {selectedImages}
+        setSelectedImages = {setConstantImages}
         editorState={editorState}
         setConstantText={setConstantFieldText}
         constantText={constantText}

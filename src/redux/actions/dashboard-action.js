@@ -20,6 +20,8 @@ export const CLASSIFICATION_FIELDS_PREVIEW = "CLASSIFICATION_FIELDS_PREVIEW"
 export const QR_WIDTH = "QR_WIDTH"
 export const CERTIFICATE_ALL_FIELDS="CERTIFICATE_ALL_FIELDS"
 export const CERTIFICATE_FIELDS_FLAG="CERTIFICATE_FIELDS_FlAG"
+export const IMAGE_ON_CERTIFICATE = "IMAGE_ON_CERTIFICATE"
+export const IMAGES_ON_CERTIFICATE_IN_PERCENTAGE = "IMAGES_ON_CERTIFICATE_IN_PERCENTAGE"
 
 
 export function TOGGLE(toggle_switch) {
@@ -129,4 +131,15 @@ export function QRWidth(width){
   return { type: QR_WIDTH , payload: width}
 
 }
+
+export function ImagesOnCertificate(images){
+  return { type: IMAGE_ON_CERTIFICATE , payload: images}
+
+}
+
+export function ImagesOnCertificateInPercentage(images){
+  return { type: IMAGES_ON_CERTIFICATE_IN_PERCENTAGE , payload: images}
+
+}
+
 

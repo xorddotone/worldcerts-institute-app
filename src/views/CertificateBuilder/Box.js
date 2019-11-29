@@ -39,7 +39,8 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
   const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const classificationDynamicFieldsPercentage = useSelector(state => state.dashboard_reducer.classificationFields)
   // const classificationTextFieldPx =  useSelector(state => state.dashboard_reducer.certificateTextFieldsPX)
-
+  const constantImages = useSelector(state => state.dashboard_reducer.imagesOnCertificate)
+  const constantImagesPercentage = useSelector(state => state.dashboard_reducer.imagesOnCertificateInPercentage)
   const dispatch = useDispatch()
 
   const [{ isDragging }, drag] = useDrag({
@@ -59,6 +60,8 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
       height : size.height
 
     }
+    console.log("fieldType ===>" , fieldType)
+    if(fieldType == "Dynamic Fields"){
     let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPx))
     for (let i = 0; i < tempFields.length; i++) {
 
@@ -88,6 +91,48 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     dispatch({ type: 'QR_WIDTH', payload: obj  })
     setQrWidth(size.width)
     setQrHeight(size.height)
+  }
+  else if(fieldType == "IMAGE"){
+    let tempFields = JSON.parse(JSON.stringify(constantImages))
+    for (let i = 0; i < tempFields.length; i++) {
+
+      if (tempFields[i].value == true) {
+
+
+        tempFields[i].height = size.height
+        tempFields[i].width = size.width
+      }
+    }
+    console.log(tempFields)
+    dispatch({ type: 'IMAGES_ON_CERTIFICATE', payload: tempFields })
+
+    let tempFieldsPercentage = JSON.parse(JSON.stringify(constantImagesPercentage))
+    for (let i = 0; i < tempFields.length; i++) {
+
+      if (tempFieldsPercentage[i].value == true) {
+
+
+        tempFieldsPercentage[i].height = size.height
+        tempFieldsPercentage[i].width = size.width
+      }
+    }
+    dispatch({ type: 'IMAGES_ON_CERTIFICATE_IN_PERCENTAGE', payload: tempFieldsPercentage })
+
+    console.log(val)
+     dispatch({ type: 'QR_WIDTH', payload: obj  })
+     setQrWidth(size.width)
+     setQrHeight(size.height)
+     console.log(value)
+    // let tempFields = JSON.parse(JSON.stringify(value))
+    // console.log(tempFields[id])
+    // tempFields[id].height = size.height
+    // tempFields[id].width = size.width
+
+    // console.log(tempFields)
+   
+    // dispatch({ type: 'IMAGES_ON_CERTIFICATE_IN_PERCENTAGE', payload: tempFields })
+   }
+  
   };
   useEffect(()=>{
     if(classificationDynamicFieldsPx.length !== 0 ){
@@ -110,12 +155,12 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
 
   <div className="layoutRoot"style= {{qrStyle}} >
   <QRResizeable   
-    lockAspectRatio={true} 
+    lockAspectRatio={(value[id].type == "IMAGE")?(false) :(true)} 
     className="box" 
     height={height} 
     width={width} 
     onResize={onResize} 
-    resizeHandles={['sw', 'se', 'nw', 'ne']}>
+    resizeHandles={(value[id].type == "IMAGE")?(['sw', 'se', 'nw', 'ne' , 'n' , 's', 'e','w']) :(['sw', 'se', 'nw', 'ne'])}>
                 <div  style={{ ...style , width: width + 'px', height: height + 'px' ,  left,top}} >
       <div ref={drag}>
      {children}

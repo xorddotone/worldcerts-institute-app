@@ -20,8 +20,10 @@ import {
     QR_WIDTH,
     CERTIFICATE_ALL_FIELDS,
     CERTIFICATE_FIELDS_FLAG,
+    IMAGE_ON_CERTIFICATE,
+    IMAGES_ON_CERTIFICATE_IN_PERCENTAGE
 
-    
+
 } from "../actions/dashboard-action";
 
 const INITIAL_STATE = {
@@ -37,7 +39,7 @@ const INITIAL_STATE = {
     },
     editClassificationState: false,
     image: {
-        name:""
+        name: ""
     },
     //  Classification attributes
     registerClassificationInstituteName: "",
@@ -51,14 +53,17 @@ const INITIAL_STATE = {
     qrVisibility: true,
     certificateTextFieldsPercentage: [],
     certificateTextFieldsPX: [],
-    certificatePreviewFields : [],
-    qrWidth : {},
+    certificatePreviewFields: [],
+    qrWidth: {},
 
-    certificateAllFields:[],
-    certificateFieldsFlag:{
-        isEmpty:false,
-        duplicate:false
-    }
+    certificateAllFields: [],
+    certificateFieldsFlag: {
+        isEmpty: false,
+        duplicate: false
+    },
+    imagesOnCertificate :[],
+    imagesOnCertificateInPercentage : []
+
 
 }
 
@@ -114,61 +119,71 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 registerClassificationDurationTime: action.payload
             })
-            case CLASSIFICATION_DURATION_SPAN:
+        case CLASSIFICATION_DURATION_SPAN:
             return ({
                 ...state,
                 registerClassificationDurationSpan: action.payload
             })
-            case CLASSIFICATION_FIELDS:
+        case CLASSIFICATION_FIELDS:
             return ({
                 ...state,
                 classificationFields: action.payload
             })
-            case CLASSIFICATION_COMBINE_FIELDS:
+        case CLASSIFICATION_COMBINE_FIELDS:
             return ({
                 ...state,
                 classificationCombineFields: action.payload
             })
-            case CLASSIFICATION_TOTAL_FIELDS:
+        case CLASSIFICATION_TOTAL_FIELDS:
             return ({
                 ...state,
                 classificationTotalFields: action.payload
             })
-            case CLASSIFICATION_QR:
+        case CLASSIFICATION_QR:
             return ({
                 ...state,
                 qrVisibility: action.payload
             })
-            case CERTIFICATE_TEXT_FIELDS_PERCENTAGE:
+        case CERTIFICATE_TEXT_FIELDS_PERCENTAGE:
             return ({
                 ...state,
                 certificateTextFieldsPercentage: action.payload
             })
-            case CERTIFICATE_TEXT_FIELDS_PX:
+        case CERTIFICATE_TEXT_FIELDS_PX:
             return ({
                 ...state,
                 certificateTextFieldsPX: action.payload
             })
-            case CLASSIFICATION_FIELDS_PREVIEW:
-                return ({
-                    ...state,
-                    certificatePreviewFields: action.payload
-                })
-                case QR_WIDTH:
-                    return ({
-                        ...state,
-                        qrWidth: action.payload
-                    })
-            case CERTIFICATE_ALL_FIELDS:
-                return ({
-                        ...state,
-                        certificateAllFields: action.payload
-                    })
-            case CERTIFICATE_FIELDS_FLAG:
-                return ({
+        case CLASSIFICATION_FIELDS_PREVIEW:
+            return ({
+                ...state,
+                certificatePreviewFields: action.payload
+            })
+        case QR_WIDTH:
+            return ({
+                ...state,
+                qrWidth: action.payload
+            })
+        case CERTIFICATE_ALL_FIELDS:
+            return ({
+                ...state,
+                certificateAllFields: action.payload
+            })
+        case CERTIFICATE_FIELDS_FLAG:
+            return ({
                 ...state,
                 certificateFieldsFlag: action.payload
-                })
+            })
+        case IMAGE_ON_CERTIFICATE:
+            return ({
+                ...state,
+                imagesOnCertificate: action.payload
+            })
+            case IMAGES_ON_CERTIFICATE_IN_PERCENTAGE:
+            return ({
+                ...state,
+                imagesOnCertificateInPercentage: action.payload
+            })
         default:
             return state
     }
