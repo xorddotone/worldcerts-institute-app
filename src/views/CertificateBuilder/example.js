@@ -234,7 +234,7 @@ export default function DragAroundNaive() {
     setConstantTextFields(classificationTextFieldPx)
     if(constantImagesPx){
     for (let i = 0; i < constantImagesPx.length; i++) {
-      selectedImages.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationTextFieldPx[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
+      selectedImages.push({ top: constantImagesPx[i].top, left: constantImagesPx[i].left, type: constantImagesPx[i].type , file :constantImagesPx[i].file , url :constantImagesPx[i].url  })
     }
     setSelectedImages(selectedImages)
   }

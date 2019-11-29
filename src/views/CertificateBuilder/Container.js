@@ -179,7 +179,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       let tempFields = JSON.parse(JSON.stringify(selectedImages))
       tempFields[id].left = left
       tempFields[id].top = top
-      // dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: tempFields })
+      dispatch({ type: 'IMAGE_ON_CERTIFICATE', payload: tempFields })
       let tempField = JSON.parse(JSON.stringify(tempFields))
       console.log(tempField)
       console.log("tempField.value ********>>", tempField[id].value)
@@ -344,7 +344,9 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
   }
 
   const onImageChange = () => {
+    console.log("selectedImages",selectedImages)
     const localImages = [...selectedImages]
+    console.log("localImage" , localImages)
     const obj = {
       file: imageRef.current.files[0],
       url: URL.createObjectURL(imageRef.current.files[0]),
@@ -356,7 +358,22 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     console.log('images ==>', localImages)
     imageRef.current.value = ""
     setSelectedImages(localImages)
-    dispatch({ type: "IMAGES_ON_CERTIFICATE", payload: localImages })
+    console.log(localImages)
+    dispatch({ type: "IMAGE_ON_CERTIFICATE", payload: localImages })
+
+    let imageHeight = document.getElementById("DnDImage").clientHeight
+    let imageWidth = document.getElementById("DnDImage").clientWidth
+    let tempFields = JSON.parse(JSON.stringify(localImages))
+    for(let i = 0; i < tempFields.length; i++) {
+
+      let tops = convertPxToPercentage(imageHeight, tempFields[i].top)
+      let lefts = convertPxToPercentage(imageWidth, tempFields[i].left + 100)
+      tempFields[i].left = lefts
+      tempFields[i].top = tops
+    }
+    console.log("tempFields ==> ", tempFields)
+    dispatch({ type: "IMAGES_ON_CERTIFICATE_IN_PERCENTAGE", payload: tempFields })
+
   }
 
 
@@ -410,7 +427,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
               </div>
               <div style={{ textAlign: 'center' }}>
                 <input type="file" ref={imageRef} accept={['.png', '.jpg', '.jpeg']} onChange={() => onImageChange()} style={{ visibility: "hidden", height: 0, width: 0 }} />
-                <button disabled = { true } style={{ marginTop: "15px", width: "100%" }} onClick={() => onAddImageClick()} className="worldcerts-button" >Add Image</button>
+                <button style={{ marginTop: "15px", width: "100%" }} onClick={() => onAddImageClick()} className="worldcerts-button" >Add Image</button>
               </div>
             </div>
             {

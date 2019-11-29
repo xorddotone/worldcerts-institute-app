@@ -34,7 +34,9 @@ import {
   QRWidth,CertificateFieldsFlag,CertificateAllFields,ClassificationPreviewFields,
   ClassificationConstantInPercentage,CertificateConstantTextInPx,
   ClassificationTotalFields,QRVisibility,ClassificationCombineFields,ClassificationFields,
-  Image
+  Image,
+  ImagesOnCertificateInPercentage,
+  ImagesOnCertificate
 } from "../redux/actions/dashboard-action"
 import certificate from "../images/cert_sample.jpg"
 
@@ -149,18 +151,29 @@ class ManageClassifications extends Component {
     this.props.ClassificationDurationSpan("")
     this.props.ClassificationName("")
     this.props.IMAGE({ name: "" })
-    this.props.EditClassification()
-    this.props.EditClassificationState()
+    this.props.EditClassification({
+      category: '',
+      classification: '',
+      durationValidity: null,
+      instituteName: '',
+      _id: '',
+  })
+    this.props.EditClassificationState(false)
     this.props.CertificateAllFields([])
     this.props.CertificateConstantTextInPx([])
-    this.props.CertificateFieldsFlag(false)
+    this.props.CertificateFieldsFlag({
+      isEmpty: false,
+      duplicate: false
+  })
     this.props.ClassificationCombineFields([])
     this.props.ClassificationConstantInPercentage([])
     this.props.ClassificationFields([])
     this.props.ClassificationPreviewFields([])
     this.props.ClassificationTotalFields([])
-    this.props.QRVisibility(false)
+    this.props.QRVisibility(true)
     this.props.QRWidth()
+    this.props.ConstantImagesPercentage([])
+    this.props.ConstantImagesPx([])
     let temp;
     let that = this;
     if (this.props.selectedInstituteName.name != "Select Organization") {
@@ -221,23 +234,6 @@ class ManageClassifications extends Component {
         instituteName: "",
         _id: ""
       }
-      this.props.ClassificationCategory("Choose")
-      this.props.ClassificationDurationTime(null)
-      this.props.ClassificationDurationSpan("")
-      this.props.ClassificationName("")
-      this.props.IMAGE({ name: "" })
-      this.props.EditClassification(obj)
-      this.props.EditClassificationState(false)
-      this.props.CertificateAllFields([])
-      this.props.CertificateConstantTextInPx([])
-      this.props.CertificateFieldsFlag(false)
-      this.props.ClassificationCombineFields([])
-      this.props.ClassificationConstantInPercentage([])
-      this.props.ClassificationFields([])
-      this.props.ClassificationPreviewFields([])
-      this.props.ClassificationTotalFields([])
-      this.props.QRVisibility(false)
-      this.props.QRWidth()
       this.props.history.push("/addClassification")
     }
   }
@@ -384,7 +380,7 @@ class ManageClassifications extends Component {
                 <Col lg="4" key={id} style={{ marginBottom: 10 }} >
                   {console.log(classification)}
                   <div style={{ height: 300, boxShadow: "3px 3px 6px 0px rgba(0,0,0,0.5)", borderRadius: 21, backgroundColor: "white" }} >
-                    <div style={{ position: "relative", padding: 20, height: "80%" }} >
+                    <div style={{ position: "relative", padding: 25, height: "80%" }} >
                       <img src={classification.certificateImage.certificateImageUrl} width="100%" height="100%" style={{ objectFit: "contain" }} />
                       <i style={{ position: "absolute", top: 12, right: 10, cursor: "pointer" }} onClick={() => this.toggle(classification.classification, classification._id)} class="far fa-trash-alt"></i>
                     </div>
@@ -471,6 +467,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     QRWidth: (data) => {
       dispatch(QRWidth(data))
+    },
+    ConstantImagesPx: (images) => {
+      dispatch(ImagesOnCertificate(images))
+    },
+    ConstantImagesPercentage: (images) => {
+      dispatch(ImagesOnCertificateInPercentage(images))
     },
    
     // UpdateTitle: (title) => dispatch(pageTitle(title))

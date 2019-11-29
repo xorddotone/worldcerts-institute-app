@@ -153,6 +153,54 @@ class ClassificationRegistration extends Component {
                     imageURL = this.props.editClassificationData.certificateImage.certificateImageUrl
                     certificatePublicId = this.props.editClassificationData.certificateImage.certifcateImageID
                 }
+                
+                let imagesOnCert = []
+                if (!this.props.editClassificationState ) {
+                    for(var i = 0 ; i < this.props.imagesOnCertificate.length ; i++){
+                        if(this.props.imagesOnCertificate[i].file){
+                            console.log(this.props.imagesOnCertificate[i].file)
+                            let imageFile = this.props.imagesOnCertificate[i].file
+                            console.log(imageFile)
+                            var formData = new FormData()
+                            formData.append('file', imageFile)
+                            formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+                            await axios.post(Routes.CLOUDINARY_API + "/upload", formData)
+                                .then(function (res) {
+                                    console.log(res)
+                                    console.log(res.data.public_id)
+                                    console.log(res.data.secure_url)
+                                    imagesOnCert.push({
+                                    constantImageURL : res.data.secure_url,
+                                    constantImagePublicId : res.data.public_id,
+                                    top : that.props.imagesOnCertificate[i].top,
+                                    left : that.props.imagesOnCertificate[i].left,
+                                    type : that.props.imagesOnCertificate[i].type,
+
+
+                                    })
+                                    
+                                })
+                                .catch(function (err) {
+                                    console.log("err", err)
+                                })
+        
+                        }
+                         else {
+                            imagesOnCert.push(this.props.imagesOnCertificate[i])
+                                
+                        }
+                       
+                        }
+                        console.log(imagesOnCert)
+                    }
+                        else {
+                            imagesOnCert.push({
+                                constantImageURL : this.props.editClassificationData.constantImage[i].constantImageURL,
+                                constantImagePublicId :this.props.editClassificationData.certificateImage.constantImagePublicId
+                            })
+                }
+                
+                   
                 let temp = that.props.classificationFields
                 for (let i = 0; i < temp.length; i++) {
                     let str = temp[i].htmlStringCode
@@ -163,7 +211,7 @@ class ClassificationRegistration extends Component {
                 }
                 console.log("temp ===> ", temp)
                 this.props.ClassificationFields(temp)
-
+                console.log("imagesOnCert" , imagesOnCert)
                 let obj = {
                     instituteName: that.props.selectedInstituteName.name,
                     category: that.props.classificationCategory,
@@ -180,6 +228,7 @@ class ClassificationRegistration extends Component {
                         certificateImageUrl: imageURL,
                         certificateImageID: certificatePublicId,
                     },
+                    // constantImage : imagesOnCert
 
 
                     // country: this.state.country,
@@ -540,9 +589,9 @@ const mapStateToProps = (state) => {
         classificationFields: state.dashboard_reducer.classificationFields,
         classificationCombineFields: state.dashboard_reducer.classificationCombineFields,
         classificationTotalFields: state.dashboard_reducer.classificationTotalFields,
-        classificationImageFile: state.dashboard_reducer.image
-
-
+        classificationImageFile: state.dashboard_reducer.image,
+        imagesOnCertificate : state.dashboard_reducer.imagesOnCertificate,
+        constantTextFields : state.dashboard_reducer.certificateTextFieldsPX
 
 
     }

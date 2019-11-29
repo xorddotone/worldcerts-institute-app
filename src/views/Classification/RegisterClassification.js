@@ -79,6 +79,7 @@ class RegisterClassification extends Component {
     console.log(typeof (this.props.classificationDurationTime))
     console.log(this.props.classificationCertificate)
     console.log(this.props.classificationFields)
+    console.log(this.props.imagesOnCertificateInPercentage)
     let imageURL = ''
     // console.log(this.state.selectedInstituteId)
     this.setState({
@@ -142,6 +143,28 @@ class RegisterClassification extends Component {
           .catch(function (err) {
             console.log("err", err)
           })
+          let constantImages = []
+          for(var i  = 0 ; i < this.props.imagesOnCertificateInPercentage.length ; i++){
+            let imageFile = this.props.imagesOnCertificateInPercentage[i].file
+            console.log(imageFile)
+            var formData = new FormData()
+            formData.append('file', imageFile)
+            formData.append('upload_preset', Routes.CLOUDINARY_PRESET)
+             axios.post(Routes.CLOUDINARY_API, formData)
+              .then(function (res) {
+                console.log(res)
+                console.log(res.data.secure_url)
+                constantImages.push (
+                  {
+                    constantImageUrl : res.data.secure_url,
+                    constantImageId : res.data
+                  }
+                  )
+              })
+              .catch(function (err) {
+                console.log("err", err)
+              })
+          }
         let obj = {
           instituteName: that.props.selectedInstituteName.name,
           category: that.props.classificationCategory,
@@ -484,7 +507,7 @@ const mapStateToProps = (state) => {
     selectedInstituteName: state.user_reducer.selectedInstituteName,
     classificationCertificate: state.dashboard_reducer.image,
     classificationFields: state.dashboard_reducer.certificatePreviewFields,
-    imagesOnCertificate : state.dashboard_reducer.imagesOnCertificateInPercentage
+    imagesOnCertificate : state.dashboard_reducer.imagesOnCertificateInPercentage,
 
 
 
