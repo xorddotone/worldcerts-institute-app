@@ -21,7 +21,8 @@ import {
     CERTIFICATE_ALL_FIELDS,
     CERTIFICATE_FIELDS_FLAG,
     IMAGE_ON_CERTIFICATE,
-    IMAGES_ON_CERTIFICATE_IN_PERCENTAGE
+    IMAGES_ON_CERTIFICATE_IN_PERCENTAGE,
+    CLASSIFICATION_TOTAL_FIELDS_PX,
 
 
 } from "../actions/dashboard-action";
@@ -62,7 +63,8 @@ const INITIAL_STATE = {
         duplicate: false
     },
     imagesOnCertificate :[],
-    imagesOnCertificateInPercentage : []
+    imagesOnCertificateInPercentage : [],
+    classificationAllFieldsPx : []
 
 
 }
@@ -183,6 +185,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 imagesOnCertificateInPercentage: action.payload
+            })
+            case CLASSIFICATION_TOTAL_FIELDS_PX:
+            return ({
+                ...state,
+                classificationAllFieldsPx: action.payload
             })
         default:
             return state

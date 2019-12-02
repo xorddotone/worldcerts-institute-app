@@ -8,6 +8,7 @@ import { Resizable as QRResizeable } from 'react-resizable';
 import {
   FormSelect,
 } from "shards-react";
+import { sizeHeight } from '@material-ui/system';
 const style = {
   position: 'absolute',
   backgroundColor: 'transparent',
@@ -55,11 +56,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     // this.setState({width: size.width, height: size.height});
     console.log(size.width)
     console.log(size.height)
-    let obj = {
-      width: size.width,
-      height: size.height
-
-    }
+    let obj = {}
     console.log("fieldType ===>", fieldType)
     if (fieldType == "Dynamic Fields") {
       let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPx))
@@ -67,9 +64,22 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
 
         if (tempFields[i].value == true) {
 
+          if(size.height >= 100 ){
+            console.log("Innnnnnnnnnnnnnnn")
 
           tempFields[i].height = size.height
           tempFields[i].width = size.width
+          obj.width = size.width
+          obj.height =  size.height
+    
+          }
+          else{
+            console.log("outttttttttttt")
+            obj.width = 100
+            obj.height =  100
+            tempFields[i].height = 100
+            tempFields[i].width = 100
+          }
         }
       }
       console.log(tempFields)
@@ -81,16 +91,25 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
         if (tempFieldsPercentage[i].value == true) {
 
 
-          tempFieldsPercentage[i].height = size.height
-          tempFieldsPercentage[i].width = size.width
+          if(size.height >= 100 ){
+            console.log("Innnnnnnnnnnnnnnn")
+            tempFieldsPercentage[i].height = size.height
+            tempFieldsPercentage[i].width = size.width
+            }
+            else{
+            console.log("outttttttttttt")
+
+          tempFieldsPercentage[i].height = 100
+          tempFieldsPercentage[i].width = 100
         }
+      }
       }
       dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFieldsPercentage })
 
       console.log(val)
       dispatch({ type: 'QR_WIDTH', payload: obj })
-      setQrWidth(size.width)
-      setQrHeight(size.height)
+      setQrWidth(obj.width)
+      setQrHeight(obj.height)
     }
     else if (fieldType == "IMAGE") {
       console.log(constantImages)
@@ -109,6 +128,7 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
       dispatch({ type: 'IMAGE_ON_CERTIFICATE', payload: tempFields })
 
       let tempFieldsPercentage = JSON.parse(JSON.stringify(constantImagesPercentage))
+      // let tempFieldsPercentage = [...constantImagesPercentage]
      console.log("tempFieldsPercentage[id]" , tempFieldsPercentage[id])
       
         tempFieldsPercentage[id].height = size.height

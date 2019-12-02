@@ -139,7 +139,9 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
-    await axios.get(Routes.GET_CLASSIFICATION_FIELDS)
+   
+      if (!this.props.editClassificationState) {
+           await axios.get(Routes.GET_CLASSIFICATION_FIELDS)
       .then(function (response) {
         // handle success
         console.log(response);
@@ -159,7 +161,8 @@ class InstituteRegistration extends Component {
         // handle error
         console.log(error);
       })
-    if (this.props.editClassificationState) {
+    }
+    else if(this.props.editClassificationState) {
       this.props.ClassificationCategory(this.props.editClassificationData.category)
       this.props.ClassificationName(this.props.editClassificationData.classification)
       this.props.ClassificationDurationTime(this.props.editClassificationData.durationValidity.durationTime)
@@ -168,31 +171,51 @@ class InstituteRegistration extends Component {
       // let totalCertificateFields = [...this.state.classificationDynamicFields]
       // totalCertificateFields.push( this.props.editClassificationData.totalCertificateFields)
       let tempDynamicClassification = []
+     
       console.log(classificationConstants)
       for (let i = 0; i < this.props.editClassificationData.totalCertificateFields.length; i++) {
-
-        let found = classificationConstants.some(el =>
-          el.value == this.props.editClassificationData.totalCertificateFields[i].value
-        )
-        if (!found) {
-          tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
-        }
+          if(this.props.editClassificationData.totalCertificateFields[i].value == "name" ||this.props.editClassificationData.totalCertificateFields[i].value == "email" ){
+            classificationConstants.push(this.props.editClassificationData.totalCertificateFields[i])
+          }
+          else{
+            tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
+          }
+        // let found = classificationConstants.some(el =>
+        //   el.value == this.props.editClassificationData.totalCertificateFields[i].value
+        // )
+        // if (!found) {
+        //   tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
+        // }
       }
 
       console.log(this.props.editClassificationData.totalCertificateFields)
+      console.log(this.props.editClassificationData.combineCertificateFields)
       console.log(tempDynamicClassification)
       let temp = this.props.editClassificationData.totalCertificateFields.map(obj =>
-        this.props.editClassificationData.combineCertificateFields.find(dynamicFieldsObj =>
+                this.props.editClassificationData.combineCertificateFields.find(dynamicFieldsObj =>
           dynamicFieldsObj.value === obj.value
         ) || obj
       )
       console.log(temp)
-
+          console.log(tempDynamicClassification)
 
       this.setState({
         classificationDynamicFields: tempDynamicClassification
       })
-      this.props.ClassificationCombineFields(temp)
+      this.setState({
+        classificationConstantFields: classificationConstants
+      })
+      console.log(temp)
+      console.log(tempDynamicClassification)
+      let temp2 = []
+      for(var i = 0 ; i<temp.length ; i++){
+        if(temp[i].checked = true){
+          temp2.push(temp[i])
+        }
+      }
+      console.log(temp2)
+      console.log(temp)
+      this.props.ClassificationCombineFields(this.props.editClassificationData.combineCertificateFields)
       this.props.ClassificationTotalFields(temp)
 
     }
@@ -298,11 +321,11 @@ class InstituteRegistration extends Component {
     let duplicate = false;
     let { isLastDynamicFieldEmpty: isEmpty } = this.state;
     if (contains) {
-      values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: { border: "1px solid red" } };
+      values[i] = { checked : values[i].checked, top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: { border: "1px solid red" } };
       duplicate = true;
     }
     else {
-      values[i] = { top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: {} };
+      values[i] = { checked : values[i].checked, top: 0, left: 0, htmlStringCode: "", value: event.target.value, editorValue: event.target.value, style: {} };
       duplicate = false
     }
     console.log(values)
@@ -379,15 +402,21 @@ class InstituteRegistration extends Component {
   }
 
   constantCheckboxs = (i) => {
+    console.log("constantCheckBoxes")
     let constantFields = [...this.state.classificationConstantFields];
     constantFields[i].checked = !constantFields[i].checked
     this.setState({ classificationConstantFields: constantFields })
+    console.log("constantFields" , constantFields)
   }
 
   dynamicCheckboxs = (i) => {
+    console.log("dynamic check boxes")
+
     let constantFields = [...this.state.classificationDynamicFields];
     constantFields[i].checked = !constantFields[i].checked
     this.setState({ classificationDynamicFields: constantFields })
+    console.log("Dynamic fields" , constantFields)
+
   }
 
 
@@ -502,7 +531,7 @@ class InstituteRegistration extends Component {
                                 <Col md="3" style={{ marginBottom: "10px" }}>
                                   {console.log("is checked ==>", this.state.classificationConstantFields[i].checked)}
                                   <div>
-                                    {el.value === "name" ? <Checkbox checked disabled /> : <Checkbox checked={this.state.classificationConstantFields[i].checked} onChange={() => this.constantCheckboxs(i)} />}
+                                    {el.value === "name" ? <Checkbox checked disabled /> : <Checkbox checked={el.checked} onChange={() => this.constantCheckboxs(i)} />}
                                     <span key={i} style={{ width: "calc(100% - 42px)", display: "inline-block" }} >
                                       <FormInput
                                         type="text"
@@ -520,7 +549,7 @@ class InstituteRegistration extends Component {
                                 <Col md="3" style={{ marginBottom: "5px" }}>
                                   <div>
 
-                                    <Checkbox onChange={() => this.dynamicCheckboxs(i)} />
+                                    <Checkbox checked = {el.checked} onChange={() => this.dynamicCheckboxs(i)} />
                                     <span style={{ display: "inline-flex", width: "calc(100% - 42px)", border: "1px solid #e1e5eb", borderRadius: ".25rem" }}>
                                       <FormInput
                                         style={{ border: "none", ...el.style }}

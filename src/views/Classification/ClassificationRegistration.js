@@ -155,6 +155,8 @@ class ClassificationRegistration extends Component {
                 }
                 
                 let imagesOnCert = []
+                let imagesOnCertInPx = []
+                let imagesOnCertInPercentage = []
                 if (!this.props.editClassificationState ) {
                     for(var i = 0 ; i < this.props.imagesOnCertificate.length ; i++){
                         if(this.props.imagesOnCertificate[i].file){
@@ -170,33 +172,48 @@ class ClassificationRegistration extends Component {
                                     console.log(res.data.public_id)
                                     console.log(res.data.secure_url)
                                     imagesOnCert.push({
-                                    constantImageURL : res.data.secure_url,
+                                    url : res.data.secure_url,
                                     constantImagePublicId : res.data.public_id,
-                                    top : that.props.imagesOnCertificate[i].top,
-                                    left : that.props.imagesOnCertificate[i].left,
-                                    type : that.props.imagesOnCertificate[i].type,
-
-
+                                    // top : that.props.imagesOnCertificate[i].top,
+                                    // left : that.props.imagesOnCertificate[i].left,
+                                    // type : that.props.imagesOnCertificate[i].type,
                                     })
                                     
                                 })
                                 .catch(function (err) {
                                     console.log("err", err)
                                 })
-        
+                                // imagesOnCertInPx = [...imagesOnCert]
+                                imagesOnCertInPx = JSON.parse(JSON.stringify(imagesOnCert))
+                                console.log(imagesOnCertInPx)
+                                console.log(that.props.imagesOnCertificate[i].top)
+                                imagesOnCertInPx[i].top = that.props.imagesOnCertificate[i].top
+                                console.log(that.props.imagesOnCertificate[i].left)
+                                imagesOnCertInPx[i].left = that.props.imagesOnCertificate[i].left
+                                imagesOnCertInPx[i].type = that.props.imagesOnCertificate[i].type
+                                console.log(imagesOnCert)
+                                console.log(imagesOnCertInPx)
+                                imagesOnCertInPercentage = JSON.parse(JSON.stringify(imagesOnCert))
+                                imagesOnCertInPercentage[i].top = that.props.imagesOnCertificateInPercentage[i].top
+                                imagesOnCertInPercentage[i].left = that.props.imagesOnCertificateInPercentage[i].left
+                                imagesOnCertInPercentage[i].type = that.props.imagesOnCertificateInPercentage[i].type
                         }
                          else {
                             imagesOnCert.push(this.props.imagesOnCertificate[i])
-                                
+                            imagesOnCertInPercentage.push(this.props.imagesOnCertificateInPercentage[i])
                         }
                        
                         }
                         console.log(imagesOnCert)
                     }
                         else {
-                            imagesOnCert.push({
-                                constantImageURL : this.props.editClassificationData.constantImage[i].constantImageURL,
-                                constantImagePublicId :this.props.editClassificationData.certificateImage.constantImagePublicId
+                            imagesOnCertInPx.push({
+                                url : this.props.editClassificationData.constantImage[i].url,
+                                constantImagePublicId :this.props.editClassificationData.constantImage[i].constantImagePublicId
+                            })
+                            imagesOnCertInPercentage.push({
+                                url : this.props.editClassificationData.constantImagesInPercentage[i].url,
+                                constantImagePublicId :this.props.editClassificationData.constantImagesInPercentage[i].constantImagePublicId
                             })
                 }
                 
@@ -224,11 +241,14 @@ class ClassificationRegistration extends Component {
                     combineCertificateFields: that.props.classificationCombineFields,
                     totalCertificateFields: that.props.classificationTotalFields,
                     dynamicCertificateFields: temp,
+                    constantCertificateTextPx: that.props.constantTextFields,
+                    constantCertificateText : that.props.constantTextFieldsPercentage,
                     certificateImage: {
                         certificateImageUrl: imageURL,
                         certificateImageID: certificatePublicId,
                     },
-                    // constantImage : imagesOnCert
+                    constantImages : imagesOnCertInPx,
+                    constantImagesInPercentage : imagesOnCertInPercentage
 
 
                     // country: this.state.country,
@@ -591,7 +611,9 @@ const mapStateToProps = (state) => {
         classificationTotalFields: state.dashboard_reducer.classificationTotalFields,
         classificationImageFile: state.dashboard_reducer.image,
         imagesOnCertificate : state.dashboard_reducer.imagesOnCertificate,
-        constantTextFields : state.dashboard_reducer.certificateTextFieldsPX
+        imagesOnCertificateInPercentage : state.dashboard_reducer.imagesOnCertificateInPercentage,
+        constantTextFields : state.dashboard_reducer.certificateTextFieldsPX,
+        constantTextFieldsPercentage : state.dashboard_reducer.certificateTextFieldsPercentage
 
 
     }

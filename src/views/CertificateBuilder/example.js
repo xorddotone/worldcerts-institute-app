@@ -14,7 +14,7 @@ export default function DragAroundNaive() {
   const classificationTextFieldPx =  useSelector(state => state.dashboard_reducer.certificateTextFieldsPX)
   const classificationDynamicFieldsPx = useSelector(state => state.dashboard_reducer.classificationCombineFields)
   const constantImagesPx = useSelector(state => state.dashboard_reducer.imagesOnCertificate)
-  const [selectedImages, setSelectedImages] = useState([])
+  const [selectedImages, setSelectedImages] = useState( useSelector(state => state.dashboard_reducer.imagesOnCertificate))
   const [boxTop, setTop] = useState(0)
   const [boxLeft, setLeft] = useState(0)
   const qrVisibility = useSelector(state => state.dashboard_reducer.qrVisibility)
@@ -23,7 +23,10 @@ export default function DragAroundNaive() {
   const [qrIndex, setQrIndex] = useState()
   const [activeObject, setActiveObject] = useState()
   const [constantText, setConstantText] = useState()
-  const [constantTextFields, setConstantTextFields] = useState([])
+  const [constantTextFields, setConstantTextFields] = useState( useSelector(state => state.dashboard_reducer.certificateTextFieldsPX))
+  const [editClassificationState, setEditClassificationState] = useState(useSelector(state => state.dashboard_reducer.editClassificationState))
+  const [editClassificationData, setEditClassificationData] = useState(useSelector(state => state.dashboard_reducer.editClassificationData))
+
   const dispatch = useDispatch()
 
   const qrWidth = useSelector(state => state.dashboard_reducer.qrWidth)
@@ -190,19 +193,19 @@ export default function DragAroundNaive() {
       if (classificationFields[i].htmlStringCode == "") {
         top = top + 50
         console.log("top ==> ", top)
-        fields.push({ top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "Dynamic Fields" })
+        fields.push({ checked : classificationFields[i].checked, top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "Dynamic Fields" })
         // dropDownFields.push({value : classificationFields[i].value , id : i })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
       else if (classificationFields[i].value !== true) {
         console.log("IN elseeeee")
-        fields.push({ top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align, type: classificationFields[i].type })
+        fields.push({ checked : classificationFields[i].checked, top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align, type: classificationFields[i].type })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
       }
     }
-    console.log((classificationFields.length - 1).value == true)
+    console.log(classificationFields[classificationFields.length - 1].value)
     if (qrVisibility) {
         // console.log("classificationFields[classificationFields.length - 1].value ==> ", classificationFields[classificationFields.length - 1].value)
     if (classificationFields[classificationFields.length - 1]) {
@@ -230,13 +233,31 @@ export default function DragAroundNaive() {
         classificationTextFieldPx.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left, htmlStringCode: classificationTextFieldPx[i].htmlStringCode, value: classificationTextFieldPx[i].value, style: classificationTextFieldPx[i].style, bold: classificationTextFieldPx[i].bold, italic: classificationTextFieldPx[i].italic, underline: classificationTextFieldPx[i].underline, align: classificationTextFieldPx[i].align, type: classificationTextFieldPx[i].type })
       
       }
+      // else if(classificationTextFieldPx[i].value == true){
+      //   classificationTextFieldPx.push({ top: classificationTextFieldPx[i].top, left: classificationTextFieldPx[i].left,  value: classificationTextFieldPx[i].value,  type: classificationTextFieldPx[i].type , height: classificationTextFieldPx[i].height })
+
+      // }
     }
     setConstantTextFields(classificationTextFieldPx)
+    let temp = []
     if(constantImagesPx){
-    for (let i = 0; i < constantImagesPx.length; i++) {
-      selectedImages.push({ top: constantImagesPx[i].top, left: constantImagesPx[i].left, type: constantImagesPx[i].type , file :constantImagesPx[i].file , url :constantImagesPx[i].url  })
+    for (var i = 0; i < constantImagesPx.length; i++) {
+      temp.push({ top: constantImagesPx[i].top, left: constantImagesPx[i].left, type: constantImagesPx[i].type , file :constantImagesPx[i].file , url :constantImagesPx[i].url  })
     }
-    setSelectedImages(selectedImages)
+    setSelectedImages(temp)
+
+    if(editClassificationState){
+      console.log(editClassificationData)
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: editClassificationData.constantCertificateTextPx })
+      setConstantTextFields(editClassificationData.constantCertificateTextPx)
+      dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PERCENTAGE', payload: editClassificationData.constantCertificateText })
+      dispatch({ type: "IMAGE_ON_CERTIFICATE", payload: editClassificationData.constantImages })
+      setSelectedImages(editClassificationData.constantImages)
+      dispatch({ type: "IMAGES_ON_CERTIFICATE_IN_PERCENTAGE", payload: editClassificationData.constantImagesInPercentage })
+
+
+
+    }
   }
   }, [])
 

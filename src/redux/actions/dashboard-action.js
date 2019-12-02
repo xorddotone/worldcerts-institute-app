@@ -22,7 +22,7 @@ export const CERTIFICATE_ALL_FIELDS="CERTIFICATE_ALL_FIELDS"
 export const CERTIFICATE_FIELDS_FLAG="CERTIFICATE_FIELDS_FlAG"
 export const IMAGE_ON_CERTIFICATE = "IMAGE_ON_CERTIFICATE"
 export const IMAGES_ON_CERTIFICATE_IN_PERCENTAGE = "IMAGES_ON_CERTIFICATE_IN_PERCENTAGE"
-
+export const CLASSIFICATION_TOTAL_FIELDS_PX = "CLASSIFICATION_TOTAL_FIELDS_PX"
 
 export function TOGGLE(toggle_switch) {
     console.log(toggle_switch)
@@ -141,5 +141,8 @@ export function ImagesOnCertificateInPercentage(images){
   return { type: IMAGES_ON_CERTIFICATE_IN_PERCENTAGE , payload: images}
 
 }
+export function classificationAllFieldsPx(fields){
+  return { type: CLASSIFICATION_TOTAL_FIELDS_PX , payload: fields}
 
+}
 

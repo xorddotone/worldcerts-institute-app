@@ -176,7 +176,8 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
         }),
       )
       console.log("Move selectedImage in px =====>", selectedImages)
-      let tempFields = JSON.parse(JSON.stringify(selectedImages))
+      // let tempFields = JSON.parse(JSON.stringify(selectedImages))
+      let tempFields = [...selectedImages]
       tempFields[id].left = left
       tempFields[id].top = top
       dispatch({ type: 'IMAGE_ON_CERTIFICATE', payload: tempFields })
@@ -387,6 +388,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     <Card >
       <div id="DnDContainer" ref={drop} style={styles}>
         {console.log(image)}
+        {console.log(editClassificationState)}
         <Row>
           <Col md="9">
             <div style={{ width: "100%" }}>
@@ -469,8 +471,8 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
             {
               Object.keys(selectedImages).map((fields, idx) => {
                 const { left, top, title } = selectedImages[idx]
+                {console.log(selectedImages[idx])}
                 return (
-
                   <Box
                     key={idx}
                     id={idx}
