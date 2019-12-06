@@ -77,7 +77,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
     console.log("imageHeight ==>", imageHeight)
     console.log("imageWidth ==>", imageWidth)
     // console.log("fieldTYpe ", fieldType)
-    if (fieldType == "Dynamic Fields") {
+    if (fieldType === "Dynamic Fields") {
       setArrayFields(
         update(fields, {
           [id]: {
@@ -110,7 +110,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       }
       dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempField })
     }
-    else if (fieldType == "ConstantField") {
+    else if (fieldType === "ConstantField") {
       setConstantTextFields(
         update(constantTextFields, {
           [id]: {
@@ -353,6 +353,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
       url: URL.createObjectURL(imageRef.current.files[0]),
       top: 100,
       left: -500,
+      height:100,
       type: "IMAGE"
     }
     localImages.push(obj)
@@ -483,7 +484,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                     isImage={true}
                   >
                     <div style={{ top: selectedImages[idx].top, left: selectedImages[idx].left, textAlign: 'center', }}>
-                      <img src={selectedImages[idx].url} height="100%" width="100%" />
+                      <img src={selectedImages[idx].url} style={{ width: "100%", height: "100%" }}  />
                     </div>
                   </Box>
 
@@ -511,7 +512,7 @@ const Container = ({ hideSourceOnDrag, setArrayFields, setActiveStyle, qrHeight,
                         isImage={true}
                       >
 
-
+                        {console.log(fields[idx])}
                         <div style={{ top: fields[idx].top, left: fields[idx].left, textAlign: 'center', }}><img style={{ width: "100%", height: "100%" }} src={qrExample} /></div>
                         {/* <Col md="1" >
                             <span style={{ background: "grey", padding: "1px 3px", color: "white" }} onClick={() => handleRemove(idx)}>

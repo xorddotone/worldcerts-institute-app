@@ -58,25 +58,25 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
     console.log(size.height)
     let obj = {}
     console.log("fieldType ===>", fieldType)
-    if (fieldType == "Dynamic Fields") {
+    if (fieldType === "Dynamic Fields") {
       let tempFields = JSON.parse(JSON.stringify(classificationDynamicFieldsPx))
       for (let i = 0; i < tempFields.length; i++) {
 
         if (tempFields[i].value == true) {
 
-          if(size.height >= 100 ){
+          if (size.height >= 100) {
             console.log("Innnnnnnnnnnnnnnn")
 
-          tempFields[i].height = size.height
-          tempFields[i].width = size.width
-          obj.width = size.width
-          obj.height =  size.height
-    
+            tempFields[i].height = size.height
+            tempFields[i].width = size.width
+            obj.width = size.width
+            obj.height = size.height
+
           }
-          else{
+          else {
             console.log("outttttttttttt")
             obj.width = 100
-            obj.height =  100
+            obj.height = 100
             tempFields[i].height = 100
             tempFields[i].width = 100
           }
@@ -91,18 +91,18 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
         if (tempFieldsPercentage[i].value == true) {
 
 
-          if(size.height >= 100 ){
+          if (size.height >= 100) {
             console.log("Innnnnnnnnnnnnnnn")
             tempFieldsPercentage[i].height = size.height
             tempFieldsPercentage[i].width = size.width
-            }
-            else{
+          }
+          else {
             console.log("outttttttttttt")
 
-          tempFieldsPercentage[i].height = 100
-          tempFieldsPercentage[i].width = 100
+            tempFieldsPercentage[i].height = 100
+            tempFieldsPercentage[i].width = 100
+          }
         }
-      }
       }
       dispatch({ type: 'CLASSIFICATION_FIELDS', payload: tempFieldsPercentage })
 
@@ -118,21 +118,21 @@ const Box = ({ id, left, top, value, hideSourceOnDrag, children, isImage }) => {
       console.log(tempFields)
       for (let i = 0; i < tempFields.length; i++) {
 
-      
 
-          tempFields[i].height = size.height
-          tempFields[i].width = size.width
-        
+
+        tempFields[i].height = size.height
+        tempFields[i].width = size.width
+
       }
       console.log(tempFields)
       dispatch({ type: 'IMAGE_ON_CERTIFICATE', payload: tempFields })
 
       let tempFieldsPercentage = JSON.parse(JSON.stringify(constantImagesPercentage))
       // let tempFieldsPercentage = [...constantImagesPercentage]
-     console.log("tempFieldsPercentage[id]" , tempFieldsPercentage[id])
-      
-        tempFieldsPercentage[id].height = size.height
-        tempFieldsPercentage[id].width = size.width
+      console.log("tempFieldsPercentage[id]", tempFieldsPercentage[id])
+
+      tempFieldsPercentage[id].height = size.height
+      tempFieldsPercentage[id].width = size.width
       dispatch({ type: 'IMAGES_ON_CERTIFICATE_IN_PERCENTAGE', payload: tempFieldsPercentage })
 
       console.log(val)

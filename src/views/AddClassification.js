@@ -187,35 +187,44 @@ class InstituteRegistration extends Component {
         //   tempDynamicClassification.push(this.props.editClassificationData.totalCertificateFields[i])
         // }
       }
-
+      console.log(classificationConstants)
+      console.log(tempDynamicClassification)
       console.log(this.props.editClassificationData.totalCertificateFields)
       console.log(this.props.editClassificationData.combineCertificateFields)
       console.log(tempDynamicClassification)
       let temp = this.props.editClassificationData.totalCertificateFields.map(obj =>
+       
                 this.props.editClassificationData.combineCertificateFields.find(dynamicFieldsObj =>
-          dynamicFieldsObj.value === obj.value
+          dynamicFieldsObj.value === obj.value 
         ) || obj
       )
       console.log(temp)
-          console.log(tempDynamicClassification)
 
+      console.log(tempDynamicClassification)
+      for(let i = 0 ; i< this.props.editClassificationData.combineCertificateFields.length ; i++ ){
+        if(this.props.editClassificationData.combineCertificateFields[i].value == true){
+          temp.push(this.props.editClassificationData.combineCertificateFields[i])
+        }
+      }
+      console.log(temp)
       this.setState({
         classificationDynamicFields: tempDynamicClassification
-      })
-      this.setState({
-        classificationConstantFields: classificationConstants
       })
       console.log(temp)
       console.log(tempDynamicClassification)
       let temp2 = []
       for(var i = 0 ; i<temp.length ; i++){
-        if(temp[i].checked = true){
+        if(temp[i].checked == true){
           temp2.push(temp[i])
         }
       }
+      console.log(classificationConstants)
+      this.setState({
+        classificationConstantFields: temp2
+      })
       console.log(temp2)
       console.log(temp)
-      this.props.ClassificationCombineFields(this.props.editClassificationData.combineCertificateFields)
+      this.props.ClassificationCombineFields(temp)
       this.props.ClassificationTotalFields(temp)
 
     }
@@ -345,7 +354,7 @@ class InstituteRegistration extends Component {
   componentWillUnmount() {
     console.log(this.state.classificationConstantFields)
     console.log(this.state.classificationDynamicFields)
-    if (!this.props.editClassificationState) {
+    // if (!this.props.editClassificationState) {
 
       let a = [...this.state.classificationConstantFields]
       a.push(...this.state.classificationDynamicFields)
@@ -354,7 +363,7 @@ class InstituteRegistration extends Component {
       console.log(b)
       this.props.ClassificationCombineFields(b)
       this.props.ClassificationTotalFields(a)
-    }
+    // }
   }
   addClick() {
     this.setState(prevState => ({ classificationDynamicFields: [...prevState.classificationDynamicFields, { top: 0, left: 0, htmlString: '', value: '', checked: false }], isLastDynamicFieldEmpty: true }))
@@ -366,31 +375,43 @@ class InstituteRegistration extends Component {
   }
 
   removeClick(i) {
+    console.log(this.state.classificationDynamicFields)
     let { isLastDynamicFieldEmpty: isEmpty } = this.state;
     let values = [...this.state.classificationDynamicFields];
     values.splice(i, 1);
-    this.setState({ classificationDynamicFields: values });
-
-
+    this.setState({ classificationDynamicFields: values }); 
     const combinedFileds = [...this.state.classificationConstantFields, ...this.state.classificationDynamicFields];
     // this.props.CertificateAllFields(combinedFileds)
     
     console.log(values)
+    if(values.length == 0){
+      isEmpty = false 
+      this.setState({isLastDynamicFieldEmpty : false})
+    }
+    else{
     for(var key in values){
-
-      if (values[i].editorValue.trim() === "") {
+      console.log(key)
+      console.log(values)
+      
+      if (values[key].value.trim() === "") {
+        console.log("here")
         isEmpty = true
+        this.setState({isLastDynamicFieldEmpty : true})
       }
       else {
+        console.log("here 2")
         isEmpty = false 
+        this.setState({isLastDynamicFieldEmpty : false})
+
       }
     }
+  }
     let obj={
       isEmpty,
       duplicate:this.props.certificateFieldsFlag
     }
     this.props.CertificateFieldsFlag(obj)
-
+ 
   }
 
 

@@ -84,11 +84,11 @@ export default function DragAroundNaive() {
     console.log(activeObject)
     console.log(activeObject)
     var temp = []
-    if (activeObject.type == "ConstantField") {
+    if (activeObject.type === "ConstantField") {
       temp = [...constantTextFields]
       console.log("IN constant temp")
     }
-    else if (activeObject.type == "Dynamic Fields") {
+    else if (activeObject.type === "Dynamic Fields") {
       console.log("fields  =>", fields)
       temp = [...fields]
       console.log("IN dynamic temp")
@@ -135,7 +135,7 @@ export default function DragAroundNaive() {
     let imageHeight = document.getElementById("DnDImage").clientHeight
     let imageWidth = document.getElementById("DnDImage").clientWidth
     let tempFields = JSON.parse(JSON.stringify(temp))
-    if (activeObject.type == "ConstantField") {
+    if (activeObject.type === "ConstantField") {
       console.log(temp)
       console.log("afterrrrrrrrrr styling ==>", temp)
       dispatch({ type: 'CERTIFICATE_TEXT_FIELDS_PX', payload: temp })
@@ -155,7 +155,7 @@ export default function DragAroundNaive() {
       // setConstantTextFields(tempConstantFields)
 
     }
-    else if (activeObject.type == "Dynamic Fields") {
+    else if (activeObject.type === "Dynamic Fields") {
       console.log("afterrrrrrrrrr styling ==>", temp)
       dispatch({ type: 'CLASSIFICATION_COMBINE_FIELDS', payload: temp })
       setFields(temp)
@@ -190,23 +190,27 @@ export default function DragAroundNaive() {
     console.log(classificationFields.length)
     const tempEditorState = [...editorState]
     for (let i = 0; i < classificationFields.length; i++) {
-      if (classificationFields[i].htmlStringCode == "") {
-        top = top + 50
-        console.log("top ==> ", top)
-        fields.push({ checked : classificationFields[i].checked, top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "Dynamic Fields" })
-        // dropDownFields.push({value : classificationFields[i].value , id : i })
-        tempEditorState.push(EditorState.createEmpty())
-        setEditorState(tempEditorState)
-      }
-      else if (classificationFields[i].value !== true) {
+      if (classificationFields[i].value !== true) {
+        if(classificationFields[i].htmlStringCode !== "") {
         console.log("IN elseeeee")
         fields.push({ checked : classificationFields[i].checked, top: classificationFields[i].top, left: classificationFields[i].left, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: classificationFields[i].style, bold: classificationFields[i].bold, italic: classificationFields[i].italic, underline: classificationFields[i].underline, align: classificationFields[i].align, type: classificationFields[i].type })
         tempEditorState.push(EditorState.createEmpty())
         setEditorState(tempEditorState)
+        }
+       else if(classificationFields[i].htmlStringCode == "") {
+          top = top + 50
+          console.log("top ==> ", top)
+          fields.push({ checked : classificationFields[i].checked, top: top, left: 0, htmlStringCode: classificationFields[i].htmlStringCode, value: classificationFields[i].value, editorValue: classificationFields[i].editorValue, style: { fontFamily: "Arial", fontSize: 14, color: "black" }, bold: false, italic: false, underline: false, type: "Dynamic Fields" })
+          // dropDownFields.push({value : classificationFields[i].value , id : i })
+          tempEditorState.push(EditorState.createEmpty())
+          setEditorState(tempEditorState)
+        }
       }
+      // else 
     }
-    console.log(classificationFields[classificationFields.length - 1].value)
     if (qrVisibility) {
+      console.log(classificationFields)
+      console.log(classificationFields[classificationFields.length - 1].value)
         // console.log("classificationFields[classificationFields.length - 1].value ==> ", classificationFields[classificationFields.length - 1].value)
     if (classificationFields[classificationFields.length - 1]) {
       if (classificationFields[classificationFields.length - 1].value == true){
